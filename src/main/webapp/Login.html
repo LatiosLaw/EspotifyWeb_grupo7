@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="estilos.css">
+        <title>Espotify Web</title>
+    </head>
+    <body>
+        <form id="loginForm">
+            <label for="nickname">Nickname:</label>
+            <input type="text" id="nickname" name="nickname" required><br>
+
+            <label for="pass">Contraseña:</label>
+            <input type="password" id="pass" name="pass" required><br>
+
+            <button type="submit">Iniciar Sesión</button>
+            <button id="logoutButton">Cerrar Sesión</button>
+        </form>
+
+
+        <div id="resultado"></div>
+
+        <script>
+            // Login
+            document.getElementById('loginForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const formData = new FormData(this);
+                const params = new URLSearchParams(formData).toString();
+
+                fetch('http://localhost:8080/EspotifyWeb/LoginServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params
+                })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const message = data.success ? "Visitante logeado exitosamente." : "Error al intentar logearse: " + data.errorCode;
+                            document.getElementById('resultado').innerText = message;
+                            alert(message);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            const errorMessage = "Error al intentar logearse.";
+                            document.getElementById('resultado').innerText = errorMessage;
+                            alert(errorMessage);
+                        });
+            });
+
+            // Logout
+            document.getElementById('logoutButton').addEventListener('click', function () {
+                fetch('http://localhost:8080/EspotifyWeb/CerrarSesionServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const message = data.success ? data.message : "Error al cerrar sesion.";
+                            document.getElementById('resultado').innerText = message;
+                            alert(message);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            const errorMessage = "Error al intentar cerrar sesion.";
+                            document.getElementById('resultado').innerText = errorMessage;
+                            alert(errorMessage);
+                        });
+            });
+        </script>
+    </body>
+</html>

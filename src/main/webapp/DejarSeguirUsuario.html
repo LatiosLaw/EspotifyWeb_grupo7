@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="estilos.css">
+        <title>Dejar De Seguir Usuario</title>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            tr:hover {
+                background-color: #f5f5f5;
+            }
+        </style>
+    </head>
+    <body>
+        <a href = "index.html"> Pagina Principal</a>
+
+        <h1>Dejar De Seguir Usuario</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nickname</th>
+                    <th>Tipo</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="usuariosList"></tbody>
+        </table>
+
+        <script>
+            // Carga los usuarios que el usuario actual sigue
+            function cargarUsuarios() {
+                fetch('http://localhost:8080/EspotifyWeb/DejarDeSeguirUsuarioServlet', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error al cargar usuarios');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const usuariosList = document.getElementById('usuariosList');
+                            usuariosList.innerHTML = ''; // Limpiar la lista existente
+
+                            if (data.usuarios && data.usuarios.length > 0) {
+                                data.usuarios.forEach(usuario => {
+                                    const usuarioRow = document.createElement('tr');
+                                    usuarioRow.innerHTML = `
+                                <td>${usuario.nickname}</td>
+                                <td>${usuario.tipo}</td>
+                                <td><button onclick="seguirUsuario('${usuario.nickname}')">Dejar de Seguir</button></td>
+                            `;
+                                    usuariosList.appendChild(usuarioRow);
+                                });
+                            } else {
+                                usuariosList.innerHTML = '<tr><td colspan="3">No sigues a ningun usuario.</td></tr>';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            document.getElementById('usuariosList').innerHTML = '<tr><td colspan="3">Error al cargar usuarios.</td></tr>';
+                        });
+            }
+
+            function seguirUsuario(nickToFollow) {
+                fetch('http://localhost:8080/EspotifyWeb/DejarDeSeguirUsuarioServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({id: nickToFollow}) // Enviar el nickname del usuario a dejar de seguir
+                })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Ya no sigues a este usuario.');
+                                cargarUsuarios(); // Recargar la lista de usuarios
+                            } else {
+                                alert('Error al dejar de seguir al usuario: ' + (data.error || 'Error desconocido'));
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Error al intentar dejar de seguir al usuario.');
+                        });
+            }
+
+            window.onload = cargarUsuarios;
+        </script>
+    </body>
+</html>

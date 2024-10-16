@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Espotify Web</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="estilos.css">
+    </head>
+    <body>
+
+        <a href="index.html">Página Principal</a>
+
+        <h1>Publicar Lista</h1>
+
+        <form id="publicarListaForm">
+            <label for="lista">Lista a Publicar:</label>
+            <input type="text" id="lista" name="lista" required><br>
+
+            <button type="button" id="buscarListasBtn">Buscar listas del cliente</button>
+            <button type="submit">Publicar Lista</button>
+        </form>
+
+        <h2>Listas Publicadas</h2>
+        <table id="listasTable">
+            <thead>
+                <tr>
+                    <th>Nombre de la Lista</th>
+                    <th>Visibilidad</th>
+                </tr>
+            </thead>
+            <tbody id="listasBody">
+                <!-- aca se carga la lista -->
+            </tbody>
+        </table>
+
+        <div id="resultado"></div>
+
+        <script>
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2)
+                    return parts.pop().split(';').shift();
+            }
+
+            document.getElementById('buscarListasBtn').addEventListener('click', function () {
+                const nickname = getCookie('nickname'); // Obtener el nickname de la cookie
+                if (!nickname) {
+                    alert('No se encontró el nickname. Asegúrate de haber iniciado sesión.');
+                    return;
+                }
+
+                fetch(`http://localhost:8080/EspotifyWeb/PublicarListaServlet?nickname=${nickname}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const tbody = document.getElementById('listasBody');
+                            tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+
+                            if (data.length === 0) {
+                                tbody.innerHTML = '<tr><td colspan="2">No se encontraron listas.</td></tr>';
+                                return;
+                            }
+
+                            data.forEach(lista => {
+                                const row = `<tr><td>${lista.nombre}</td><td>${lista.visibilidad ? 'Pública' : 'Privada'}</td></tr>`;
+                                tbody.innerHTML += row;
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar listas:', error));
+            });
+
+            document.getElementById('publicarListaForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const formData = new FormData(this);
+                const params = new URLSearchParams(formData).toString();
+
+                fetch('http://localhost:8080/EspotifyWeb/PublicarListaServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params
+                })
+                        .then(response => response.json())
+                        .then(data => {
+                            const message = data.success ? "Lista publicada exitosamente." : "Error al publicar lista." + data.errorCode;
+                            document.getElementById('resultado').innerText = message;
+                            alert(message); // Mostrar un popup con el resultado
+                            loadListas(); // Cargar listas despues de haber hecho publica una
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            const errorMessage = "Error al publicar lista.";
+                            document.getElementById('resultado').innerText = errorMessage;
+                            alert(errorMessage);
+                        });
+            });
+
+            // Cargar la lista de usuarios al entrar a la pagina
+            window.onload = loadListas;
+
+            function loadListas() {
+                const nickname = getCookie('nickname'); // Obtener el nickname de la cookie
+                if (!nickname) {
+                    alert('No se encontro el nickname. Asegurate de haber iniciado sesion.');
+                    return;
+                }
+
+                fetch(`http://localhost:8080/EspotifyWeb/PublicarListaServlet?nickname=${nickname}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const tbody = document.getElementById('listasBody');
+                            tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                            data.forEach(lista => {
+                                const row = `<tr><td>${lista.nombre}</td><td>${lista.visibilidad ? 'Pública' : 'Privada'}</td></tr>`;
+                                tbody.innerHTML += row;
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar listas:', error));
+            }
+        </script>
+
+    </body>
+</html>
