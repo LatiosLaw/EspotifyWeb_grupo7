@@ -17,7 +17,7 @@ h1 {
 
 h2 {
     color: #333;
-    margin-top: 20px; 
+    margin-top: 20px;
 }
 
 a {
@@ -48,14 +48,14 @@ form {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px; 
+    max-width: 600px;
     margin: auto;
 }
 
 label {
-    display: block; 
-    margin-bottom: 5px; 
-    color: #555; 
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
 }
 
 input[type="text"],
@@ -63,12 +63,12 @@ input[type="number"],
 input[type="file"],
 input[type="password"],
 button {
-    width: calc(100% - 20px); 
-    padding: 10px; 
-    margin-bottom: 15px; 
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    font-size: 16px; 
+    font-size: 16px;
 }
 
 input[type="text"]:focus,
@@ -78,9 +78,9 @@ input[type="number"]:focus {
 }
 
 button {
-    background-color: #007bff; 
-    color: white; 
-    cursor: pointer; 
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
     border: none;
 }
 
@@ -118,13 +118,43 @@ tr:hover {
 
 /* Estilos para botones dentro de la tabla */
 td button {
-    max-width: 150px; 
-    padding: 8px 12px; 
-    margin: 0; 
+    max-width: 150px;
+    padding: 8px 12px;
+    margin: 0;
 }
 
 /* Estilos para mensajes de resultado */
 div#resultado {
     margin-top: 20px;
     font-weight: bold;
+}
+
+select {
+    width: calc(100% - 20px); 
+    margin-bottom: 10px; 
+}
+#selectedGeneros {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: calc(100% - 20px);
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    color: black;
+    font-size: 16px;
+    cursor: pointer; 
+}
+.genero-item {
+    display: inline-block;
+    background-color: #d1e7dd;
+    border: 1px solid #0f5132;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+.tema {
+    margin-bottom: 15px; 
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
 }

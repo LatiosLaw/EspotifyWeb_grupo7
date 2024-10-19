@@ -24,6 +24,10 @@
         <servlet-name>DejarDeSeguirUsuarioServlet</servlet-name>
         <servlet-class>com.mycompany.espotifyweb.DejarDeSeguirUsuarioServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AltaDeAlbumServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.AltaDeAlbumServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>DejarDeSeguirUsuarioServlet</servlet-name>
         <url-pattern>/DejarDeSeguirUsuarioServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AltaDeAlbumServlet</servlet-name>
+        <url-pattern>/AltaDeAlbumServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
