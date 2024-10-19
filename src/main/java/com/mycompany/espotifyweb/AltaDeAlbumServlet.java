@@ -102,14 +102,16 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 int ubicacionTema = Integer.parseInt(ubicacionesTemas[i]);
                 String archivoMusica = archivosMusica[i];
 
-                DataTema tema = new DataTema(nombreTema, duracionEnSegundos, ubicacionTema, archivoMusica);
+                DataTema tema = new DataTema(nombreTema, nombreAlbum, duracionEnSegundos, ubicacionTema, archivoMusica);
                 temas.add(tema);
             }
         }
 
         ControladorAlbum albumPersistence = new ControladorAlbum();
         DataAlbum album = albumPersistence.agregarAlbum(nickname, nombreAlbum, imagenAlbum, anioCreacion, temas);
-
+        if(album == null){
+            System.out.println("Pinga.");
+        }
         Collection<DataGenero> generos = new ArrayList<>();
         for (String genero : generosArray) {
             DataGenero g = new DataGenero(genero);
