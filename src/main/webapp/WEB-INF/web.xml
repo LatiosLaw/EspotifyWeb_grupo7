@@ -34,7 +34,7 @@
     </servlet>
     <servlet>
         <servlet-name>CrearListaRepServlet</servlet-name>
-        <servlet-class>com.mycompany.espotifyweb.CrearListaRepServlet</servlet-class>
+        <servlet-class>com.mycompany.espotifyweb.ConsultarListaRepServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
