@@ -56,13 +56,13 @@
                         errorMessageElement.style.display = "none";
                         if (data === 'exists') {
                             validoField.value = "false";
-                            listaExistsMessage.textContent = 'Este álbum ya existe.';
+                            listaExistsMessage.textContent = 'Esta lista ya existe en tu biblioteca.';
                         } else {
                             validoField.value = "true";
                             listaExistsMessage.textContent = '';
                         }
                     })
-                    .catch(error => console.error('Error al verificar el álbum:', error));
+                    .catch(error => console.error('Error al verificar la lista:', error));
             } else {
                 listaExistsMessage.textContent = '';
             }
