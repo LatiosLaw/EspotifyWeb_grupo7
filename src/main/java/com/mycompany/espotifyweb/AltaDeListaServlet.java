@@ -18,7 +18,6 @@ import logica.ListaReproduccion;
 import logica.controladores.ControladorCliente;
 import logica.controladores.ControladorListaParticular;
 import logica.dt.DataListaParticular;
-import logica.dt.DataListaReproduccion;
 import persistencia.DAO_ListaReproduccion;
 import persistencia.DAO_Usuario;
 

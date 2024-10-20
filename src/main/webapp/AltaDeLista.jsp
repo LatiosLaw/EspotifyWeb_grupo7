@@ -40,30 +40,31 @@
             return true;
         }
         
-        var listaNameInput = document.getElementById('nombreLista');
+        var liNameInput = document.getElementById('nombreLista');
+        var listaExistsMessage = document.getElementById('ListaExistsMessage');
         var validoField = document.getElementById('Valido');
-        var albumExistsMessage = document.getElementById('albumExistsMessage');
+        var errorMessageElement = document.getElementById("errorMessage");
 
-        albumNameInput.addEventListener('input', function() {
-            var ListaName = listaNameInput.value;
+        liNameInput.addEventListener('input', function() {
+            var listaName = liNameInput.value;
 
-            if (ListaName.length > 0) {
+            if (listaName.length > 0) {
                 // Utiliza fetch para hacer una solicitud GET al servidor
-                fetch('AltaDeListaServlet?action=verificarLista&listaName=' + encodeURIComponent(ListaName)')
+                fetch('AltaDeListaServlet?listaName=' + encodeURIComponent(listaName))
                     .then(response => response.text())
                     .then(data => {
                         errorMessageElement.style.display = "none";
                         if (data === 'exists') {
                             validoField.value = "false";
-                            albumExistsMessage.textContent = 'Esta lista ya existe en tu biblioteca.';
+                            listaExistsMessage.textContent = 'Este álbum ya existe.';
                         } else {
                             validoField.value = "true";
-                            albumExistsMessage.textContent = '';
+                            listaExistsMessage.textContent = '';
                         }
                     })
                     .catch(error => console.error('Error al verificar el álbum:', error));
             } else {
-                albumExistsMessage.textContent = '';
+                listaExistsMessage.textContent = '';
             }
         });
         

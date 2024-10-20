@@ -52,8 +52,6 @@
     <script>
             
         let generosSeleccionados = [];
-        var validoField = document.getElementById('Valido');
-        var errorMessageElement = document.getElementById("errorMessage");
 
         function cargarGeneros() {
             fetch('AltaDeAlbumServlet?action=cargarGeneros')
@@ -179,6 +177,8 @@
         
         var albumNameInput = document.getElementById('nombreAlbum');
         var albumExistsMessage = document.getElementById('albumExistsMessage');
+        var validoField = document.getElementById('Valido');
+        var errorMessageElement = document.getElementById("errorMessage");
 
         albumNameInput.addEventListener('input', function() {
             var albumName = albumNameInput.value;
@@ -191,13 +191,13 @@
                         errorMessageElement.style.display = "none";
                         if (data === 'exists') {
                             validoField.value = "false";
-                            albumExistsMessage.textContent = 'Este álbum ya existe.';
+                            albumExistsMessage.textContent = 'Esta lista ya existe en tu biblioteca.';
                         } else {
                             validoField.value = "true";
                             albumExistsMessage.textContent = '';
                         }
                     })
-                    .catch(error => console.error('Error al verificar el álbum:', error));
+                    .catch(error => console.error('Error al verificar la lista:', error));
             } else {
                 albumExistsMessage.textContent = '';
             }
