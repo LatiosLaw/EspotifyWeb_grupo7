@@ -32,10 +32,8 @@ public class AgregarTemaAListaServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("\nEntramo");
         String action = request.getParameter("action");
-        if ("cargarListas".equals(action)) {
-
+        
         response.setContentType("application/json;charset=UTF-8");
 
         // Obtener la sesión
@@ -43,6 +41,8 @@ public class AgregarTemaAListaServlet extends HttpServlet {
 
         // Leer el nickname desde la sesión
         String nickname = (String) session.getAttribute("nickname");
+        
+        if ("cargarListas".equals(action)) {
 
         try (PrintWriter out = response.getWriter()) {
             // Comprobar si se obtuvo el nickname
@@ -50,15 +50,13 @@ public class AgregarTemaAListaServlet extends HttpServlet {
                 out.print("{\"error\": \"No se encontró el nickname.\"}");
                 return;
             }
-            System.out.println("\nEntramo 2");
             // Obtener todas las listas de reproducción del cliente
             DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
             Collection<ListaParticular> listasReproduccion = persistence.findListaPorCliente(nickname);
 
             StringBuilder jsonResponse = new StringBuilder("[");
             for (ListaParticular lista : listasReproduccion) {
-                System.out.println("\nEntramo 3");
-                jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("},");
+                jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\"},");
             }
 
             if (jsonResponse.length() > 1) {
@@ -71,6 +69,34 @@ public class AgregarTemaAListaServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace(); // Para depuración
         }
+        }else if ("cargarListasParticular".equals(action)){
+            System.out.println("\nEntramo a lista particular");
+             try (PrintWriter out = response.getWriter()) {
+            // Obtener todas las listas de reproducción del cliente
+            DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
+            Collection<ListaParticular> listasReproduccion = persistence.findAllListasParticulares();
+
+            StringBuilder jsonResponse = new StringBuilder("[");
+            for (ListaParticular lista : listasReproduccion) {
+                System.out.println("\nEntramo a las listas en cuestion");
+                jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\",")
+                        .append("\"nombrecreador\":").append(lista.getCliente().getNickname()).append("},");
+            }
+
+            if (jsonResponse.length() > 1) {
+                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+            }
+
+            jsonResponse.append("]");
+
+            out.print(jsonResponse.toString());
+        } catch (Exception e) {
+            e.printStackTrace(); // Para depuración
+        }
+        }else if ("cargarListasDefault".equals(action)){
+            
+        }else if ("cargarAlbumes".equals(action)){
+            
         }
         System.out.println("\n-----End Agregar Tema a Lista Servlet GET-----");
     }

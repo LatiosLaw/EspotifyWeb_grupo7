@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Tema a Lista</title>
+    <link rel="stylesheet" type="text/css" href="estilos.css">
+</head>
+<body>
+    
+    <a href="index.jsp">Página Principal</a>
+    
+    <h1>Agregar Tema a Lista</h1>
+
+     <table id="listasTable">
+            <thead>
+                <tr>
+                    <th>Nombre de la Lista</th>
+                </tr>
+            </thead>
+            <tbody id="listasBody">
+                <!-- aca se carga la lista -->
+            </tbody>
+        </table>
+    
+    <label for="opciones">Selecciona un filtro para encontrar el tema a agregar:</label>
+  <select id="opciones" name="opciones">
+    <option value="default">Lista por Defecto</option>
+    <option value="publica">Lista Particular Pública</option>
+    <option value="album">Álbum</option>
+  </select>
+    
+    <table id="filtroTable">
+            <thead>
+                <tr>
+                    <th>Nombre del Lista / Album</th>
+                    <th>Creador / Genero</th>
+                </tr>
+            </thead>
+            <tbody id="filtroBody">
+                <!-- aca se carga la lista -->
+            </tbody>
+        </table>
+
+     <form>  
+        
+    </form>
+    
+    <script>
+        
+        window.onload = loadListas;
+            
+             function loadListas() {
+                fetch('http://localhost:8080/EspotifyWeb/AgregarTemaAListaServlet?action=cargarListas')
+                        .then(response => response.json())
+                        .then(data => {
+                            const tbody = document.getElementById('listasBody');
+                            tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                            data.forEach(lista => {
+                                const row = `<tr><td>${lista.nombre}</td></tr>`;
+                                tbody.innerHTML += row;
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar listas:', error));
+            }
+    
+            document.getElementById('opciones').addEventListener('change', function() {
+            const selectedValue = this.value;
+
+            // Ejecutar diferentes funciones dependiendo de la opción seleccionada
+            if (selectedValue === 'default') {
+                manejarListaPorDefecto();
+            } else if (selectedValue === 'publica') {
+                manejarListaPublica();
+            } else if (selectedValue === 'album') {
+                manejarAlbum();
+            }
+            });
+
+            function manejarListaPorDefecto() {
+               fetch('http://localhost:8080/EspotifyWeb/AgregarTemaAListaServlet?action=cargarListasDefault')
+                        .then(response => response.json())
+                        .then(data => {
+                            const tbody = document.getElementById('filtroBody');
+                            tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                            data.forEach(lista => {
+                                const row = `<tr><td>${lista.nombre}</td><td>${lista.nombrecreador}</td></tr>`;
+                                tbody.innerHTML += row;
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar listas:', error));
+                // Lógica para manejar la opción 'Lista por defecto'
+            }
+
+            function manejarListaPublica() {
+                 fetch('http://localhost:8080/EspotifyWeb/AgregarTemaAListaServlet?action=cargarListasParticular')
+                        .then(response => response.json())
+                        .then(data => {
+                            const tbody = document.getElementById('filtroBody');
+                            tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                            data.forEach(lista => {
+                                const row = `<tr><td>${lista.nombre}</td><td>${lista.nombrecreador}</td></tr>`;
+                                tbody.innerHTML += row;
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar listas:', error));
+                // Lógica para manejar la opción 'Lista particular pública'
+            }
+
+            function manejarAlbum() {
+                fetch('http://localhost:8080/EspotifyWeb/AgregarTemaAListaServlet?action=cargarAlbumes')
+                        .then(response => response.json())
+                        .then(data => {
+                            const tbody = document.getElementById('filtroBody');
+                            tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                            data.forEach(albums => {
+                                const row = `<tr><td>${lista.nombre}</td><td>${lista.nombrecreador}</td></tr>`;
+                                tbody.innerHTML += row;
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar listas:', error));
+                // Lógica para manejar la opción 'Álbum'
+            }
+    </script>
+
+</body>
+</html>
