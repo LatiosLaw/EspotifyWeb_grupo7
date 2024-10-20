@@ -14,9 +14,9 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import logica.Album;
 import logica.Genero;
 import logica.controladores.ControladorAlbum;
 import logica.controladores.ControladorGenero;
@@ -24,6 +24,7 @@ import logica.controladores.ControladorTema;
 import logica.dt.DataAlbum;
 import logica.dt.DataGenero;
 import logica.dt.DataTema;
+import persistencia.DAO_Album;
 import persistencia.DAO_Genero;
 
 @MultipartConfig
@@ -49,6 +50,10 @@ public class AltaDeAlbumServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        
+        if ("cargarGeneros".equals(action)) {
+        
         DAO_Genero persistence = new DAO_Genero();
         Collection<Genero> generosObjeto = persistence.findAll();
         ArrayList<String> generosString = new ArrayList<>();
@@ -65,12 +70,29 @@ public class AltaDeAlbumServlet extends HttpServlet {
         String json = gson.toJson(generosString);
 
         response.getWriter().write(json);
+        }else if("verificarAlbum".equals(action)){
+            
+            DAO_Album persistence = new DAO_Album();
+            
+            String albumName = request.getParameter("albumName");
+                Album album = persistence.findAlbumByName(albumName);
+
+                if (album != null) {
+                    response.getWriter().write("exists");
+                } else {
+                    response.getWriter().write("available");
+                }
+                
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // Obtener la sesión
+        String validacion = request.getParameter("Valido");
+        
+        if(validacion.equals("true")){
+            // Obtener la sesión
         HttpSession session = request.getSession();
 
         // Leer el nickname desde la sesión
@@ -219,6 +241,10 @@ public class AltaDeAlbumServlet extends HttpServlet {
                 GeneroPersistence.actualizarGenero(new DataGenero(genero), albumes, album);
             }
 
+        }
+        }else{
+            request.setAttribute("errorMessage", "EL NOMBRE DEL ALBUM ESTA REPETIDO.");
+            request.getRequestDispatcher("AltaDeAlbum.jsp").forward(request, response);
         }
     }
 }

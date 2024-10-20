@@ -12,9 +12,14 @@
     <a href="index.jsp">Página Principal</a>
     
     <h1>Alta de Álbum</h1>
+    <c:if test="${not empty errorMessage}">
+        <p id="errorMessage" style="color: red;">${errorMessage}</p>
+    </c:if>
     <form id="albumForm" action="AltaDeAlbumServlet" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
+        <input type="hidden" id='Valido' name='Valido' value="true">  
         <label for="nombreAlbum">Nombre del Álbum:</label>
         <input type="text" id="nombreAlbum" name="nombreAlbum" required title="Ingresa el nombre del álbum"><br>
+        <span id="albumExistsMessage" style="color: red;"></span>
 
         <label for="anioCreacion">Año de Creación:</label>
         <input type="number" id="anioCreacion" name="anioCreacion" min="1900" max="2100" required title="Ingresa el año de creación"><br>
@@ -47,9 +52,11 @@
     <script>
             
         let generosSeleccionados = [];
+        var validoField = document.getElementById('Valido');
+        var errorMessageElement = document.getElementById("errorMessage");
 
         function cargarGeneros() {
-            fetch('AltaDeAlbumServlet')
+            fetch('AltaDeAlbumServlet?action=cargarGeneros')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -169,6 +176,32 @@
 
             temasContainer.appendChild(temaDiv);
         }
+        
+        var albumNameInput = document.getElementById('nombreAlbum');
+        var albumExistsMessage = document.getElementById('albumExistsMessage');
+
+        albumNameInput.addEventListener('input', function() {
+            var albumName = albumNameInput.value;
+
+            if (albumName.length > 0) {
+                // Utiliza fetch para hacer una solicitud GET al servidor
+                fetch('AltaDeAlbumServlet?action=verificarAlbum&albumName=' + encodeURIComponent(albumName))
+                    .then(response => response.text())
+                    .then(data => {
+                        errorMessageElement.style.display = "none";
+                        if (data === 'exists') {
+                            validoField.value = "false";
+                            albumExistsMessage.textContent = 'Este álbum ya existe.';
+                        } else {
+                            validoField.value = "true";
+                            albumExistsMessage.textContent = '';
+                        }
+                    })
+                    .catch(error => console.error('Error al verificar el álbum:', error));
+            } else {
+                albumExistsMessage.textContent = '';
+            }
+        });
 
         document.getElementById('generos').addEventListener('change', agregarGenero);
     </script>
