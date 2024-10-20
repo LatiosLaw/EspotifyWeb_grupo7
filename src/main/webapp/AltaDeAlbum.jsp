@@ -8,6 +8,9 @@
     <link rel="stylesheet" type="text/css" href="estilos.css">
 </head>
 <body onload="cargarGeneros()">
+    
+    <a href="index.jsp">Página Principal</a>
+    
     <h1>Alta de Álbum</h1>
     <form id="albumForm" action="AltaDeAlbumServlet" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
         <label for="nombreAlbum">Nombre del Álbum:</label>

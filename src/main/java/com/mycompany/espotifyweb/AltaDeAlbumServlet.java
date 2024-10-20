@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import logica.Genero;
 import logica.controladores.ControladorAlbum;
@@ -69,16 +70,11 @@ public class AltaDeAlbumServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String nickname = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("nickname".equals(cookie.getName())) {
-                    nickname = cookie.getValue();
-                    break;
-                }
-            }
-        }
+        // Obtener la sesión
+        HttpSession session = request.getSession();
+
+        // Leer el nickname desde la sesión
+        String nickname = (String) session.getAttribute("nickname");
 
         String nombreAlbum = request.getParameter("nombreAlbum");
         int anioCreacion = Integer.parseInt(request.getParameter("anioCreacion"));
@@ -97,7 +93,7 @@ public class AltaDeAlbumServlet extends HttpServlet {
          /////////////////////////////////////////////////////////////////////////////////////////////////////
        ///// COMENTAR DE ACA PARA ABAJO ASI NO SE LES ROMPA AL RESTO ////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////
-        
+                
         // Verifica que el archivo no sea nulo
         if (fileName != "default") {
             // Obtén el nombre del archivo y su tipo de contenido
@@ -128,7 +124,7 @@ public class AltaDeAlbumServlet extends HttpServlet {
         } else {
             fileName = "default";
         }
-        
+       
         /////////////////////////////////////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////
