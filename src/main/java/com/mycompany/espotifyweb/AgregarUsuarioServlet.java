@@ -34,11 +34,11 @@ public class AgregarUsuarioServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("\n-----Agregar Usuario Servlet-----");
-        
+
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
@@ -51,13 +51,13 @@ public class AgregarUsuarioServlet extends HttpServlet {
         String foto = request.getParameter("foto");
         String pass = request.getParameter("pass");
         LocalDate fechaNac = LocalDate.parse(request.getParameter("fechaNac"));
-        
+
         DataErrorBundle resultado;
 
         if ("cliente".equals(tipoUsuario)) {
             ControladorCliente controladorCliente = new ControladorCliente();
             resultado = controladorCliente.agregarCliente(nickname, nombre, apellido, pass, mail, foto, fechaNac);
-            
+
         } else if ("artista".equals(tipoUsuario)) {
             // Obtener parametros adicionales para artista
             String biografia = request.getParameter("biografia");
@@ -65,7 +65,7 @@ public class AgregarUsuarioServlet extends HttpServlet {
 
             ControladorArtista controladorArtista = new ControladorArtista();
             resultado = controladorArtista.agregarArtista(nickname, nombre, apellido, pass, mail, foto, fechaNac, biografia, dirWeb);
-            
+
         } else {
             out.println("{\"success\": false, \"errorCode\": 400}"); // Error por tipo de usuario no válido
             return;
@@ -78,12 +78,8 @@ public class AgregarUsuarioServlet extends HttpServlet {
             out.println("{\"success\": false, \"errorCode\": " + resultado.getNumero() + "}");
             System.out.println("Error al agregar usuario: " + resultado.getNumero());
         }
-        
+
         System.out.println("----------End Agregar Usuario Servlet----------");
     }
 
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 }

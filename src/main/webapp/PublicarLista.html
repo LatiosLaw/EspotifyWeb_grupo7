@@ -8,7 +8,7 @@
     </head>
     <body>
 
-        <a href="index.html">Página Principal</a>
+        <a href="index.jsp">Página Principal</a>
 
         <h1>Publicar Lista</h1>
 
@@ -36,21 +36,8 @@
         <div id="resultado"></div>
 
         <script>
-            function getCookie(name) {
-                const value = `; ${document.cookie}`;
-                const parts = value.split(`; ${name}=`);
-                if (parts.length === 2)
-                    return parts.pop().split(';').shift();
-            }
-
             document.getElementById('buscarListasBtn').addEventListener('click', function () {
-                const nickname = getCookie('nickname'); // Obtener el nickname de la cookie
-                if (!nickname) {
-                    alert('No se encontró el nickname. Asegúrate de haber iniciado sesión.');
-                    return;
-                }
-
-                fetch(`http://localhost:8080/EspotifyWeb/PublicarListaServlet?nickname=${nickname}`)
+                fetch('http://localhost:8080/EspotifyWeb/PublicarListaServlet')
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error('Network response was not ok');
@@ -92,7 +79,7 @@
                             const message = data.success ? "Lista publicada exitosamente." : "Error al publicar lista." + data.errorCode;
                             document.getElementById('resultado').innerText = message;
                             alert(message); // Mostrar un popup con el resultado
-                            loadListas(); // Cargar listas despues de haber hecho publica una
+                            loadListas(); // Cargar listas después de haber hecho pública una
                         })
                         .catch(error => {
                             console.error('Error:', error);
@@ -102,17 +89,11 @@
                         });
             });
 
-            // Cargar la lista de usuarios al entrar a la pagina
+            // Cargar la lista de usuarios al entrar a la página
             window.onload = loadListas;
 
             function loadListas() {
-                const nickname = getCookie('nickname'); // Obtener el nickname de la cookie
-                if (!nickname) {
-                    alert('No se encontro el nickname. Asegurate de haber iniciado sesion.');
-                    return;
-                }
-
-                fetch(`http://localhost:8080/EspotifyWeb/PublicarListaServlet?nickname=${nickname}`)
+                fetch('http://localhost:8080/EspotifyWeb/PublicarListaServlet')
                         .then(response => response.json())
                         .then(data => {
                             const tbody = document.getElementById('listasBody');
@@ -125,6 +106,5 @@
                         .catch(error => console.error('Error al cargar listas:', error));
             }
         </script>
-
     </body>
 </html>

@@ -1,0 +1,39 @@
+/espotifyweb/target/
+
+# Archivos de compilación
+/bin/
+/build/
+/out/
+
+# Configuraciones específicas del IDE
+/.idea/
+/*.iml
+/.vscode/
+/*.classpath
+/*.project
+/*.settings/
+/target/
+
+# Librerías descargadas por el gestor de dependencias
+/.mvn/
+/.gradle/
+/*.jar
+/*.war
+/*.ear
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de logs
+*.log
+
+# Archivos específicos del entorno
+*.env
+*.local
+
+# Archivos y carpetas de pruebas que no quieras compartir
+/tests-output/
+/espotifyweb/nbproject/
+/espotifyweb/build/
+espotifyweb/nbactions.xml

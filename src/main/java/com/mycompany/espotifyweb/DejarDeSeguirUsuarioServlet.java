@@ -5,10 +5,10 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import logica.Usuario;
 import logica.controladores.ControladorCliente;
 import org.eclipse.persistence.exceptions.JSONException;
@@ -55,17 +55,11 @@ public class DejarDeSeguirUsuarioServlet extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-        // Obtener el nickname del usuario logueado desde la cookie
-        String nickname = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("nickname".equals(cookie.getName())) {
-                    nickname = cookie.getValue();
-                    break;
-                }
-            }
-        }
+        // Obtener la sesión
+        HttpSession session = request.getSession();
+
+        // Leer el nickname desde la sesión
+        String nickname = (String) session.getAttribute("nickname");
 
         if (nickname == null) {
             out.println("{\"success\": false, \"error\": \"Usuario no autenticado.\"}");
@@ -113,17 +107,11 @@ public class DejarDeSeguirUsuarioServlet extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-        // Obtener el nickname del usuario logueado desde la cookie
-        String nickname = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("nickname".equals(cookie.getName())) {
-                    nickname = cookie.getValue();
-                    break;
-                }
-            }
-        }
+        // Obtener la sesión
+        HttpSession session = request.getSession();
+
+        // Leer el nickname desde la sesión
+        String nickname = (String) session.getAttribute("nickname");
 
         if (nickname == null) {
             out.println("{\"success\": false, \"error\": \"Usuario no autenticado.\"}");
@@ -160,10 +148,5 @@ public class DejarDeSeguirUsuarioServlet extends HttpServlet {
 
         out.flush();
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

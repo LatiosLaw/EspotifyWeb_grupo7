@@ -57,9 +57,9 @@ public class AltaDeAlbumServlet extends HttpServlet {
     }
 
     @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
-    String nickname = null;
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String nickname = null;
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -69,56 +69,57 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
                 }
             }
         }
-        
-    String nombreAlbum = request.getParameter("nombreAlbum");
-    int anioCreacion = Integer.parseInt(request.getParameter("anioCreacion"));
-    String imagenAlbum = request.getParameter("imagenAlbum");
 
-    String generosSeleccionados = request.getParameter("generosSeleccionados");
-    if (generosSeleccionados != null) {
-        String[] generosArray = generosSeleccionados.split(", ");
-        for (String genero : generosArray) {
-            System.out.println(genero);
-        }
+        String nombreAlbum = request.getParameter("nombreAlbum");
+        int anioCreacion = Integer.parseInt(request.getParameter("anioCreacion"));
+        String imagenAlbum = request.getParameter("imagenAlbum");
 
-        Collection<DataTema> temas = new ArrayList<>();
-
-        String[] nombresTemas = request.getParameterValues("nombreTema[]");
-        String[] duracionesTemas = request.getParameterValues("duracionTema[]");
-        String[] ubicacionesTemas = request.getParameterValues("ubicacionTema[]");
-        String[] archivosMusica = request.getParameterValues("archivoMusica[]");
-
-        if (nombresTemas != null) {
-            for (int i = 0; i < nombresTemas.length; i++) {
-                String nombreTema = nombresTemas[i];
-                
-                String duracionTema = duracionesTemas[i];
-                String[] partesDuracion = duracionTema.split(":");
-                int minutos = Integer.parseInt(partesDuracion[0]);
-                int segundos = Integer.parseInt(partesDuracion[1]);
-                
-                int duracionEnSegundos = minutos * 60 + segundos;
-
-                int ubicacionTema = Integer.parseInt(ubicacionesTemas[i]);
-                String archivoMusica = archivosMusica[i];
-
-                DataTema tema = new DataTema(nombreTema, nombreAlbum, duracionEnSegundos, ubicacionTema, archivoMusica);
-                temas.add(tema);
+        String generosSeleccionados = request.getParameter("generosSeleccionados");
+        if (generosSeleccionados != null) {
+            String[] generosArray = generosSeleccionados.split(", ");
+            for (String genero : generosArray) {
+                System.out.println(genero);
             }
-        }
 
-        ControladorAlbum albumPersistence = new ControladorAlbum();
-        DataAlbum album = albumPersistence.agregarAlbum(nickname, nombreAlbum, imagenAlbum, anioCreacion, temas);
-        if(album == null){
-            System.out.println("Pinga.");
-        }
-        Collection<DataGenero> generos = new ArrayList<>();
-        for (String genero : generosArray) {
-            DataGenero g = new DataGenero(genero);
-            generos.add(g);
-        }
+            Collection<DataTema> temas = new ArrayList<>();
 
-        albumPersistence.actualizarAlbum(album, generos);
+            String[] nombresTemas = request.getParameterValues("nombreTema[]");
+            String[] duracionesTemas = request.getParameterValues("duracionTema[]");
+            String[] ubicacionesTemas = request.getParameterValues("ubicacionTema[]");
+            String[] archivosMusica = request.getParameterValues("archivoMusica[]");
+
+            if (nombresTemas != null) {
+                for (int i = 0; i < nombresTemas.length; i++) {
+                    String nombreTema = nombresTemas[i];
+
+                    String duracionTema = duracionesTemas[i];
+                    String[] partesDuracion = duracionTema.split(":");
+                    int minutos = Integer.parseInt(partesDuracion[0]);
+                    int segundos = Integer.parseInt(partesDuracion[1]);
+
+                    int duracionEnSegundos = minutos * 60 + segundos;
+
+                    int ubicacionTema = Integer.parseInt(ubicacionesTemas[i]);
+                    String archivoMusica = archivosMusica[i];
+
+                    DataTema tema = new DataTema(nombreTema, nombreAlbum, duracionEnSegundos, ubicacionTema, archivoMusica);
+                    temas.add(tema);
+                }
+            }
+
+            ControladorAlbum albumPersistence = new ControladorAlbum();
+            DataAlbum album = albumPersistence.agregarAlbum(nickname, nombreAlbum, imagenAlbum, anioCreacion, temas);
+            if (album == null) {
+                System.out.println("Pinga.");
+            }
+            Collection<DataGenero> generos = new ArrayList<>();
+            for (String genero : generosArray) {
+                DataGenero g = new DataGenero(genero);
+                generos.add(g);
+            }
+
+            albumPersistence.actualizarAlbum(album, generos);
+        }
     }
-}
+
 }

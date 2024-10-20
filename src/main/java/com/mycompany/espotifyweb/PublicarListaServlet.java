@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import logica.ListaParticular;
 import logica.controladores.ControladorListaParticular;
 import persistencia.DAO_ListaReproduccion;
@@ -41,17 +42,11 @@ public class PublicarListaServlet extends HttpServlet {
 
         response.setContentType("application/json;charset=UTF-8");
 
-        // Leer la cookie para obtener el nickname
-        String nickname = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("nickname".equals(cookie.getName())) {
-                    nickname = cookie.getValue();
-                    break;
-                }
-            }
-        }
+        // Obtener la sesión
+        HttpSession session = request.getSession();
+
+        // Leer el nickname desde la sesión
+        String nickname = (String) session.getAttribute("nickname");
 
         try (PrintWriter out = response.getWriter()) {
             // Comprobar si se obtuvo el nickname
@@ -66,7 +61,7 @@ public class PublicarListaServlet extends HttpServlet {
 
             StringBuilder jsonResponse = new StringBuilder("[");
             for (ListaParticular lista : listasReproduccion) {
-                jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\",")
+                jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\",")
                         .append("\"visibilidad\":").append(lista.getVisibilidad()).append("},");
             }
 
@@ -90,17 +85,11 @@ public class PublicarListaServlet extends HttpServlet {
 
         String listaNombre = request.getParameter("lista");
 
-        // Leer la cookie para obtener el nickname
-        String nicknameCliente = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("nickname".equals(cookie.getName())) {
-                    nicknameCliente = cookie.getValue();
-                    break;
-                }
-            }
-        }
+        // Obtener la sesión
+        HttpSession session = request.getSession();
+
+        // Leer el nickname desde la sesión
+        String nicknameCliente = (String) session.getAttribute("nickname");
 
         // Comprobar si se obtuvo el nickname
         if (nicknameCliente == null) {
@@ -125,8 +114,4 @@ public class PublicarListaServlet extends HttpServlet {
         System.out.println("----------End Publicar Lista Servlet POST----------");
     }
 
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 }

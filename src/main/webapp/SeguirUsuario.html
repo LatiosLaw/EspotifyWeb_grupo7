@@ -1,107 +1,109 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="estilos.css">
-    <title>Seguir Usuario</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-    </style>
-</head>
-<body>
-    <h1>Seguir Usuario</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="estilos.css">
+        <title>Seguir Usuario</title>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            tr:hover {
+                background-color: #f5f5f5;
+            }
+        </style>
+    </head>
+    <body>
+        <a href="index.jsp">Página Principal</a>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Nickname</th>
-                <th>Tipo</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody id="usuariosList"></tbody>
-    </table>
+        <h1>Seguir Usuario</h1>
 
-    <script>
-        // Carga los usuarios que el usuario actual no sigue
-        function cargarUsuarios() {
-            fetch('http://localhost:8080/EspotifyWeb/SeguirUsuarioServlet', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error al cargar usuarios');
-                }
-                return response.json();
-            })
-            .then(data => {
-                const usuariosList = document.getElementById('usuariosList');
-                usuariosList.innerHTML = ''; // Limpiar la lista existente
+        <table>
+            <thead>
+                <tr>
+                    <th>Nickname</th>
+                    <th>Tipo</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="usuariosList"></tbody>
+        </table>
 
-                if (data.usuarios && data.usuarios.length > 0) {
-                    data.usuarios.forEach(usuario => {
-                        const usuarioRow = document.createElement('tr');
-                        usuarioRow.innerHTML = `
-                            <td>${usuario.nickname}</td>
-                            <td>${usuario.tipo}</td>
-                            <td><button onclick="seguirUsuario('${usuario.nickname}')">Seguir</button></td>
-                        `;
-                        usuariosList.appendChild(usuarioRow);
-                    });
-                } else {
-                    usuariosList.innerHTML = '<tr><td colspan="3">No hay usuarios disponibles para seguir.</td></tr>';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('usuariosList').innerHTML = '<tr><td colspan="3">Error al cargar usuarios.</td></tr>';
-            });
-        }
+        <script>
+            // Carga los usuarios que el usuario actual no sigue
+            function cargarUsuarios() {
+                fetch('http://localhost:8080/EspotifyWeb/SeguirUsuarioServlet', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error al cargar usuarios');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const usuariosList = document.getElementById('usuariosList');
+                            usuariosList.innerHTML = ''; // Limpiar la lista existente
 
-        // Llama al Servlet correspondiente
-        function seguirUsuario(nickToFollow) {
-            fetch('http://localhost:8080/EspotifyWeb/SeguirUsuarioServlet', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id: nickToFollow }) // Enviar el nickname del usuario a seguir
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Ahora sigues a este usuario.');
-                    cargarUsuarios(); // Recargar la lista de usuarios
-                } else {
-                    alert('Error al seguir al usuario: ' + (data.error || 'Error desconocido'));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error al intentar seguir al usuario.');
-            });
-        }
+                            if (data.usuarios && data.usuarios.length > 0) {
+                                data.usuarios.forEach(usuario => {
+                                    const usuarioRow = document.createElement('tr');
+                                    usuarioRow.innerHTML = `
+                                <td>${usuario.nickname}</td>
+                                <td>${usuario.tipo}</td>
+                                <td><button onclick="seguirUsuario('${usuario.nickname}')">Seguir</button></td>
+                            `;
+                                    usuariosList.appendChild(usuarioRow);
+                                });
+                            } else {
+                                usuariosList.innerHTML = '<tr><td colspan="3">No hay usuarios disponibles para seguir.</td></tr>';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            document.getElementById('usuariosList').innerHTML = '<tr><td colspan="3">Error al cargar usuarios.</td></tr>';
+                        });
+            }
 
-        // Cargar la lista de usuarios al entrar a la pagina
-        window.onload = cargarUsuarios;
-    </script>
-</body>
+            // Llama al Servlet correspondiente
+            function seguirUsuario(nickToFollow) {
+                fetch('http://localhost:8080/EspotifyWeb/SeguirUsuarioServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({id: nickToFollow}) // Enviar el nickname del usuario a seguir
+                })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Ahora sigues a este usuario.');
+                                cargarUsuarios(); // Recargar la lista de usuarios
+                            } else {
+                                alert('Error al seguir al usuario: ' + (data.error || 'Error desconocido'));
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Error al intentar seguir al usuario.');
+                        });
+            }
+
+            // Cargar la lista de usuarios al entrar a la pagina
+            window.onload = cargarUsuarios;
+        </script>
+    </body>
 </html>

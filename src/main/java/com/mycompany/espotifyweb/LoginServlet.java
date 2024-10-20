@@ -4,12 +4,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import logica.controladores.ControladorCliente;
 import logica.dt.DataErrorBundle;
+import persistencia.DAO_Usuario;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
@@ -52,12 +53,16 @@ public class LoginServlet extends HttpServlet {
         DataErrorBundle resultado = controlador.iniciarSesion(nickname, pass);
 
         if (resultado.getValor()) {
+            DAO_Usuario persistence = new DAO_Usuario();
+            String userType = persistence.findUsuarioByNick(nickname).getDTYPE();
+
+            // Guardar el tipo de usuario en la sesión
+            HttpSession session = request.getSession();
+
+            session.setAttribute("nickname", nickname);
+            session.setAttribute("userType", userType);
+
             out.print("{\"success\": true}");
-            String nicknameCliente = request.getParameter("nickname"); // Obtener el valor del campo nickname
-            Cookie userCookie = new Cookie("nickname", nicknameCliente); //Guardarlo como una cookie
-            userCookie.setMaxAge(60 * 60 * 24); // Duracion de la cookie (Un dia)
-            userCookie.setPath("/"); // Hace que la cookie sea accesible para toda la web
-            response.addCookie(userCookie);
         } else {
             out.print("{\"success\": false, \"errorCode\": " + resultado.getNumero() + "}");
         }
@@ -67,8 +72,4 @@ public class LoginServlet extends HttpServlet {
         System.out.println("----------End Login Servlet----------");
     }
 
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 }

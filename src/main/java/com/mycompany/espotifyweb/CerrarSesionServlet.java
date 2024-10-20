@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "CerrarSesionServlet", urlPatterns = {"/CerrarSesionServlet"})
 public class CerrarSesionServlet extends HttpServlet {
@@ -34,31 +34,26 @@ public class CerrarSesionServlet extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+
         System.out.println("\n---------Logout Servlet----------");
-        
+
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-        // Crea la Cookie con el nickname y pone su duracion/edad en 0 para borrarla
-        Cookie userCookie = new Cookie("nickname", null);
-        userCookie.setMaxAge(0); // Borrar la Cookie
-        userCookie.setPath("/");
-        response.addCookie(userCookie);
+        // Invalida la sesión actual
+        HttpSession session = request.getSession(false); // No crea una nueva sesión si no existe
+        if (session != null) {
+            session.invalidate(); // Invalida la sesión
+        }
 
         // Respond with success message
         out.print("{\"success\": true, \"message\": \"Sesion cerrada exitosamente.\"}");
         out.flush();
-        
+
         System.out.println("\n---------End Logout Servlet----------");
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

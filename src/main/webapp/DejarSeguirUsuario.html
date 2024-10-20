@@ -24,7 +24,7 @@
         </style>
     </head>
     <body>
-        <a href = "index.html"> Pagina Principal</a>
+        <a href="index.jsp">Página Principal</a>
 
         <h1>Dejar De Seguir Usuario</h1>
 
@@ -64,12 +64,12 @@
                                     usuarioRow.innerHTML = `
                                 <td>${usuario.nickname}</td>
                                 <td>${usuario.tipo}</td>
-                                <td><button onclick="seguirUsuario('${usuario.nickname}')">Dejar de Seguir</button></td>
+                                <td><button onclick="dejarDeSeguir('${usuario.nickname}')">Dejar de Seguir</button></td>
                             `;
                                     usuariosList.appendChild(usuarioRow);
                                 });
                             } else {
-                                usuariosList.innerHTML = '<tr><td colspan="3">No sigues a ningun usuario.</td></tr>';
+                                usuariosList.innerHTML = '<tr><td colspan="3">No sigues a ningún usuario.</td></tr>';
                             }
                         })
                         .catch(error => {
@@ -78,13 +78,13 @@
                         });
             }
 
-            function seguirUsuario(nickToFollow) {
+            function dejarDeSeguir(nickToUnfollow) {
                 fetch('http://localhost:8080/EspotifyWeb/DejarDeSeguirUsuarioServlet', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({id: nickToFollow}) // Enviar el nickname del usuario a dejar de seguir
+                    body: JSON.stringify({id: nickToUnfollow}) // Enviar el nickname del usuario a dejar de seguir
                 })
                         .then(response => response.json())
                         .then(data => {
@@ -101,7 +101,7 @@
                         });
             }
 
-            window.onload = cargarUsuarios;
+            window.onload = cargarUsuarios; // Cargar los usuarios al cargar la página
         </script>
     </body>
 </html>
