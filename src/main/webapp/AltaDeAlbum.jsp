@@ -52,8 +52,6 @@
     <script>
             
         let generosSeleccionados = [];
-        var validoField = document.getElementById('Valido');
-        var errorMessageElement = document.getElementById("errorMessage");
 
         function cargarGeneros() {
             fetch('AltaDeAlbumServlet?action=cargarGeneros')
@@ -179,6 +177,8 @@
         
         var albumNameInput = document.getElementById('nombreAlbum');
         var albumExistsMessage = document.getElementById('albumExistsMessage');
+        var validoField = document.getElementById('Valido');
+        var errorMessageElement = document.getElementById("errorMessage");
 
         albumNameInput.addEventListener('input', function() {
             var albumName = albumNameInput.value;

@@ -17,6 +17,10 @@
         <servlet-class>com.mycompany.espotifyweb.AgregarUsuarioServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>AgregarTemaAListaServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.AgregarTemaAListaServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>SeguirUsuarioServlet</servlet-name>
         <servlet-class>com.mycompany.espotifyweb.SeguirUsuarioServlet</servlet-class>
     </servlet>
@@ -33,8 +37,8 @@
         <servlet-class>com.mycompany.espotifyweb.ContratarSuscripcionServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CrearListaRepServlet</servlet-name>
-        <servlet-class>com.mycompany.espotifyweb.ConsultarListaRepServlet</servlet-class>
+        <servlet-name>AltaDeListaServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.AltaDeListaServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -65,12 +69,16 @@
         <url-pattern>/AltaDeAlbumServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>AgregarTemaAListaServlet</servlet-name>
+        <url-pattern>/AgregarTemaAListaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ContratarSuscripcionServlet</servlet-name>
         <url-pattern>/ContratarSuscripcionServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CrearListaRepServlet</servlet-name>
-        <url-pattern>/CrearListaRepServlet</url-pattern>
+        <servlet-name>AltaDeListaServlet</servlet-name>
+        <url-pattern>/AltaDeListaServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
