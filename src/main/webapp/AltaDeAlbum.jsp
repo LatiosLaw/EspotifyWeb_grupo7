@@ -15,6 +15,7 @@
     <form id="albumForm" action="AltaDeAlbumServlet" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
         <label for="nombreAlbum">Nombre del Álbum:</label>
         <input type="text" id="nombreAlbum" name="nombreAlbum" required title="Ingresa el nombre del álbum"><br>
+        <span id="albumExistsMessage" style="color: red;"></span>
 
         <label for="anioCreacion">Año de Creación:</label>
         <input type="number" id="anioCreacion" name="anioCreacion" min="1900" max="2100" required title="Ingresa el año de creación"><br>
@@ -49,7 +50,7 @@
         let generosSeleccionados = [];
 
         function cargarGeneros() {
-            fetch('AltaDeAlbumServlet')
+            fetch('AltaDeAlbumServlet?action=cargarGeneros')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -169,6 +170,29 @@
 
             temasContainer.appendChild(temaDiv);
         }
+        
+        var albumNameInput = document.getElementById('nombreAlbum');
+        var albumExistsMessage = document.getElementById('albumExistsMessage');
+
+        albumNameInput.addEventListener('input', function() {
+            var albumName = albumNameInput.value;
+
+            if (albumName.length > 0) {
+                // Utiliza fetch para hacer una solicitud GET al servidor
+                fetch('AltaDeAlbumServlet?action=verificarAlbum&albumName=' + encodeURIComponent(albumName))
+                    .then(response => response.text())
+                    .then(data => {
+                        if (data === 'exists') {
+                            albumExistsMessage.textContent = 'Este álbum ya existe.';
+                        } else {
+                            albumExistsMessage.textContent = '';
+                        }
+                    })
+                    .catch(error => console.error('Error al verificar el álbum:', error));
+            } else {
+                albumExistsMessage.textContent = '';
+            }
+        });
 
         document.getElementById('generos').addEventListener('change', agregarGenero);
     </script>
