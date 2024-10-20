@@ -9,7 +9,7 @@
 </head>
 <body onload="cargarGeneros()">
     <h1>Alta de Álbum</h1>
-    <form id="albumForm" action="AltaDeAlbumServlet" method="post" onsubmit="return validarFormulario()">
+    <form id="albumForm" action="AltaDeAlbumServlet" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
         <label for="nombreAlbum">Nombre del Álbum:</label>
         <input type="text" id="nombreAlbum" name="nombreAlbum" required title="Ingresa el nombre del álbum"><br>
 
@@ -28,32 +28,21 @@
         <!-- Campo oculto para enviar los géneros seleccionados -->
         <input type="hidden" id="generosSeleccionados" name="generosSeleccionados">
 
-        <label for="imagenAlbum">Link a Imagen del Álbum (opcional):</label>
-        <input type="url" id="imagenAlbum" name="imagenAlbum"><br>
+        <label for="imagenAlbum">Imagen del Álbum (opcional):</label>
+        <input type="file" id="imagenAlbum" name="imagenAlbum" accept="image/png, image/jpeg">
 
         <h2>Temas del Álbum</h2>
         <div id="temasContainer">
-            <div class="tema">
-                <label for='nombreTema'>Nombre del Tema:</label>
-                <input type='text' id='nombreTema' name='nombreTema[]' required title='Ingresa el nombre del tema' placeholder='Ej. Mi Canción Favorita'>
-
-                <label for='duracionTema'>Duración (min:seg):</label>
-                <input type='text' id='duracionTema' name='duracionTema[]' required pattern="[0-9]{1,2}:[0-9]{2}" title='Formato: mm:ss' placeholder='Ej. 03:45'>
-
-                <label for='ubicacionTema'>Ubicación en el Álbum:</label>
-                <input type='number' id='ubicacionTema' name='ubicacionTema[]' required min='1' title='Ingresa la ubicación del tema'>
-
-                <label for='archivoMusica'>Archivo de Música o URL:</label>
-                <input type='url' id='archivoMusica' name='archivoMusica[]' required title='Ingresa la URL o archivo de música'><br><br>
-            </div>
         </div>
 
-        <button type="button" onclick="agregarTema()">Agregar Otro Tema</button><br><br>
+        <button type="button" onclick="agregarTemaMP3()">Agregar Otro Tema - Archivo MP3</button><br>
+        <button type="button" onclick="agregarTemaWeb()">Agregar Otro Tema - Direccion URL</button><br>
 
         <input type="submit" value="Registrar Álbum">
     </form>
 
     <script>
+            
         let generosSeleccionados = [];
 
         function cargarGeneros() {
@@ -123,24 +112,55 @@
                 alert("Por favor, complete todos los campos requeridos.");
                 return false;
             }
+            
+            if (generosSeleccionados.length === 0) {
+                alert("Por favor, seleccione al menos un género.");
+                return false;
+            }
 
             return true;
         }
 
-        function agregarTema() {
+        function agregarTemaWeb() {
             const temasContainer = document.getElementById('temasContainer');
             const temaDiv = document.createElement('div');
             temaDiv.className = 'tema';
 
             temaDiv.innerHTML = `
+                <label for='tipoTema'>Tipo de Tema: Direccion Web</label>
+                <input type="hidden" id='tipoTema[]' name='tipoTema[]' value="direccionWeb">  
                 <label for='nombreTema'>Nombre del Tema:</label>
                 <input type='text' name='nombreTema[]' required title='Ingresa el nombre del tema' placeholder='Ej. Mi Canción Favorita'>
                 <label for='duracionTema'>Duración (min:seg):</label>
                 <input type='text' name='duracionTema[]' required pattern="[0-9]{1,2}:[0-9]{2}" title='Formato: mm:ss' placeholder='Ej. 03:45'>
                 <label for='ubicacionTema'>Ubicación en el Álbum:</label>
                 <input type='number' name='ubicacionTema[]' required min='1' title='Ingresa la ubicación del tema'>
-                <label for='archivoMusica'>Archivo de Música o URL:</label>
-                <input type='url' name='archivoMusica[]' required title='Ingresa la URL o archivo de música'>
+                <label for='dirWeb[]'>Dirección Web (URL):</label>
+                <input type="url" id='dirWeb[]' name='dirWeb[]' required>
+                <input type="hidden" id='archivo_MP3[]' name='archivo_MP3[]' value="mp3">
+                <br><br>
+            `;
+
+            temasContainer.appendChild(temaDiv);
+        }
+        
+        function agregarTemaMP3() {
+            const temasContainer = document.getElementById('temasContainer');
+            const temaDiv = document.createElement('div');
+            temaDiv.className = 'tema';
+
+            temaDiv.innerHTML = `
+                <label for='tipoTema'>Tipo de Tema: MP3</label>
+                <input type="hidden" id='tipoTema[]' name='tipoTema[]' value="archivo_mp3">  
+                <label for='nombreTema'>Nombre del Tema:</label>
+                <input type='text' name='nombreTema[]' required title='Ingresa el nombre del tema' placeholder='Ej. Mi Canción Favorita'>
+                <label for='duracionTema'>Duración (min:seg):</label>
+                <input type='text' name='duracionTema[]' required pattern="[0-9]{1,2}:[0-9]{2}" title='Formato: mm:ss' placeholder='Ej. 03:45'>
+                <label for='ubicacionTema'>Ubicación en el Álbum:</label>
+                <input type='number' name='ubicacionTema[]' required min='1' title='Ingresa la ubicación del tema'>
+                <label for='archivo_MP3[]'>Archivo MP3:</label>
+                <input type="file" id='archivo_MP3[]' name='archivo_MP3[]' accept=".mp3" required> 
+                <input type="hidden" id='dirWeb[]' name='dirWeb[]' value="0">  
                 <br><br>
             `;
 

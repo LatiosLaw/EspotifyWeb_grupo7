@@ -66,7 +66,7 @@ public class PublicarListaServlet extends HttpServlet {
 
             StringBuilder jsonResponse = new StringBuilder("[");
             for (ListaParticular lista : listasReproduccion) {
-                jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\",")
+                jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\",")
                         .append("\"visibilidad\":").append(lista.getVisibilidad()).append("},");
             }
 
