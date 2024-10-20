@@ -41,10 +41,15 @@
             <% } %>
         </div>
 
+        <% if ("Cliente".equals(userType) || userType == null) { %>
+        <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
+        <% } %>
+
         <% if ("Cliente".equals(userType)) { %>
         <a id="seguirUsuarioLink" href="SeguirUsuario.html">Seguir Usuario</a>
         <a id="dejarDeSeguirLink" href="DejarSeguirUsuario.html">Dejar De Seguir Usuario</a>
         <a id="publicarListaLink" href="PublicarLista.html">Publicar Lista</a>
+        <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripción</a>
         <% } %>
 

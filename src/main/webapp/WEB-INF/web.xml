@@ -32,6 +32,10 @@
         <servlet-name>ContratarSuscripcionServlet</servlet-name>
         <servlet-class>com.mycompany.espotifyweb.ContratarSuscripcionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CrearListaRepServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.CrearListaRepServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>ContratarSuscripcionServlet</servlet-name>
         <url-pattern>/ContratarSuscripcionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CrearListaRepServlet</servlet-name>
+        <url-pattern>/CrearListaRepServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
