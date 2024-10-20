@@ -12,7 +12,11 @@
     <a href="index.jsp">Página Principal</a>
     
     <h1>Alta de Álbum</h1>
+    <c:if test="${not empty errorMessage}">
+        <p id="errorMessage" style="color: red;">${errorMessage}</p>
+    </c:if>
     <form id="albumForm" action="AltaDeAlbumServlet" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
+        <input type="hidden" id='Valido' name='Valido' value="true">  
         <label for="nombreAlbum">Nombre del Álbum:</label>
         <input type="text" id="nombreAlbum" name="nombreAlbum" required title="Ingresa el nombre del álbum"><br>
         <span id="albumExistsMessage" style="color: red;"></span>
@@ -48,6 +52,8 @@
     <script>
             
         let generosSeleccionados = [];
+        var validoField = document.getElementById('Valido');
+        var errorMessageElement = document.getElementById("errorMessage");
 
         function cargarGeneros() {
             fetch('AltaDeAlbumServlet?action=cargarGeneros')
@@ -182,9 +188,12 @@
                 fetch('AltaDeAlbumServlet?action=verificarAlbum&albumName=' + encodeURIComponent(albumName))
                     .then(response => response.text())
                     .then(data => {
+                        errorMessageElement.style.display = "none";
                         if (data === 'exists') {
+                            validoField.value = "false";
                             albumExistsMessage.textContent = 'Este álbum ya existe.';
                         } else {
+                            validoField.value = "true";
                             albumExistsMessage.textContent = '';
                         }
                     })

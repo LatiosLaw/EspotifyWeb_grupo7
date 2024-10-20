@@ -89,7 +89,10 @@ public class AltaDeAlbumServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // Obtener la sesión
+        String validacion = request.getParameter("Valido");
+        
+        if(validacion.equals("true")){
+            // Obtener la sesión
         HttpSession session = request.getSession();
 
         // Leer el nickname desde la sesión
@@ -238,6 +241,10 @@ public class AltaDeAlbumServlet extends HttpServlet {
                 GeneroPersistence.actualizarGenero(new DataGenero(genero), albumes, album);
             }
 
+        }
+        }else{
+            request.setAttribute("errorMessage", "EL NOMBRE DEL ALBUM ESTA REPETIDO.");
+            request.getRequestDispatcher("AltaDeAlbum.jsp").forward(request, response);
         }
     }
 }
