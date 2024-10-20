@@ -42,7 +42,7 @@
         </div>
 
         <% if ("Cliente".equals(userType) || userType == null) { %>
-        <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
+        <a id="consultarListaLink" href="ConsultarListaRep.html">Consultar Lista</a>
         <% } %>
 
         <% if ("Cliente".equals(userType)) { %>
@@ -51,7 +51,6 @@
         <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
         <a id="AgregarTemaListaLink" href="AgregarTemaALista.jsp">Agregar Tema a Lista</a>
         <a id="publicarListaLink" href="PublicarLista.html">Publicar Lista</a>
-        <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripción</a>
         <% } %>
 
