@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import logica.Genero;
+import logica.ListaParticular;
 import logica.ListaPorDefecto;
 import persistencia.DAO_Genero;
 import persistencia.DAO_ListaReproduccion;
@@ -62,6 +63,26 @@ public class ConsultarListaRepServlet extends HttpServlet {
                 break;
 
             case "getListasParticulares":
+                DAO_ListaReproduccion daoListaPart = new DAO_ListaReproduccion();
+                Collection<ListaParticular> listaP = daoListaPart.findAllListasParticulares();
+
+                List<Map<String, Object>> listasParticularesRetornables = new ArrayList<>();
+
+                for (ListaParticular lista : listaP) {
+                    if (lista.getVisibilidad()) {
+                        Map<String, Object> listaMap = new HashMap<>();
+                        listaMap.put("nombre", lista.getNombreLista());
+                        listaMap.put("cliente", lista.getCliente().getNickname());
+                        listaMap.put("imagen", lista.getFoto());
+                        listasParticularesRetornables.add(listaMap);
+                    }
+                }
+
+                // Convertir la lista de listas particulares a JSON
+                Gson gson2 = new Gson();
+                String json2 = gson2.toJson(listasParticularesRetornables);
+                out.write(json2);
+
                 break;
 
             case "getListasPorGenero":
@@ -84,16 +105,13 @@ public class ConsultarListaRepServlet extends HttpServlet {
                     listasRetornables.add(listaMap);
                 }
 
-                Gson gson2 = new Gson();
-                String json2 = gson2.toJson(listasRetornables);
-                out.write(json2);
-                break;
-
-            case "getAllListas":
+                Gson gson3 = new Gson();
+                String json3 = gson3.toJson(listasRetornables);
+                out.write(json3);
                 break;
 
             case "getTemasPorLista":
-                String listaId = request.getParameter("id");
+                String nombreLista = request.getParameter("id");
                 break;
 
             default:
@@ -101,7 +119,7 @@ public class ConsultarListaRepServlet extends HttpServlet {
                 break;
         }
 
-        out.flush(); 
+        out.flush();
     }
 
     @Override
