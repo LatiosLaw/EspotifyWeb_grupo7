@@ -223,8 +223,10 @@ ul{
 
 #cerrarFormLogin{
     border-width: 0 2px 2px 0;
+    border-style: solid;
+    border-color: black;
     background-color: cornflowerblue;
-    padding: 0 6px 3px 6px;
+    padding: 0px 6px 3px 6px;
 }
 
 .tituloFormLogin{
@@ -232,20 +234,20 @@ ul{
     margin-bottom: 10px;
 }
 
-.formLogin{
+#loginForm{
     display: flex;
     flex-direction: column;
 }
 
-.formLogin div{
+#loginForm div{
     margin-bottom: 15px;
 }
 
-.formLogin div label{
+#loginForm div label{
     margin-left: 7%;
 }
 
-.formLogin div input{
+#loginForm div input{
     border-radius: 3px;
     border-width: 2px;
     border-style: solid;

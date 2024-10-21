@@ -81,13 +81,17 @@
             <dialog id="winLogin">
                 <button id="cerrarFormLogin">Cerrar</button>
                 <form id="loginForm" method='post'>
-                    <label for="nickname">Nickname:</label>
-                    <input type="text" id="nickname" name="nickname" required><br>
-
-                    <label for="pass">Contrase?a:</label>
-                    <input type="password" id="pass" name="pass" required><br>
-
-                    <button type="submit">Iniciar Sesi?n</button>
+                    <div>
+                        <label for="nickname">Nickname:</label>
+                        <input type="text" id="nickname" name="nickname" required><br>
+                    </div>
+                    <div>
+                        <label for="pass">Contrase?a:</label>
+                        <input type="password" id="pass" name="pass" required><br>
+                    </div>
+                    <div class="btnsFormLogin">
+                        <button type="submit">Iniciar Sesi?n</button>
+                    </div>
                 </form>
                 <div id="resultado"></div> <!-- Mensajes de resultado -->
             </dialog>
