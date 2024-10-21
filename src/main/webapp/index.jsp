@@ -30,6 +30,7 @@
             // Obtener el tipo de usuario y nickname desde la sesión
             String userType = (String) session.getAttribute("userType");
             String nickname = (String) session.getAttribute("nickname");
+            Boolean suscrito = (Boolean) session.getAttribute("suscrito");
         %>
 
         <div id="userInfo">
@@ -48,10 +49,12 @@
         <% if ("Cliente".equals(userType)) { %>
         <a id="seguirUsuarioLink" href="SeguirUsuario.html">Seguir Usuario</a>
         <a id="dejarDeSeguirLink" href="DejarSeguirUsuario.html">Dejar De Seguir Usuario</a>
-        <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
         <a id="AgregarTemaListaLink" href="AgregarTemaALista.html">Agregar Tema a Lista</a>
         <a id="publicarListaLink" href="PublicarLista.html">Publicar Lista</a>
         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripción</a>
+            <% if (suscrito) { %>       
+            <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
+            <% } %>
         <% } %>
 
         <% if ("Artista".equals(userType)) { %>

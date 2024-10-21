@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import logica.controladores.ControladorCliente;
+import logica.controladores.ControladorSuscripcion;
 import logica.dt.DataErrorBundle;
+import persistencia.DAO_Suscripcion;
 import persistencia.DAO_Usuario;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
@@ -54,13 +56,16 @@ public class LoginServlet extends HttpServlet {
 
         if (resultado.getValor()) {
             DAO_Usuario persistence = new DAO_Usuario();
+            ControladorSuscripcion controladorSus = new ControladorSuscripcion();
             String userType = persistence.findUsuarioByNick(nickname).getDTYPE();
+            Boolean suscrito = controladorSus.isVigente(nickname);
 
             // Guardar el tipo de usuario en la sesión
             HttpSession session = request.getSession();
 
             session.setAttribute("nickname", nickname);
             session.setAttribute("userType", userType);
+            session.setAttribute("suscrito", suscrito);
 
             out.print("{\"success\": true}");
         } else {
