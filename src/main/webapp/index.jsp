@@ -30,6 +30,7 @@
             // Obtener el tipo de usuario y nickname desde la sesión
             String userType = (String) session.getAttribute("userType");
             String nickname = (String) session.getAttribute("nickname");
+            Boolean suscrito = (Boolean) session.getAttribute("suscrito");
         %>
 
         <div id="userInfo">
@@ -42,18 +43,19 @@
         </div>
 
         <% if ("Cliente".equals(userType) || userType == null) { %>
-        <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
+        <a id="consultarListaLink" href="ConsultarListaRep.html">Consultar Lista</a>
         <% } %>
 
         <% if ("Cliente".equals(userType)) { %>
         <a id="seguirUsuarioLink" href="SeguirUsuario.html">Seguir Usuario</a>
         <a id="dejarDeSeguirLink" href="DejarSeguirUsuario.html">Dejar De Seguir Usuario</a>
-        <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
-        <a id="AgregarTemaListaLink" href="AgregarTemaALista.jsp">Agregar Tema a Lista</a>
+        <a id="AgregarTemaListaLink" href="AgregarTemaALista.html">Agregar Tema a Lista</a>
         <a id="publicarListaLink" href="PublicarLista.html">Publicar Lista</a>
-        <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripción</a>
         <a id="actualizarSusLink" href="ActualizarSuscripcion.html">Actualizar Suscripción</a>
+            <% if (suscrito) { %>       
+            <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
+            <% } %>
         <% } %>
 
         <% if ("Artista".equals(userType)) { %>

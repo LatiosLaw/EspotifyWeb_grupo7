@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import logica.Genero;
+import logica.ListaParticular;
 import logica.ListaPorDefecto;
 import persistencia.DAO_Genero;
 import persistencia.DAO_ListaReproduccion;
@@ -42,6 +43,7 @@ public class ConsultarListaRepServlet extends HttpServlet {
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+
         PrintWriter out = response.getWriter();
 
         switch (action) {
@@ -57,54 +59,63 @@ public class ConsultarListaRepServlet extends HttpServlet {
                 // Convertir la lista a JSON
                 Gson gson = new Gson();
                 String json = gson.toJson(generosString);
-
-                response.getWriter().write(json);
+                out.write(json);
                 break;
 
             case "getListasParticulares":
-                //out.print(getListasParticularesAsJson());
+                DAO_ListaReproduccion daoListaPart = new DAO_ListaReproduccion();
+                Collection<ListaParticular> listaP = daoListaPart.findAllListasParticulares();
+
+                List<Map<String, Object>> listasParticularesRetornables = new ArrayList<>();
+
+                for (ListaParticular lista : listaP) {
+                    if (lista.getVisibilidad()) {
+                        Map<String, Object> listaMap = new HashMap<>();
+                        listaMap.put("nombre", lista.getNombreLista());
+                        listaMap.put("cliente", lista.getCliente().getNickname());
+                        listaMap.put("imagen", lista.getFoto());
+                        listasParticularesRetornables.add(listaMap);
+                    }
+                }
+
+                // Convertir la lista de listas particulares a JSON
+                Gson gson2 = new Gson();
+                String json2 = gson2.toJson(listasParticularesRetornables);
+                out.write(json2);
+
                 break;
 
             case "getListasPorGenero":
-    String genero = request.getParameter("genero");
-    if (genero == null || genero.isEmpty()) {
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El género es requerido");
-        return;
-    }
+                String genero = request.getParameter("genero");
+                if (genero == null || genero.isEmpty()) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El género es requerido");
+                    return;
+                }
 
-    DAO_ListaReproduccion daoListaRep = new DAO_ListaReproduccion();
-    Collection<ListaPorDefecto> listas = daoListaRep.findListasPorGeneros(genero);
+                DAO_ListaReproduccion daoListaRep = new DAO_ListaReproduccion();
+                Collection<ListaPorDefecto> listas = daoListaRep.findListasPorGeneros(genero);
 
-    List<Map<String, Object>> listasRetornables = new ArrayList<>();
+                List<Map<String, Object>> listasRetornables = new ArrayList<>();
 
-    for (ListaPorDefecto lista : listas) {
-        Map<String, Object> listaMap = new HashMap<>();
-        listaMap.put("nombre", lista.getNombreLista());
-        listaMap.put("genero", lista.getGenero().getNombre());
-        listaMap.put("imagen", lista.getFoto());
-        listasRetornables.add(listaMap);
-    }
+                for (ListaPorDefecto lista : listas) {
+                    Map<String, Object> listaMap = new HashMap<>();
+                    listaMap.put("nombre", lista.getNombreLista());
+                    listaMap.put("genero", lista.getGenero().getNombre());
+                    listaMap.put("imagen", lista.getFoto());
+                    listasRetornables.add(listaMap);
+                }
 
-    Gson gson2 = new Gson();
-    String json2 = gson2.toJson(listasRetornables);
-
-    response.setContentType("application/json");
-    response.setCharacterEncoding("UTF-8");
-    response.getWriter().write(json2);
-    break;
-
-            case "getAllListas":
-
-                // out.print(getAllListasAsJson());
+                Gson gson3 = new Gson();
+                String json3 = gson3.toJson(listasRetornables);
+                out.write(json3);
                 break;
 
             case "getTemasPorLista":
-                String listaId = request.getParameter("id");
-                // out.print(getTemasPorListaAsJson(listaId)); // Método que devuelve los temas por ID
+                String nombreLista = request.getParameter("id");
                 break;
 
             default:
-                out.print("{\"error\": \"Acción no válida\"}");
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida");
                 break;
         }
 

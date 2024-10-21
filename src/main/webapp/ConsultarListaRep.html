@@ -1,5 +1,3 @@
-<%@ page session="true" %>
-<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -27,50 +25,52 @@
 
         <h1>Consulta de Lista de Reproducción</h1>
 
-        <h2>Listas de Reproducción</h2>
-        <form id="formularioFiltro" action="CrearListaRepServlet" method="get">
+
+        <form id="formularioFiltro" action="ConsultarListaRepServlet" method="get">
             <label for="selectGenero">Selecciona un Género:</label>
             <select id="generos" name="genero">
                 <option value="">Seleccione un género</option>
             </select>
             <button type="submit">Filtrar</button>
+
+            <h2>Listas de Reproducción</h2>
+            <table id="tablaResultados">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Género</th>
+                        <th>Imagen</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <h2>Listas Particulares Públicas</h2>
+            <table id="tablaParticulares">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Cliente</th>
+                        <th>Imagen</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <h2>Temas de la Lista Seleccionada</h2>
+            <table id="tablaTemas" style="display:none;">
+                <thead>
+                    <tr>
+                        <th>Tema</th>
+                        <th>Descargar</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
         </form>
-
-        <table id="tablaResultados">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Género</th>
-                    <th>Imagen</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-
-        <h2>Listas Particulares Públicas</h2>
-        <table id="tablaParticulares">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Cliente</th>
-                    <th>Imagen</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-
-        <h2>Temas de la Lista Seleccionada</h2>
-        <table id="tablaTemas" style="display:none;">
-            <thead>
-                <tr>
-                    <th>Tema</th>
-                    <th>Descargar</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -91,17 +91,17 @@
                             select.innerHTML = ''; // Limpia las opciones
                             select.append(new Option('Seleccione un género', ''));
                             data.forEach(genero => {
-                                select.append(new Option(genero, genero)); // Crear opción con género
+                                select.append(new Option(genero, genero));
                             });
-                            console.log('Géneros cargados:', data); // Log para verificar carga
+                            console.log('Géneros cargados:', data);
                         })
                         .catch(error => console.error('Error al cargar los géneros:', error));
             }
 
             function cargarListasParticulares() {
-                fetch('CrearListaRepServlet?action=getListasParticulares')
+                fetch('ConsultarListaRepServlet?action=getListasParticulares')
                         .then(response => response.json())
-                        .then(data => poblarTablaParticular(data))
+                        .then(data => llenarTablaParticular(data))
                         .catch(error => console.error('Error al cargar listas particulares:', error));
             }
 
@@ -144,9 +144,9 @@
 
             function cargarTemas(listaNombre) {
                 const encodedNombre = encodeURIComponent(listaNombre);
-                fetch(`CrearListaRepServlet?action=getTemasPorLista&nombre=${encodedNombre}`)
+                fetch(`ConsultarListaRepServlet?action=getTemasPorLista&nombre=${encodedNombre}`)
                         .then(response => response.json())
-                        .then(data => poblarTablaTemas(data))
+                        .then(data => llenarTablaTemas(data))
                         .catch(error => console.error('Error al cargar temas:', error));
             }
 

@@ -40,6 +40,10 @@
         <servlet-name>AltaDeListaServlet</servlet-name>
         <servlet-class>com.mycompany.espotifyweb.AltaDeListaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ConsultarListaRepServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.ConsultarListaRepServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>AltaDeListaServlet</servlet-name>
         <url-pattern>/AltaDeListaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConsultarListaRepServlet</servlet-name>
+        <url-pattern>/ConsultarListaRepServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
