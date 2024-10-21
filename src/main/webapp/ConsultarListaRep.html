@@ -25,13 +25,13 @@
 
         <h1>Consulta de Lista de Reproducción</h1>
 
-
-        <form id="formularioFiltro" action="ConsultarListaRepServlet" method="get">
+        <form id="formularioFiltro">
             <label for="selectGenero">Selecciona un Género:</label>
             <select id="generos" name="genero">
                 <option value="">Seleccione un género</option>
             </select>
-            <button type="submit">Filtrar</button>
+            <!-- Cambiado el tipo de botón a 'button' -->
+            <button type="button" onclick="filtrarListas()">Filtrar</button>
 
             <h2>Listas de Reproducción</h2>
             <table id="tablaResultados">
@@ -73,81 +73,99 @@
         </form>
 
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+                document.addEventListener('DOMContentLoaded', function () {
                 cargarGeneros();
                 cargarListasParticulares();
-            });
-
-            function cargarGeneros() {
+                });
+                function cargarGeneros() {
                 fetch('AltaDeAlbumServlet?action=cargarGeneros')
                         .then(response => {
-                            if (!response.ok) {
-                                throw new Error('La respuesta de la red no fue correcta');
-                            }
-                            return response.json();
+                        if (!response.ok) {
+                        throw new Error('La respuesta de la red no fue correcta');
+                        }
+                        return response.json();
                         })
                         .then(data => {
-                            let select = document.getElementById('generos');
-                            select.innerHTML = ''; // Limpia las opciones
-                            select.append(new Option('Seleccione un género', ''));
-                            data.forEach(genero => {
-                                select.append(new Option(genero, genero));
-                            });
-                            console.log('Géneros cargados:', data);
+                        let select = document.getElementById('generos');
+                        select.innerHTML = ''; // Limpia las opciones
+                        select.append(new Option('Seleccione un género', ''));
+                        data.forEach(genero => {
+                        select.append(new Option(genero, genero));
+                        });
+                        console.log('Géneros cargados:', data);
                         })
                         .catch(error => console.error('Error al cargar los géneros:', error));
-            }
+                }
 
-            function cargarListasParticulares() {
+                function cargarListasParticulares() {
                 fetch('ConsultarListaRepServlet?action=getListasParticulares')
                         .then(response => response.json())
                         .then(data => llenarTablaParticular(data))
                         .catch(error => console.error('Error al cargar listas particulares:', error));
-            }
+                }
 
-            function llenarTablaResultados(listas) {
+                function llenarTablaResultados(listas) {
                 const tbody = document.querySelector('#tablaResultados tbody');
                 tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos resultados
 
                 if (listas.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="4">No hay listas disponibles.</td></tr>';
-                    return; // Salir si no hay listas
+                tbody.innerHTML = '<tr><td colspan="4">No hay listas disponibles.</td></tr>';
+                return; // Salir si no hay listas
                 }
 
                 listas.forEach(lista => {
-                    const imagenSrc = lista.imagen ? `imagenes/listas/${lista.imagen}` : 'imagenes/defaultList.png';
-                    tbody.innerHTML += `
+                const imagenSrc = lista.imagen ? lista.imagen : 'imagenes/listas/defaultList.png';
+                tbody.innerHTML += `
                         <tr>
                             <td>${lista.nombre}</td>
                             <td>${lista.genero}</td>
                             <td><img src="${imagenSrc}" alt="${lista.nombre}" width="50"/></td>
-                            <td><button onclick="cargarTemas('${lista.nombre}')">Ver Temas</button></td>
+                            <!-- Cambiado el tipo de botón a 'button' -->
+                            <td><button type="button" onclick="cargarTemas('${lista.nombre}')">Ver Temas</button></td>
                         </tr>`;
                 });
-            }
+                }
 
-            function llenarTablaParticular(listas) {
+                function llenarTablaParticular(listas) {
                 const tbody = document.querySelector('#tablaParticulares tbody');
                 tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos resultados
 
                 listas.forEach(lista => {
-                    const imagenSrc = lista.foto ? lista.foto : 'imagenes/defaultList.png';
-                    tbody.innerHTML += `
+                const imagenSrc = lista.foto ? lista.foto : 'imagenes/listas/defaultList.png';
+                tbody.innerHTML += `
                         <tr data-lista-id="${lista.nombre}">
                             <td>${lista.nombre}</td>
                             <td>${lista.cliente}</td>
                             <td><img src="${imagenSrc}" alt="${lista.nombre}" width="50"/></td>
-                            <td><button onclick="cargarTemas('${lista.nombre}')">Ver Temas</button></td>
+                            <!-- Cambiado el tipo de botón a 'button' -->
+                            <td><button type="button" onclick="cargarTemas('${lista.nombre}')">Ver Temas</button></td>
                         </tr>`;
                 });
             }
 
+            function filtrarListas() {
+                const generoSeleccionado = document.getElementById('generos').value;
+
+                // Lógica para filtrar listas por género
+                fetch(`ConsultarListaRepServlet?action=getListasPorGenero&genero=${encodeURIComponent(generoSeleccionado)}`)
+                    .then(response => response.json())
+                    .then(data => llenarTablaResultados(data))
+                    .catch(error => console.error('Error al filtrar listas:', error));
+            }
+
             function cargarTemas(listaNombre) {
                 const encodedNombre = encodeURIComponent(listaNombre);
-                fetch(`ConsultarListaRepServlet?action=getTemasPorLista&nombre=${encodedNombre}`)
-                        .then(response => response.json())
-                        .then(data => llenarTablaTemas(data))
-                        .catch(error => console.error('Error al cargar temas:', error));
+                fetch(`ConsultarListaRepServlet?action=getTemasPorLista&listaNombre=${encodedNombre}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(text => {
+                                throw new Error(`Error: ${response.status} ${response.statusText}. Detalles: ${text}`);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => llenarTablaTemas(data))
+                    .catch(error => console.error('Error al cargar temas:', error));
             }
 
             function llenarTablaTemas(temas) {
@@ -164,7 +182,10 @@
 
                 document.getElementById('tablaTemas').style.display = 'table';
             }
+            
+            
         </script>
 
     </body>
 </html>
+
