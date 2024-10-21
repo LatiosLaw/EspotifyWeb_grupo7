@@ -53,6 +53,7 @@
         <a id="publicarListaLink" href="PublicarLista.html">Publicar Lista</a>
         <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripción</a>
+        <a id="actualizarSusLink" href="ActualizarSuscripcion.html">Actualizar Suscripción</a>
         <% } %>
 
         <% if ("Artista".equals(userType)) { %>

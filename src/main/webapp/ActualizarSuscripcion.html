@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="estilos.css">
+        <title>Espotify Web</title>
+    </head>
+    <body>
+        
+        <a href="index.jsp">Página Principal</a>
+        
+         <h1>Actualizar Suscripcion</h1>
+        
+         <form id = "actualiSus">
+             <label for="tipo">Tipo de Susvripcion:</label>
+             <label id="tipo">-</label>
+             
+             <label for="ultimaFechaActualizacion">Ultima fecha de actualizacion de estado:</label>
+             <label id="fecha">-</label>
+             
+             <label for="estadoActual">Estado actual:</label>
+             <label id="estado">-</label>
+         </form>
+         
+         <script>
+              function cargarDatosSus() {
+                fetch('http://localhost:8080/EspotifyWeb/ActualizarSusServlet', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error al cargar usuarios');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                    // Verificar si hay datos
+                    if (data.sus.length > 0) {
+                        const suscripcion = data.sus[0]; // Asumimos que solo hay un objeto en el array
+                        document.getElementById('tipo').textContent = suscripcion.tipo;
+                        document.getElementById('estado').textContent = suscripcion.estado;
+                        document.getElementById('fecha').textContent = suscripcion.fecha;
+                    } else {
+                        // Manejar caso de no haber suscripciones
+                        document.getElementById('tipo').textContent = 'No disponible';
+                        document.getElementById('estado').textContent = 'No disponible';
+                        document.getElementById('fecha').textContent = 'No disponible';
+                    }
+                })
+                        .catch(error => {
+                            console.error('Error:', error);
+                           // document.getElementById('usuariosList').innerHTML = '<tr><td colspan="3">Error al cargar usuarios.</td></tr>';
+                        });
+            }
+              window.onload = cargarDatosSus;
+         </script>
+    </body>
+</html>
