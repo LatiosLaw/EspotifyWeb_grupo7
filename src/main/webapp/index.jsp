@@ -1,66 +1,180 @@
-<%@ page session="true" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        <title>Espotify Web</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="estilos.css">
-        <style>
-            /* contenedor del usuario */
-            #userInfo {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                background-color: #f2f2f2;
-                padding: 10px;
-                border-radius: 5px;
-            }
-        </style>
+        <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
+        <link rel="stylesheet" href="estilos.css">
+        <title>Espotify</title>
     </head>
     <body>
+        <div class="cuerpo">
+            <header class="encaPrin">
+                <div>
+                    <a href="" class="EspotifyLogo">
+                        <img src="imagenes/espotify/spotify-logo.png" class="EspotifyIMG">
+                        <h1>Espotify</h1>
+                    </a>
+                </div>
+                <div class="busqueda">
+                    <input type="text" placeholder="Tema, Album, Lista" class="barraBusqueda">
+                    <button class="btnBusqueda">Buscar</button>
+                </div>
+                <div class="userDiv">
+                    <div class="divUserIMG">
+                        <img src="imagenes/espotify/user.png" class="userIMG">
+                    </div>
+                    <ul class="listUser">
+                        <%
+                            String userType = (String) session.getAttribute("userType");
+                            String nickname = (String) session.getAttribute("nickname");
+                        %>
+                        <li class="userName"><p class="name"><%= nickname != null ? nickname : "Visitante"%></p></li>
+                            <% if (nickname == null) { %>
+                        <li><p><button id="abrirFormLogin">Iniciar sesi髇</button></p></li>
+                                    <% } else { %>
+                        <li><p><button id="logoutButton">Cerrar sesi髇</button></p></li>
+                                    <% }%>
+                    </ul>
+                </div>
+            </header>
 
-        <h1>P谩gina Principal</h1>
+            <div class="mainCon">
+                <div class="dinamico"></div>
+                <div class="reproductor">
+                    <div class="temaRep">
+                        <img src="imagenes/espotify/user.png" class="artIMG">
+                        <h3>Nombre Tema</h3>
+                        <h2>Nombre Artista</h2>
+                    </div>
+                    <div class="controlRep">
+                        <audio id="miAudio">
+                            <source id="audioSource" src="temas/DONMAI.mp3" type="audio/mpeg">
+                            Tu navegador no soporta el elemento audio.
+                        </audio>
+                        <div class="tiempoRep">
+                            <div id="progressBar" onmousedown="startAdjustingProgressBar(event)">
+                                <div id="progress"></div>
+                            </div>
+                            <div class="tiempos">
+                                <span id="currentTime">0:00</span><span id="totalTime">0:00</span>
+                            </div>
+                            <div class="volumen">
+                                <button id="muteBtn" onclick="muteVolume()"><img src="imagenes/espotify/volume-on.png"></button>
+                                <button id="unmuteBtn" onclick="unmuteVolume()" style="display: none;"><img src="imagenes/espotify/volume-off.png"></button>
+                                <div id="volumeBar" onmousedown="startAdjustingVolume(event)">
+                                    <div id="volumeLevel"></div>
+                                </div>
+                            </div>
+                            <div class="btnsMedia">
+                                <button id="prevBtn" onclick="prevAudio()"><img src="imagenes/espotify/back-button.png"></button>
+                                <button id="pauseBtn" hidden><img src="imagenes/espotify/pause-button.png"></button>
+                                <button id="playBtn"><img src="imagenes/espotify/play-button.png"></button>
+                                <button id="nextBtn" onclick="nextAudio()"><img src="imagenes/espotify/next-button.png"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <a href="Login.html">Iniciar Sesi贸n</a>
-        <a href="AgregarUsuario.html">Agregar Usuario</a>
+            <!-- Di醠ogo de inicio de sesi髇 -->
+            <dialog id="winLogin">
+                <button id="cerrarFormLogin">Cerrar</button>
+                <form class="formLogin" method='post'>
+                    <label for="nickname">Nickname:</label>
+                    <input type="text" id="nickname" name="nickname" required><br>
 
-        <%
-            // Obtener el tipo de usuario y nickname desde la sesi贸n
-            String userType = (String) session.getAttribute("userType");
-            String nickname = (String) session.getAttribute("nickname");
-            Boolean suscrito = (Boolean) session.getAttribute("suscrito");
-        %>
+                    <label for="pass">Contrase馻:</label>
+                    <input type="password" id="pass" name="pass" required><br>
 
-        <div id="userInfo">
-            <% if (nickname != null) {%>
-            <p>Usuario: <strong><%= nickname%></strong></p>
-            <p>Tipo: <strong><%= userType != null ? userType : "Desconocido"%></strong></p>
-            <% } else { %>
-            <p>Usuario: <strong>Visitante</strong></p>
-            <% } %>
-        </div>
+                    <button type="submit">Iniciar Sesi髇</button>
+                </form>
+            </dialog>
+        </div> <!-- Fin Cuerpo -->
 
-        <% if ("Cliente".equals(userType) || userType == null) { %>
-        <a id="consultarListaLink" href="ConsultarListaRep.html">Consultar Lista</a>
-        <% } %>
+        <!-- Scripts -->
+        <script src="scripts.js"></script>
 
-        <% if ("Cliente".equals(userType)) { %>
-        <a id="seguirUsuarioLink" href="SeguirUsuario.html">Seguir Usuario</a>
-        <a id="dejarDeSeguirLink" href="DejarSeguirUsuario.html">Dejar De Seguir Usuario</a>
-        <a id="AgregarTemaListaLink" href="AgregarTemaALista.html">Agregar Tema a Lista</a>
-        <a id="publicarListaLink" href="PublicarLista.html">Publicar Lista</a>
-        <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripci贸n</a>
-        <a id="actualizarSusLink" href="ActualizarSuscripcion.html">Actualizar Suscripci贸n</a>
-            <% if (suscrito) { %>       
-            <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
-            <% } %>
-        <% } %>
+        <script>
+                                    // Funci髇 para iniciar sesi髇
+                                    function iniciarSesion(event) {
+                                        event.preventDefault(); // Evita que se env韊 el formulario de forma tradicional
 
-        <% if ("Artista".equals(userType)) { %>
-        <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de 脕lbum</a>
-        <% }%>
+                                        const formData = new FormData(event.target);
+                                        const params = new URLSearchParams(formData).toString();
 
+                                        fetch('http://localhost:8080/EspotifyWeb/LoginServlet', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/x-www-form-urlencoded'
+                                            },
+                                            body: params
+                                        })
+                                                .then(response => {
+                                                    if (!response.ok) {
+                                                        throw new Error('Network response was not ok');
+                                                    }
+                                                    return response.json();
+                                                })
+                                                .then(data => {
+                                                    const message = data.success ? "Inicio de sesi髇 exitoso." : "Error al iniciar sesi髇: " + data.errorCode;
+                                                    document.getElementById('resultado').innerText = message;
+                                                    alert(message);
+
+                                                    if (data.success) {
+                                                        window.location.reload(); // Recarga la p醙ina si el inicio fue exitoso
+                                                    }
+                                                })
+                                                .catch(error => {
+                                                    console.error('Error:', error);
+                                                    const errorMessage = "Error al intentar iniciar sesi髇.";
+                                                    document.getElementById('resultado').innerText = errorMessage;
+                                                    alert(errorMessage);
+                                                });
+                                    }
+
+                                    // Funci髇 para cerrar sesi髇
+                                    function cerrarSesion() {
+                                        fetch('http://localhost:8080/EspotifyWeb/CerrarSesionServlet', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                                .then(response => {
+                                                    if (!response.ok) {
+                                                        throw new Error('Network response was not ok');
+                                                    }
+                                                    return response.json();
+                                                })
+                                                .then(data => {
+                                                    const message = data.success ? data.message : "Error al cerrar sesi髇.";
+                                                    document.getElementById('resultado').innerText = message;
+                                                    alert(message);
+
+                                                    if (data.success) {
+                                                        window.location.reload(); // Recarga la p醙ina si el cierre fue exitoso
+                                                    }
+                                                })
+                                                .catch(error => {
+                                                    console.error('Error:', error);
+                                                    const errorMessage = "Error al intentar cerrar sesi髇.";
+                                                    document.getElementById('resultado').innerText = errorMessage;
+                                                    alert(errorMessage);
+                                                });
+                                    }
+
+                                    // Configuraci髇 de eventos
+                                    document.getElementById('abrirFormLogin')?.addEventListener('click', function () {
+                                        document.getElementById('winLogin').showModal();
+                                    });
+
+                                    document.getElementById('cerrarFormLogin')?.addEventListener('click', function () {
+                                        document.getElementById('winLogin').close();
+                                    });
+
+                                    document.getElementById('loginForm')?.addEventListener('submit', iniciarSesion);
+                                    document.getElementById('logoutButton')?.addEventListener('click', cerrarSesion);
+        </script>
     </body>
 </html>

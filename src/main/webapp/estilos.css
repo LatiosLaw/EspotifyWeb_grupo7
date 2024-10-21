@@ -1,155 +1,559 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    padding: 20px;
+*{
+    padding: 0;
     margin: 0;
+    font-family: cursive;
+    text-decoration: none;
+    color: black;
+    /*background-color: white;*/
 }
 
-h1 {
-    color: #333;
+.cuerpo{
+    position: absolute;
+    background-color: rgb(218, 76, 211);
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+
+button{
+    cursor: pointer;
+    background: none;
+    font: inherit;
+    padding: 2px;
+}
+
+input{
+    font: inherit;
+}
+
+ul{
+    list-style: none;
+}
+
+.encaPrin{
+    display: block;
+    position: relative;
+    align-items: center;
+    background-color: blueviolet;
+}
+
+.EspotifyLogo{
+    display: flex;
+    align-items: center;
+}
+
+.busqueda{
+    display: flex;
+    background-color: brown;
+}
+
+.barraBusqueda{
+    width: 100%;
+    padding-left: 5px;
+    border-radius: 3px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: black;
+}
+
+.btnBusqueda{
+    margin-left: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 3px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: black;
+    box-shadow: 3px 3px black;
+}
+
+.userDiv{
+    display: flex;
+    position: absolute;
+    right: 0;
+    align-items: center;
+}
+
+.userIMG{
+    width: 65px;
+    margin-right: 20px;
+}
+
+.userName{
+    display: flex;
+    align-items: center;
+}
+
+.userName p{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.name{
+    margin-right: 5px;
+}
+
+.userFav{
+    display: flex;
+    align-items: center;
+}
+
+.favIMG{
+    width: 18px;
+    margin-right: 5px;
+    float: left;
+}
+
+#abrirFormLogin, #logoutButton{
+    border: 0px none;
+    padding: 0;
+}
+
+.mainCon{
+    position: relative;
+    width: 100%;
+    height: 75%;
+    display: flex;
+    justify-content: center;
+}
+
+.dinamico{
+    position: absolute;
+    background-color: chartreuse;
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
+    overflow-y: auto;
+}
+
+.reproductor{
+    position: absolute;
+    background-color: springgreen;
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
+}
+
+.temaRep{
+    position: relative;
     text-align: center;
 }
 
-h2 {
-    color: #333;
-    margin-top: 20px;
+.temaRep h2{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-a {
-    display: inline-block;
-    margin: 10px 0;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: white;
-    background-color: #007bff;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+.temaRep h3{
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 
-a:hover {
-    background-color: #0056b3;
-}
-
-a:visited {
-    background-color: #6c757d;
-}
-
-a:active {
-    background-color: #004085;
-}
-
-form {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: auto;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #555;
-}
-
-input[type="text"],
-input[type="number"],
-input[type="file"],
-input[type="password"],
-button {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-}
-
-input[type="text"]:focus,
-input[type="number"]:focus {
-    border-color: #007bff;
-    outline: none;
-}
-
-button {
-    background-color: #007bff;
-    color: white;
+#progressBar{
+    background-color: red;
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 3px;
+    border-color: black;
+    position: relative;
     cursor: pointer;
-    border: none;
 }
 
-button:hover {
-    background-color: #0056b3;
+#progress{
+    height: 100%;
+    background-color: aqua;
+    width: 0;
 }
 
-button[type="button"] {
-    background-color: #28a745;
+.tiempos{
+    position: relative;
+    display: block;
 }
 
-button[type="button"]:hover {
-    background-color: #218838;
+#currentTime{
+    position: absolute;
+    left: 0;
 }
 
-/* Estilos para tablas */
-table {
-    width: 100%;
-    border-collapse: collapse;
+#totalTime{
+    position: absolute;
+    right: 0;
 }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+.btnsMedia{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    bottom: 0;
 }
 
-th {
-    background-color: #f2f2f2;
+.btnsMedia button{
+    overflow: hidden;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
 }
 
-tr:hover {
-    background-color: #f5f5f5;
+#muteBtn, #unmuteBtn{
+    overflow: hidden;
+    display: flex;
+    position: absolute;
+    border-style: none;
+    border-radius: 50%;
 }
 
-/* Estilos para botones dentro de la tabla */
-td button {
-    max-width: 150px;
-    padding: 8px 12px;
-    margin: 0;
+#muteBtn img, #unmuteBtn img{
+    width: 30px;
 }
 
-/* Estilos para mensajes de resultado */
-div#resultado {
-    margin-top: 20px;
-    font-weight: bold;
+#winLogin{
+    background-color: tomato;
+    place-self: center;
+    
+    margin-bottom: 225px;
 }
 
-select {
-    width: calc(100% - 20px);
+#winLogin::backdrop{
+    background-color: rgba(0, 0, 0, 0.33);
+}
+
+#cerrarFormLogin{
+    border-width: 0 2px 2px 0;
+    background-color: cornflowerblue;
+    padding: 0 6px 3px 6px;
+}
+
+.tituloFormLogin{
+    text-align: center;
     margin-bottom: 10px;
 }
-#selectedGeneros {
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: calc(100% - 20px);
-    margin-bottom: 15px;
-    background-color: #f9f9f9;
-    color: black;
-    font-size: 16px;
-    cursor: pointer;
+
+.formLogin{
+    display: flex;
+    flex-direction: column;
 }
-.genero-item {
-    display: inline-block;
-    background-color: #d1e7dd;
-    border: 1px solid #0f5132;
-    border-radius: 5px;
-    padding: 5px 10px;
-    margin: 5px;
-    cursor: pointer;
-}
-.tema {
+
+.formLogin div{
     margin-bottom: 15px;
-    border: 1px solid #ccc;
-    padding: 10px;
+}
+
+.formLogin div label{
+    margin-left: 7%;
+}
+
+.formLogin div input{
+    border-radius: 3px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+    width: 90%;
+    box-sizing: border-box;
+    margin-left: 5%;
+    padding: 2px 0px 2px 5px;
+}
+
+.btnsFormLogin{
+    text-align: center;
+}
+
+.btnsFormLogin button{
+    border-style: solid;
+    border-color: black;
+    border-radius: 3px;
+    border-width: 2px;
+    background-color: cornflowerblue;
+    padding: 2px 7px 2px 7px;
+}
+
+#volumeBar{
+    width: 70%;
+    margin-top: 10px;
+    height: 5px;
+    background: #dddd08;
     border-radius: 5px;
+    cursor: pointer;
+    float: right;
+    border: 2px solid;
+}
+
+#volumeLevel{
+    height: 100%;
+    width: 50%; /* Inicializa en 50% */
+    background: #ff760c;
+    border-radius: 5px;
+    max-width: 100%;
+}
+
+/*Resolucion de telefono*/
+@media (max-width: 960px){
+    .encaPrin{
+        display: block;
+        padding-bottom: 75px;
+        margin: 20px;
+    }
+
+    .EspotifyLogo{
+        width: 0;
+    }
+
+    .EspotifyIMG{
+        width: 10vw;
+        margin-right: 2vw;
+    }
+
+    .EspotifyLogo h1{
+        font-size: 6vw;
+    }
+
+    .busqueda{
+        margin-top: 40px;
+        float: right;
+        margin-right: 20px;
+        width: 80%;
+    }
+
+    .userDiv{
+        top: 0;
+        right: 0;
+    }
+
+    .userIMG{
+        width: 10vw;
+    }
+
+    .listUser p{
+        font-size: 2.5vw;
+    }
+
+    .userName p{
+        max-width: 16vw;
+    }
+
+    .favIMG{
+        width: 3vw;
+    }
+
+    .dinamico{
+        height: 50%;
+        bottom: 0;
+        width: 80vw;
+    }
+
+    .reproductor{
+        top: 0;
+        width: 80vw;
+        align-items: center;
+        display: flex;
+    }
+
+    .temaRep{
+        display: inline-block;
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .temaRep h2{
+        font-size: 4vw;
+        max-width: 30.7vw;
+    }
+
+    .temaRep h3{
+        font-size: 3vw;
+        max-width: 30.7vw;
+    }
+
+    .artIMG{
+        width: 15vw;
+    }
+
+    .controlRep{
+        display: inline-block;
+        position: absolute;
+        right: 0;
+        width: 50%;
+        margin-top: -30px;
+    }
+
+    .tiempoRep{
+        margin-right: 20px;
+        margin-left: 20px;
+    }
+
+    #progressBar{
+        height: 15px;
+        margin-top: -3vw;
+    }
+
+    #currentTime{
+        font-size: 13px;
+    }
+
+    .tiempos{
+        margin-bottom: 20px;
+    }
+
+    #totalTime{
+        font-size: 13px;
+    }
+
+    .btnsMedia{
+        margin-top: 60px;
+    }
+
+    .btnsMedia button{
+        background-color: black;
+        border-style: solid;
+        border-radius: 3px;
+    }
+
+    #prevBtn{
+        left: 10px;
+    }
+
+    #nextBtn{
+        right: 10px;
+    }
+
+    #prevBtn img{
+        width: 4.5vw;
+    }
+
+    #playBtn img{
+        width: 6vw;
+    }
+
+    #pauseBtn img{
+        width: 6vw;
+    }
+
+    #nextBtn img{
+        width: 4.5vw;
+    }
+
+    #muteBtn img, #unmuteBtn img{
+        width: 30px;
+    }
+
+    #volumeBar{
+        height: 5px;
+    }
+}
+
+/*Resolucion de pc*/
+@media (min-width: 960px){
+    .encaPrin{
+        display: flex;
+        margin: 40px;
+    }
+
+    .EspotifyIMG{
+        width: 65px;
+        margin-right: 20px;
+    }
+
+    .busqueda{
+        margin-left: 10%;
+        width: 30%;
+    }
+
+    .userIMG{
+        margin-top: 5px;
+    }
+
+    .userName p{
+        max-width: 100px;
+    }
+
+    .dinamico{
+        display: inline-block;
+        left: 10%;
+        width: 50%;
+        height: 600px;
+    }
+
+    .reproductor{
+        display: inline-block;
+        right: 0;
+        margin-right: 50px;
+        height: 600px;
+        padding-right: 40px;
+        padding-left: 40px;
+    }
+
+    .temaRep{
+        margin-top: 35px;
+        display: block;
+    }
+
+    .temaRep h2{
+        font-size: 20px;
+        max-width: 198px;
+    }
+
+    .temaRep h3{
+        font-size: 18px;
+        max-width: 198px;
+    }
+
+    .artIMG{
+        width: 200px;
+        margin-bottom: 10px;
+    }
+
+    .controlRep{
+        margin-top: 30px;
+        justify-content: center;
+        display: block;
+    }
+
+    #progressBar{
+        height: 20px;
+    }
+
+    .tiempos{
+        margin-bottom: 30px;
+    }
+
+    .btnsMedia{
+        margin-top: 80px;
+    }
+
+    .btnsMedia button{
+        border-radius: 50%;
+        border-style: none;
+    }
+
+    #prevBtn{
+        left: 0;
+    }
+
+    #nextBtn{
+        right: 0;
+    }
+    
+    #prevBtn img{
+        width: 60px;
+    }
+    
+    #playBtn img{
+        width: 65px;
+    }
+    
+    #pauseBtn img{
+        width: 65px;
+    }
+    
+    #nextBtn img{
+        width: 60px;
+    }
+
+    #volumeBar{
+        height: 10px;
+    }
 }
