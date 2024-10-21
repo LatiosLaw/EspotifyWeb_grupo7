@@ -31,9 +31,9 @@
                         %>
                         <li class="userName"><p class="name"><%= nickname != null ? nickname : "Visitante"%></p></li>
                             <% if (nickname == null) { %>
-                        <li><p><button id="abrirFormLogin">Iniciar sesión</button></p></li>
+                        <li><p><button id="abrirFormLogin">Iniciar sesi?n</button></p></li>
                                     <% } else { %>
-                        <li><p><button id="logoutButton">Cerrar sesión</button></p></li>
+                        <li><p><button id="logoutButton">Cerrar sesi?n</button></p></li>
                                     <% }%>
                     </ul>
                 </div>
@@ -49,7 +49,7 @@
                     </div>
                     <div class="controlRep">
                         <audio id="miAudio">
-                            <source id="audioSource" src="audio1.mp3" type="audio/mpeg">
+                            <source id="audioSource" src="temas/DONMAI.mp3" type="audio/mpeg">
                             Tu navegador no soporta el elemento audio.
                         </audio>
                         <div class="tiempoRep">
@@ -77,17 +77,17 @@
                 </div>
             </div>
 
-            <!-- Diálogo de inicio de sesión -->
+            <!-- Di?logo de inicio de sesi?n -->
             <dialog id="winLogin">
                 <button id="cerrarFormLogin">Cerrar</button>
                 <form id="loginForm" method='post'>
                     <label for="nickname">Nickname:</label>
                     <input type="text" id="nickname" name="nickname" required><br>
 
-                    <label for="pass">Contraseña:</label>
+                    <label for="pass">Contrase?a:</label>
                     <input type="password" id="pass" name="pass" required><br>
 
-                    <button type="submit">Iniciar Sesión</button>
+                    <button type="submit">Iniciar Sesi?n</button>
                 </form>
                 <div id="resultado"></div> <!-- Mensajes de resultado -->
             </dialog>
@@ -97,9 +97,9 @@
         <script src="scripts.js"></script>
 
         <script>
-                                    // Función para iniciar sesión
+                                    // Funci?n para iniciar sesi?n
                                     function iniciarSesion(event) {
-                                        event.preventDefault(); // Evita que se envíe el formulario de forma tradicional
+                                        event.preventDefault(); // Evita que se env?e el formulario de forma tradicional
 
                                         const formData = new FormData(event.target);
                                         const params = new URLSearchParams(formData).toString();
@@ -118,23 +118,23 @@
                                                     return response.json();
                                                 })
                                                 .then(data => {
-                                                    const message = data.success ? "Inicio de sesión exitoso." : "Error al iniciar sesión: " + data.errorCode;
+                                                    const message = data.success ? "Inicio de sesi?n exitoso." : "Error al iniciar sesi?n: " + data.errorCode;
                                                     document.getElementById('resultado').innerText = message;
                                                     alert(message);
 
                                                     if (data.success) {
-                                                        window.location.reload(); // Recarga la página si el inicio fue exitoso
+                                                        window.location.reload(); // Recarga la p?gina si el inicio fue exitoso
                                                     }
                                                 })
                                                 .catch(error => {
                                                     console.error('Error:', error);
-                                                    const errorMessage = "Error al intentar iniciar sesión.";
+                                                    const errorMessage = "Error al intentar iniciar sesi?n.";
                                                     document.getElementById('resultado').innerText = errorMessage;
                                                     alert(errorMessage);
                                                 });
                                     }
 
-                                    // Función para cerrar sesión
+                                    // Funci?n para cerrar sesi?n
                                     function cerrarSesion() {
                                         fetch('http://localhost:8080/EspotifyWeb/CerrarSesionServlet', {
                                             method: 'POST',
@@ -149,23 +149,23 @@
                                                     return response.json();
                                                 })
                                                 .then(data => {
-                                                    const message = data.success ? data.message : "Error al cerrar sesión.";
+                                                    const message = data.success ? data.message : "Error al cerrar sesi?n.";
                                                     document.getElementById('resultado').innerText = message;
                                                     alert(message);
 
                                                     if (data.success) {
-                                                        window.location.reload(); // Recarga la página si el cierre fue exitoso
+                                                        window.location.reload(); // Recarga la p?gina si el cierre fue exitoso
                                                     }
                                                 })
                                                 .catch(error => {
                                                     console.error('Error:', error);
-                                                    const errorMessage = "Error al intentar cerrar sesión.";
+                                                    const errorMessage = "Error al intentar cerrar sesi?n.";
                                                     document.getElementById('resultado').innerText = errorMessage;
                                                     alert(errorMessage);
                                                 });
                                     }
 
-                                    // Configuración de eventos
+                                    // Configuraci?n de eventos
                                     document.getElementById('abrirFormLogin')?.addEventListener('click', function () {
                                         document.getElementById('winLogin').showModal();
                                     });
