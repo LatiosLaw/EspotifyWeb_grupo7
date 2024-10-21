@@ -49,7 +49,7 @@
                     </div>
                     <div class="controlRep">
                         <audio id="miAudio">
-                            <source id="audioSource" src="temas/DONMAI.mp3" type="audio/mpeg">
+                            <source id="audioSource" src="audio1.mp3" type="audio/mpeg">
                             Tu navegador no soporta el elemento audio.
                         </audio>
                         <div class="tiempoRep">
@@ -80,7 +80,7 @@
             <!-- Diálogo de inicio de sesión -->
             <dialog id="winLogin">
                 <button id="cerrarFormLogin">Cerrar</button>
-                <form class="formLogin" method='post'>
+                <form id="loginForm" method='post'>
                     <label for="nickname">Nickname:</label>
                     <input type="text" id="nickname" name="nickname" required><br>
 
@@ -89,6 +89,7 @@
 
                     <button type="submit">Iniciar Sesión</button>
                 </form>
+                <div id="resultado"></div> <!-- Mensajes de resultado -->
             </dialog>
         </div> <!-- Fin Cuerpo -->
 
