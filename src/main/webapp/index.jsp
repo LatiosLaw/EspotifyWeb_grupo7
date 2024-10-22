@@ -30,10 +30,10 @@
                             String nickname = (String) session.getAttribute("nickname");
                         %>
                         <li class="userName"><p class="name"><%= nickname != null ? nickname : "Visitante"%></p></li>
-                        <li class="userFav"><a href=""><img src="imagenes/espotify/star.png" class="favIMG"></a><p><a href="">Favoritos</a></p></li>
                             <% if (nickname == null) { %>
                         <li><p><button id="abrirFormLogin">Iniciar sesi?n</button></p></li>
                                     <% } else { %>
+                        <li class="userFav"><a href=""><img src="imagenes/espotify/star.png" class="favIMG"></a><p><a href="">Favoritos</a></p></li> 
                         <li><p><button id="logoutButton">Cerrar sesi?n</button></p></li>
                                     <% }%>
                     </ul>
