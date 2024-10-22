@@ -80,7 +80,7 @@
             <!-- Di?logo de inicio de sesi?n -->
             <dialog id="winLogin">
                 <button id="cerrarFormLogin">Cerrar</button>
-                <form id="loginForm" method='post'>
+                <form id="loginForm" method='post, dialog'>
                     <div>
                         <label for="nickname">Nickname:</label>
                         <input type="text" id="nickname" name="nickname" required><br>
