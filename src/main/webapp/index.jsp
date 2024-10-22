@@ -21,13 +21,14 @@
     </head>
     <body>
 
-        <h1>Página Principal</h1>
+        <h1>Pagina Principal</h1>
 
-        <a href="Login.html">Iniciar Sesión</a>
+        <a href="Login.html">Iniciar Sesion</a>
         <a href="AgregarUsuario.html">Agregar Usuario</a>
+        <a href="ConsultarUsuario.html">Consultar Usuario</a>
 
         <%
-            // Obtener el tipo de usuario y nickname desde la sesión
+            // Obtener el tipo de usuario y nickname desde la sesion
             String userType = (String) session.getAttribute("userType");
             String nickname = (String) session.getAttribute("nickname");
             Boolean suscrito = (Boolean) session.getAttribute("suscrito");
@@ -51,15 +52,15 @@
         <a id="dejarDeSeguirLink" href="DejarSeguirUsuario.html">Dejar De Seguir Usuario</a>
         <a id="AgregarTemaListaLink" href="AgregarTemaALista.html">Agregar Tema a Lista</a>
         <a id="publicarListaLink" href="PublicarLista.html">Publicar Lista</a>
-        <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripción</a>
-        <a id="actualizarSusLink" href="ActualizarSuscripcion.html">Actualizar Suscripción</a>
+        <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
+        <a id="actualizarSusLink" href="ActualizarSuscripcion.html">Actualizar Suscripcion</a>
             <% if (suscrito) { %>       
             <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
             <% } %>
         <% } %>
 
         <% if ("Artista".equals(userType)) { %>
-        <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Álbum</a>
+        <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
         <% }%>
 
     </body>
