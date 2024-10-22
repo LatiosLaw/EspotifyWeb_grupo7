@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Album</title>
+    <link rel="stylesheet" type="text/css" href="estilos.css">
+</head>
+<body>
+    
+    <a href="index.jsp">Página Principal</a>
+    
+    <h1>Consultar Album</h1>
+
+    <h2>Filtrar Albumes Por:</h2>
+  <select id="opciones" name="opciones">
+      <option value="nada">Seleccione...</option>
+    <option value="genero">Genero</option>
+    <option value="artista">Artista</option>
+  </select>
+    
+    <table id="filtroTable">
+            <thead>
+                <tr>
+                    <th>Nombre del Genero / Artista</th>
+                    <td>Accion</td>
+                </tr>
+            </thead>
+            <tbody id="filtroBody">
+                <!-- aca se carga la lista -->
+            </tbody>
+        </table>
+    
+        <h2>Albumes del Artista / Genero:</h2>
+    <table id="albumTable">
+            <thead>
+                <tr>
+                    <th>Album</th>
+                    <td>Accion</td>
+                </tr>
+            </thead>
+            <tbody id="albumBody">
+                <!-- aca se carga la lista -->
+            </tbody>
+        </table>
+    
+    <h2>Informacion del Album</h2>
+    <input type="text" id="nombrealbum" value="" readonly>
+    <input type="text" id="anioalbum" value="" readonly>
+    <input type="text" id="creadoralbum" value="" readonly>
+    <h3>Temas del Album</h3>
+    <table id="temasTable">
+            <thead>
+                <tr>
+                    <th>Nombre del Tema</th>
+                    <th>Duracion</th>
+                    <th>Accion</th>
+                </tr>
+            </thead>
+            <tbody id="temasBody">
+                <!-- aca se carga la lista -->
+            </tbody>
+        </table>
+    
+    <script>
+            document.getElementById('opciones').addEventListener('change', function() {
+            const selectedValue = this.value;
+
+            // Ejecutar diferentes funciones dependiendo de la opción seleccionada
+            if (selectedValue === 'genero') {
+                manejarGenero();
+            } else if (selectedValue === 'artista') {
+                manejarArtista();
+            }
+            });
+            
+            function manejarGenero() {
+                fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=cargarGeneros')
+                        .then(response => response.json())
+                        .then(data => {
+                            const tbody = document.getElementById('filtroBody');
+                            tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                            data.forEach(genero => {
+                                const row = `<tr><td>${genero.nombre}</td><td><button onclick="buscarAlbumGenero(this)">Buscar Albumes</button></td></tr>`;
+                                tbody.innerHTML += row;
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar listas:', error));
+                // Lógica para manejar la opción 'Álbum'
+            }
+            
+            function manejarArtista() {
+                fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=cargarArtistas')
+                        .then(response => response.json())
+                        .then(data => {
+                            const tbody = document.getElementById('filtroBody');
+                            tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                            data.forEach(artista => {
+                                const row = `<tr><td>${artista.nombre}</td><td><button onclick="buscarAlbumArtista(this)">Buscar Albumes</button></td></tr>`;
+                                tbody.innerHTML += row;
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar artistas:', error));
+                // Lógica para manejar la opción 'Álbum'
+            }
+            
+            function buscarAlbumArtista(boton){
+                  // Obtener la fila del botón
+    const fila = boton.parentElement.parentElement;  
+    // Obtener el texto del primer 'td' (primer campo de la fila)
+    const primerCampo = fila.querySelector('td').innerText;
+    fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=cargarAlbumsArtistas&artistaName=' + encodeURIComponent(primerCampo))
+                        .then(response => response.json())
+                        .then(data => {
+                            const tbody = document.getElementById('albumBody');
+                            tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                            data.forEach(album => {
+                                const row = `<tr><td>${album.nombre}</td><td><button onclick="SuccionarInformacion(this)">Ver Informacion</button></td></tr>`;
+                                tbody.innerHTML += row;
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar album del artista:', error));
+            }
+            
+            function buscarAlbumGenero(boton){
+                                  // Obtener la fila del botón
+    const fila = boton.parentElement.parentElement;  
+    // Obtener el texto del primer 'td' (primer campo de la fila)
+    const primerCampo = fila.querySelector('td').innerText;
+    fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=cargarAlbumsGeneros&generoName=' + encodeURIComponent(primerCampo))
+                        .then(response => response.json())
+                        .then(data => {
+                            const tbody = document.getElementById('albumBody');
+                            tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                            data.forEach(album => {
+                                const row = `<tr><td>${album.nombre}</td><td><button onclick="SuccionarInformacion(this)">Ver Informacion</button></td></tr>`;
+                                tbody.innerHTML += row;
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar album del genero:', error));
+            }
+            
+            function SuccionarInformacion(boton){
+                const fila = boton.parentElement.parentElement;  
+    // Obtener el texto del primer 'td' (primer campo de la fila)
+    const primerCampo = fila.querySelector('td').innerText;
+    fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
+                        .then(response => response.json())
+                        .then(data => {
+                            const tbody = document.getElementById('temasBody');
+                            tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                            data.forEach(tema => {
+                                const row = `<tr><td>${tema.nombre}</td><td>${tema.duracion}</td><td><button onclick="DescargarTema(this)">Descargar</button></td></tr>`;
+                                tbody.innerHTML += row;
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar temas del album:', error));
+ 
+ var NOMBREALBUM = document.getElementById('nombrealbum');
+        var ANIOALBUM = document.getElementById('anioalbum');
+        var CREADORALBUM = document.getElementById('creadoralbum');
+        
+ fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverInformacionAlbum&albumName=' + encodeURIComponent(primerCampo))
+                        .then(response => response.json())
+                        .then(data => {
+                            data.forEach(album => {
+                                NOMBREALBUM.value=album.nombre;
+                        ANIOALBUM.value=album.anio;
+                        CREADORALBUM.value=album.creador;
+                            });
+                        })
+                        .catch(error => console.error('Error al datos del album:', error));
+                
+            }
+            
+            function DescargarTema(boton){
+                
+            }
+            
+    </script>
+
+</body>
+</html>

@@ -45,6 +45,7 @@
 
         <% if ("Cliente".equals(userType) || userType == null) { %>
         <a id="consultarListaLink" href="ConsultarListaRep.html">Consultar Lista</a>
+        <a id="consultarAlbumLink" href="ConsultarAlbum.html">Consultar Album</a>
         <% } %>
 
         <% if ("Cliente".equals(userType)) { %>
