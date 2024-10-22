@@ -106,6 +106,7 @@ public class ConsultarListaRepServlet extends HttpServlet {
                 listaMap.put("cliente", lista.getCliente().getNickname());
                 listaMap.put("imagen", lista.getFoto());
                 listasParticularesRetornables.add(listaMap);
+                System.out.println(listaMap.get("imagen"));
             }
         }
 
@@ -126,6 +127,7 @@ public class ConsultarListaRepServlet extends HttpServlet {
             listaMap.put("genero", lista.getGenero().getNombre());
             listaMap.put("imagen", lista.getFoto());
             listasRetornables.add(listaMap);
+            System.out.println(listaMap.get("imagen"));
         }
 
         Gson gson3 = new Gson();
