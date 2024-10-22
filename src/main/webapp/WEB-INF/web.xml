@@ -17,6 +17,10 @@
         <servlet-class>com.mycompany.espotifyweb.AgregarUsuarioServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ConsultarAlbumServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.ConsultarAlbumServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AgregarTemaAListaServlet</servlet-name>
         <servlet-class>com.mycompany.espotifyweb.AgregarTemaAListaServlet</servlet-class>
     </servlet>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>CerrarSesionServlet</servlet-name>
         <url-pattern>/CerrarSesionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConsultarAlbumServlet</servlet-name>
+        <url-pattern>/ConsultarAlbumServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AgregarUsuarioServlet</servlet-name>
