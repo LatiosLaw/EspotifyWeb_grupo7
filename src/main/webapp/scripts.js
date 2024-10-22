@@ -28,7 +28,7 @@ const nextBtn = document.getElementById('nextBtn');
 const currentTimeDisplay = document.getElementById('currentTime');
 const totalTimeDisplay = document.getElementById('totalTime');
 
-const audioFiles = ['audio1.mp3', 'audio2.mp3', 'audio3.mp3']; //Necesita conocer la lista de los audios para que funcionen los botones de back y next, y para que se reproduzca el siguiente audio al terminar de ser reproducido el actual
+const audioFiles = ['temas/DONMAI.mp3', 'temas/audio1.mp3', 'temas/audio2.mp3', 'temas/audio3.mp3']; //Necesita conocer la lista de los audios para que funcionen los botones de back y next, y para que se reproduzca el siguiente audio al terminar de ser reproducido el actual
 let currentAudioIndex = 0;
 
 let previousVolume = 0.5; // Almacena el volumen anterior
