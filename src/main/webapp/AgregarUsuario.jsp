@@ -8,7 +8,7 @@
     </head>
     <body>
 
-        <a href="index.jsp">Página Principal</a>
+        <a href="index.jsp">Pagina Principal</a>
 
         <h1>Alta de Usuario</h1>
 
