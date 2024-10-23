@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import logica.Album;
 import logica.Usuario;
 import logica.controladores.ControladorArtista;
 import logica.controladores.ControladorCliente;
@@ -35,31 +34,67 @@ public class AgregarUsuarioServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("\n-----Agregar Usuario Servlet-----");
         String action = request.getParameter("action");
         
         if ("verificarNickname".equals(action)) {
-            DAO_Usuario persistence = new DAO_Usuario();
-            
-            String Nickname = request.getParameter("Nickname");
-                Usuario usr = persistence.findUsuarioByNick(Nickname);
+            String username = request.getParameter("Nickname");
 
-                if (usr != null) {
-                    response.getWriter().write("exists");
-                } else {
-                    response.getWriter().write("available");
-                }
-        }else if ("verificarCorreo".equals(action)){
-            DAO_Usuario persistence = new DAO_Usuario();
-            
-            String correoName = request.getParameter("correoName");
-                Usuario usr = persistence.findUsuarioByMail(correoName);
+        // Aquí iría la lógica para verificar si el usuario existe
+        boolean isAvailable = checkNicknameAvailability(username);
 
-                if (usr != null) {
-                    response.getWriter().write("exists");
-                } else {
-                    response.getWriter().write("available");
-                }
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
+        if (isAvailable) {
+            out.print("Nickname is available");
+        } else {
+            out.print("Nickname is already taken");
         }
+        out.close();
+        }else if ("verificarCorreo".equals(action)){
+            String username = request.getParameter("correoName");
+
+        // Aquí iría la lógica para verificar si el usuario existe
+        boolean isAvailable = checkUCorreoAvailability(username);
+
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
+        if (isAvailable) {
+            out.print("Mail is available");
+        } else {
+            out.print("Mail is already taken");
+        }
+        out.close();
+        }
+        
+    }
+    
+    private boolean checkNicknameAvailability(String username) {
+        // Aquí deberías realizar la consulta a la base de datos.
+        // Por ejemplo:
+        // return !userDao.isUsernameTaken(username);
+
+        // Simulación de base de datos (ejemplo)
+        DAO_Usuario usr = new DAO_Usuario();
+        Usuario usuario = usr.findUsuarioByNick(username);
+            if (usuario!=null) {
+                return false;
+            }
+        return true;
+    }
+    
+    private boolean checkUCorreoAvailability(String correo) {
+        // Aquí deberías realizar la consulta a la base de datos.
+        // Por ejemplo:
+        // return !userDao.isUsernameTaken(username);
+
+        // Simulación de base de datos (ejemplo)
+        DAO_Usuario usr = new DAO_Usuario();
+        Usuario usuario = usr.findUsuarioByMail(correo);
+            if (usuario!=null) {
+                return false;
+            }
+        return true;
     }
 
     @Override
