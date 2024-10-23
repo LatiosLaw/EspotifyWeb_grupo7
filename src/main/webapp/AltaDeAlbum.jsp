@@ -18,7 +18,7 @@
     <form id="albumForm" action="AltaDeAlbumServlet" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
         <input type="hidden" id='Valido' name='Valido' value="true">  
         <label for="nombreAlbum">Nombre del Álbum:</label>
-        <input type="text" id="nombreAlbum" name="nombreAlbum" required title="Ingresa el nombre del álbum"><br>
+        <input type="text" id="nombreAlbum" name="nombreAlbum" onkeyup="checkAlbum()" required title="Ingresa el nombre del álbum"><br>
         <span id="albumExistsMessage" style="color: red;"></span>
 
         <label for="anioCreacion">Año de Creación:</label>
@@ -175,33 +175,31 @@
             temasContainer.appendChild(temaDiv);
         }
         
-        var albumNameInput = document.getElementById('nombreAlbum');
-        var albumExistsMessage = document.getElementById('albumExistsMessage');
         var validoField = document.getElementById('Valido');
         var errorMessageElement = document.getElementById("errorMessage");
+        
+        function checkAlbum() {
+            const album = document.getElementById("nombreAlbum").value;
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "AltaDeAlbumServlet?action=verificarAlbum&albumName=" + encodeURIComponent(album), true);
 
-        albumNameInput.addEventListener('input', function() {
-            var albumName = albumNameInput.value;
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    errorMessageElement.style.display = "none";
+                    let mensaje = xhr.responseText;
+        let correoValidoField = document.getElementById("albumExistsMessage");
+        if (mensaje === "Album name is available") {
+            correoValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
+            validoField.value = "true";
+        } else {
+            correoValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
+            validoField.value = "false";
+        }
+                }
+            };
 
-            if (albumName.length > 0) {
-                // Utiliza fetch para hacer una solicitud GET al servidor
-                fetch('AltaDeAlbumServlet?action=verificarAlbum&albumName=' + encodeURIComponent(albumName))
-                    .then(response => response.text())
-                    .then(data => {
-                        errorMessageElement.style.display = "none";
-                        if (data === 'exists') {
-                            validoField.value = "false";
-                            albumExistsMessage.textContent = 'Este álbum ya existe.';
-                        } else {
-                            validoField.value = "true";
-                            albumExistsMessage.textContent = '';
-                        }
-                    })
-                    .catch(error => console.error('Error al verificar el álbum:', error));
-            } else {
-                albumExistsMessage.textContent = '';
-            }
-        });
+            xhr.send();
+        }
 
         document.getElementById('generos').addEventListener('change', agregarGenero);
     </script>

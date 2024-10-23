@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import logica.Album;
 import logica.Genero;
+import logica.Usuario;
 import logica.controladores.ControladorAlbum;
 import logica.controladores.ControladorGenero;
 import logica.controladores.ControladorTema;
@@ -26,6 +27,7 @@ import logica.dt.DataGenero;
 import logica.dt.DataTema;
 import persistencia.DAO_Album;
 import persistencia.DAO_Genero;
+import persistencia.DAO_Usuario;
 
 @MultipartConfig
 
@@ -72,18 +74,34 @@ public class AltaDeAlbumServlet extends HttpServlet {
         response.getWriter().write(json);
         }else if("verificarAlbum".equals(action)){
             
-            DAO_Album persistence = new DAO_Album();
-            
-            String albumName = request.getParameter("albumName");
-                Album album = persistence.findAlbumByName(albumName);
+            String album = request.getParameter("albumName");
 
-                if (album != null) {
-                    response.getWriter().write("exists");
-                } else {
-                    response.getWriter().write("available");
-                }
-                
+        // Aquí iría la lógica para verificar si el usuario existe
+        boolean isAvailable = checkAlbumAvailability(album);
+
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
+        if (isAvailable) {
+            out.print("Album name is available");
+        } else {
+            out.print("Album name is already taken");
         }
+        out.close();
+        }
+    }
+    
+    private boolean checkAlbumAvailability(String album_name) {
+        // Aquí deberías realizar la consulta a la base de datos.
+        // Por ejemplo:
+        // return !userDao.isUsernameTaken(username);
+
+        // Simulación de base de datos (ejemplo)
+        ControladorAlbum alb = new ControladorAlbum();
+        DataAlbum album = alb.retornarInfoAlbum(album_name);
+            if (!album.getNombre().equals("ALBUM NO EXISTE")) {
+                return false;
+            }
+        return true;
     }
 
     @Override
