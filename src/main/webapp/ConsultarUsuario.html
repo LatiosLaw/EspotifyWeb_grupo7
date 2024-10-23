@@ -12,11 +12,18 @@
             h1, h2 {
                 color: #333;
             }
-            #perfil, #seguidores, #seguidos ,#listas, #albumes {
+            #perfil{
                 margin-top: 20px;
                 border: 1px solid #ddd;
                 padding: 10px;
                 border-radius: 5px;
+            }
+            #seguidores, #seguidos ,#listas, #albumes, #favoritos {
+                margin-top: 20px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 5px;
+                display: none;
             }
             table {
                 width: 100%;
@@ -44,7 +51,7 @@
         <div id="perfil">
             <h2>Perfil</h2>
             <p><strong>Nickname:</strong> <span id="nickname"></span></p>
-            <p><strong>Correo Electrónico:</strong> <span id="correo"></span></p>
+            <p><strong>Correo Electronico:</strong> <span id="correo"></span></p>
             <p><strong>Nombre:</strong> <span id="nombre"></span></p>
             <p><strong>Apellido:</strong> <span id="apellido"></span></p>
             <p><strong>Fecha de Nacimiento:</strong> <span id="fechaNacimiento"></span></p>
@@ -76,7 +83,7 @@
         </div>
 
         <div id="listas">
-            <h2>Listas de Reproducción</h2>
+            <h2>Listas de Reproduccion</h2>
             <table>
                 <thead>
                     <tr>
@@ -88,12 +95,56 @@
             </table>
         </div>
 
-        <div id="albumes" style="display:none;">
-            <h2>Álbumes (solo para artistas)</h2>
+        <div id="favoritos">
+            <h2>Favoritos</h2>
+
+            <div>
+                <h3>Listas Favoritas</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre de la Lista</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaListasFavoritas"></tbody>
+                </table>
+            </div>
+
+            <div>
+                <h3>Albumes Favoritos</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del Album</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaAlbumesFavoritos"></tbody>
+                </table>
+            </div>
+
+            <div>
+                <h3>Temas Favoritos</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del Tema</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaTemasFavoritos"></tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div id="albumes">
+            <h2>Albumes</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Nombre del Álbum</th>
+                        <th>Nombre del Album</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -116,13 +167,7 @@
                             document.getElementById('apellido').textContent = data.apellido;
                             document.getElementById('fechaNacimiento').textContent = data.fechaNacimiento;
                             document.getElementById('imagenPerfil').src = data.imagen ? `imagenes/usuarios/${data.imagen}` : 'imagenes/usuarios/defaultUser.png';
-
-                            cargarSeguidores(data.nickname);
-                            cargarSeguidos(data.nickname);
-                            cargarListas(data.nickname);
-                            if (data.esArtista) {
-                                cargarAlbumes(data.nickname);
-                            }
+                            checkUserType();
                         })
                         .catch(error => console.error('Error al cargar perfil:', error));
             }
@@ -184,7 +229,23 @@
                         .catch(error => console.error('Error al cargar álbumes:', error));
             }
 
-            function verDetalles(lista) {
+            function cargarFavoritos(nickname) {
+                /* fetch(`ConsultarUsuarioServlet?action=cargarFavoritos&nickname=${encodeURIComponent(nickname)}`)
+                 .then(response => response.json())
+                 .then(albumes => {
+                 document.getElementById('albumes').style.display = 'block';
+                 const albumesTbody = document.getElementById('tablaAlbumes');
+                 albumes.forEach(album => {
+                 const row = document.createElement('tr');
+                 row.innerHTML = `<td>${album}</td><td><button onclick="verDetallesAlbum('${album}')">Ver Detalles</button></td>`;
+                 albumesTbody.appendChild(row);
+                 });
+                 })
+                 .catch(error => console.error('Error al cargar álbumes:', error));
+                 */
+            }
+
+            function verDetallesLista(lista) {
                 alert(`Detalles de la lista: ${lista}`);
                 // wip
             }
@@ -193,7 +254,66 @@
                 alert(`Detalles del álbum: ${album}`);
                 // wip
             }
-        </script>
 
+            function checkSuscripcion() {
+                fetch('LoginServlet?action=obtenerSuscripcion')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la red: ' + response.statusText);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const suscripcion = data.suscrito;
+
+                            if (suscripcion === true) {
+                                cargarSeguidores(data.nickname);
+                                cargarSeguidos(data.nickname);
+                                cargarListas(data.nickname);
+
+                                document.getElementById('seguidores').style.display = 'block';
+                                document.getElementById('seguidos').style.display = 'block';
+                                document.getElementById('listas').style.display = 'block';
+                                document.getElementById('favoritos').style.display = 'block';
+                            } else if (suscripcion === false) {
+
+                                cargarSeguidores(data.nickname);
+                                document.getElementById('seguidores').style.display = 'block';
+                                document.getElementById('seguidos').style.display = 'none';
+                                document.getElementById('listas').style.display = 'none';
+                                document.getElementById('favoritos').style.display = 'none';
+                            } else {
+                                // Maneja el caso donde no hay información sobre la suscripción
+                                console.warn('No se pudo determinar el estado de la suscripción.');
+                            }
+                        })
+                        .catch(error => console.error('Error al obtener la suscripción:', error));
+            }
+
+            function checkUserType() {
+                fetch('LoginServlet?action=obtenerTipoUsuario')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la red: ' + response.statusText);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const userType = data.userType; // Obtener el userType del JSON
+
+                            if (userType === 'Artista') {
+                                document.getElementById('albumes').style.display = 'block'; // Muestra la sección de álbumes
+                                document.getElementById('seguidores').style.display = 'block'; // Oculta la sección de álbumes
+                                cargarAlbumes(nickname);
+                                cargarSeguidores(data.nickname);
+
+                            } else if (userType === 'Cliente') {
+                                checkSuscripcion()
+                            } else {
+                            }
+                        })
+                        .catch(error => console.error('Error al obtener el tipo de usuario:', error));
+            }
+        </script>
     </body>
 </html>

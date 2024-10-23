@@ -42,6 +42,15 @@ public class ConsultarUsuarioServlet extends HttpServlet {
             case "cargarAlbumes":
                 cargarAlbumes(request, out);
                 break;
+            case "cargarFavoritos":
+                cargarFavoritos(request, out);
+                break;
+            case "verDetallesLista":
+                verDetallesLista(request, out);
+                break;
+            case "verDetallesAlbum":
+                verDetallesAlbum(request, out);
+                break;
             default:
                 out.println("{\"error\": \"Acción no válida\"}");
                 break;
@@ -152,8 +161,83 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
         out.println(jsonListas);
     }
-
+    
     private void cargarAlbumes(HttpServletRequest request, PrintWriter out) {
+
+        HttpSession session = request.getSession();
+        String nickname = (String) session.getAttribute("nickname");
+
+        if (nickname == null) {
+            out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
+            return;
+        }
+
+        DAO_Album daoAlbum = new DAO_Album();
+
+        Collection<Album> albumes = daoAlbum.findAllPorArtista(nickname);
+
+        Collection<String> nombreAlbum = new ArrayList<>();
+
+        for (Album album : albumes) {
+            nombreAlbum.add(album.getNombre());
+        }
+
+        String jsonAlbumes = convertToJson(nombreAlbum);
+
+        out.println(jsonAlbumes);
+    }
+
+    private void cargarFavoritos(HttpServletRequest request, PrintWriter out) {
+
+        HttpSession session = request.getSession();
+        String nickname = (String) session.getAttribute("nickname");
+
+        if (nickname == null) {
+            out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
+            return;
+        }
+
+        DAO_Album daoAlbum = new DAO_Album();
+
+        Collection<Album> albumes = daoAlbum.findAllPorArtista(nickname);
+
+        Collection<String> nombreAlbum = new ArrayList<>();
+
+        for (Album album : albumes) {
+            nombreAlbum.add(album.getNombre());
+        }
+
+        String jsonAlbumes = convertToJson(nombreAlbum);
+
+        out.println(jsonAlbumes);
+    }
+    
+    private void verDetallesLista(HttpServletRequest request, PrintWriter out) {
+
+        HttpSession session = request.getSession();
+        String nickname = (String) session.getAttribute("nickname");
+
+        if (nickname == null) {
+            out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
+            return;
+        }
+
+        DAO_Album daoAlbum = new DAO_Album();
+
+        Collection<Album> albumes = daoAlbum.findAllPorArtista(nickname);
+
+        Collection<String> nombreAlbum = new ArrayList<>();
+
+        for (Album album : albumes) {
+            nombreAlbum.add(album.getNombre());
+        }
+
+        String jsonAlbumes = convertToJson(nombreAlbum);
+
+        out.println(jsonAlbumes);
+    }
+    
+    private void verDetallesAlbum(HttpServletRequest request, PrintWriter out) {
 
         HttpSession session = request.getSession();
         String nickname = (String) session.getAttribute("nickname");

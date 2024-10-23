@@ -35,9 +35,62 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+
+        if ("obtenerTipoUsuario".equals(action)) {
+            try {
+                getUserType(request, response);
+            } catch (Exception e) {
+                response.setContentType("application/json");
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                PrintWriter out = response.getWriter();
+                out.print("{\"error\": \"Error al obtener el tipo de usuario\"}");
+                out.flush();
+            }
+        } else if ("obtenerSuscripcion".equals(action)) {
+            try {
+                getSuscripcion(request, response);
+            } catch (Exception e) {
+                response.setContentType("application/json");
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                PrintWriter out = response.getWriter();
+                out.print("{\"error\": \"Error al obtener el estado de la suscripcion del usuario\"}");
+                out.flush();
+            }
+        } else {
+            processRequest(request, response);
+        }
+    }
+
+    public void getUserType(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+
+        String userType = getUserTypeFromSession(request); // Llama al método que ya tienes
+
+        out.print("{\"userType\": \"" + (userType != null ? userType : "") + "\"}");
+        out.flush();
+    }
+
+    public String getUserTypeFromSession(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        return (String) session.getAttribute("userType");
+    }
+
+    public void getSuscripcion(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+
+        Boolean estaSuscrito = getSuscripcionFromSession(request); // Llama al método que ya tienes
+
+        out.print("{\"suscrito\": " + (estaSuscrito != null ? estaSuscrito.toString() : "null") + "}");
+        out.flush();
+    }
+
+    public Boolean getSuscripcionFromSession(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        return (Boolean) session.getAttribute("suscrito");
     }
 
     @Override
