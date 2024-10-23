@@ -7,9 +7,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import logica.Album;
+import logica.Usuario;
 import logica.controladores.ControladorArtista;
 import logica.controladores.ControladorCliente;
 import logica.dt.DataErrorBundle;
+import persistencia.DAO_Usuario;
 
 public class AgregarUsuarioServlet extends HttpServlet {
 
@@ -32,7 +35,31 @@ public class AgregarUsuarioServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
+        String action = request.getParameter("action");
+        
+        if ("verificarNickname".equals(action)) {
+            DAO_Usuario persistence = new DAO_Usuario();
+            
+            String Nickname = request.getParameter("Nickname");
+                Usuario usr = persistence.findUsuarioByNick(Nickname);
+
+                if (usr != null) {
+                    response.getWriter().write("exists");
+                } else {
+                    response.getWriter().write("available");
+                }
+        }else if ("verificarCorreo".equals(action)){
+            DAO_Usuario persistence = new DAO_Usuario();
+            
+            String correoName = request.getParameter("correoName");
+                Usuario usr = persistence.findUsuarioByMail(correoName);
+
+                if (usr != null) {
+                    response.getWriter().write("exists");
+                } else {
+                    response.getWriter().write("available");
+                }
+        }
     }
 
     @Override
@@ -41,7 +68,7 @@ public class AgregarUsuarioServlet extends HttpServlet {
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-
+        
         // Obtener parametros del formulario
         String tipoUsuario = request.getParameter("tipoUsuario");
         String nickname = request.getParameter("nickname");
@@ -75,11 +102,17 @@ public class AgregarUsuarioServlet extends HttpServlet {
             out.println("{\"success\": true}");
             System.out.println("Usuario agregado exitosamente.");
         } else {
-            out.println("{\"success\": false, \"errorCode\": " + resultado.getNumero() + "}");
+            if(resultado.getNumero()==1){
+                out.println("{\"success\": false, \"errorCode\": " + "\"Nickname ya en uso.\"" + "}");
             System.out.println("Error al agregar usuario: " + resultado.getNumero());
+            }else if(resultado.getNumero()==2){
+        out.println("{\"success\": false, \"errorCode\": " + "\"Correo ya en uso.\"" + "}");
+            System.out.println("Error al agregar usuario: " + resultado.getNumero());
+        }
         }
 
         System.out.println("----------End Agregar Usuario Servlet----------");
     }
+        
 
 }
