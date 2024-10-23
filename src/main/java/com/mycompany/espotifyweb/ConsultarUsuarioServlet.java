@@ -1,9 +1,13 @@
 package com.mycompany.espotifyweb;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +17,7 @@ import logica.Album;
 import logica.ListaParticular;
 import logica.Usuario;
 import logica.controladores.ControladorCliente;
+import logica.dt.DT_IdTema;
 import persistencia.DAO_Album;
 import persistencia.DAO_ListaReproduccion;
 import persistencia.DAO_Usuario;
@@ -45,11 +50,14 @@ public class ConsultarUsuarioServlet extends HttpServlet {
             case "cargarFavoritos":
                 cargarFavoritos(request, out);
                 break;
-            case "verDetallesLista":
-                verDetallesLista(request, out);
+            case "cargarListasFavoritas":
+                cargarListasFavoritas(request, out);
                 break;
-            case "verDetallesAlbum":
-                verDetallesAlbum(request, out);
+            case "cargarAlbumesFavoritos":
+                cargarAlbumesFavoritos(request, out);
+                break;
+            case "cargarTemasFavoritos":
+                cargarTemasFavoritos(request, out);
                 break;
             default:
                 out.println("{\"error\": \"Acción no válida\"}");
@@ -161,7 +169,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
         out.println(jsonListas);
     }
-    
+
     private void cargarAlbumes(HttpServletRequest request, PrintWriter out) {
 
         HttpSession session = request.getSession();
@@ -211,8 +219,37 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
         out.println(jsonAlbumes);
     }
-    
-    private void verDetallesLista(HttpServletRequest request, PrintWriter out) {
+
+    private void cargarListasFavoritas(HttpServletRequest request, PrintWriter out) {
+        HttpSession session = request.getSession();
+        String nickname = (String) session.getAttribute("nickname");
+
+        if (nickname == null) {
+            out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
+            return;
+        }
+
+        DAO_Usuario daoUsuario = new DAO_Usuario();
+
+        Collection<String> listasD = daoUsuario.obtenerListasFavPorDefectoCliente(nickname);
+        Collection<String> listasP = daoUsuario.obtenerListasParticularesFavCliente(nickname);
+
+        Collection<String> listas = new ArrayList<>();
+
+        for (String listad : listasD) {
+            listas.add(listad);
+        }
+
+        for (String listap : listasP) {
+            listas.add(listap);
+        }
+
+        String jsonListas = convertToJson(listas);
+
+        out.println(jsonListas);
+    }
+
+    private void cargarAlbumesFavoritos(HttpServletRequest request, PrintWriter out) {
 
         HttpSession session = request.getSession();
         String nickname = (String) session.getAttribute("nickname");
@@ -222,23 +259,16 @@ public class ConsultarUsuarioServlet extends HttpServlet {
             return;
         }
 
-        DAO_Album daoAlbum = new DAO_Album();
+        DAO_Usuario daoUsuario = new DAO_Usuario();
 
-        Collection<Album> albumes = daoAlbum.findAllPorArtista(nickname);
+        Collection<String> albumes = daoUsuario.obtenerAlbumFavCliente(nickname);
 
-        Collection<String> nombreAlbum = new ArrayList<>();
-
-        for (Album album : albumes) {
-            nombreAlbum.add(album.getNombre());
-        }
-
-        String jsonAlbumes = convertToJson(nombreAlbum);
+        String jsonAlbumes = convertToJson(albumes);
 
         out.println(jsonAlbumes);
     }
-    
-    private void verDetallesAlbum(HttpServletRequest request, PrintWriter out) {
 
+    private void cargarTemasFavoritos(HttpServletRequest request, PrintWriter out) {
         HttpSession session = request.getSession();
         String nickname = (String) session.getAttribute("nickname");
 
@@ -247,19 +277,23 @@ public class ConsultarUsuarioServlet extends HttpServlet {
             return;
         }
 
-        DAO_Album daoAlbum = new DAO_Album();
+        DAO_Usuario daoUsuario = new DAO_Usuario();
+        Collection<DT_IdTema> temas = daoUsuario.obtenerTemaFavCliente(nickname);
 
-        Collection<Album> albumes = daoAlbum.findAllPorArtista(nickname);
+        // Crear una lista para almacenar los temas como JSON
+        List<Map<String, String>> temasJson = new ArrayList<>();
 
-        Collection<String> nombreAlbum = new ArrayList<>();
-
-        for (Album album : albumes) {
-            nombreAlbum.add(album.getNombre());
+        for (DT_IdTema tema : temas) {
+            Map<String, String> temaMap = new HashMap<>();
+            temaMap.put("nombreTema", tema.getNombreTema());
+            temaMap.put("nombreAlbumTema", tema.getNombreAlbumTema());
+            temasJson.add(temaMap);
         }
 
-        String jsonAlbumes = convertToJson(nombreAlbum);
+        // Convertir la lista de mapas a JSON
+        String jsonTemas = new Gson().toJson(temasJson);
 
-        out.println(jsonAlbumes);
+        out.println(jsonTemas);
     }
 
     @Override
