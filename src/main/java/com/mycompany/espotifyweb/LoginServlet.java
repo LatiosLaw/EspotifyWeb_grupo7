@@ -2,16 +2,17 @@ package com.mycompany.espotifyweb;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import logica.Usuario;
 import logica.controladores.ControladorCliente;
 import logica.controladores.ControladorSuscripcion;
 import logica.dt.DataErrorBundle;
-import persistencia.DAO_Suscripcion;
 import persistencia.DAO_Usuario;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
@@ -95,7 +96,6 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         System.out.println("\n---------Login Servlet----------");
 
         response.setContentType("application/json");
@@ -104,17 +104,40 @@ public class LoginServlet extends HttpServlet {
         String nickname = request.getParameter("nickname");
         String pass = request.getParameter("pass");
 
+        DAO_Usuario persistence = new DAO_Usuario();
+        persistence.reconnect(); // Forzar reconexion a la bd
+
         ControladorCliente controlador = new ControladorCliente();
         DataErrorBundle resultado = controlador.iniciarSesion(nickname, pass);
 
         if (resultado.getValor()) {
-            DAO_Usuario persistence = new DAO_Usuario();
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                session.invalidate();
+            }
+
+            Usuario usuario = persistence.findUsuarioByNick(nickname);
+
+            String userType = null;
+
+            if (usuario != null) {
+                userType = usuario.getDTYPE();
+                if (userType == null) {
+                    System.out.println("El tipo de usuario es nulo.");
+                } else {
+                    System.out.println("Tipo de usuario: " + userType);
+                }
+            } else {
+                System.out.println("Usuario no encontrado.");
+                out.print("{\"success\": false, \"errorCode\": 404, \"message\": \"Usuario no encontrado\"}");
+                out.flush();
+                return;
+            }
+
             ControladorSuscripcion controladorSus = new ControladorSuscripcion();
-            String userType = persistence.findUsuarioByNick(nickname).getDTYPE();
             Boolean suscrito = controladorSus.tieneSusValida(nickname);
 
-            // Guardar el tipo de usuario en la sesión
-            HttpSession session = request.getSession();
+            session = request.getSession();
 
             session.setAttribute("nickname", nickname);
             session.setAttribute("userType", userType);
@@ -123,11 +146,9 @@ public class LoginServlet extends HttpServlet {
             out.print("{\"success\": true}");
         } else {
             out.print("{\"success\": false, \"errorCode\": " + resultado.getNumero() + "}");
+        }
 
-        out.flush();        }
-
-
-        System.out.println("----------End Login Servlet----------");
+        out.flush();
     }
 
 }
