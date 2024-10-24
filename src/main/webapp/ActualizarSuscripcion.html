@@ -14,14 +14,17 @@
          <h1>Actualizar Suscripcion</h1>
         
          <form id = "actualiSus">
-             <label for="tipo">Tipo de Susvripcion:</label>
-             <label id="tipo">-</label>
-             
-             <label for="ultimaFechaActualizacion">Ultima fecha de actualizacion de estado:</label>
-             <label id="fecha">-</label>
-             
-             <label for="estadoActual">Estado actual:</label>
-             <label id="estado">-</label>
+            <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Ultima Fecha de Acrualizacion</th>
+                    <th>Tipo</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody id="susiLista"></tbody>
+            </table>
          </form>
          
          <script>
@@ -39,18 +42,24 @@
                             return response.json();
                         })
                         .then(data => {
-                    // Verificar si hay datos
-                    if (data.sus.length > 0) {
-                        const suscripcion = data.sus[0]; // Asumimos que solo hay un objeto en el array
-                        document.getElementById('tipo').textContent = suscripcion.tipo;
-                        document.getElementById('estado').textContent = suscripcion.estado;
-                        document.getElementById('fecha').textContent = suscripcion.fecha;
-                    } else {
-                        // Manejar caso de no haber suscripciones
-                        document.getElementById('tipo').textContent = 'No disponible';
-                        document.getElementById('estado').textContent = 'No disponible';
-                        document.getElementById('fecha').textContent = 'No disponible';
-                    }
+                            const susLista = document.getElementById('susiLista');
+                            susLista.innerHTML = ''; // Limpiar la lista existente
+
+                            if (data.sus && data.sus.length > 0) {
+                                data.sus.forEach(sus2 => {
+                                    const susRow = document.createElement('tr');
+                                    susRow.innerHTML = `
+                                <td>${sus2.id}</td>
+                                <td>${sus2.fecha}</td>
+                                <td>${sus2.tipo}</td>
+                                <td>${sus2.estado}</td>
+                                <td><button onclick="acrualizar('${sus2.id}')">Actualizar Estado</button></td>
+                            `;
+                                    susLista.appendChild(susRow);
+                                });
+                            } else {
+                                susLista.innerHTML = '<tr><td colspan="3">No sigues a ningún usuario.</td></tr>';
+                            }
                 })
                         .catch(error => {
                             console.error('Error:', error);
