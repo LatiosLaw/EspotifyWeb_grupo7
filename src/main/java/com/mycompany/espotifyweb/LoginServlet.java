@@ -111,14 +111,14 @@ public class LoginServlet extends HttpServlet {
             DAO_Usuario persistence = new DAO_Usuario();
             ControladorSuscripcion controladorSus = new ControladorSuscripcion();
             String userType = persistence.findUsuarioByNick(nickname).getDTYPE();
-            Boolean suscrito = controladorSus.tieneSusValida(nickname);
+            // Boolean suscrito = controladorSus.tieneSusValida(nickname);
 
             // Guardar el tipo de usuario en la sesión
             HttpSession session = request.getSession();
 
             session.setAttribute("nickname", nickname);
             session.setAttribute("userType", userType);
-            session.setAttribute("suscrito", suscrito);
+            // session.setAttribute("suscrito", suscrito);
 
             out.print("{\"success\": true}");
         } else {
