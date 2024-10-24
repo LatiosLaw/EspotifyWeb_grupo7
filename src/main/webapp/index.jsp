@@ -9,6 +9,7 @@
     </head>
     <body>
         <div class="cuerpo">
+            
             <header class="encaPrin">
                 <div>
                     <a href="" class="EspotifyLogo">
@@ -16,10 +17,12 @@
                         <h1>Espotify</h1>
                     </a>
                 </div>
+                
                 <div class="busqueda">
                     <input type="text" placeholder="Tema, Album, Lista" class="barraBusqueda">
                     <button class="btnBusqueda">Buscar</button>
                 </div>
+                
                 <div class="userDiv">
                     <div class="divUserIMG">
                         <img src="imagenes/espotify/user.png" class="userIMG">
@@ -37,21 +40,28 @@
                         <li><p><button id="logoutButton">Cerrar sesi?n</button></p></li>
                                     <% }%>
                     </ul>
-                </div>
+                </div>   
             </header>
+                    
             <div class="mainCon">
-                <div class="dinamico"></div>
+                <div class="dinamico">
+                    
+                </div>
+                
                 <div class="reproductor">
                     <div class="temaRep">
                         <img src="imagenes/espotify/user.png" class="artIMG">
                         <h3>Nombre Tema</h3>
                         <h2>Nombre Artista</h2>
                     </div>
+                    
                     <div class="controlRep">
+                        
                         <audio id="miAudio">
                             <source id="audioSource" src="temas/DONMAI.mp3" type="audio/mpeg">
                             Tu navegador no soporta el elemento audio.
                         </audio>
+                        
                         <div class="tiempoRep">
                             <div id="progressBar" onmousedown="startAdjustingProgressBar(event)">
                                 <div id="progress"></div>
@@ -59,6 +69,7 @@
                             <div class="tiempos">
                                 <span id="currentTime">0:00</span><span id="totalTime">0:00</span>
                             </div>
+                            
                             <div class="volumen">
                                 <button id="muteBtn" onclick="muteVolume()"><img src="imagenes/espotify/volume-on.png"></button>
                                 <button id="unmuteBtn" onclick="unmuteVolume()" style="display: none;"><img src="imagenes/espotify/volume-off.png"></button>
@@ -66,16 +77,19 @@
                                     <div id="volumeLevel"></div>
                                 </div>
                             </div>
+                            
                             <div class="btnsMedia">
                                 <button id="prevBtn" onclick="prevAudio()"><img src="imagenes/espotify/back-button.png"></button>
                                 <button id="pauseBtn" hidden><img src="imagenes/espotify/pause-button.png"></button>
                                 <button id="playBtn"><img src="imagenes/espotify/play-button.png"></button>
                                 <button id="nextBtn" onclick="nextAudio()"><img src="imagenes/espotify/next-button.png"></button>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
+                    
             <dialog id="winLogin"> <!-- Di?logo de inicio de sesi?n -->
                 <button id="cerrarFormLogin">Cerrar</button>
                 <div class="tituloFormLogin">
@@ -97,6 +111,7 @@
                 </form>
                 <div id="resultado"></div> <!-- Mensajes de resultado -->
             </dialog>
+                    
             <dialog id="winSignup"> <!-- Di?logo de registro de usuario -->
                 <button id="cerrarFormSignup">Cerrar</button>
                 <div class="tituloFormSignup">
@@ -165,9 +180,6 @@
                 </form>
             </dialog>
         </div> <!-- Fin Cuerpo -->
-
-        <!-- Scripts macumbas de sonido y parte de los dialog -->
-        <script src="scripts.js"></script>
 
         <!-- Script inicio de sesion -->
         <script>
@@ -347,6 +359,42 @@
                                     xhr.send();
                                 }
 
+        </script>
+        
+        <!-- Formulario de login y signup -->
+        <script>
+                                const abrirFormLogin = document.querySelector("#abrirFormLogin");
+                                const cerrarFormLogin = document.querySelector("#cerrarFormLogin");
+                                const winLogin = document.querySelector("#winLogin");
+                                const abrirFormSignup = document.querySelector("#abrirFormSignup");
+                                const cerrarFormSignup = document.querySelector("#cerrarFormSignup");
+                                const winSignup = document.querySelector("#winSignup");
+
+                                abrirFormLogin.addEventListener("click", () => {
+                                    winLogin.showModal();
+                                });
+
+                                cerrarFormLogin.addEventListener("click", () => {
+                                    winLogin.close();
+                                });
+                                                               
+                                abrirFormSignup.addEventListener("click", () => {
+                                    winSignup.showModal();
+                                });
+
+                                cerrarFormSignup.addEventListener("click", () => {
+                                    winSignup.close();
+                                });
+        </script>
+        
+        <!-- Cosas del reproductor de musica -->
+        <script src="scripts.js"></script>
+        
+        <!-- Evitar que las imagenes sean arrastradas -->
+        <script>
+            document.addEventListener('dragstart', function(event) {
+                event.preventDefault();
+            });
         </script>
     </body>
 </html>
