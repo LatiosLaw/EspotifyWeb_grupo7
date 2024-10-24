@@ -69,7 +69,6 @@
                 </thead>
                 <tbody></tbody>
             </table>
-
         </form>
 
         <script>
@@ -146,7 +145,6 @@
             function filtrarListas() {
                 const generoSeleccionado = document.getElementById('generos').value;
 
-                // Lógica para filtrar listas por género
                 fetch(`ConsultarListaRepServlet?action=getListasPorGenero&genero=${encodeURIComponent(generoSeleccionado)}`)
                         .then(response => response.json())
                         .then(data => llenarTablaResultados(data))
@@ -164,28 +162,66 @@
                             }
                             return response.json();
                         })
-                        .then(data => llenarTablaTemas(data))
+                        .then(data => {
+                            // Verificar suscripcion antes de llenar la tabla de temas
+                            checkSuscripcion(data);
+                        })
                         .catch(error => console.error('Error al cargar temas:', error));
             }
 
-            function llenarTablaTemas(temas) {
+            function checkSuscripcion(temas) {
+                fetch('LoginServlet?action=obtenerSuscripcion')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la red: ' + response.statusText);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const suscripcion = data.suscrito;
+
+                            // Llenar tabla con los temas y el estado de la suscripción
+                            llenarTablaTemas(temas, suscripcion);
+                        })
+                        .catch(error => console.error('Error al obtener la suscripción:', error));
+            }
+
+            function ensureUrlProtocol(url) {
+                // Verifica si la URL comienza con http:// o https://
+                if (!/^https?:\/\//i.test(url)) {
+                    // Si no tiene protocolo, agrega http://
+                    url = 'http://' + url;
+                }
+                return url;
+            }
+
+            function llenarTablaTemas(temas, tieneSuscripcion) {
                 const tbody = document.querySelector('#tablaTemas tbody');
                 tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos resultados
 
-                temas.forEach(tema => {
-                    tbody.innerHTML += `
-                        <tr>
-                            <td>${tema.nombre}</td>
-                            <td><a href="${tema.descargaUrl}">Descargar</a></td>
-                        </tr>`;
-                });
+                if (temas.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="2">No hay temas disponibles.</td></tr>';
+                } else {
+                    temas.forEach(tema => {
+                        const urlDescarga = ensureUrlProtocol(tema.identificador_archivo.trim());
+
+                        console.log('URL de descarga:', urlDescarga);
+
+                        tbody.innerHTML += `
+                <tr>
+                    <td>${tema.nombre}</td>
+                    <td>${tieneSuscripcion
+                                ? `<a href="${urlDescarga}" target="_blank">Descargar</a>`
+                                : `<button disabled>Descargar</button>`}
+                    </td>
+                </tr>`;
+                    });
+                }
 
                 document.getElementById('tablaTemas').style.display = 'table';
             }
 
-
         </script>
-
     </body>
 </html>
 
