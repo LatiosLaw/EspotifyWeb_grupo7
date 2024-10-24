@@ -83,16 +83,16 @@
                 </div>
                 <form id="loginForm" method='post, dialog'>
                     <div>
-                        <label for="nickname">Nickname:</label>
-                        <input type="text" id="nickname" name="nickname" required>
+                        <label for="nicknameLogin">Nickname:</label>
+                        <input type="text" id="nicknameLogin" name="nicknameLogin" required>
                     </div>
                     <div>
-                        <label for="pass">Contrase?a:</label>
-                        <input type="password" id="pass" name="pass" required>
+                        <label for="passLogin">Contrase?a:</label>
+                        <input type="password" id="passLogin" name="passLogin" required>
                     </div>
                     <div class="btnsFormLogin">
                         <button type="submit">Iniciar Sesi?n</button>
-                        <button id="abrirFormSignup">Registrarse</button>
+                        <button type='reset' id="abrirFormSignup">Registrarse</button>
                     </div>
                 </form>
                 <div id="resultado"></div> <!-- Mensajes de resultado -->
@@ -102,7 +102,7 @@
                 <div class="tituloFormSignup">
                     <h2>Registro de Usuario</h2>
                 </div>
-                <form id="altaUsuarioForm" method="dialog" enctype="multipart/form-data">
+                <form id="altaUsuarioForm" method='dialog' enctype="multipart/form-data">
                         <c:if test="${not empty errorMessage}">
                     <p id="errorMessage" style="color: red;">${errorMessage}</p>
                         </c:if>
@@ -159,7 +159,7 @@
                         <label for="fechaNac">Fecha de Nacimiento:</label>
                         <input type="date" id="fechaNac" name="fechaNac" required>
                     </div>
-                        <div class="btnsFormSignup">
+                    <div class="btnsFormSignup">
                         <button type="submit">Agregar Usuario</button>
                     </div>
                 </form>
@@ -251,7 +251,8 @@
                                     document.getElementById('loginForm')?.addEventListener('submit', iniciarSesion);
                                     document.getElementById('logoutButton')?.addEventListener('click', cerrarSesion);
         </script>
-        <!-- Script inicio de sesion -->
+        
+        <!-- Script registro de usuario -->
         <script>
                                     document.getElementById('tipoUsuario').addEventListener('change', function () {
                                         const camposArtista = document.getElementById('camposArtista');
