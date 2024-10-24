@@ -12,7 +12,11 @@
 
         <h1>Alta de Usuario</h1>
 
-        <form id="altaUsuarioForm" action="AgregarUsuarioServlet" method="post" enctype="multipart/form-data">
+        <form id="altaUsuarioForm">
+            
+            <c:if test="${not empty errorMessage}">
+        <p id="errorMessage" style="color: red;">${errorMessage}</p>
+    </c:if>
     
             <input type="hidden" id='Valido' name='Valido' value="true">  
             <label for="tipoUsuario">Tipo de Usuario:</label>
@@ -36,8 +40,8 @@
             <input type="email" id="mail" name="mail" onkeyup="checkCorreo()" required><br>
             <span id="correoValido" style="color: red;"></span>
 
-            <label for="foto">Foto de Perfil (Opcional):</label>
-        <input type="file" id="foto" name="foto" accept="image/png, image/jpeg">
+            <label for="foto">Foto (URL):</label>
+            <input type="text" id="foto" name="foto"><br>
 
             <div id="camposArtista" style="display: none;">
                 <label for="dirWeb">Direccion web (URL):</label>
@@ -47,10 +51,10 @@
                 <input type="text" id="biografia" name="biografia"><br>     
             </div>
 
-            <label for="pass">Contraseï¿½a:</label>
+            <label for="pass">Contraseña:</label>
             <input type="password" id="pass" name="pass" required><br>
 
-            <label for="confirmPass">Confirmar Contraseï¿½a:</label>
+            <label for="confirmPass">Confirmar Contraseña:</label>
             <input type="password" id="confirmPass" name="confirmPass" required><br>
 
             <label for="fechaNac">Fecha de Nacimiento (YYYY-MM-DD):</label>
@@ -71,8 +75,43 @@
                 }
             });
 
-  
+            document.getElementById('altaUsuarioForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                // Validar que las contraseÃ±as coincidan
+                const pass = document.getElementById('pass').value;
+                const confirmPass = document.getElementById('confirmPass').value;
+                if (pass !== confirmPass) {
+                    alert("Las contraseÃ±as no coinciden.");
+                    return;
+                }
+
+                const formData = new FormData(this);
+                const params = new URLSearchParams(formData).toString();
+
+                fetch('http://localhost:8080/EspotifyWeb/AgregarUsuarioServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params
+                })
+                        .then(response => response.json())
+                        .then(data => {
+                            const message = data.success ? "Usuario agregado exitosamente." : "Error al agregar usuario: " + data.errorCode;
+                            document.getElementById('resultado').innerText = message;
+                            alert(message);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            const errorMessage = "Error al agregar usuario.";
+                            document.getElementById('resultado').innerText = errorMessage;
+                            alert(errorMessage);
+                        });
+            });
+            
         var validoField = document.getElementById('Valido');
+        var errorMessageElement = document.getElementById("errorMessage");
 
         function checkNickname() {
             const nickname = document.getElementById("nickname").value;
@@ -81,6 +120,7 @@
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
+                    errorMessageElement.style.display = "none";
                     let mensaje = xhr.responseText;
         let nicknameValidoField = document.getElementById("nickValido");
         if (mensaje === "Nickname is available") {
@@ -103,6 +143,7 @@
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
+                    errorMessageElement.style.display = "none";
                     let mensaje = xhr.responseText;
         let correoValidoField = document.getElementById("correoValido");
         if (mensaje === "Mail is available") {

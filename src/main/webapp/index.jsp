@@ -24,7 +24,7 @@
         <h1>Pagina Principal</h1>
 
         <a href="Login.html">Iniciar Sesion</a>
-        <a href="AgregarUsuario.html">Agregar Usuario</a>
+        <a href="AgregarUsuario.jsp">Agregar Usuario</a>
         <a href="ConsultarUsuario.html">Consultar Usuario</a>
 
         <%
