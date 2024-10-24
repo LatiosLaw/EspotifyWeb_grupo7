@@ -1,8 +1,12 @@
 package com.mycompany.espotifyweb;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +19,7 @@ import logica.controladores.ControladorListaParticular;
 import logica.controladores.ControladorTema;
 import logica.dt.DataAlbum;
 import logica.dt.DataArtista;
+import logica.dt.DataGenero;
 import logica.dt.DataTema;
 
 public class ConsultarAlbumServlet extends HttpServlet {
@@ -149,7 +154,10 @@ public class ConsultarAlbumServlet extends HttpServlet {
             StringBuilder jsonResponse = new StringBuilder("[");
             for (DataTema tema : temas) {
                 jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
-                        .append("\"duracion\":\"").append(tema.getDuracion().toString()).append("\"},");
+                        .append("\"duracion\":\"").append(tema.getDuracion().toString()).append("\",")
+                        .append("\"archivo\":\"").append(tema.getArchivo()).append("\",")
+                        .append("\"link\":\"").append(tema.getAccess())
+                        .append("\"},");
             }
 
             if (jsonResponse.length() > 1) {
@@ -172,17 +180,80 @@ public class ConsultarAlbumServlet extends HttpServlet {
             StringBuilder jsonResponse = new StringBuilder("[");
                 jsonResponse.append("{\"nombre\":\"").append(album_buscado.getNombre()).append("\",")
                         .append("\"anio\":\"").append(album_buscado.getAnioCreacion()).append("\",")
-                        .append("\"creador\":\"").append(album_buscado.getAnioCreacion()).append("\"},");
+                        .append("\"imagen\":\"").append(album_buscado.getImagen()).append("\",");
+                jsonResponse.append("\"generos\":[");
 
-            if (jsonResponse.length() > 1) {
-                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-            }
+                Collection<DataGenero> generos_album = album_buscado.getGeneros();
+// Iterar sobre los géneros del álbum
 
-            jsonResponse.append("]");
+Iterator<DataGenero> iterador = generos_album.iterator();
+
+        // Iterar sobre el array y asignar identificadores únicos consecutivos
+        while (iterador.hasNext()) {
+            DataGenero genero = iterador.next();
+            System.out.println(genero.getNombre());
+    jsonResponse.append("{\"nombre\":\"").append(genero.getNombre()).append("\"},");
+        }
+
+// Eliminar la última coma si se añadieron géneros
+if (album_buscado.getGeneros().size() > 0) {
+    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+}
+
+jsonResponse.append("],"); // Cerrar la lista de géneros
+
+// Agregar el creador (aquí usas el mismo método para año y creador, asumiendo un error)
+jsonResponse.append("\"creador\":\"").append(album_buscado.getCreador().getNickname()).append("\"},");
+
+    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+
+jsonResponse.append("]");
 
             out.print(jsonResponse.toString());
         } catch (Exception e) {
             e.printStackTrace(); // Para depuración
+        }
+        }else if("Download".equals(action)){
+           String TARGET_DIR = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/temas/";
+           String fileName = request.getParameter("filename");
+        File file = new File(TARGET_DIR + fileName);
+
+        // Verifica si el archivo existe
+        if (!file.exists()) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND); // 404
+            return;
+        }
+
+        // Configuración de la respuesta
+        response.setContentType("audio/mpeg");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+        response.setContentLengthLong(file.length());
+
+        // Escribir el archivo en la respuesta
+        try (FileInputStream in = new FileInputStream(file);
+             OutputStream out = response.getOutputStream()) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+        }
+        }else if("devolverSubscripcion".equals(action)){
+            if(session.getAttribute("suscrito")==null){
+                response.getWriter().write("{\"sus\": false}");
+            }else{
+        Boolean sessionValue = (Boolean) session.getAttribute("suscrito");
+        // Configuración de la respuesta
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        // Enviar el valor de la sesión como JSON
+        
+        if (sessionValue==true) {
+            response.getWriter().write("{\"sus\": \"true\"}");
+        } else {
+            response.getWriter().write("{\"sus\": \"false\"}");
+        }
         }
         }
         System.out.println("\n-----End Consultar Album Servlet GET-----");
