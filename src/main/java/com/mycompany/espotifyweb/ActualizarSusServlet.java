@@ -85,7 +85,7 @@ public class ActualizarSusServlet extends HttpServlet {
         ControladorSuscripcion controlSus = new ControladorSuscripcion();
        DataSus susData = new DataSus();
         try {
-              susData = controlSus.retornarSus(nickname);
+              //susData = controlSus.retornarSus(nickname);
         } catch (Exception e) {
             out.println("{\"success\": false, \"error\": \"Error al obtener Sus: " + e.getMessage() + "\"}");
             return; 
@@ -94,11 +94,11 @@ public class ActualizarSusServlet extends HttpServlet {
          jsonResponse.append("{\"sus\": [");
          if(susData != null){
              jsonResponse.append("{\"tipo\": \"")
-                     .append(escapeJson(susData.getTipo()))
+                     //.append(escapeJson(susData.getTipo()))
                      .append("\", \"estado\": \"")
-                     .append(escapeJson(susData.getEstado()))
+                     //.append(escapeJson(susData.getEstado()))
                      .append("\", \"fecha\": \"")
-                     .append(escapeJson(String.valueOf(susData.getFecha())))
+                     //.append(escapeJson(String.valueOf(susData.getFecha())))
                      .append("\"}");
                      
          }
