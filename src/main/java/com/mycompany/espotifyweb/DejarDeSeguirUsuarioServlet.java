@@ -84,7 +84,10 @@ public class DejarDeSeguirUsuarioServlet extends HttpServlet {
             for (int i = 0; i < usuariosSeguidos.size(); i++) {
                 Usuario usuario = usuariosSeguidos.toArray(new Usuario[0])[i];
                 String tipo = usuario.getDTYPE(); // Asegúrate de tener un método para obtener el tipo
-                jsonResponse.append("{\"nickname\": \"").append(escapeJson(usuario.getNickname())).append("\", \"tipo\": \"").append(escapeJson(tipo)).append("\"}");
+                jsonResponse
+                        .append("{\"nickname\": \"").append(escapeJson(usuario.getNickname()))
+                        .append("\", \"tipo\": \"").append(escapeJson(tipo))
+                        .append("\"}");
                 if (i < usuariosSeguidos.size() - 1) {
                     jsonResponse.append(","); // Agregar coma solo si no es el último elemento
                 }
