@@ -131,7 +131,6 @@
                         <tr>
                             <th>Nombre del Tema</th>
                             <th> Nombre del Album</th>
-                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="tablaTemasFavoritos"></tbody>
@@ -301,7 +300,6 @@
                                     row.innerHTML = `
                         <td>${tema.nombreTema}</td>
                         <td>${tema.nombreAlbumTema}</td>
-                        <td><button onclick="verDetallesTema('${tema.nombreTema}')">Ver Detalles</button></td>
                     `;
                                     temasTbody.appendChild(row);
                                 });
