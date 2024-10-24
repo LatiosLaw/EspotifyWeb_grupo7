@@ -16,18 +16,14 @@ import java.nio.file.Paths;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import logica.Album;
 import logica.Genero;
-import logica.Usuario;
 import logica.controladores.ControladorAlbum;
 import logica.controladores.ControladorGenero;
 import logica.controladores.ControladorTema;
 import logica.dt.DataAlbum;
 import logica.dt.DataGenero;
 import logica.dt.DataTema;
-import persistencia.DAO_Album;
 import persistencia.DAO_Genero;
-import persistencia.DAO_Usuario;
 
 @MultipartConfig
 

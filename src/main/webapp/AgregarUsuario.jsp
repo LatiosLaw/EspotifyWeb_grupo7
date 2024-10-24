@@ -12,11 +12,7 @@
 
         <h1>Alta de Usuario</h1>
 
-        <form id="altaUsuarioForm">
-            
-            <c:if test="${not empty errorMessage}">
-        <p id="errorMessage" style="color: red;">${errorMessage}</p>
-    </c:if>
+        <form id="altaUsuarioForm" action="AgregarUsuarioServlet" method="post" enctype="multipart/form-data">
     
             <input type="hidden" id='Valido' name='Valido' value="true">  
             <label for="tipoUsuario">Tipo de Usuario:</label>
@@ -40,8 +36,8 @@
             <input type="email" id="mail" name="mail" onkeyup="checkCorreo()" required><br>
             <span id="correoValido" style="color: red;"></span>
 
-            <label for="foto">Foto (URL):</label>
-            <input type="text" id="foto" name="foto"><br>
+            <label for="foto">Foto de Perfil (Opcional):</label>
+        <input type="file" id="foto" name="foto" accept="image/png, image/jpeg">
 
             <div id="camposArtista" style="display: none;">
                 <label for="dirWeb">Direccion web (URL):</label>
@@ -74,44 +70,8 @@
                     camposArtista.style.display = 'none';
                 }
             });
-
-            document.getElementById('altaUsuarioForm').addEventListener('submit', function (event) {
-                event.preventDefault();
-
-                // Validar que las contraseñas coincidan
-                const pass = document.getElementById('pass').value;
-                const confirmPass = document.getElementById('confirmPass').value;
-                if (pass !== confirmPass) {
-                    alert("Las contraseñas no coinciden.");
-                    return;
-                }
-
-                const formData = new FormData(this);
-                const params = new URLSearchParams(formData).toString();
-
-                fetch('http://localhost:8080/EspotifyWeb/AgregarUsuarioServlet', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: params
-                })
-                        .then(response => response.json())
-                        .then(data => {
-                            const message = data.success ? "Usuario agregado exitosamente." : "Error al agregar usuario: " + data.errorCode;
-                            document.getElementById('resultado').innerText = message;
-                            alert(message);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            const errorMessage = "Error al agregar usuario.";
-                            document.getElementById('resultado').innerText = errorMessage;
-                            alert(errorMessage);
-                        });
-            });
             
         var validoField = document.getElementById('Valido');
-        var errorMessageElement = document.getElementById("errorMessage");
 
         function checkNickname() {
             const nickname = document.getElementById("nickname").value;
@@ -120,7 +80,6 @@
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    errorMessageElement.style.display = "none";
                     let mensaje = xhr.responseText;
         let nicknameValidoField = document.getElementById("nickValido");
         if (mensaje === "Nickname is available") {
@@ -143,7 +102,6 @@
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    errorMessageElement.style.display = "none";
                     let mensaje = xhr.responseText;
         let correoValidoField = document.getElementById("correoValido");
         if (mensaje === "Mail is available") {
