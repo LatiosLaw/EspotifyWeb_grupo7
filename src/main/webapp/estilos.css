@@ -210,19 +210,30 @@ ul{
     width: 30px;
 }
 
-#winLogin{
+#winLogin, #winSignup{
     background-color: tomato;
     position: absolute; /* Usamos posición absoluta */
-    top: 40%; /* Coloca el contenedor en el 50% desde la parte superior */
     left: 50%; /* Coloca el contenedor en el 50% desde la izquierda */
     transform: translate(-50%, -50%); /* Mueve el contenedor hacia arriba y hacia la izquierda por la mitad de su tamaño */
+}
+
+#winLogin{
+     top: 40%; /* Coloca el contenedor en el 50% desde la parte superior */
+}
+
+#winSignup{
+    top: 50%; /* Coloca el contenedor en el 50% desde la parte superior */
 }
 
 #winLogin::backdrop{
     background-color: rgba(0, 0, 0, 0.33);
 }
 
-#cerrarFormLogin{
+#winSignup::backdrop{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#cerrarFormLogin, #cerrarFormSignup{
     border-width: 0 2px 2px 0;
     border-style: solid;
     border-color: black;
@@ -230,25 +241,25 @@ ul{
     padding: 0px 6px 3px 6px;
 }
 
-.tituloFormLogin{
+.tituloFormLogin, .tituloFormSignup{
     text-align: center;
     margin-bottom: 10px;
 }
 
-#loginForm{
+#loginForm, #altaUsuarioForm{
     display: flex;
     flex-direction: column;
 }
 
-#loginForm div{
+#loginForm div, #altaUsuarioForm div{
     margin-bottom: 15px;
 }
 
-#loginForm div label{
+#loginForm div label, #altaUsuarioForm div label{
     margin-left: 7%;
 }
 
-#loginForm div input{
+#loginForm div input, #altaUsuarioForm div input{
     border-radius: 3px;
     border-width: 2px;
     border-style: solid;
@@ -259,17 +270,21 @@ ul{
     padding: 2px 0px 2px 5px;
 }
 
-.btnsFormLogin{
+.btnsFormLogin, .btnsFormSignup{
     text-align: center;
 }
 
-.btnsFormLogin button{
+.btnsFormLogin button, .btnsFormSignup button{
     border-style: solid;
     border-color: black;
     border-radius: 3px;
     border-width: 2px;
     background-color: cornflowerblue;
     padding: 2px 7px 2px 7px;
+}
+
+#nickValido, #correoValido{
+    margin-left: 7%;
 }
 
 #volumeBar{
@@ -289,6 +304,17 @@ ul{
     background: #ff760c;
     border-radius: 5px;
     max-width: 100%;
+}
+
+#tipoUsuario{
+    background-color: white;
+    border-radius: 3px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+    padding: 2px 0px 2px 5px;
+    box-sizing: border-box;
+    cursor: pointer;
 }
 
 /*Resolucion de telefono*/
@@ -446,6 +472,10 @@ ul{
     #volumeBar{
         height: 5px;
     }
+    
+    #tipoUsuario{
+        margin-left: 7%; 
+    }
 }
 
 /*Resolucion de pc*/
@@ -558,5 +588,9 @@ ul{
 
     #volumeBar{
         height: 10px;
+    }
+    
+    #tipoUsuario{
+        margin-left: 3%; 
     }
 }

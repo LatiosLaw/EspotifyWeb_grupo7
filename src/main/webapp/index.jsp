@@ -39,7 +39,6 @@
                     </ul>
                 </div>
             </header>
-
             <div class="mainCon">
                 <div class="dinamico"></div>
                 <div class="reproductor">
@@ -77,9 +76,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Di?logo de inicio de sesi?n -->
-            <dialog id="winLogin">
+            <dialog id="winLogin"> <!-- Di?logo de inicio de sesi?n -->
                 <button id="cerrarFormLogin">Cerrar</button>
                 <div class="tituloFormLogin">
                     <h2>Inicio de Sesion</h2>
@@ -87,23 +84,92 @@
                 <form id="loginForm" method='post, dialog'>
                     <div>
                         <label for="nickname">Nickname:</label>
-                        <input type="text" id="nickname" name="nickname" required><br>
+                        <input type="text" id="nickname" name="nickname" required>
                     </div>
                     <div>
                         <label for="pass">Contrase?a:</label>
-                        <input type="password" id="pass" name="pass" required><br>
+                        <input type="password" id="pass" name="pass" required>
                     </div>
                     <div class="btnsFormLogin">
                         <button type="submit">Iniciar Sesi?n</button>
+                        <button id="abrirFormSignup">Registrarse</button>
                     </div>
                 </form>
                 <div id="resultado"></div> <!-- Mensajes de resultado -->
             </dialog>
+            <dialog id="winSignup"> <!-- Di?logo de registro de usuario -->
+                <button id="cerrarFormSignup">Cerrar</button>
+                <div class="tituloFormSignup">
+                    <h2>Registro de Usuario</h2>
+                </div>
+                <form id="altaUsuarioForm" method="dialog" enctype="multipart/form-data">
+                        <c:if test="${not empty errorMessage}">
+                    <p id="errorMessage" style="color: red;">${errorMessage}</p>
+                        </c:if>
+                    <div>
+                        <input type="hidden" id='Valido' name='Valido' value="true">  
+                        <label for="tipoUsuario">Tipo de Usuario:</label>
+                        <select id="tipoUsuario" name="tipoUsuario" required>
+                            <option value="">Seleccione...</option>
+                            <option value="cliente">Cliente</option>
+                            <option value="artista">Artista</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="nickname">Nickname:</label>
+                        <input type="text" id="nickname" onkeyup="checkNickname()" name="nickname" required>
+                        <span id="nickValido" style="color: red; display: block;"></span>
+                    </div>
+                    <div>
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                    </div>
+                    <div>
+                        <label for="apellido">Apellido:</label>
+                        <input type="text" id="apellido" name="apellido" required>
+                    </div>
+                    <div>
+                        <label for="mail">Email:</label>
+                        <input type="email" id="mail" onkeyup="checkCorreo()" name="mail" required>
+                        <span id="correoValido" style="color: red; display: block;"></span>
+                    </div>
+                    <div>
+                        <label for="foto">Foto de Perfil (Opcional):</label>
+                        <input type="file" id="foto" name="foto" accept="image/png, image/jpeg" style="border-style: none;">
+                    </div>
+                    <div id="camposArtista" style="display: none;">
+                        <div>
+                            <label for="dirWeb">Direccion web (URL):</label>
+                            <input type="text" id="dirWeb" name="dirWeb">
+                        </div>
+                        <div>
+                            <label for="biografia">Biografia:</label>
+                            <input type="text" id="biografia" name="biografia">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="pass">Contrase?a:</label>
+                        <input type="password" id="pass" name="pass" required>
+                    </div>
+                    <div>
+                        <label for="confirmPass">Confirmar Contrase?a:</label>
+                        <input type="password" id="confirmPass" name="confirmPass" required>
+                    </div>
+                    <div>
+                        <label for="fechaNac">Fecha de Nacimiento:</label>
+                        <input type="date" id="fechaNac" name="fechaNac" required>
+                    </div>
+                        <div class="btnsFormSignup">
+                        <button type="submit">Agregar Usuario</button>
+                    </div>
+                </form>
+            </dialog>
         </div> <!-- Fin Cuerpo -->
 
-        <!-- Scripts -->
+        <!-- Scripts macumbas de sonido y parte de los dialog -->
         <script src="scripts.js"></script>
 
+        <!-- Script inicio de sesion -->
         <script>
                                     // Funci?n para iniciar sesi?n
                                     function iniciarSesion(event) {
@@ -184,6 +250,102 @@
 
                                     document.getElementById('loginForm')?.addEventListener('submit', iniciarSesion);
                                     document.getElementById('logoutButton')?.addEventListener('click', cerrarSesion);
+        </script>
+        <!-- Script inicio de sesion -->
+        <script>
+                                    document.getElementById('tipoUsuario').addEventListener('change', function () {
+                                        const camposArtista = document.getElementById('camposArtista');
+                                        if (this.value === 'artista') {
+                                            camposArtista.style.display = 'block';
+                                        } else {
+                                            camposArtista.style.display = 'none';
+                                        }
+                                    });
+
+                                    document.getElementById('altaUsuarioForm').addEventListener('submit', function (event) {
+                                        event.preventDefault();
+
+                                        // Validar que las contraseñas coincidan
+                                        const pass = document.getElementById('pass').value;
+                                        const confirmPass = document.getElementById('confirmPass').value;
+                                        if (pass !== confirmPass) {
+                                            alert("Las contraseñas no coinciden.");
+                                            return;
+                                        }
+
+                                        const formData = new FormData(this);
+                                        const params = new URLSearchParams(formData).toString();
+
+                                        fetch('http://localhost:8080/EspotifyWeb/AgregarUsuarioServlet', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/x-www-form-urlencoded'
+                                            },
+                                            body: params
+                                        })
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    const message = data.success ? "Usuario agregado exitosamente." : "Error al agregar usuario: " + data.errorCode;
+                                                    document.getElementById('resultado').innerText = message;
+                                                    alert(message);
+                                                })
+                                                .catch(error => {
+                                                    console.error('Error:', error);
+                                                    const errorMessage = "Error al agregar usuario.";
+                                                    document.getElementById('resultado').innerText = errorMessage;
+                                                    alert(errorMessage);
+                                                });
+                                    });
+
+                                var validoField = document.getElementById('Valido');
+                                var errorMessageElement = document.getElementById("errorMessage");
+
+                                function checkNickname() {
+                                    const nickname = document.getElementById("nickname").value;
+                                    const xhr = new XMLHttpRequest();
+                                    xhr.open("GET", "AgregarUsuarioServlet?action=verificarNickname&Nickname=" + encodeURIComponent(nickname), true);
+
+                                    xhr.onreadystatechange = function() {
+                                        if (xhr.readyState === 4 && xhr.status === 200) {
+                                            errorMessageElement.style.display = "none";
+                                            let mensaje = xhr.responseText;
+                                let nicknameValidoField = document.getElementById("nickValido");
+                                if (mensaje === "Nickname is available") {
+                                    nicknameValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
+                                    validoField.value = "true";
+                                } else {
+                                    nicknameValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
+                                    validoField.value = "false";
+                                }
+                                        }
+                                    };
+
+                                    xhr.send();
+                                }
+
+                                function checkCorreo() {
+                                    const correo = document.getElementById("mail").value;
+                                    const xhr = new XMLHttpRequest();
+                                    xhr.open("GET", "AgregarUsuarioServlet?action=verificarCorreo&correoName=" + encodeURIComponent(correo), true);
+
+                                    xhr.onreadystatechange = function() {
+                                        if (xhr.readyState === 4 && xhr.status === 200) {
+                                            errorMessageElement.style.display = "none";
+                                            let mensaje = xhr.responseText;
+                                let correoValidoField = document.getElementById("correoValido");
+                                if (mensaje === "Mail is available") {
+                                    correoValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
+                                    validoField.value = "true";
+                                } else {
+                                    correoValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
+                                    validoField.value = "false";
+                                }
+                                        }
+                                    };
+
+                                    xhr.send();
+                                }
+
         </script>
     </body>
 </html>

@@ -1,15 +1,21 @@
 package com.mycompany.espotifyweb;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import logica.Usuario;
 import logica.controladores.ControladorArtista;
 import logica.controladores.ControladorCliente;
 import logica.dt.DataErrorBundle;
+import persistencia.DAO_Usuario;
 
 public class AgregarUsuarioServlet extends HttpServlet {
 
@@ -32,7 +38,67 @@ public class AgregarUsuarioServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
+        System.out.println("\n-----Agregar Usuario Servlet-----");
+        String action = request.getParameter("action");
+        
+        if ("verificarNickname".equals(action)) {
+            String username = request.getParameter("Nickname");
+
+        // Aquí iría la lógica para verificar si el usuario existe
+        boolean isAvailable = checkNicknameAvailability(username);
+
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
+        if (isAvailable) {
+            out.print("Nickname is available");
+        } else {
+            out.print("Nickname is already taken");
+        }
+        out.close();
+        }else if ("verificarCorreo".equals(action)){
+            String username = request.getParameter("correoName");
+
+        // Aquí iría la lógica para verificar si el usuario existe
+        boolean isAvailable = checkUCorreoAvailability(username);
+
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
+        if (isAvailable) {
+            out.print("Mail is available");
+        } else {
+            out.print("Mail is already taken");
+        }
+        out.close();
+        }
+        
+    }
+    
+    private boolean checkNicknameAvailability(String username) {
+        // Aquí deberías realizar la consulta a la base de datos.
+        // Por ejemplo:
+        // return !userDao.isUsernameTaken(username);
+
+        // Simulación de base de datos (ejemplo)
+        DAO_Usuario usr = new DAO_Usuario();
+        Usuario usuario = usr.findUsuarioByNick(username);
+            if (usuario!=null) {
+                return false;
+            }
+        return true;
+    }
+    
+    private boolean checkUCorreoAvailability(String correo) {
+        // Aquí deberías realizar la consulta a la base de datos.
+        // Por ejemplo:
+        // return !userDao.isUsernameTaken(username);
+
+        // Simulación de base de datos (ejemplo)
+        DAO_Usuario usr = new DAO_Usuario();
+        Usuario usuario = usr.findUsuarioByMail(correo);
+            if (usuario!=null) {
+                return false;
+            }
+        return true;
     }
 
     @Override
@@ -41,22 +107,71 @@ public class AgregarUsuarioServlet extends HttpServlet {
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-
+        
         // Obtener parametros del formulario
         String tipoUsuario = request.getParameter("tipoUsuario");
         String nickname = request.getParameter("nickname");
         String nombre = request.getParameter("nombre");
         String apellido = request.getParameter("apellido");
         String mail = request.getParameter("mail");
-        String foto = request.getParameter("foto");
         String pass = request.getParameter("pass");
         LocalDate fechaNac = LocalDate.parse(request.getParameter("fechaNac"));
 
         DataErrorBundle resultado;
+        
+        Part filePart = request.getPart("foto");
+         String fileName;
+         
+        if (filePart == null || !(filePart.getSubmittedFileName().toString().endsWith("png") || filePart.getSubmittedFileName().toString().endsWith("jpg"))) {
+            // No se seleccionó ningún archivo
+            fileName = "default";
+        } else {
+            // Se seleccionó un archivo
+            fileName = filePart.getSubmittedFileName();
+        }
+        
+         /////////////////////////////////////////////////////////////////////////////////////////////////////
+       ///// COMENTAR DE ACA PARA ABAJO ASI NO SE LES ROMPA AL RESTO ////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+                
+        // Verifica que el archivo no sea nulo
+        if (fileName != "default") {
+            // Obtén el nombre del archivo y su tipo de contenido
+            
+                // COMENTAR ESTA RUTA Y COLOCAR LA SUYA PROPIA, RUTA DONDE GUARDAR LA FOTO DEL ALBUM /////////////////////////////////////////////////////// 
+                String targetDir = "C:\\Users\\Law\\Documents\\GitHub\\EspotifyWeb_grupo7\\src\\main\\webapp\\imagenes\\usuarios\\"; // Ajusta esta ruta
+                            
+                // Crear el directorio si no existe
+                
+                File uploadDir = new File(targetDir);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdir();
+                }
+                
+                // Guardar el archivo
+                File file = new File(targetDir  + File.separator + fileName);
+                try (FileOutputStream fos = new FileOutputStream(file);
+                     InputStream fileContent = filePart.getInputStream()) {
+
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    
+                    while ((bytesRead = fileContent.read(buffer)) != -1) {
+                        fos.write(buffer, 0, bytesRead);
+                    }
+
+                }
+        } else {
+            fileName = "default";
+        }
+       
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
 
         if ("cliente".equals(tipoUsuario)) {
             ControladorCliente controladorCliente = new ControladorCliente();
-            resultado = controladorCliente.agregarCliente(nickname, nombre, apellido, pass, mail, foto, fechaNac);
+            resultado = controladorCliente.agregarCliente(nickname, nombre, apellido, pass, mail, fileName, fechaNac);
 
         } else if ("artista".equals(tipoUsuario)) {
             // Obtener parametros adicionales para artista
@@ -64,7 +179,7 @@ public class AgregarUsuarioServlet extends HttpServlet {
             String dirWeb = request.getParameter("dirWeb");
 
             ControladorArtista controladorArtista = new ControladorArtista();
-            resultado = controladorArtista.agregarArtista(nickname, nombre, apellido, pass, mail, foto, fechaNac, biografia, dirWeb);
+            resultado = controladorArtista.agregarArtista(nickname, nombre, apellido, pass, mail, fileName, fechaNac, biografia, dirWeb);
 
         } else {
             out.println("{\"success\": false, \"errorCode\": 400}"); // Error por tipo de usuario no válido
@@ -75,11 +190,17 @@ public class AgregarUsuarioServlet extends HttpServlet {
             out.println("{\"success\": true}");
             System.out.println("Usuario agregado exitosamente.");
         } else {
-            out.println("{\"success\": false, \"errorCode\": " + resultado.getNumero() + "}");
+            if(resultado.getNumero()==1){
+                out.println("{\"success\": false, \"errorCode\": " + "\"Nickname ya en uso.\"" + "}");
             System.out.println("Error al agregar usuario: " + resultado.getNumero());
+            }else if(resultado.getNumero()==2){
+        out.println("{\"success\": false, \"errorCode\": " + "\"Correo ya en uso.\"" + "}");
+            System.out.println("Error al agregar usuario: " + resultado.getNumero());
+        }
         }
 
         System.out.println("----------End Agregar Usuario Servlet----------");
     }
+        
 
 }

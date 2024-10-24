@@ -12,6 +12,20 @@ cerrarFormLogin.addEventListener("click", () => {
 })
 //Fin formulario de login
 
+//Formulario de signup
+const abrirFormSignup = document.querySelector("#abrirFormSignup");
+const cerrarFormSignup = document.querySelector("#cerrarFormSignup");
+const winSignup = document.querySelector("#winSignup");
+
+abrirFormSignup.addEventListener("click", () => {
+    winSignup.showModal();
+})
+
+cerrarFormSignup.addEventListener("click", () => {
+    winSignup.close();
+})
+//Fin formulario de signup
+
 //Cosas del reproductor de musica
 const audio = document.getElementById('miAudio');
 const audioSource = document.getElementById('audioSource');

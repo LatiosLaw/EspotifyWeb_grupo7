@@ -12,7 +12,11 @@
 
         <h1>Alta de Usuario</h1>
 
+        <c:if test="${not empty errorMessage}">
+        <p id="errorMessage" style="color: red;">${errorMessage}</p>
+    </c:if>
         <form id="altaUsuarioForm">
+            <input type="hidden" id='Valido' name='Valido' value="true">  
             <label for="tipoUsuario">Tipo de Usuario:</label>
             <select id="tipoUsuario" name="tipoUsuario" required>
                 <option value="">Seleccione...</option>
@@ -22,6 +26,7 @@
 
             <label for="nickname">Nickname:</label>
             <input type="text" id="nickname" name="nickname" required><br>
+            <span id="nickValido" style="color: red;"></span>
 
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required><br>
@@ -31,22 +36,23 @@
 
             <label for="mail">Email:</label>
             <input type="email" id="mail" name="mail" required><br>
+            <span id="correoValido" style="color: red;"></span>
 
             <label for="foto">Foto (URL):</label>
             <input type="text" id="foto" name="foto"><br>
 
             <div id="camposArtista" style="display: none;">
-                <label for="dirWeb">Dirección web (URL):</label>
+                <label for="dirWeb">Direccion web (URL):</label>
                 <input type="text" id="dirWeb" name="dirWeb"><br>
 
-                <label for="biografia">Biografía:</label>
+                <label for="biografia">Biografia:</label>
                 <input type="text" id="biografia" name="biografia"><br>     
             </div>
 
-            <label for="pass">Contraseña:</label>
+            <label for="pass">Contrase�a:</label>
             <input type="password" id="pass" name="pass" required><br>
 
-            <label for="confirmPass">Confirmar Contraseña:</label>
+            <label for="confirmPass">Confirmar Contrase�a:</label>
             <input type="password" id="confirmPass" name="confirmPass" required><br>
 
             <label for="fechaNac">Fecha de Nacimiento (YYYY-MM-DD):</label>
@@ -101,6 +107,59 @@
                             alert(errorMessage);
                         });
             });
+            
+        var nicknameInput = document.getElementById('nickname');
+        var nickValido = document.getElementById('nickValido');
+        var validoField = document.getElementById('Valido');
+        var errorMessageElement = document.getElementById("errorMessage");
+        var correoInput = document.getElementById('mail');
+        var correoValido = document.getElementById('correoValido');
+
+        nicknameInput.addEventListener('input', function() {
+            var nickname_input = nicknameInput.value;
+
+            if (nickname_input.length > 0) {
+                // Utiliza fetch para hacer una solicitud GET al servidor
+                fetch('AgregarUsuarioServlet?action=verificarNickname&Nickname=' + encodeURIComponent(nickname_input))
+                    .then(response => response.text())
+                    .then(data => {
+                        errorMessageElement.style.display = "none";
+                        if (data === 'exists') {
+                            validoField.value = "false";
+                            nickValido.textContent = 'Este nickname ya esta en uso.';
+                        } else {
+                            validoField.value = "true";
+                            nickValido.textContent = '';
+                        }
+                    })
+                    .catch(error => console.error('Error al verificar el nickname:', error));
+            } else {
+                nickValido.textContent = '';
+            }
+        });
+        
+        correoInput.addEventListener('input', function() {
+            var correo_input = correoInput.value;
+
+            if (correo_input.length > 0) {
+                // Utiliza fetch para hacer una solicitud GET al servidor
+                fetch('AgregarUsuarioServlet?action=verificarCorreo&correoName=' + encodeURIComponent(correo_input))
+                    .then(response => response.text())
+                    .then(data => {
+                        errorMessageElement.style.display = "none";
+                        if (data === 'exists') {
+                            validoField.value = "false";
+                            correoValido.textContent = 'Este correo ya esta en uso.';
+                        } else {
+                            validoField.value = "true";
+                            correoValido.textContent = '';
+                        }
+                    })
+                    .catch(error => console.error('Error al verificar el correo:', error));
+            } else {
+                correoValido.textContent = '';
+            }
+        });
         </script>
     </body> 
 </html>
