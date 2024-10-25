@@ -18,7 +18,7 @@
     <form id="ListaForm" action="AltaDeListaServlet" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
         <input type="hidden" id='Valido' name='Valido' value="true">  
         <label for="nombreLista">Nombre de la Lista : </label>
-        <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de la Lista"><br>
+        <input type="text" id="nombreLista" name="nombreLista" onkeyup="checkLista()" required title="Ingresa el nombre de la Lista"><br>
         <span id="ListaExistsMessage" style="color: red;"></span>
 
         <label for="imagenLista">Imagen de la Lista (opcional):</label>
@@ -40,33 +40,31 @@
             return true;
         }
         
-        var liNameInput = document.getElementById('nombreLista');
-        var listaExistsMessage = document.getElementById('ListaExistsMessage');
         var validoField = document.getElementById('Valido');
         var errorMessageElement = document.getElementById("errorMessage");
+        
+        function checkLista() {
+            const lista = document.getElementById("nombreLista").value;
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "AltaDeListaServlet?listaName=" + encodeURIComponent(lista), true);
 
-        liNameInput.addEventListener('input', function() {
-            var listaName = liNameInput.value;
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    errorMessageElement.style.display = "none";
+                    let mensaje = xhr.responseText;
+        let listaValidoField = document.getElementById("ListaExistsMessage");
+        if (mensaje === "Lista name is available") {
+            listaValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
+            validoField.value = "true";
+        } else {
+            listaValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
+            validoField.value = "false";
+        }
+                }
+            };
 
-            if (listaName.length > 0) {
-                // Utiliza fetch para hacer una solicitud GET al servidor
-                fetch('AltaDeListaServlet?listaName=' + encodeURIComponent(listaName))
-                    .then(response => response.text())
-                    .then(data => {
-                        errorMessageElement.style.display = "none";
-                        if (data === 'exists') {
-                            validoField.value = "false";
-                            listaExistsMessage.textContent = 'Esta lista ya existe en tu biblioteca.';
-                        } else {
-                            validoField.value = "true";
-                            listaExistsMessage.textContent = '';
-                        }
-                    })
-                    .catch(error => console.error('Error al verificar la lista:', error));
-            } else {
-                listaExistsMessage.textContent = '';
-            }
-        });
+            xhr.send();
+        }
         
     </script>
 </body>

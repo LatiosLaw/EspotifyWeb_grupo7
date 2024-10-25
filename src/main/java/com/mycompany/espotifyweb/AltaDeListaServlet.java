@@ -15,8 +15,10 @@ import javax.servlet.http.Part;
 import logica.Cliente;
 import logica.ListaParticular;
 import logica.ListaReproduccion;
+import logica.controladores.ControladorAlbum;
 import logica.controladores.ControladorCliente;
 import logica.controladores.ControladorListaParticular;
+import logica.dt.DataAlbum;
 import logica.dt.DataListaParticular;
 import persistencia.DAO_ListaReproduccion;
 import persistencia.DAO_Usuario;
@@ -44,20 +46,37 @@ public class AltaDeListaServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
-        
-        HttpSession session = request.getSession();
+                HttpSession session = request.getSession();
         String nickname = (String) session.getAttribute("nickname");
-            
-            String listaName = request.getParameter("listaName");
-                ListaReproduccion lista = persistence.findListaReproduccionPorNombre(listaName, nickname);
+        
+                String lista = request.getParameter("listaName");
 
-                if (lista != null) {
-                    response.getWriter().write("exists");
-                } else {
-                    response.getWriter().write("available");
-                }
+        // Aquí iría la lógica para verificar si el usuario existe
+        boolean isAvailable = checkListaAvailability(lista, nickname);
+
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
+        if (isAvailable) {
+            out.print("Lista name is available");
+        } else {
+            out.print("Lista name is already taken");
+        }
+        out.close();
     }
+    
+    private boolean checkListaAvailability(String lista_name, String nickname) {
+        // Aquí deberías realizar la consulta a la base de datos.
+        // Por ejemplo:
+        // return !userDao.isUsernameTaken(username);
+        // Simulación de base de datos (ejemplo)
+        DAO_ListaReproduccion list = new DAO_ListaReproduccion();
+        ListaParticular lista = list.findListaPorNicks(nickname, lista_name);
+            if (lista!=null) {
+                return false;
+            }
+        return true;
+    }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
