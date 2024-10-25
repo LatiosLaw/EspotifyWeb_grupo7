@@ -139,7 +139,7 @@ public class LoginServlet extends HttpServlet {
 
             session = request.getSession();
 
-            session.setAttribute("nicknameLogin", nickname);
+            session.setAttribute("nickname", nickname);
             session.setAttribute("userType", userType);
             session.setAttribute("suscrito", suscrito);
 

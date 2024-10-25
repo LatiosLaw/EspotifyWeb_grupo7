@@ -30,7 +30,7 @@
                     <ul class="listUser">
                         <%
                             String userType = (String) session.getAttribute("userType");
-                            String nickname = (String) session.getAttribute("nicknameLogin");
+                            String nickname = (String) session.getAttribute("nickname");
                         %>
                         <li class="userName"><p class="name"><%= nickname != null ? nickname : "Visitante"%></p></li>
                             <% if (nickname == null) { %>
