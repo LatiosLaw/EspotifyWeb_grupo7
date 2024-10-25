@@ -101,14 +101,14 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-        String nicknameLogin = request.getParameter("nicknameLogin");
-        String passLogin = request.getParameter("passLogin");
+        String nickname = request.getParameter("nicknameLogin");
+        String pass = request.getParameter("passLogin");
 
         DAO_Usuario persistence = new DAO_Usuario();
         persistence.reconnect(); // Forzar reconexion a la bd
 
         ControladorCliente controlador = new ControladorCliente();
-        DataErrorBundle resultado = controlador.iniciarSesion(nicknameLogin, passLogin);
+        DataErrorBundle resultado = controlador.iniciarSesion(nickname, pass);
 
         if (resultado.getValor()) {
             HttpSession session = request.getSession(false);
@@ -116,7 +116,7 @@ public class LoginServlet extends HttpServlet {
                 session.invalidate();
             }
 
-            Usuario usuario = persistence.findUsuarioByNick(nicknameLogin);
+            Usuario usuario = persistence.findUsuarioByNick(nickname);
 
             String userType = null;
 
@@ -135,11 +135,11 @@ public class LoginServlet extends HttpServlet {
             }
 
             ControladorSuscripcion controladorSus = new ControladorSuscripcion();
-            Boolean suscrito = controladorSus.tieneSusValida(nicknameLogin);
+            Boolean suscrito = controladorSus.tieneSusValida(nickname);
 
             session = request.getSession();
 
-            session.setAttribute("nicknameLogin", nicknameLogin);
+            session.setAttribute("nicknameLogin", nickname);
             session.setAttribute("userType", userType);
             session.setAttribute("suscrito", suscrito);
 

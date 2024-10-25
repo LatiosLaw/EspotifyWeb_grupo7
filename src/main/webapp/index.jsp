@@ -24,21 +24,25 @@
                 </div>
                 
                 <div class="userDiv">
-                    <div class="divUserIMG">
-                        <img src="imagenes/espotify/user.png" class="userIMG">
-                    </div>
-                    <ul class="listUser">
                         <%
                             String userType = (String) session.getAttribute("userType");
-                            String nickname = (String) session.getAttribute("nickname");
+                            String nickname = (String) session.getAttribute("nicknameLogin");
                         %>
+                    <div class="divUserIMG">
+                            <% if (nickname == null) { %>
+                        <img src="imagenes/espotify/user.png" class="userIMG">
+                            <% } else { %>
+                        <a href="ConsultarUsuario.html"><img src="imagenes/espotify/user.png" class="userIMG"></a>
+                            <% } %>
+                    </div>
+                    <ul class="listUser">
                         <li class="userName"><p class="name"><%= nickname != null ? nickname : "Visitante"%></p></li>
                             <% if (nickname == null) { %>
                         <li><p><button id="abrirFormLogin">Iniciar sesi?n</button></p></li>
                                     <% } else { %>
                         <li class="userFav"><a href=""><img src="imagenes/espotify/star.png" class="favIMG"></a><p><a href="">Favoritos</a></p></li> 
                         <li><p><button id="logoutButton">Cerrar sesi?n</button></p></li>
-                                    <% }%>
+                                    <% } %>
                     </ul>
                 </div>   
             </header>
@@ -117,7 +121,7 @@
                 <div class="tituloFormSignup">
                     <h2>Registro de Usuario</h2>
                 </div>
-                <form id="altaUsuarioForm" action="AgregarUsuarioServlet" method="post, dialog" enctype="multipart/form-data">
+                <form id="altaUsuarioForm" method="post, dialog" action="AgregarUsuarioServlet" enctype="multipart/form-data">
                         <c:if test="${not empty errorMessage}">
                     <p id="errorMessage" style="color: red;">${errorMessage}</p>
                         </c:if>
