@@ -95,7 +95,7 @@
                 <div class="tituloFormLogin">
                     <h2>Inicio de Sesion</h2>
                 </div>
-                <form id="loginForm" method='post, dialog'>
+                <form id="loginForm" method="post, dialog">
                     <div>
                         <label for="nicknameLogin">Nickname:</label>
                         <input type="text" id="nicknameLogin" name="nicknameLogin" required>
@@ -117,7 +117,7 @@
                 <div class="tituloFormSignup">
                     <h2>Registro de Usuario</h2>
                 </div>
-                <form id="altaUsuarioForm" method='dialog' enctype="multipart/form-data">
+                <form id="altaUsuarioForm" action="AgregarUsuarioServlet" method="post, dialog" enctype="multipart/form-data">
                         <c:if test="${not empty errorMessage}">
                     <p id="errorMessage" style="color: red;">${errorMessage}</p>
                         </c:if>
@@ -183,208 +183,149 @@
 
         <!-- Script inicio de sesion -->
         <script>
-                                    // Funci?n para iniciar sesi?n
-                                    function iniciarSesion(event) {
-                                        event.preventDefault(); // Evita que se env?e el formulario de forma tradicional
+            // Login
+            document.getElementById('loginForm').addEventListener('submit', function (event) {
+                event.preventDefault();
 
-                                        const formData = new FormData(event.target);
-                                        const params = new URLSearchParams(formData).toString();
+                const formData = new FormData(this);
+                const params = new URLSearchParams(formData).toString();
 
-                                        fetch('http://localhost:8080/EspotifyWeb/LoginServlet', {
-                                            method: 'POST',
-                                            headers: {
-                                                'Content-Type': 'application/x-www-form-urlencoded'
-                                            },
-                                            body: params
-                                        })
-                                                .then(response => {
-                                                    if (!response.ok) {
-                                                        throw new Error('Network response was not ok');
-                                                    }
-                                                    return response.json();
-                                                })
-                                                .then(data => {
-                                                    const message = data.success ? "Inicio de sesi?n exitoso." : "Error al iniciar sesi?n: " + data.errorCode;
-                                                    document.getElementById('resultado').innerText = message;
-                                                    alert(message);
+                fetch('http://localhost:8080/EspotifyWeb/LoginServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params
+                })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const message = data.success ? "Visitante logeado exitosamente." : "Error al intentar logearse: " + data.errorCode;
+                            document.getElementById('resultado').innerText = message;
+                            alert(message);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            const errorMessage = "Error al intentar logearse.";
+                            document.getElementById('resultado').innerText = errorMessage;
+                            alert(errorMessage);
+                        });
+            });
 
-                                                    if (data.success) {
-                                                        window.location.reload(); // Recarga la p?gina si el inicio fue exitoso
-                                                    }
-                                                })
-                                                .catch(error => {
-                                                    console.error('Error:', error);
-                                                    const errorMessage = "Error al intentar iniciar sesi?n.";
-                                                    document.getElementById('resultado').innerText = errorMessage;
-                                                    alert(errorMessage);
-                                                });
-                                    }
-
-                                    // Funci?n para cerrar sesi?n
-                                    function cerrarSesion() {
-                                        fetch('http://localhost:8080/EspotifyWeb/CerrarSesionServlet', {
-                                            method: 'POST',
-                                            headers: {
-                                                'Content-Type': 'application/json'
-                                            }
-                                        })
-                                                .then(response => {
-                                                    if (!response.ok) {
-                                                        throw new Error('Network response was not ok');
-                                                    }
-                                                    return response.json();
-                                                })
-                                                .then(data => {
-                                                    const message = data.success ? data.message : "Error al cerrar sesi?n.";
-                                                    document.getElementById('resultado').innerText = message;
-                                                    alert(message);
-
-                                                    if (data.success) {
-                                                        window.location.reload(); // Recarga la p?gina si el cierre fue exitoso
-                                                    }
-                                                })
-                                                .catch(error => {
-                                                    console.error('Error:', error);
-                                                    const errorMessage = "Error al intentar cerrar sesi?n.";
-                                                    document.getElementById('resultado').innerText = errorMessage;
-                                                    alert(errorMessage);
-                                                });
-                                    }
-
-                                    // Configuraci?n de eventos
-                                    document.getElementById('abrirFormLogin')?.addEventListener('click', function () {
-                                        document.getElementById('winLogin').showModal();
-                                    });
-
-                                    document.getElementById('cerrarFormLogin')?.addEventListener('click', function () {
-                                        document.getElementById('winLogin').close();
-                                    });
-
-                                    document.getElementById('loginForm')?.addEventListener('submit', iniciarSesion);
-                                    document.getElementById('logoutButton')?.addEventListener('click', cerrarSesion);
+            // Logout
+            document.getElementById('logoutButton').addEventListener('click', function () {
+                fetch('http://localhost:8080/EspotifyWeb/CerrarSesionServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const message = data.success ? data.message : "Error al cerrar sesion.";
+                            document.getElementById('resultado').innerText = message;
+                            alert(message);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            const errorMessage = "Error al intentar cerrar sesion.";
+                            document.getElementById('resultado').innerText = errorMessage;
+                            alert(errorMessage);
+                        });
+            });
         </script>
         
         <!-- Script registro de usuario -->
         <script>
-                                    document.getElementById('tipoUsuario').addEventListener('change', function () {
-                                        const camposArtista = document.getElementById('camposArtista');
-                                        if (this.value === 'artista') {
-                                            camposArtista.style.display = 'block';
-                                        } else {
-                                            camposArtista.style.display = 'none';
-                                        }
-                                    });
+            document.getElementById('tipoUsuario').addEventListener('change', function () {
+                const camposArtista = document.getElementById('camposArtista');
+                if (this.value === 'artista') {
+                    camposArtista.style.display = 'block';
+                } else {
+                    camposArtista.style.display = 'none';
+                }
+            });
+            
+            var validoField = document.getElementById('Valido');
 
-                                    document.getElementById('altaUsuarioForm').addEventListener('submit', function (event) {
-                                        event.preventDefault();
+            function checkNickname() {
+                const nickname = document.getElementById("nickname").value;
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", "AgregarUsuarioServlet?action=verificarNickname&Nickname=" + encodeURIComponent(nickname), true);
 
-                                        // Validar que las contraseñas coincidan
-                                        const pass = document.getElementById('pass').value;
-                                        const confirmPass = document.getElementById('confirmPass').value;
-                                        if (pass !== confirmPass) {
-                                            alert("Las contraseñas no coinciden.");
-                                            return;
-                                        }
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        let mensaje = xhr.responseText;
+            let nicknameValidoField = document.getElementById("nickValido");
+            if (mensaje === "Nickname is available") {
+                nicknameValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
+                validoField.value = "true";
+            } else {
+                nicknameValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
+                validoField.value = "false";
+            }
+                    }
+                };
 
-                                        const formData = new FormData(this);
-                                        const params = new URLSearchParams(formData).toString();
+                xhr.send();
+            }
 
-                                        fetch('http://localhost:8080/EspotifyWeb/AgregarUsuarioServlet', {
-                                            method: 'POST',
-                                            headers: {
-                                                'Content-Type': 'application/x-www-form-urlencoded'
-                                            },
-                                            body: params
-                                        })
-                                                .then(response => response.json())
-                                                .then(data => {
-                                                    const message = data.success ? "Usuario agregado exitosamente." : "Error al agregar usuario: " + data.errorCode;
-                                                    document.getElementById('resultado').innerText = message;
-                                                    alert(message);
-                                                })
-                                                .catch(error => {
-                                                    console.error('Error:', error);
-                                                    const errorMessage = "Error al agregar usuario.";
-                                                    document.getElementById('resultado').innerText = errorMessage;
-                                                    alert(errorMessage);
-                                                });
-                                    });
+            function checkCorreo() {
+                const correo = document.getElementById("mail").value;
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", "AgregarUsuarioServlet?action=verificarCorreo&correoName=" + encodeURIComponent(correo), true);
 
-                                var validoField = document.getElementById('Valido');
-                                var errorMessageElement = document.getElementById("errorMessage");
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        let mensaje = xhr.responseText;
+            let correoValidoField = document.getElementById("correoValido");
+            if (mensaje === "Mail is available") {
+                correoValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
+                validoField.value = "true";
+            } else {
+                correoValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
+                validoField.value = "false";
+            }
+                    }
+                };
 
-                                function checkNickname() {
-                                    const nickname = document.getElementById("nickname").value;
-                                    const xhr = new XMLHttpRequest();
-                                    xhr.open("GET", "AgregarUsuarioServlet?action=verificarNickname&Nickname=" + encodeURIComponent(nickname), true);
-
-                                    xhr.onreadystatechange = function() {
-                                        if (xhr.readyState === 4 && xhr.status === 200) {
-                                            errorMessageElement.style.display = "none";
-                                            let mensaje = xhr.responseText;
-                                let nicknameValidoField = document.getElementById("nickValido");
-                                if (mensaje === "Nickname is available") {
-                                    nicknameValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
-                                    validoField.value = "true";
-                                } else {
-                                    nicknameValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
-                                    validoField.value = "false";
-                                }
-                                        }
-                                    };
-
-                                    xhr.send();
-                                }
-
-                                function checkCorreo() {
-                                    const correo = document.getElementById("mail").value;
-                                    const xhr = new XMLHttpRequest();
-                                    xhr.open("GET", "AgregarUsuarioServlet?action=verificarCorreo&correoName=" + encodeURIComponent(correo), true);
-
-                                    xhr.onreadystatechange = function() {
-                                        if (xhr.readyState === 4 && xhr.status === 200) {
-                                            errorMessageElement.style.display = "none";
-                                            let mensaje = xhr.responseText;
-                                let correoValidoField = document.getElementById("correoValido");
-                                if (mensaje === "Mail is available") {
-                                    correoValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
-                                    validoField.value = "true";
-                                } else {
-                                    correoValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
-                                    validoField.value = "false";
-                                }
-                                        }
-                                    };
-
-                                    xhr.send();
-                                }
-
+                xhr.send();
+            }
         </script>
         
         <!-- Formulario de login y signup -->
         <script>
-                                const abrirFormLogin = document.querySelector("#abrirFormLogin");
-                                const cerrarFormLogin = document.querySelector("#cerrarFormLogin");
-                                const winLogin = document.querySelector("#winLogin");
-                                const abrirFormSignup = document.querySelector("#abrirFormSignup");
-                                const cerrarFormSignup = document.querySelector("#cerrarFormSignup");
-                                const winSignup = document.querySelector("#winSignup");
+            const abrirFormLogin = document.querySelector("#abrirFormLogin");
+            const cerrarFormLogin = document.querySelector("#cerrarFormLogin");
+            const winLogin = document.querySelector("#winLogin");
+            const abrirFormSignup = document.querySelector("#abrirFormSignup");
+            const cerrarFormSignup = document.querySelector("#cerrarFormSignup");
+            const winSignup = document.querySelector("#winSignup");
 
-                                abrirFormLogin.addEventListener("click", () => {
-                                    winLogin.showModal();
-                                });
+            abrirFormLogin.addEventListener("click", () => {
+                winLogin.showModal();
+            });
 
-                                cerrarFormLogin.addEventListener("click", () => {
-                                    winLogin.close();
-                                });
-                                                               
-                                abrirFormSignup.addEventListener("click", () => {
-                                    winSignup.showModal();
-                                });
+            cerrarFormLogin.addEventListener("click", () => {
+                winLogin.close();
+            });
 
-                                cerrarFormSignup.addEventListener("click", () => {
-                                    winSignup.close();
-                                });
+            abrirFormSignup.addEventListener("click", () => {
+                winSignup.showModal();
+            });
+
+            cerrarFormSignup.addEventListener("click", () => {
+                winSignup.close();
+            });
         </script>
         
         <!-- Cosas del reproductor de musica -->

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Consulta de Perfil de Usuario</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+            h1, h2 {
+                color: #333;
+            }
+            #perfil{
+                margin-top: 20px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 5px;
+            }
+            #seguidores, #seguidos ,#listas, #albumes, #favoritos {
+                margin-top: 20px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 5px;
+                display: none;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 10px;
+            }
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            img {
+                width: 50px;
+                height: auto;
+            }
+        </style>
+    </head>
+    <body>
+
+        <h1>Consulta de Perfil de Usuario</h1>
+
+        <div id="perfil">
+            <h2>Perfil</h2>
+            <p><strong>Nickname:</strong> <span id="nickname"></span></p>
+            <p><strong>Correo Electronico:</strong> <span id="correo"></span></p>
+            <p><strong>Nombre:</strong> <span id="nombre"></span></p>
+            <p><strong>Apellido:</strong> <span id="apellido"></span></p>
+            <p><strong>Fecha de Nacimiento:</strong> <span id="fechaNacimiento"></span></p>
+            <p><strong>Imagen:</strong> <img id="imagenPerfil" src="" alt="Imagen de perfil"></p>
+        </div>
+
+        <div id="seguidores">
+            <h2>Seguidores</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nickname</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaSeguidores"></tbody>
+            </table>
+        </div>
+
+        <div id="seguidos">
+            <h2>Seguidos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nickname</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaSeguidos"></tbody>
+            </table>
+        </div>
+
+        <div id="listas">
+            <h2>Listas de Reproduccion</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaListas"></tbody>
+            </table>
+        </div>
+
+        <div id="favoritos">
+            <h2>Favoritos</h2>
+
+            <div>
+                <h3>Listas Favoritas</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre de la Lista</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaListasFavoritas"></tbody>
+                </table>
+            </div>
+
+            <div>
+                <h3>Albumes Favoritos</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del Album</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaAlbumesFavoritos"></tbody>
+                </table>
+            </div>
+
+            <div>
+                <h3>Temas Favoritos</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del Tema</th>
+                            <th> Nombre del Album</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaTemasFavoritos"></tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div id="albumes">
+            <h2>Albumes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre del Album</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaAlbumes"></tbody>
+            </table>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                cargarPerfil();
+            });
+
+            function cargarPerfil() {
+                fetch('ConsultarUsuarioServlet?action=cargarPerfil')
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('nickname').textContent = data.nickname;
+                            document.getElementById('correo').textContent = data.correo;
+                            document.getElementById('nombre').textContent = data.nombre;
+                            document.getElementById('apellido').textContent = data.apellido;
+                            document.getElementById('fechaNacimiento').textContent = data.fechaNacimiento;
+                            document.getElementById('imagenPerfil').src = data.imagen ? `imagenes/usuarios/${data.imagen}` : 'imagenes/usuarios/defaultUser.png';
+                            checkUserType();
+                        })
+                        .catch(error => console.error('Error al cargar perfil:', error));
+            }
+
+            function cargarSeguidores(nickname) {
+                fetch(`ConsultarUsuarioServlet?action=cargarSeguidores&nickname=${encodeURIComponent(nickname)}`)
+                        .then(response => response.json())
+                        .then(seguidores => {
+                            const seguidoresTbody = document.getElementById('tablaSeguidores');
+                            seguidores.forEach(seguidor => {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `<td>${seguidor}</td>`;
+                                seguidoresTbody.appendChild(row);
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar seguidores:', error));
+            }
+
+            function cargarSeguidos(nickname) {
+                fetch(`ConsultarUsuarioServlet?action=cargarSeguidos&nickname=${encodeURIComponent(nickname)}`)
+                        .then(response => response.json())
+                        .then(seguidos => {
+                            const seguidosTbody = document.getElementById('tablaSeguidos');
+                            seguidos.forEach(seguido => {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `<td>${seguido}</td>`;
+                                seguidosTbody.appendChild(row);
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar seguidos:', error));
+            }
+
+            function cargarListas(nickname) {
+                fetch(`ConsultarUsuarioServlet?action=cargarListas&nickname=${encodeURIComponent(nickname)}`)
+                        .then(response => response.json())
+                        .then(listas => {
+                            const listasTbody = document.getElementById('tablaListas');
+                            listas.forEach(lista => {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `<td>${lista}</td><td><button onclick="verDetalles('${lista}')">Ver Detalles</button></td>`;
+                                listasTbody.appendChild(row);
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar listas:', error));
+            }
+
+            function cargarAlbumes(nickname) {
+                fetch(`ConsultarUsuarioServlet?action=cargarAlbumes&nickname=${encodeURIComponent(nickname)}`)
+                        .then(response => response.json())
+                        .then(albumes => {
+                            document.getElementById('albumes').style.display = 'block';
+                            const albumesTbody = document.getElementById('tablaAlbumes');
+                            albumes.forEach(album => {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `<td>${album}</td><td><button onclick="verDetallesAlbum('${album}')">Ver Detalles</button></td>`;
+                                albumesTbody.appendChild(row);
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar álbumes:', error));
+            }
+
+            function cargarAlbumesFavoritos(nickname) {
+                fetch(`ConsultarUsuarioServlet?action=cargarAlbumesFavoritos&nickname=${encodeURIComponent(nickname)}`)
+                        .then(response => response.json())
+                        .then(albumes => {
+                            const albumesTbody = document.getElementById('tablaAlbumesFavoritos');
+                            albumesTbody.innerHTML = '';
+
+                            if (albumes.length === 0) {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `<td colspan="2" style="text-align: center;">No hay álbumes favoritos disponibles.</td>`;
+                                albumesTbody.appendChild(row);
+                            } else {
+                                albumes.forEach(album => {
+                                    const row = document.createElement('tr');
+                                    row.innerHTML = `<td>${album}</td><td><button onclick="verDetallesAlbum('${album}')">Ver Detalles</button></td>`;
+                                    albumesTbody.appendChild(row);
+                                });
+                            }
+                        })
+                        .catch(error => console.error('Error al cargar álbumes:', error));
+            }
+
+            function cargarListasFavoritas(nickname) {
+                fetch(`ConsultarUsuarioServlet?action=cargarListasFavoritas&nickname=${encodeURIComponent(nickname)}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la red: ' + response.statusText);
+                            }
+                            return response.json();
+                        })
+                        .then(listas => {
+                            const listasTbody = document.getElementById('tablaListasFavoritas');
+                            listasTbody.innerHTML = '';
+
+                            if (listas.length === 0) {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `<td colspan="2" style="text-align: center;">No hay listas favoritas disponibles.</td>`;
+                                listasTbody.appendChild(row);
+                            } else {
+                                listas.forEach(lista => {
+                                    const row = document.createElement('tr');
+                                    row.innerHTML = `<td>${lista}</td><td><button onclick="verDetallesLista('${lista}')">Ver Detalles</button></td>`;
+                                    listasTbody.appendChild(row);
+                                });
+                            }
+                        })
+                        .catch(error => console.error('Error al cargar listas:', error));
+            }
+
+            function cargarTemasFavoritos(nickname) {
+                fetch(`ConsultarUsuarioServlet?action=cargarTemasFavoritos&nickname=${encodeURIComponent(nickname)}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la red: ' + response.statusText);
+                            }
+                            return response.json();
+                        })
+                        .then(temas => {
+                            const temasTbody = document.getElementById('tablaTemasFavoritos');
+                            temasTbody.innerHTML = '';
+
+                            if (temas.length === 0) {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `<td colspan="3" style="text-align: center;">No hay temas favoritos disponibles.</td>`;
+                                temasTbody.appendChild(row);
+                            } else {
+                                temas.forEach(tema => {
+                                    const row = document.createElement('tr');
+                                    row.innerHTML = `
+                        <td>${tema.nombreTema}</td>
+                        <td>${tema.nombreAlbumTema}</td>
+                    `;
+                                    temasTbody.appendChild(row);
+                                });
+                            }
+                        })
+                        .catch(error => console.error('Error al cargar temas:', error));
+            }
+
+
+
+            function verDetallesLista(lista) {
+                alert(`Detalles de la lista: ${lista}`);
+                // wip
+            }
+
+            function verDetallesAlbum(album) {
+                alert(`Detalles del álbum: ${album}`);
+                // wip
+            }
+
+            function checkSuscripcion() {
+                fetch('LoginServlet?action=obtenerSuscripcion')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la red: ' + response.statusText);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const suscripcion = data.suscrito;
+
+                            if (suscripcion === true) {
+                                cargarSeguidores(data.nickname);
+                                cargarSeguidos(data.nickname);
+                                cargarListas(data.nickname);
+                                cargarAlbumesFavoritos(data.nickname);
+                                cargarListasFavoritas(data.nickname);
+                                cargarTemasFavoritos(data.nickname);
+
+                                document.getElementById('seguidores').style.display = 'block';
+                                document.getElementById('seguidos').style.display = 'block';
+                                document.getElementById('listas').style.display = 'block';
+                                document.getElementById('favoritos').style.display = 'block';
+                            } else if (suscripcion === false) {
+
+                                cargarSeguidores(data.nickname);
+                                document.getElementById('seguidores').style.display = 'block';
+                                document.getElementById('seguidos').style.display = 'none';
+                                document.getElementById('listas').style.display = 'none';
+                                document.getElementById('favoritos').style.display = 'none';
+                            } else {
+                                console.warn('No se pudo determinar el estado de la suscripción.');
+                            }
+                        })
+                        .catch(error => console.error('Error al obtener la suscripción:', error));
+            }
+
+            function checkUserType() {
+                fetch('LoginServlet?action=obtenerTipoUsuario')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la red: ' + response.statusText);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const userType = data.userType;
+
+                            if (userType === 'Artista') {
+                                document.getElementById('albumes').style.display = 'block'; // Muestra la sección de álbumes
+                                document.getElementById('seguidores').style.display = 'block'; // Oculta la sección de álbumes
+                                cargarAlbumes(nickname);
+                                cargarSeguidores(data.nickname);
+
+                            } else if (userType === 'Cliente') {
+                                checkSuscripcion();
+                            } else {
+                            }
+                        })
+                        .catch(error => console.error('Error al obtener el tipo de usuario:', error));
+            }
+        </script>
+    </body>
+</html>

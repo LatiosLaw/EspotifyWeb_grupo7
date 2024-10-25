@@ -8,14 +8,12 @@
     </head>
     <body>
 
-        <a href="index.jsp">Página Principal</a>
+        <a href="index.jsp">Pagina Principal</a>
 
         <h1>Alta de Usuario</h1>
 
-        <c:if test="${not empty errorMessage}">
-        <p id="errorMessage" style="color: red;">${errorMessage}</p>
-    </c:if>
-        <form id="altaUsuarioForm">
+        <form id="altaUsuarioForm" action="AgregarUsuarioServlet" method="post" enctype="multipart/form-data">
+    
             <input type="hidden" id='Valido' name='Valido' value="true">  
             <label for="tipoUsuario">Tipo de Usuario:</label>
             <select id="tipoUsuario" name="tipoUsuario" required>
@@ -25,7 +23,7 @@
             </select><br>
 
             <label for="nickname">Nickname:</label>
-            <input type="text" id="nickname" name="nickname" required><br>
+            <input type="text" id="nickname" name="nickname" onkeyup="checkNickname()" required><br>
             <span id="nickValido" style="color: red;"></span>
 
             <label for="nombre">Nombre:</label>
@@ -35,11 +33,11 @@
             <input type="text" id="apellido" name="apellido" required><br>
 
             <label for="mail">Email:</label>
-            <input type="email" id="mail" name="mail" required><br>
+            <input type="email" id="mail" name="mail" onkeyup="checkCorreo()" required><br>
             <span id="correoValido" style="color: red;"></span>
 
-            <label for="foto">Foto (URL):</label>
-            <input type="text" id="foto" name="foto"><br>
+            <label for="foto">Foto de Perfil (Opcional):</label>
+        <input type="file" id="foto" name="foto" accept="image/png, image/jpeg">
 
             <div id="camposArtista" style="display: none;">
                 <label for="dirWeb">Direccion web (URL):</label>
@@ -72,94 +70,53 @@
                     camposArtista.style.display = 'none';
                 }
             });
-
-            document.getElementById('altaUsuarioForm').addEventListener('submit', function (event) {
-                event.preventDefault();
-
-                // Validar que las contraseñas coincidan
-                const pass = document.getElementById('pass').value;
-                const confirmPass = document.getElementById('confirmPass').value;
-                if (pass !== confirmPass) {
-                    alert("Las contraseñas no coinciden.");
-                    return;
-                }
-
-                const formData = new FormData(this);
-                const params = new URLSearchParams(formData).toString();
-
-                fetch('http://localhost:8080/EspotifyWeb/AgregarUsuarioServlet', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: params
-                })
-                        .then(response => response.json())
-                        .then(data => {
-                            const message = data.success ? "Usuario agregado exitosamente." : "Error al agregar usuario: " + data.errorCode;
-                            document.getElementById('resultado').innerText = message;
-                            alert(message);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            const errorMessage = "Error al agregar usuario.";
-                            document.getElementById('resultado').innerText = errorMessage;
-                            alert(errorMessage);
-                        });
-            });
             
-        var nicknameInput = document.getElementById('nickname');
-        var nickValido = document.getElementById('nickValido');
         var validoField = document.getElementById('Valido');
-        var errorMessageElement = document.getElementById("errorMessage");
-        var correoInput = document.getElementById('mail');
-        var correoValido = document.getElementById('correoValido');
 
-        nicknameInput.addEventListener('input', function() {
-            var nickname_input = nicknameInput.value;
+        function checkNickname() {
+            const nickname = document.getElementById("nickname").value;
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "AgregarUsuarioServlet?action=verificarNickname&Nickname=" + encodeURIComponent(nickname), true);
 
-            if (nickname_input.length > 0) {
-                // Utiliza fetch para hacer una solicitud GET al servidor
-                fetch('AgregarUsuarioServlet?action=verificarNickname&Nickname=' + encodeURIComponent(nickname_input))
-                    .then(response => response.text())
-                    .then(data => {
-                        errorMessageElement.style.display = "none";
-                        if (data === 'exists') {
-                            validoField.value = "false";
-                            nickValido.textContent = 'Este nickname ya esta en uso.';
-                        } else {
-                            validoField.value = "true";
-                            nickValido.textContent = '';
-                        }
-                    })
-                    .catch(error => console.error('Error al verificar el nickname:', error));
-            } else {
-                nickValido.textContent = '';
-            }
-        });
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    let mensaje = xhr.responseText;
+        let nicknameValidoField = document.getElementById("nickValido");
+        if (mensaje === "Nickname is available") {
+            nicknameValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
+            validoField.value = "true";
+        } else {
+            nicknameValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
+            validoField.value = "false";
+        }
+                }
+            };
+
+            xhr.send();
+        }
         
-        correoInput.addEventListener('input', function() {
-            var correo_input = correoInput.value;
+        function checkCorreo() {
+            const correo = document.getElementById("mail").value;
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "AgregarUsuarioServlet?action=verificarCorreo&correoName=" + encodeURIComponent(correo), true);
 
-            if (correo_input.length > 0) {
-                // Utiliza fetch para hacer una solicitud GET al servidor
-                fetch('AgregarUsuarioServlet?action=verificarCorreo&correoName=' + encodeURIComponent(correo_input))
-                    .then(response => response.text())
-                    .then(data => {
-                        errorMessageElement.style.display = "none";
-                        if (data === 'exists') {
-                            validoField.value = "false";
-                            correoValido.textContent = 'Este correo ya esta en uso.';
-                        } else {
-                            validoField.value = "true";
-                            correoValido.textContent = '';
-                        }
-                    })
-                    .catch(error => console.error('Error al verificar el correo:', error));
-            } else {
-                correoValido.textContent = '';
-            }
-        });
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    let mensaje = xhr.responseText;
+        let correoValidoField = document.getElementById("correoValido");
+        if (mensaje === "Mail is available") {
+            correoValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
+            validoField.value = "true";
+        } else {
+            correoValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
+            validoField.value = "false";
+        }
+                }
+            };
+
+            xhr.send();
+        }
+        
         </script>
     </body> 
 </html>

@@ -71,7 +71,7 @@ public class ConsultarListaRepServlet extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El nombre de la lista es requerido");
                 return;
             }
-            obtenerTemasPorLista(nombreLista, out, response); 
+            obtenerTemasPorLista(nombreLista, out, response);
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida");
         }
@@ -98,7 +98,7 @@ public class ConsultarListaRepServlet extends HttpServlet {
         Collection<ListaParticular> listaP = daoListaPart.findAllListasParticulares();
 
         List<Map<String, Object>> listasParticularesRetornables = new ArrayList<>();
-        
+
         for (ListaParticular lista : listaP) {
             if (lista.getVisibilidad()) {
                 Map<String, Object> listaMap = new HashMap<>();
@@ -106,6 +106,7 @@ public class ConsultarListaRepServlet extends HttpServlet {
                 listaMap.put("cliente", lista.getCliente().getNickname());
                 listaMap.put("imagen", lista.getFoto());
                 listasParticularesRetornables.add(listaMap);
+                System.out.println(listaMap.get("imagen"));
             }
         }
 
@@ -119,13 +120,14 @@ public class ConsultarListaRepServlet extends HttpServlet {
         Collection<ListaPorDefecto> listas = daoListaRep.findListasPorGeneros(genero);
 
         List<Map<String, Object>> listasRetornables = new ArrayList<>();
-        
+
         for (ListaPorDefecto lista : listas) {
             Map<String, Object> listaMap = new HashMap<>();
             listaMap.put("nombre", lista.getNombreLista());
             listaMap.put("genero", lista.getGenero().getNombre());
             listaMap.put("imagen", lista.getFoto());
             listasRetornables.add(listaMap);
+            System.out.println(listaMap.get("imagen"));
         }
 
         Gson gson3 = new Gson();
@@ -134,36 +136,36 @@ public class ConsultarListaRepServlet extends HttpServlet {
     }
 
     private void obtenerTemasPorLista(String nombreLista, PrintWriter out, HttpServletResponse response) throws IOException {
-    if (nombreLista == null || nombreLista.isEmpty()) {
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El nombre de la lista es requerido");
-        return;
-    }
-
-    try {
-        ControladorTema ctrlTema = new ControladorTema();
-        Collection<DataTema> temas = ctrlTema.retornarTemasDeLaLista(nombreLista, 2);
-
-        if (temas.isEmpty()) {
-            out.print("[]");
+        if (nombreLista == null || nombreLista.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El nombre de la lista es requerido");
             return;
         }
 
-        StringBuilder jsonResponse = new StringBuilder("[");
-        for (DataTema tema : temas) {
-            jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
-                        .append("\"album\":\"").append(tema.getNomAlb()).append("\"},");
+        try {
+            ControladorTema ctrlTema = new ControladorTema();
+            Collection<DataTema> temas = ctrlTema.retornarTemasDeLaLista(nombreLista, 2);
+
+            if (temas.isEmpty()) {
+                out.print("[]");
+                return;
+            }
+
+            StringBuilder jsonResponse = new StringBuilder("[");
+            for (DataTema tema : temas) {
+                System.out.println(tema.getArchivo());
+                jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
+                        .append("\"album\":\"").append(tema.getNomAlb()).append("\",")
+                        .append("\"identificador_archivo\":\"").append(tema.getArchivo()).append("\"},");
+            }
+
+            jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+            jsonResponse.append("]");
+            out.print(jsonResponse.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al obtener los temas");
         }
-
-        jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-        jsonResponse.append("]");
-        out.print(jsonResponse.toString());
-    } catch (Exception e) {
-        e.printStackTrace();
-        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al obtener los temas");
     }
-}
-
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

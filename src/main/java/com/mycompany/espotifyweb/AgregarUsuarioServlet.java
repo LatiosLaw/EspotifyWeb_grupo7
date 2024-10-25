@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,8 @@ import logica.controladores.ControladorArtista;
 import logica.controladores.ControladorCliente;
 import logica.dt.DataErrorBundle;
 import persistencia.DAO_Usuario;
+
+@MultipartConfig
 
 public class AgregarUsuarioServlet extends HttpServlet {
 
@@ -115,10 +118,15 @@ public class AgregarUsuarioServlet extends HttpServlet {
         String apellido = request.getParameter("apellido");
         String mail = request.getParameter("mail");
         String pass = request.getParameter("pass");
-        LocalDate fechaNac = LocalDate.parse(request.getParameter("fechaNac"));
-
-        DataErrorBundle resultado;
+       
+        String fechaNacStr = request.getParameter("fechaNac");
+        LocalDate fechaNac;
         
+        if (fechaNacStr != null && !fechaNacStr.isEmpty()) {
+    fechaNac = LocalDate.parse(fechaNacStr); // convierte el String a LocalDate
+} else {
+    fechaNac = LocalDate.now();
+}
         Part filePart = request.getPart("foto");
          String fileName;
          
@@ -171,7 +179,7 @@ public class AgregarUsuarioServlet extends HttpServlet {
 
         if ("cliente".equals(tipoUsuario)) {
             ControladorCliente controladorCliente = new ControladorCliente();
-            resultado = controladorCliente.agregarCliente(nickname, nombre, apellido, pass, mail, fileName, fechaNac);
+            controladorCliente.agregarCliente(nickname, nombre, apellido, pass, mail, fileName, fechaNac);
 
         } else if ("artista".equals(tipoUsuario)) {
             // Obtener parametros adicionales para artista
@@ -179,24 +187,8 @@ public class AgregarUsuarioServlet extends HttpServlet {
             String dirWeb = request.getParameter("dirWeb");
 
             ControladorArtista controladorArtista = new ControladorArtista();
-            resultado = controladorArtista.agregarArtista(nickname, nombre, apellido, pass, mail, fileName, fechaNac, biografia, dirWeb);
+            controladorArtista.agregarArtista(nickname, nombre, apellido, pass, mail, fileName, fechaNac, biografia, dirWeb);
 
-        } else {
-            out.println("{\"success\": false, \"errorCode\": 400}"); // Error por tipo de usuario no válido
-            return;
-        }
-
-        if (resultado.getValor()) {
-            out.println("{\"success\": true}");
-            System.out.println("Usuario agregado exitosamente.");
-        } else {
-            if(resultado.getNumero()==1){
-                out.println("{\"success\": false, \"errorCode\": " + "\"Nickname ya en uso.\"" + "}");
-            System.out.println("Error al agregar usuario: " + resultado.getNumero());
-            }else if(resultado.getNumero()==2){
-        out.println("{\"success\": false, \"errorCode\": " + "\"Correo ya en uso.\"" + "}");
-            System.out.println("Error al agregar usuario: " + resultado.getNumero());
-        }
         }
 
         System.out.println("----------End Agregar Usuario Servlet----------");

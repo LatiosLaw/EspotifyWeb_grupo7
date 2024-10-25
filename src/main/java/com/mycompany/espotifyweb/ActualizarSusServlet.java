@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import logica.controladores.ControladorSuscripcion;
 import logica.dt.DataSus;
+import org.eclipse.persistence.exceptions.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -70,6 +72,9 @@ public class ActualizarSusServlet extends HttpServlet {
         ControladorSuscripcion controlSus = new ControladorSuscripcion();
         Collection<DataSus> cole;
         DataSus susData = new DataSus();
+        
+
+        
         try {
                 cole = controlSus.findPendientesVencidasString(nickname);
         } catch (Exception e) {
@@ -78,7 +83,7 @@ public class ActualizarSusServlet extends HttpServlet {
         }
         StringBuilder jsonResponse = new StringBuilder();
         jsonResponse.append("{\"sus\": [");
-
+            //{\"sus\": [
         if (cole != null && !cole.isEmpty()) {
             for (int i = 0; i < cole.size(); i++) {
                 DataSus data = cole.toArray(new DataSus[0])[i];
@@ -106,18 +111,66 @@ public class ActualizarSusServlet extends HttpServlet {
 
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        System.out.println("\n-----Actualizar sus Servlet POST-----");
+        
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+
+        // Obtener la sesión
+        HttpSession session = request.getSession();
+
+        // Leer el nickname desde la sesión
+        String nickname = (String) session.getAttribute("nickname");
+        
+        String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
+        
+         String idSus = null;
+         String estadoSus = null;
+        
+        try {
+            JSONObject jsonObject = new JSONObject(body);
+            idSus = jsonObject.getString("id"); 
+            estadoSus = jsonObject.getString("estado");
+            
+            System.out.println("idSus: " + idSus + "/estadoSus: " + estadoSus);
+            
+        } catch (JSONException e) {
+            out.println("{\"success\": false, \"error\": \"Error al procesar la solicitud.\"}");
+            return; // Salir si hay un error al procesar el JSON
+        }
+        System.out.println("\n-----Pasado la construccion del json-----");
+        ControladorSuscripcion controlSus = new ControladorSuscripcion();
+        
+        int idPosta;
+        try {
+            idPosta = Integer.parseInt(idSus);
+         }
+         catch (NumberFormatException e) {
+            idPosta = 0;
+        }
+        if(idPosta>0){
+            
+            DataSus token = controlSus.retornarSus(idPosta);
+            if(token != null){
+                  controlSus.actualizarSusCliente(idPosta, estadoSus);
+                   System.out.println("\n-----Success-----");
+                  out.println("{\"success\": true}");
+            }else{
+                System.out.println("\n-----No existe Sus con ese id.-----");
+                out.println("{\"success\": false, \"error\": \"No existe Sus con ese id.\"}");
+                 
+            }
+        }else{
+            System.out.println("\n-----Error a cargar los datos.-----");
+             out.println("{\"success\": false, \"error\": \"Error a cargar los datos.\"}");
+        }
+          out.flush();   
+
     }
 
     /**
