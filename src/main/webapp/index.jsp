@@ -214,6 +214,7 @@
                             document.getElementById('resultado').innerText = errorMessage;
                             alert(errorMessage);
                         });
+                setTimeout(() => location.reload(), 1000);
             });
 
             // Logout
@@ -241,6 +242,7 @@
                             document.getElementById('resultado').innerText = errorMessage;
                             alert(errorMessage);
                         });
+                setTimeout(() => location.reload(), 1000);
             });
         </script>
         
