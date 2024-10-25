@@ -42,7 +42,12 @@
                     </ul>
                 </div>   
             </header>
-                    
+
+            <div class="btnsEx">
+                <button>Generos</button>
+                <button>Artistas</button>
+            </div>
+
             <div class="mainCon">
                 <div class="dinamico">
                     
@@ -207,6 +212,9 @@
                             const message = data.success ? "Visitante logeado exitosamente." : "Error al intentar logearse: " + data.errorCode;
                             document.getElementById('resultado').innerText = message;
                             alert(message);
+                            if(message === "Visitante logeado exitosamente."){
+                                setTimeout(() => location.reload(), 1000);
+                            }
                         })
                         .catch(error => {
                             console.error('Error:', error);
@@ -214,7 +222,6 @@
                             document.getElementById('resultado').innerText = errorMessage;
                             alert(errorMessage);
                         });
-                setTimeout(() => location.reload(), 1000);
             });
 
             // Logout

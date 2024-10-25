@@ -110,6 +110,12 @@ ul{
     padding: 0;
 }
 
+.btnsEx{
+    position: absolute; /* Usamos posición absoluta */
+    left: 50%; /* Coloca el contenedor en el 50% desde la izquierda */
+    transform: translate(-50%, -85%); /* Mueve el contenedor hacia arriba y hacia la izquierda por la mitad de su tamaño */
+}
+
 .mainCon{
     position: relative;
     width: 100%;
@@ -218,7 +224,7 @@ ul{
 }
 
 #winLogin{
-     top: 40%; /* Coloca el contenedor en el 50% desde la parte superior */
+     top: 40%; /* Coloca el contenedor en el 40% desde la parte superior */
 }
 
 #winSignup{
