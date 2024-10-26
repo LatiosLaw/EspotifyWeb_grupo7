@@ -35,10 +35,10 @@
                         %>
                         <li class="userName"><a href="ConsultarUsuario.jsp"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p></li>
                             <% if (nickname == null) { %>
-                        <li><p><button id="abrirFormLogin">Iniciar sesi?n</button></p></li>
+                        <li><p><button id="abrirFormLogin">Iniciar sesion</button></p></li>
                                     <% } else { %>
                         <li><p>Tipo: <%= userType != null ? userType : "Desconocido"%></p></li>
-                        <li><p><button id="logoutButton">Cerrar sesi?n</button></p></li>
+                        <li><p><button id="logoutButton">Cerrar sesion</button></p></li>
                                     <% } %>
                     </ul>
                 </div>
@@ -176,7 +176,7 @@
                 </div>
             </div>
                     
-            <dialog id="winLogin"> <!-- Di?logo de inicio de sesi?n -->
+            <dialog id="winLogin"> <!-- Dialogo de inicio de sesion -->
                 <button id="cerrarFormLogin">Cerrar</button>
                 <div class="tituloFormLogin">
                     <h2>Inicio de Sesion</h2>
@@ -191,7 +191,7 @@
                         <input type="password" id="passLogin" name="passLogin" required>
                     </div>
                     <div class="btnsFormLogin">
-                        <button type="submit">Iniciar Sesi?n</button>
+                        <button type="submit">Iniciar Sesion</button>
                         <button type='reset' id="abrirFormSignup">Registrarse</button>
                     </div>
                 </form>
