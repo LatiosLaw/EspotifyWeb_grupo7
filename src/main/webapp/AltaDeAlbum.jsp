@@ -1,208 +1,417 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alta de 脕lbum</title>
-    <link rel="stylesheet" type="text/css" href="estilos.css">
-</head>
-<body onload="cargarGeneros()">
-    
-    <a href="index.jsp">P谩gina Principal</a>
-    
-    <h1>Alta de 脕lbum</h1>
-    <c:if test="${not empty errorMessage}">
-        <p id="errorMessage" style="color: red;">${errorMessage}</p>
-    </c:if>
-    <form id="albumForm" action="AltaDeAlbumServlet" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
-        <input type="hidden" id='Valido' name='Valido' value="true">  
-        <label for="nombreAlbum">Nombre del 脕lbum:</label>
-        <input type="text" id="nombreAlbum" name="nombreAlbum" onkeyup="checkAlbum()" required title="Ingresa el nombre del 谩lbum"><br>
-        <span id="albumExistsMessage" style="color: red;"></span>
-
-        <label for="anioCreacion">A帽o de Creaci贸n:</label>
-        <input type="number" id="anioCreacion" name="anioCreacion" min="1900" max="2100" required title="Ingresa el a帽o de creaci贸n"><br>
-
-        <label for="generos">G茅neros:</label>
-        <select id="generos" name="generos">
-            <option value="">Seleccione un g茅nero</option>
-            <!-- se llenan con AJAX -->
-        </select><br>
-
-        <label>G茅neros Seleccionados:</label>
-        <div id="selectedGenerosContainer"></div>
-
-        <!-- Campo oculto para enviar los g茅neros seleccionados -->
-        <input type="hidden" id="generosSeleccionados" name="generosSeleccionados">
-
-        <label for="imagenAlbum">Imagen del 脕lbum (opcional):</label>
-        <input type="file" id="imagenAlbum" name="imagenAlbum" accept="image/png, image/jpeg">
-
-        <h2>Temas del 脕lbum</h2>
-        <div id="temasContainer">
-        </div>
-
-        <button type="button" onclick="agregarTemaMP3()">Agregar Otro Tema - Archivo MP3</button><br>
-        <button type="button" onclick="agregarTemaWeb()">Agregar Otro Tema - Direccion URL</button><br>
-
-        <input type="submit" value="Registrar 脕lbum">
-    </form>
-
-    <script>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
+        <link rel="stylesheet" href="estilos.css">
+        <title>Espotify</title>
+    </head>
+    <body>
+        <div class="cuerpo">
             
-        let generosSeleccionados = [];
+            <header class="encaPrin">
+                <div>
+                    <a href="index.jsp" class="EspotifyLogo">
+                        <img src="imagenes/espotify/spotify-logo.png" class="EspotifyIMG">
+                        <h1>Espotify</h1>
+                    </a>
+                </div>
+                
+                <div class="busqueda">
+                    <input type="text" placeholder="Tema, Album, Lista" class="barraBusqueda">
+                    <button class="btnBusqueda">Buscar</button>
+                </div>
+                
+                <div class="userDiv">
+                    <div class="divUserIMG">
+                        <a href="ConsultarUsuario.html"><img src="imagenes/espotify/user.png" class="userIMG"></a>
+                    </div>
+                    <ul class="listUser">
+                        <%
+                            String userType = (String) session.getAttribute("userType");
+                            String nickname = (String) session.getAttribute("nickname");
+                            Boolean suscrito = (Boolean) session.getAttribute("suscrito");
+                        %>
+                        <li class="userName"><a href="ConsultarUsuario.html"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p></li>
+                            <% if (nickname == null) { %>
+                        <li><p><button id="abrirFormLogin">Iniciar sesi?n</button></p></li>
+                                    <% } else { %>
+                        <li><p>Tipo: <%= userType != null ? userType : "Desconocido"%></p></li>
+                        <li class="userFav"><a href=""><img src="imagenes/espotify/star.png" class="favIMG"></a><p><a href="">Favoritos</a></p></li>
+                        <li><p><button id="logoutButton">Cerrar sesi?n</button></p></li>
+                                    <% } %>
+                    </ul>
+                </div>
+            </header>
 
-        function cargarGeneros() {
-            fetch('AltaDeAlbumServlet?action=cargarGeneros')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
+            <div class="btnsEx">
+                <button>Generos</button>
+                <button>Artistas</button>
+            </div>
+
+            <div class="mainCon">
+                
+                <div class="dinamico">
+                    
+                    <div class="btnsNav">
+                        <% if ("Cliente".equals(userType) || userType == null) { %>
+                        <a id="consultarListaLink" href="index.jsp">Consultar Album</a>
+                        <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
+                        <% } %>
+
+                        <% if ("Cliente".equals(userType)) { %>
+                        <a id="AgregarTemaListaLink" href="AgregarTemaALista.jsp">Agregar Tema a Lista</a>
+                        <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
+                        <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
+                        <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
+                            <% if (suscrito) { %>       
+                            <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
+                            <% } %>
+                        <% } %>
+
+                        <% if ("Artista".equals(userType)) { %>
+                        <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
+                        <% }%>
+                    </div>
+                    
+                    <div class="realDinamico">
+                        <h1>Alta de 羖bum</h1>
+                        <c:if test="${not empty errorMessage}">
+                            <p id="errorMessage" style="color: red;">${errorMessage}</p>
+                        </c:if>
+                        <form id="albumForm" action="AltaDeAlbumServlet" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
+                            <input type="hidden" id='Valido' name='Valido' value="true">  
+                            <label for="nombreAlbum">Nombre del 羖bum:</label>
+                            <input type="text" id="nombreAlbum" name="nombreAlbum" onkeyup="checkAlbum()" required title="Ingresa el nombre del 醠bum"><br>
+                            <span id="albumExistsMessage" style="color: red;"></span>
+
+                            <label for="anioCreacion">A駉 de Creaci髇:</label>
+                            <input type="number" id="anioCreacion" name="anioCreacion" min="1900" max="2100" required title="Ingresa el a駉 de creaci髇"><br>
+
+                            <label for="generos">G閚eros:</label>
+                            <select id="generos" name="generos">
+                                <option value="">Seleccione un g閚ero</option>
+                                <!-- se llenan con AJAX -->
+                            </select><br>
+
+                            <label>G閚eros Seleccionados:</label>
+                            <div id="selectedGenerosContainer"></div>
+
+                            <!-- Campo oculto para enviar los g閚eros seleccionados -->
+                            <input type="hidden" id="generosSeleccionados" name="generosSeleccionados">
+
+                            <label for="imagenAlbum">Imagen del 羖bum (opcional):</label>
+                            <input type="file" id="imagenAlbum" name="imagenAlbum" accept="image/png, image/jpeg">
+
+                            <h2>Temas del 羖bum</h2>
+                            <div id="temasContainer">
+                            </div>
+
+                            <button type="button" onclick="agregarTemaMP3()">Agregar Otro Tema - Archivo MP3</button><br>
+                            <button type="button" onclick="agregarTemaWeb()">Agregar Otro Tema - Direccion URL</button><br>
+
+                            <input type="submit" value="Registrar 羖bum">
+                        </form>
+                    </div>
+                    
+                </div>
+                
+                <div class="reproductor">
+                    <div class="temaRep">
+                        <img src="imagenes/espotify/user.png" class="artIMG">
+                        <h3>Nombre Tema</h3>
+                        <h2>Nombre Artista</h2>
+                    </div>
+                    
+                    <div class="controlRep">
+                        
+                        <audio id="miAudio">
+                            <source id="audioSource" src="temas/DONMAI.mp3" type="audio/mpeg">
+                            Tu navegador no soporta el elemento audio.
+                        </audio>
+                        
+                        <div class="tiempoRep">
+                            <div id="progressBar" onmousedown="startAdjustingProgressBar(event)">
+                                <div id="progress"></div>
+                            </div>
+                            <div class="tiempos">
+                                <span id="currentTime">0:00</span><span id="totalTime">0:00</span>
+                            </div>
+                            
+                            <div class="volumen">
+                                <button id="muteBtn" onclick="muteVolume()"><img src="imagenes/espotify/volume-on.png"></button>
+                                <button id="unmuteBtn" onclick="unmuteVolume()" style="display: none;"><img src="imagenes/espotify/volume-off.png"></button>
+                                <div id="volumeBar" onmousedown="startAdjustingVolume(event)">
+                                    <div id="volumeLevel"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="btnsMedia">
+                                <button id="prevBtn" onclick="prevAudio()"><img src="imagenes/espotify/back-button.png"></button>
+                                <button id="pauseBtn" hidden><img src="imagenes/espotify/pause-button.png"></button>
+                                <button id="playBtn"><img src="imagenes/espotify/play-button.png"></button>
+                                <button id="nextBtn" onclick="nextAudio()"><img src="imagenes/espotify/next-button.png"></button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    
+            <dialog id="winLogin"> <!-- Di?logo de inicio de sesi?n -->
+                <button id="cerrarFormLogin">Cerrar</button>
+                <div class="tituloFormLogin">
+                    <h2>Inicio de Sesion</h2>
+                </div>
+                <form id="loginForm" method="post, dialog">
+                    <div>
+                        <label for="nicknameLogin">Nickname:</label>
+                        <input type="text" id="nicknameLogin" name="nicknameLogin" required>
+                    </div>
+                    <div>
+                        <label for="passLogin">Contrase?a:</label>
+                        <input type="password" id="passLogin" name="passLogin" required>
+                    </div>
+                    <div class="btnsFormLogin">
+                        <button type="submit">Iniciar Sesi?n</button>
+                        <button type='reset' id="abrirFormSignup">Registrarse</button>
+                    </div>
+                </form>
+                <div id="resultado"></div> <!-- Mensajes de resultado -->
+            </dialog>
+                    
+            <dialog id="winSignup"> <!-- Di?logo de registro de usuario -->
+                <button id="cerrarFormSignup">Cerrar</button>
+                <div class="tituloFormSignup">
+                    <h2>Registro de Usuario</h2>
+                </div>
+                <form id="altaUsuarioForm" method="post" action="AgregarUsuarioServlet" enctype="multipart/form-data">
+                        <c:if test="${not empty errorMessage}">
+                    <p id="errorMessage" style="color: red;">${errorMessage}</p>
+                        </c:if>
+                    <div>
+                        <input type="hidden" id='Valido' name='Valido' value="true">  
+                        <label for="tipoUsuario">Tipo de Usuario:</label>
+                        <select id="tipoUsuario" name="tipoUsuario" required>
+                            <option value="">Seleccione...</option>
+                            <option value="cliente">Cliente</option>
+                            <option value="artista">Artista</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="nickname">Nickname:</label>
+                        <input type="text" id="nickname" onkeyup="checkNickname()" name="nickname" required>
+                        <span id="nickValido" style="color: red; display: block;"></span>
+                    </div>
+                    <div>
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                    </div>
+                    <div>
+                        <label for="apellido">Apellido:</label>
+                        <input type="text" id="apellido" name="apellido" required>
+                    </div>
+                    <div>
+                        <label for="mail">Email:</label>
+                        <input type="email" id="mail" onkeyup="checkCorreo()" name="mail" required>
+                        <span id="correoValido" style="color: red; display: block;"></span>
+                    </div>
+                    <div>
+                        <label for="foto">Foto de Perfil (Opcional):</label>
+                        <input type="file" id="foto" name="foto" accept="image/png, image/jpeg" style="border-style: none;">
+                    </div>
+                    <div id="camposArtista" style="display: none;">
+                        <div>
+                            <label for="dirWeb">Direccion web (URL):</label>
+                            <input type="text" id="dirWeb" name="dirWeb">
+                        </div>
+                        <div>
+                            <label for="biografia">Biografia:</label>
+                            <input type="text" id="biografia" name="biografia">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="pass">Contrase?a:</label>
+                        <input type="password" id="pass" name="pass" required>
+                    </div>
+                    <div>
+                        <label for="confirmPass">Confirmar Contrase?a:</label>
+                        <input type="password" id="confirmPass" name="confirmPass" required>
+                    </div>
+                    <div>
+                        <label for="fechaNac">Fecha de Nacimiento:</label>
+                        <input type="date" id="fechaNac" name="fechaNac" required>
+                    </div>
+                    <div class="btnsFormSignup">
+                        <button type="submit">Agregar Usuario</button>
+                    </div>
+                </form>
+            </dialog>
+        </div> <!-- Fin Cuerpo -->
+        
+        <!-- Alta de album -->
+        <script src="AltaDeAlbum.js"></script>
+
+        <!-- Script inicio de sesion -->
+        <script>
+            // Login
+            document.getElementById('loginForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const formData = new FormData(this);
+                const params = new URLSearchParams(formData).toString();
+
+                fetch('http://localhost:8080/EspotifyWeb/LoginServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params
                 })
-                .then(data => {
-                    let select = document.getElementById('generos');
-                    select.innerHTML = ''; // Limpia las opciones
-                    select.append(new Option('Seleccione un g茅nero', ''));
-                    data.forEach(genero => {
-                        select.append(new Option(genero, genero)); // Crear opcion con genero cargado
-                    });
-                })
-                .catch(error => console.error('Error al cargar los g茅neros:', error));
-        }
-
-        function agregarGenero() {
-            const select = document.getElementById('generos');
-            const generoSeleccionado = select.value;
-
-            // Comprobar si el g茅nero ya esta seleccionado
-            if (generoSeleccionado && !generosSeleccionados.includes(generoSeleccionado)) {
-                generosSeleccionados.push(generoSeleccionado);
-                actualizarCampoGeneros();
-                // Remover el genero de la lista de selecciones
-                select.remove(select.selectedIndex);
-            }
-        }
-
-        function actualizarCampoGeneros() {
-            const container = document.getElementById('selectedGenerosContainer');
-            container.innerHTML = '';
-
-            generosSeleccionados.forEach(genero => {
-                const div = document.createElement('div');
-                div.className = 'genero-item';
-                div.textContent = genero;
-                div.onclick = () => removerGenero(genero);
-                container.appendChild(div);
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const message = data.success ? "Visitante logeado exitosamente." : "Error al intentar logearse: " + data.errorCode;
+                            document.getElementById('resultado').innerText = message;
+                            alert(message);
+                            if(message === "Visitante logeado exitosamente."){
+                                setTimeout(() => location.reload(), 1000);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            const errorMessage = "Error al intentar logearse.";
+                            document.getElementById('resultado').innerText = errorMessage;
+                            alert(errorMessage);
+                        });
             });
 
-            // Actualizar el campo oculto con los generos seleccionados
-            document.getElementById('generosSeleccionados').value = generosSeleccionados.join(', ');
-        }
-
-        function removerGenero(genero) {
-            // Agregar el g茅nero de vuelta al combobox 
-            const select = document.getElementById('generos');
-            const option = new Option(genero, genero);
-            select.append(option);
-
-            // Remover el genero de la lista de generos seleccionados
-            generosSeleccionados = generosSeleccionados.filter(g => g !== genero);
-            actualizarCampoGeneros();
-        }
-
-        function validarFormulario() {
-            const nombreAlbum = document.getElementById('nombreAlbum').value;
-            const anioCreacion = document.getElementById('anioCreacion').value;
-
-            if (!nombreAlbum || !anioCreacion) {
-                alert("Por favor, complete todos los campos requeridos.");
-                return false;
-            }
-            
-            if (generosSeleccionados.length === 0) {
-                alert("Por favor, seleccione al menos un g茅nero.");
-                return false;
-            }
-
-            return true;
-        }
-
-        function agregarTemaWeb() {
-            const temasContainer = document.getElementById('temasContainer');
-            const temaDiv = document.createElement('div');
-            temaDiv.className = 'tema';
-
-            temaDiv.innerHTML = `
-                <label for='tipoTema'>Tipo de Tema: Direccion Web</label>
-                <input type="hidden" id='tipoTema[]' name='tipoTema[]' value="direccionWeb">  
-                <label for='nombreTema'>Nombre del Tema:</label>
-                <input type='text' name='nombreTema[]' required title='Ingresa el nombre del tema' placeholder='Ej. Mi Canci贸n Favorita'>
-                <label for='duracionTema'>Duraci贸n (min:seg):</label>
-                <input type='text' name='duracionTema[]' required pattern="[0-9]{1,2}:[0-9]{2}" title='Formato: mm:ss' placeholder='Ej. 03:45'>
-                <label for='ubicacionTema'>Ubicaci贸n en el 脕lbum:</label>
-                <input type='number' name='ubicacionTema[]' required min='1' title='Ingresa la ubicaci贸n del tema'>
-                <label for='dirWeb[]'>Direcci贸n Web (URL):</label>
-                <input type="url" id='dirWeb[]' name='dirWeb[]' required>
-                <input type="hidden" id='archivo_MP3[]' name='archivo_MP3[]' value="mp3">
-                <br><br>
-            `;
-
-            temasContainer.appendChild(temaDiv);
-        }
+            // Logout
+            document.getElementById('logoutButton').addEventListener('click', function () {
+                fetch('http://localhost:8080/EspotifyWeb/CerrarSesionServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const message = data.success ? data.message : "Error al cerrar sesion.";
+                            document.getElementById('resultado').innerText = message;
+                            alert(message);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            const errorMessage = "Error al intentar cerrar sesion.";
+                            document.getElementById('resultado').innerText = errorMessage;
+                            alert(errorMessage);
+                        });
+                setTimeout(() => location.href = 'index.jsp', 1000);
+            });
+        </script>
         
-        function agregarTemaMP3() {
-            const temasContainer = document.getElementById('temasContainer');
-            const temaDiv = document.createElement('div');
-            temaDiv.className = 'tema';
-
-            temaDiv.innerHTML = `
-                <label for='tipoTema'>Tipo de Tema: MP3</label>
-                <input type="hidden" id='tipoTema[]' name='tipoTema[]' value="archivo_mp3">  
-                <label for='nombreTema'>Nombre del Tema:</label>
-                <input type='text' name='nombreTema[]' required title='Ingresa el nombre del tema' placeholder='Ej. Mi Canci贸n Favorita'>
-                <label for='duracionTema'>Duraci贸n (min:seg):</label>
-                <input type='text' name='duracionTema[]' required pattern="[0-9]{1,2}:[0-9]{2}" title='Formato: mm:ss' placeholder='Ej. 03:45'>
-                <label for='ubicacionTema'>Ubicaci贸n en el 脕lbum:</label>
-                <input type='number' name='ubicacionTema[]' required min='1' title='Ingresa la ubicaci贸n del tema'>
-                <label for='archivo_MP3[]'>Archivo MP3:</label>
-                <input type="file" id='archivo_MP3[]' name='archivo_MP3[]' accept=".mp3" required> 
-                <input type="hidden" id='dirWeb[]' name='dirWeb[]' value="0">  
-                <br><br>
-            `;
-
-            temasContainer.appendChild(temaDiv);
-        }
-        
-        var validoField = document.getElementById('Valido');
-        var errorMessageElement = document.getElementById("errorMessage");
-        
-        function checkAlbum() {
-            const album = document.getElementById("nombreAlbum").value;
-            const xhr = new XMLHttpRequest();
-            xhr.open("GET", "AltaDeAlbumServlet?action=verificarAlbum&albumName=" + encodeURIComponent(album), true);
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    errorMessageElement.style.display = "none";
-                    let mensaje = xhr.responseText;
-        let correoValidoField = document.getElementById("albumExistsMessage");
-        if (mensaje === "Album name is available") {
-            correoValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
-            validoField.value = "true";
-        } else {
-            correoValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
-            validoField.value = "false";
-        }
+        <!-- Script registro de usuario -->
+        <script>
+            document.getElementById('tipoUsuario').addEventListener('change', function () {
+                const camposArtista = document.getElementById('camposArtista');
+                if (this.value === 'artista') {
+                    camposArtista.style.display = 'block';
+                } else {
+                    camposArtista.style.display = 'none';
                 }
-            };
+            });
+            
+            var validoField = document.getElementById('Valido');
 
-            xhr.send();
-        }
+            function checkNickname() {
+                const nickname = document.getElementById("nickname").value;
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", "AgregarUsuarioServlet?action=verificarNickname&Nickname=" + encodeURIComponent(nickname), true);
 
-        document.getElementById('generos').addEventListener('change', agregarGenero);
-    </script>
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        let mensaje = xhr.responseText;
+            let nicknameValidoField = document.getElementById("nickValido");
+            if (mensaje === "Nickname is available") {
+                nicknameValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
+                validoField.value = "true";
+            } else {
+                nicknameValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
+                validoField.value = "false";
+            }
+                    }
+                };
 
-</body>
+                xhr.send();
+            }
+
+            function checkCorreo() {
+                const correo = document.getElementById("mail").value;
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", "AgregarUsuarioServlet?action=verificarCorreo&correoName=" + encodeURIComponent(correo), true);
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        let mensaje = xhr.responseText;
+            let correoValidoField = document.getElementById("correoValido");
+            if (mensaje === "Mail is available") {
+                correoValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
+                validoField.value = "true";
+            } else {
+                correoValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
+                validoField.value = "false";
+            }
+                    }
+                };
+
+                xhr.send();
+            }
+        </script>
+        
+        <!-- Formulario de login y signup -->
+        <script>
+            const abrirFormLogin = document.querySelector("#abrirFormLogin");
+            const cerrarFormLogin = document.querySelector("#cerrarFormLogin");
+            const winLogin = document.querySelector("#winLogin");
+            const abrirFormSignup = document.querySelector("#abrirFormSignup");
+            const cerrarFormSignup = document.querySelector("#cerrarFormSignup");
+            const winSignup = document.querySelector("#winSignup");
+
+            abrirFormLogin.addEventListener("click", () => {
+                winLogin.showModal();
+            });
+
+            cerrarFormLogin.addEventListener("click", () => {
+                winLogin.close();
+            });
+
+            abrirFormSignup.addEventListener("click", () => {
+                winSignup.showModal();
+            });
+
+            cerrarFormSignup.addEventListener("click", () => {
+                winSignup.close();
+            });
+        </script>
+        
+        <!-- Cosas del reproductor de musica -->
+        <script src="Reproductor.js"></script>
+        
+        <!-- Evitar que las imagenes sean arrastradas -->
+        <script>
+            document.addEventListener('dragstart', function(event) {
+                event.preventDefault();
+            });
+        </script>
+    </body>
 </html>

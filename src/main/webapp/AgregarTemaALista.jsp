@@ -65,7 +65,7 @@
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
-                            <% if (suscrito) { %>       
+                            <% if (suscrito) { %>
                             <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
                             <% } %>
                         <% } %>
@@ -76,22 +76,66 @@
                     </div>
                     
                     <div class="realDinamico">
-                        <div class="container">
-                            <h1>Contratar Suscripción</h1>
-                            <form id="contratarSuscripcionForm">
-                                <label for="tipoSuscripcion">Seleccione tipo de suscripción:</label>
-                                <select id="tipoSuscripcion" name="tipoSuscripcion" required>
-                                    <option value="">Seleccione una opción</option>
-                                    <option value="Semanal">Semanal - $5</option>
-                                    <option value="Mensual">Mensual - $15</option>
-                                    <option value="Anual">Anual - $150</option>
-                                </select>
+                        <h1>Agregar Tema a Lista</h1>
 
-                                <input type="submit" value="Confirmar Suscripción">
-                            </form>
+                        <h2>Tus Listas</h2>
+                         <table id="listasTable">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre de la Lista</th>
+                                        <td>Accion</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="listasBody">
+                                    <!-- aca se carga la lista -->
+                                </tbody>
+                            </table>
 
-                            <div id="resultado"></div>
-                        </div>
+                        <h2>Buscar un Tema:</h2>
+                        <label for="opciones">Selecciona un filtro para encontrar el tema a agregar:</label>
+                      <select id="opciones" name="opciones">
+                          <option value="nada">Seleccione...</option>
+                        <option value="default">Lista por Defecto</option>
+                        <option value="publica">Lista Particular Pública</option>
+                        <option value="album">Álbum</option>
+                      </select>
+
+                        <table id="filtroTable">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre del Lista / Album</th>
+                                        <th>Creador / Genero</th>
+                                        <td>Accion</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="filtroBody">
+                                    <!-- aca se carga la lista -->
+                                </tbody>
+                            </table>
+                        <h2>Agregar Tema a tu Lista</h2>
+                        <table id="temasTable">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre del Tema</th>
+                                        <th>Album</th>
+                                        <td>Accion</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="temasBody">
+                                    <!-- aca se carga la lista -->
+                                </tbody>
+                            </table>
+
+
+                         <form id="agregarTemaListaForm" action="AgregarTemaAListaServlet" method="post" onsubmit="return validarFormulario()">
+                            <input type="hidden" id='albumTema' name='albumTema' value="nada">
+                            <label for="nombreLista">Tu Lista a la que Agregar el Tema:</label>
+                            <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de una lista"><br>
+                            <label for="nombreTema">Nombre del Tema:</label>
+                            <input type="text" id="nombreTema" name="nombreTema" required title="Ingresa el nombre de un tema"><br>
+
+                            <button type="submit">Agregar Tema a Lista</button>
+                        </form>
                     </div>
                     
                 </div>
@@ -229,48 +273,8 @@
             </dialog>
         </div> <!-- Fin Cuerpo -->
         
-        <!-- Contratar suscripcion -->
-        <script>
-            document.getElementById('contratarSuscripcionForm').addEventListener('submit', function (event) {
-            event.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
-
-            const formData = new FormData(this);
-            const params = new URLSearchParams(formData).toString();
-
-            console.log("Enviando datos:", params); // Para depuración
-
-            fetch('http://localhost:8080/EspotifyWeb/ContratarSuscripcionServlet', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: params
-            })
-                    .then(response => {
-                        console.log("Respuesta del servidor:", response); // Para depuración
-
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log("Datos recibidos:", data); // Para depuración
-
-                        if (data.success) {
-                            alert("Suscripción contratada exitosamente.");
-                            document.getElementById('resultado').innerText = "Suscripción contratada exitosamente.";
-                        } else {
-                            alert("Error al contratar la suscripción: Código de error " + data.errorCode);
-                            document.getElementById('resultado').innerText = "Error al contratar la suscripción: Código de error " + data.errorCode;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert("Error al contratar la suscripción.");
-                    });
-            });
-        </script>
+        <!-- Agregar tema a lista -->
+        <script src="AgregarTemaALista.js"></script>
 
         <!-- Script inicio de sesion -->
         <script>

@@ -61,10 +61,10 @@
                         <% } %>
 
                         <% if ("Cliente".equals(userType)) { %>
-                        <a id="AgregarTemaListaLink" href="AgregarTemaALista.html">Agregar Tema a Lista</a>
-                        <a id="publicarListaLink" href="PublicarLista.html">Publicar Lista</a>
+                        <a id="AgregarTemaListaLink" href="AgregarTemaALista.jsp">Agregar Tema a Lista</a>
+                        <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
-                        <a id="actualizarSusLink" href="ActualizarSuscripcion.html">Actualizar Suscripcion</a>
+                        <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
                             <% if (suscrito) { %>       
                             <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
                             <% } %>
@@ -204,7 +204,7 @@
                 <div class="tituloFormSignup">
                     <h2>Registro de Usuario</h2>
                 </div>
-                <form id="altaUsuarioForm" method="post, dialog" action="AgregarUsuarioServlet" enctype="multipart/form-data">
+                <form id="altaUsuarioForm" method="post" action="AgregarUsuarioServlet" enctype="multipart/form-data">
                         <c:if test="${not empty errorMessage}">
                     <p id="errorMessage" style="color: red;">${errorMessage}</p>
                         </c:if>
@@ -334,7 +334,7 @@
                             document.getElementById('resultado').innerText = errorMessage;
                             alert(errorMessage);
                         });
-                setTimeout(() => location.reload(), 1000);
+                setTimeout(() => location.href = 'index.jsp', 1000);
             });
         </script>
         
@@ -423,7 +423,7 @@
         </script>
         
         <!-- Cosas del reproductor de musica -->
-        <script src="scripts.js"></script>
+        <script src="Reproductor.js"></script>
         
         <!-- Evitar que las imagenes sean arrastradas -->
         <script>

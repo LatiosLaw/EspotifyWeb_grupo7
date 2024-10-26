@@ -76,22 +76,30 @@
                     </div>
                     
                     <div class="realDinamico">
-                        <div class="container">
-                            <h1>Contratar Suscripción</h1>
-                            <form id="contratarSuscripcionForm">
-                                <label for="tipoSuscripcion">Seleccione tipo de suscripción:</label>
-                                <select id="tipoSuscripcion" name="tipoSuscripcion" required>
-                                    <option value="">Seleccione una opción</option>
-                                    <option value="Semanal">Semanal - $5</option>
-                                    <option value="Mensual">Mensual - $15</option>
-                                    <option value="Anual">Anual - $150</option>
-                                </select>
+                        <h1>Publicar Lista</h1>
 
-                                <input type="submit" value="Confirmar Suscripción">
-                            </form>
+                        <form id="publicarListaForm">
+                            <label for="lista">Lista a Publicar:</label>
+                            <input type="text" id="lista" name="lista" required><br>
 
-                            <div id="resultado"></div>
-                        </div>
+                            <button type="button" id="buscarListasBtn">Buscar listas del cliente</button>
+                            <button type="submit">Publicar Lista</button>
+                        </form>
+
+                        <h2>Listas Publicadas</h2>
+                        <table id="listasTable">
+                            <thead>
+                                <tr>
+                                    <th>Nombre de la Lista</th>
+                                    <th>Visibilidad</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listasBody">
+                                <!-- aca se carga la lista -->
+                            </tbody>
+                        </table>
+
+                        <div id="resultado"></div>
                     </div>
                     
                 </div>
@@ -229,48 +237,8 @@
             </dialog>
         </div> <!-- Fin Cuerpo -->
         
-        <!-- Contratar suscripcion -->
-        <script>
-            document.getElementById('contratarSuscripcionForm').addEventListener('submit', function (event) {
-            event.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
-
-            const formData = new FormData(this);
-            const params = new URLSearchParams(formData).toString();
-
-            console.log("Enviando datos:", params); // Para depuración
-
-            fetch('http://localhost:8080/EspotifyWeb/ContratarSuscripcionServlet', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: params
-            })
-                    .then(response => {
-                        console.log("Respuesta del servidor:", response); // Para depuración
-
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log("Datos recibidos:", data); // Para depuración
-
-                        if (data.success) {
-                            alert("Suscripción contratada exitosamente.");
-                            document.getElementById('resultado').innerText = "Suscripción contratada exitosamente.";
-                        } else {
-                            alert("Error al contratar la suscripción: Código de error " + data.errorCode);
-                            document.getElementById('resultado').innerText = "Error al contratar la suscripción: Código de error " + data.errorCode;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert("Error al contratar la suscripción.");
-                    });
-            });
-        </script>
+        <!-- Publicar lista -->
+        <script src="PublicarLista.js"></script>
 
         <!-- Script inicio de sesion -->
         <script>

@@ -76,22 +76,21 @@
                     </div>
                     
                     <div class="realDinamico">
-                        <div class="container">
-                            <h1>Contratar Suscripción</h1>
-                            <form id="contratarSuscripcionForm">
-                                <label for="tipoSuscripcion">Seleccione tipo de suscripción:</label>
-                                <select id="tipoSuscripcion" name="tipoSuscripcion" required>
-                                    <option value="">Seleccione una opción</option>
-                                    <option value="Semanal">Semanal - $5</option>
-                                    <option value="Mensual">Mensual - $15</option>
-                                    <option value="Anual">Anual - $150</option>
-                                </select>
-
-                                <input type="submit" value="Confirmar Suscripción">
-                            </form>
-
-                            <div id="resultado"></div>
-                        </div>
+                        <h1>Actualizar Suscripcion</h1>
+        
+                        <form id = "actualiSus">
+                           <table>
+                           <thead>
+                               <tr>
+                                   <th>Id</th>
+                                   <th>Ultima Fecha de Acrualizacion</th>
+                                   <th>Tipo</th>
+                                   <th>Estado</th>
+                               </tr>
+                           </thead>
+                           <tbody id="susiLista"></tbody>
+                           </table>
+                        </form>
                     </div>
                     
                 </div>
@@ -229,48 +228,8 @@
             </dialog>
         </div> <!-- Fin Cuerpo -->
         
-        <!-- Contratar suscripcion -->
-        <script>
-            document.getElementById('contratarSuscripcionForm').addEventListener('submit', function (event) {
-            event.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
-
-            const formData = new FormData(this);
-            const params = new URLSearchParams(formData).toString();
-
-            console.log("Enviando datos:", params); // Para depuración
-
-            fetch('http://localhost:8080/EspotifyWeb/ContratarSuscripcionServlet', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: params
-            })
-                    .then(response => {
-                        console.log("Respuesta del servidor:", response); // Para depuración
-
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log("Datos recibidos:", data); // Para depuración
-
-                        if (data.success) {
-                            alert("Suscripción contratada exitosamente.");
-                            document.getElementById('resultado').innerText = "Suscripción contratada exitosamente.";
-                        } else {
-                            alert("Error al contratar la suscripción: Código de error " + data.errorCode);
-                            document.getElementById('resultado').innerText = "Error al contratar la suscripción: Código de error " + data.errorCode;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert("Error al contratar la suscripción.");
-                    });
-            });
-        </script>
+        <!-- Actualizar suscripcion -->
+        <script src="ActualizarSuscripcion.js"></script>
 
         <!-- Script inicio de sesion -->
         <script>
