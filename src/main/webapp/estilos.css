@@ -113,7 +113,7 @@ ul{
 .btnsEx{
     position: absolute; /* Usamos posición absoluta */
     left: 50%; /* Coloca el contenedor en el 50% desde la izquierda */
-    transform: translate(-50%, -85%); /* Mueve el contenedor hacia arriba y hacia la izquierda por la mitad de su tamaño */
+    transform: translate(-50%, -90%); /* Mueve el contenedor hacia arriba y hacia la izquierda por la mitad de su tamaño */
 }
 
 .mainCon{
@@ -130,7 +130,24 @@ ul{
     border-style: solid;
     border-color: black;
     border-width: 3px;
-    overflow-y: auto;
+    overflow-y: scroll;
+    overflow-x: auto;
+}
+
+.btnsNav{
+    display: flex;
+    justify-content: space-between; /* o space-around según tu necesidad */
+    width: 100%; /* o el ancho que desees */
+}
+    
+.btnsNav a{
+    flex: 1; /* Cada boton ocupa el mismo espacio */
+    font-size: 1vw;
+    border-style: solid;
+    border-width: 0px 1px 1px 0px;
+    text-align: center;
+    padding: 5px 5px 5px 5px;
+    align-items: center;
 }
 
 .reproductor{
@@ -373,9 +390,11 @@ ul{
     }
 
     .dinamico{
-        height: 50%;
         bottom: 0;
-        width: 80vw;
+        max-width: 80vw;
+        min-width: 80vw;
+        min-height: 50%;
+        max-height: 50%;
     }
 
     .reproductor{
@@ -489,6 +508,7 @@ ul{
     .encaPrin{
         display: flex;
         margin: 40px;
+        padding: 20px 0 20px 0;
     }
 
     .EspotifyIMG{
@@ -511,9 +531,11 @@ ul{
 
     .dinamico{
         display: inline-block;
-        left: 10%;
-        width: 50%;
-        height: 600px;
+        max-height: 100%;
+        min-height: 100%;
+        left: 5%;
+        max-width: 60%;
+        min-width: 60%;
     }
 
     .reproductor{
@@ -598,5 +620,13 @@ ul{
     
     #tipoUsuario{
         margin-left: 3%; 
+    }
+}
+
+@media (min-width: 1400px){
+    .dinamico{
+        left: 5%;
+        max-width: 70%;
+        min-width: 70%;
     }
 }

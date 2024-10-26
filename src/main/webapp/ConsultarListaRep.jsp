@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,61 +76,53 @@
                     </div>
                     
                     <div class="realDinamico">
-                        <h2>Filtrar Albumes Por:</h2>
-                        <select id="opciones" name="opciones">
-                            <option value="nada">Seleccione...</option>
-                            <option value="genero">Genero</option>
-                            <option value="artista">Artista</option>
-                        </select>
+                        <h1>Consulta de Lista de Reproducción</h1>
 
-                        <table id="filtroTable">
+                        <form id="formularioFiltro">
+                            <label for="selectGenero">Selecciona un Género:</label>
+                            <select id="generos" name="genero">
+                                <option value="">Seleccione un género</option>
+                            </select>
+                            <!-- Cambiado el tipo de botón a 'button' -->
+                            <button type="button" onclick="filtrarListas()">Filtrar</button>
+
+                            <h2>Listas de Reproducción</h2>
+                            <table id="tablaResultados">
                                 <thead>
                                     <tr>
-                                        <th>Nombre del Genero / Artista</th>
-                                        <td>Accion</td>
+                                        <th>Nombre</th>
+                                        <th>Género</th>
+                                        <th>Imagen</th>
+                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody id="filtroBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
+                                <tbody></tbody>
                             </table>
 
-                            <h2>Albumes del Artista / Genero:</h2>
-                        <table id="albumTable">
+                            <h2>Listas Particulares Públicas</h2>
+                            <table id="tablaParticulares">
                                 <thead>
                                     <tr>
-                                        <th>Album</th>
-                                        <td>Accion</td>
+                                        <th>Nombre</th>
+                                        <th>Cliente</th>
+                                        <th>Imagen</th>
+                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody id="albumBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
+                                <tbody></tbody>
                             </table>
 
-                        <h2>Informacion del Album</h2>
-                        <div>
-                            <img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album" width="300">
-                        </div>
-                        <input type="text" id="nombrealbum" value="" readonly>
-                        <input type="text" id="anioalbum" value="" readonly>
-                        <input type="text" id="creadoralbum" value="" readonly>
-                        <h3>Generos del Album</h3>
-                        <ul id="generoslist"></ul>
-                        <h3>Temas del Album</h3>
-                        <table id="temasTable">
+                            <h2>Temas de la Lista Seleccionada</h2>
+                            <table id="tablaTemas" style="display:none;">
                                 <thead>
                                     <tr>
-                                        <th>Nombre del Tema</th>
-                                        <th>Duracion</th>
-                                        <th>Archivo / Link</th>
-                                        <th>Accion</th>
+                                        <th>Tema</th>
+                                        <th>Descargar</th>
                                     </tr>
                                 </thead>
-                                <tbody id="temasBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
+                                <tbody></tbody>
                             </table>
+                        </form>
                     </div>
                     
                 </div>
@@ -268,8 +260,8 @@
             </dialog>
         </div> <!-- Fin Cuerpo -->
         
-        <!-- Consultar album -->
-        <script src="ConsultarAlbum.js"></script>
+        <!-- Consultar listas de reproduccion -->
+        <script src="ConsultarListaRep.js"></script>
 
         <!-- Script inicio de sesion -->
         <script>
