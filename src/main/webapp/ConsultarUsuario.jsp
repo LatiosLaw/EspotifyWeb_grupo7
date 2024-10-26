@@ -76,21 +76,111 @@
                     </div>
                     
                     <div class="realDinamico">
-                        <h1>Alta de Lista</h1>
-                        <c:if test="${not empty errorMessage}">
-                            <p id="errorMessage" style="color: red;">${errorMessage}</p>
-                        </c:if>
-                        <form id="ListaForm" action="AltaDeListaServlet" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
-                            <input type="hidden" id='Valido' name='Valido' value="true">  
-                            <label for="nombreLista">Nombre de la Lista : </label>
-                            <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de la Lista"><br>
-                            <span id="ListaExistsMessage" style="color: red;"></span>
+                        <h1>Consulta de Perfil de Usuario</h1>
 
-                            <label for="imagenLista">Imagen de la Lista (opcional):</label>
-                            <input type="file" id="imagenLista" name="imagenLista" accept="image/png, image/jpeg">
+                        <div id="perfil">
+                            <h2>Perfil</h2>
+                            <p><strong>Nickname:</strong> <span id="nickname"></span></p>
+                            <p><strong>Correo Electronico:</strong> <span id="correo"></span></p>
+                            <p><strong>Nombre:</strong> <span id="nombre"></span></p>
+                            <p><strong>Apellido:</strong> <span id="apellido"></span></p>
+                            <p><strong>Fecha de Nacimiento:</strong> <span id="fechaNacimiento"></span></p>
+                            <p><strong>Imagen:</strong> <img id="imagenPerfil" src="" alt="Imagen de perfil"></p>
+                        </div>
 
-                            <input type="submit" value="Registrar Lista">
-                        </form>
+                        <div id="seguidores">
+                            <h2>Seguidores</h2>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nickname</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaSeguidores"></tbody>
+                            </table>
+                        </div>
+
+                        <div id="seguidos">
+                            <h2>Seguidos</h2>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nickname</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaSeguidos"></tbody>
+                            </table>
+                        </div>
+
+                        <div id="listas">
+                            <h2>Listas de Reproduccion</h2>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaListas"></tbody>
+                            </table>
+                        </div>
+
+                        <div id="favoritos">
+                            <h2>Favoritos</h2>
+
+                            <div>
+                                <h3>Listas Favoritas</h3>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre de la Lista</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablaListasFavoritas"></tbody>
+                                </table>
+                            </div>
+
+                            <div>
+                                <h3>Albumes Favoritos</h3>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre del Album</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablaAlbumesFavoritos"></tbody>
+                                </table>
+                            </div>
+
+                            <div>
+                                <h3>Temas Favoritos</h3>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre del Tema</th>
+                                            <th> Nombre del Album</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablaTemasFavoritos"></tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <div id="albumes">
+                            <h2>Albumes</h2>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nombre del Album</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaAlbumes"></tbody>
+                            </table>
+                        </div>
                     </div>
                     
                 </div>
@@ -228,8 +318,8 @@
             </dialog>
         </div> <!-- Fin Cuerpo -->
         
-        <!-- Alta de lista -->
-        <script src="AltaDeLista.js"></script>
+        <!-- Consultar usuario -->
+        <script src="ConsultarUsuario.js"></script>
 
         <!-- Script inicio de sesion -->
         <script>

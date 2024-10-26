@@ -138,6 +138,7 @@ ul{
     display: flex;
     justify-content: space-between; /* o space-around según tu necesidad */
     width: 100%; /* o el ancho que desees */
+    background-color: darkgreen;
 }
     
 .btnsNav a{

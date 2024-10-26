@@ -25,7 +25,7 @@
                 
                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <a href="ConsultarUsuario.html"><img src="imagenes/espotify/user.png" class="userIMG"></a>
+                        <a href="ConsultarUsuario.jsp"><img src="imagenes/espotify/user.png" class="userIMG"></a>
                     </div>
                     <ul class="listUser">
                         <%
@@ -33,7 +33,7 @@
                             String nickname = (String) session.getAttribute("nickname");
                             Boolean suscrito = (Boolean) session.getAttribute("suscrito");
                         %>
-                        <li class="userName"><a href="ConsultarUsuario.html"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p></li>
+                        <li class="userName"><a href="ConsultarUsuario.jsp"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p></li>
                             <% if (nickname == null) { %>
                         <li><p><button id="abrirFormLogin">Iniciar sesi?n</button></p></li>
                                     <% } else { %>
