@@ -18,6 +18,8 @@ const audio = document.getElementById('miAudio');
 
                                 let previousVolume = 0.5; // Almacena el volumen anterior
                                 audio.volume = previousVolume; // Inicializa el volumen al cargar
+                                
+                                let wasPaused; // Variable para almacenar si el audio estaba pausado
 
                                 // Evento para reproducir el siguiente audio al finalizar
                                 audio.addEventListener('ended', nextAudio);
@@ -52,21 +54,17 @@ const audio = document.getElementById('miAudio');
                                 function setProgress(event) {
                                     const totalWidth = progressBar.offsetWidth;
                                     const clickX = event.offsetX;
-                                    const newTime = (clickX / totalWidth) * audio.duration;
-                                    audio.currentTime = newTime;
+
+                                    // Verifica que el clic esté dentro de los límites de la barra de progreso
+                                    if (clickX >= 0 && clickX <= totalWidth) {
+                                        const newTime = (clickX / totalWidth) * audio.duration;
+                                        audio.currentTime = newTime;
+                                    }
                                 }
 
                                 function startAdjustingProgressBar(event) {
-
-                                    if (audio.pause()) {
-                                        playBtn.style.display = 'inline';
-                                        pauseBtn.style.display = 'none';
-                                    } else {
-                                        playBtn.style.display = 'none';
-                                        pauseBtn.style.display = 'inline';
-                                    }
+                                    wasPaused = audio.paused; // Guarda el estado del audio
                                     audio.pause();
-
                                     setProgress(event); // Ajusta el progreso al hacer clic
                                     document.addEventListener('mousemove', setProgress); // Ajusta el progreso mientras se mueve el ratón
                                     document.addEventListener('mouseup', stopAdjustingProgressBar); // Detiene el ajuste al soltar el botón
@@ -76,24 +74,28 @@ const audio = document.getElementById('miAudio');
                                     document.removeEventListener('mousemove', setProgress); // Detiene el ajuste de progreso
                                     document.removeEventListener('mouseup', stopAdjustingProgressBar); // Detiene el evento de soltar
 
-                                    if (audio.pause()) {
+                                    // Restablece el estado del audio
+                                    if (wasPaused) {
                                         playBtn.style.display = 'inline';
                                         pauseBtn.style.display = 'none';
+                                        audio.pause();
                                     } else {
                                         playBtn.style.display = 'none';
                                         pauseBtn.style.display = 'inline';
+                                        audio.play();
                                     }
-                                    audio.play();
                                 }
 
                                 function setVolume(event) {
                                     const totalWidth = volumeBar.offsetWidth;
                                     const clickX = event.offsetX;
                                     const newVolume = clickX / totalWidth;
-
-                                    audio.volume = Math.max(0, Math.min(1, newVolume)); // Asegura que el volumen esté entre 0 y 1
-                                    previousVolume = audio.volume; // Actualiza el volumen anterior
-                                    volumeLevel.style.width = (newVolume * 100) + '%'; // Actualiza la barra de volumen
+                                    
+                                    if (clickX >= 0 && clickX <= totalWidth) {
+                                        audio.volume = Math.max(0, Math.min(1, newVolume)); // Asegura que el volumen esté entre 0 y 1
+                                        previousVolume = audio.volume; // Actualiza el volumen anterior
+                                        volumeLevel.style.width = (newVolume * 100) + '%'; // Actualiza la barra de volumen
+                                    }
                                 }
 
                                 function startAdjustingVolume(event) {
