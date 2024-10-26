@@ -250,132 +250,13 @@
         </div> <!-- Fin Cuerpo -->
         
         <!-- Alta de album -->
-        <script src="AltaDeAlbum.js"></script>
+        <script src="scripts/AltaDeAlbum.js"></script>
 
-        <!-- Script inicio de sesion -->
-        <script>
-            // Login
-            document.getElementById('loginForm').addEventListener('submit', function (event) {
-                event.preventDefault();
-
-                const formData = new FormData(this);
-                const params = new URLSearchParams(formData).toString();
-
-                fetch('http://localhost:8080/EspotifyWeb/LoginServlet', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: params
-                })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            const message = data.success ? "Visitante logeado exitosamente." : "Error al intentar logearse: " + data.errorCode;
-                            document.getElementById('resultado').innerText = message;
-                            alert(message);
-                            if(message === "Visitante logeado exitosamente."){
-                                setTimeout(() => location.reload(), 1000);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            const errorMessage = "Error al intentar logearse.";
-                            document.getElementById('resultado').innerText = errorMessage;
-                            alert(errorMessage);
-                        });
-            });
-
-            // Logout
-            document.getElementById('logoutButton').addEventListener('click', function () {
-                fetch('http://localhost:8080/EspotifyWeb/CerrarSesionServlet', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            const message = data.success ? data.message : "Error al cerrar sesion.";
-                            document.getElementById('resultado').innerText = message;
-                            alert(message);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            const errorMessage = "Error al intentar cerrar sesion.";
-                            document.getElementById('resultado').innerText = errorMessage;
-                            alert(errorMessage);
-                        });
-                setTimeout(() => location.href = 'index.jsp', 1000);
-            });
-        </script>
+        <!-- Script inicio y cierre de sesion -->
+        <script src = "scripts/Login.js"></script>
         
         <!-- Script registro de usuario -->
-        <script>
-            document.getElementById('tipoUsuario').addEventListener('change', function () {
-                const camposArtista = document.getElementById('camposArtista');
-                if (this.value === 'artista') {
-                    camposArtista.style.display = 'block';
-                } else {
-                    camposArtista.style.display = 'none';
-                }
-            });
-            
-            var validoField = document.getElementById('Valido');
-
-            function checkNickname() {
-                const nickname = document.getElementById("nickname").value;
-                const xhr = new XMLHttpRequest();
-                xhr.open("GET", "AgregarUsuarioServlet?action=verificarNickname&Nickname=" + encodeURIComponent(nickname), true);
-
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        let mensaje = xhr.responseText;
-            let nicknameValidoField = document.getElementById("nickValido");
-            if (mensaje === "Nickname is available") {
-                nicknameValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
-                validoField.value = "true";
-            } else {
-                nicknameValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
-                validoField.value = "false";
-            }
-                    }
-                };
-
-                xhr.send();
-            }
-
-            function checkCorreo() {
-                const correo = document.getElementById("mail").value;
-                const xhr = new XMLHttpRequest();
-                xhr.open("GET", "AgregarUsuarioServlet?action=verificarCorreo&correoName=" + encodeURIComponent(correo), true);
-
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        let mensaje = xhr.responseText;
-            let correoValidoField = document.getElementById("correoValido");
-            if (mensaje === "Mail is available") {
-                correoValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
-                validoField.value = "true";
-            } else {
-                correoValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
-                validoField.value = "false";
-            }
-                    }
-                };
-
-                xhr.send();
-            }
-        </script>
+        <script src = "scripts/AgregarUsuario.js"></script>
         
         <!-- Formulario de login y signup -->
         <script>
@@ -404,7 +285,7 @@
         </script>
         
         <!-- Cosas del reproductor de musica -->
-        <script src="Reproductor.js"></script>
+        <script src="scripts/Reproductor.js"></script>
         
         <!-- Evitar que las imagenes sean arrastradas -->
         <script>
