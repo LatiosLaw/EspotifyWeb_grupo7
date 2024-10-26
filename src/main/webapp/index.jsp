@@ -38,7 +38,6 @@
                         <li><p><button id="abrirFormLogin">Iniciar sesion</button></p></li>
                                     <% } else { %>
                         <li><p>Tipo: <%= userType != null ? userType : "Desconocido"%></p></li>
-                        <li class="userFav"><a href=""><img src="imagenes/espotify/star.png" class="favIMG"></a><p><a href="">Favoritos</a></p></li>
                         <li><p><button id="logoutButton">Cerrar sesion</button></p></li>
                                     <% } %>
                     </ul>
