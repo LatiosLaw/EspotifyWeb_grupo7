@@ -252,37 +252,15 @@
         <!-- Alta de album -->
         <script src="scripts/AltaDeAlbum.js"></script>
 
-        <!-- Script inicio y cierre de sesion -->
-        <script src = "scripts/Login.js"></script>
-        
         <!-- Script registro de usuario -->
         <script src = "scripts/AgregarUsuario.js"></script>
         
+        <!-- Script inicio y cierre de sesion -->
+        <script src="scripts/Login.js"></script>
+        <script src="scripts/Logout.js"></script>
+
         <!-- Formulario de login y signup -->
-        <script>
-            const abrirFormLogin = document.querySelector("#abrirFormLogin");
-            const cerrarFormLogin = document.querySelector("#cerrarFormLogin");
-            const winLogin = document.querySelector("#winLogin");
-            const abrirFormSignup = document.querySelector("#abrirFormSignup");
-            const cerrarFormSignup = document.querySelector("#cerrarFormSignup");
-            const winSignup = document.querySelector("#winSignup");
-
-            abrirFormLogin.addEventListener("click", () => {
-                winLogin.showModal();
-            });
-
-            cerrarFormLogin.addEventListener("click", () => {
-                winLogin.close();
-            });
-
-            abrirFormSignup.addEventListener("click", () => {
-                winSignup.showModal();
-            });
-
-            cerrarFormSignup.addEventListener("click", () => {
-                winSignup.close();
-            });
-        </script>
+        <script src = "scripts/LoginSignupForm.js"></script>
         
         <!-- Cosas del reproductor de musica -->
         <script src="scripts/Reproductor.js"></script>

@@ -266,12 +266,12 @@
         <!-- Consultar album -->
         <script src="scripts/ConsultarAlbum.js"></script>
 
+        <!-- Script registro de usuario -->
+        <script src="scripts/AgregarUsuario.js"></script>
+        
         <!-- Script inicio y cierre de sesion -->
         <script src="scripts/Login.js"></script>
         <script src="scripts/Logout.js"></script>
-
-        <!-- Script registro de usuario -->
-        <script src="scripts/AgregarUsuario.js"></script>
 
         <!-- Formulario de login y signup -->
         <script src = "scripts/LoginSignupForm.js"></script>
