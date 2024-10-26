@@ -94,17 +94,6 @@ ul{
     margin-right: 5px;
 }
 
-.userFav{
-    display: flex;
-    align-items: center;
-}
-
-.favIMG{
-    width: 18px;
-    margin-right: 5px;
-    float: left;
-}
-
 #abrirFormLogin, #logoutButton{
     border: 0px none;
     padding: 0;
@@ -384,10 +373,6 @@ ul{
 
     .userName p{
         max-width: 16vw;
-    }
-
-    .favIMG{
-        width: 3vw;
     }
 
     .dinamico{
