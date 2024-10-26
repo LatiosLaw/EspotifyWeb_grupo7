@@ -9,7 +9,6 @@
     </head>
     <body>
         <div class="cuerpo">
-            
             <header class="encaPrin">
                 <div>
                     <a href="index.jsp" class="EspotifyLogo">
@@ -17,12 +16,12 @@
                         <h1>Espotify</h1>
                     </a>
                 </div>
-                
+
                 <div class="busqueda">
                     <input type="text" placeholder="Tema, Album, Lista" class="barraBusqueda">
                     <button class="btnBusqueda">Buscar</button>
                 </div>
-                
+
                 <div class="userDiv">
                     <div class="divUserIMG">
                         <a href="ConsultarUsuario.jsp"><img src="imagenes/espotify/user.png" class="userIMG"></a>
@@ -33,10 +32,12 @@
                             String nickname = (String) session.getAttribute("nickname");
                             Boolean suscrito = (Boolean) session.getAttribute("suscrito");
                         %>
-                        <li class="userName"><a href="ConsultarUsuario.jsp"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p></li>
-                            <% if (nickname == null) { %>
+                        <li class="userName">
+                            <a href="ConsultarUsuario.jsp"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p>
+                        </li>
+                        <% if (nickname == null) { %>
                         <li><p><button id="abrirFormLogin">Iniciar sesion</button></p></li>
-                                    <% } else { %>
+                                    <% } else {%>
                         <li><p>Tipo: <%= userType != null ? userType : "Desconocido"%></p></li>
                         <li><p><button id="logoutButton">Cerrar sesion</button></p></li>
                                     <% } %>
@@ -50,9 +51,7 @@
             </div>
 
             <div class="mainCon">
-                
                 <div class="dinamico">
-                    
                     <div class="btnsNav">
                         <% if ("Cliente".equals(userType) || userType == null) { %>
                         <a id="consultarListaLink" href="index.jsp">Consultar Album</a>
@@ -64,16 +63,16 @@
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
-                            <% if (suscrito) { %>       
-                            <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
-                            <% } %>
+                        <% if (suscrito) { %>       
+                        <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
+                        <% } %>
                         <% } %>
 
                         <% if ("Artista".equals(userType)) { %>
                         <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
                         <% }%>
                     </div>
-                    
+
                     <div class="realDinamico">
                         <h2>Filtrar Albumes Por:</h2>
                         <select id="opciones" name="opciones">
@@ -83,29 +82,29 @@
                         </select>
 
                         <table id="filtroTable">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre del Genero / Artista</th>
-                                        <td>Accion</td>
-                                    </tr>
-                                </thead>
-                                <tbody id="filtroBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
-                            </table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre del Genero / Artista</th>
+                                    <td>Accion</td>
+                                </tr>
+                            </thead>
+                            <tbody id="filtroBody">
+                                <!-- aca se carga la lista -->
+                            </tbody>
+                        </table>
 
-                            <h2>Albumes del Artista / Genero:</h2>
+                        <h2>Albumes del Artista / Genero:</h2>
                         <table id="albumTable">
-                                <thead>
-                                    <tr>
-                                        <th>Album</th>
-                                        <td>Accion</td>
-                                    </tr>
-                                </thead>
-                                <tbody id="albumBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
-                            </table>
+                            <thead>
+                                <tr>
+                                    <th>Album</th>
+                                    <td>Accion</td>
+                                </tr>
+                            </thead>
+                            <tbody id="albumBody">
+                                <!-- aca se carga la lista -->
+                            </tbody>
+                        </table>
 
                         <h2>Informacion del Album</h2>
                         <div>
@@ -118,36 +117,34 @@
                         <ul id="generoslist"></ul>
                         <h3>Temas del Album</h3>
                         <table id="temasTable">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre del Tema</th>
-                                        <th>Duracion</th>
-                                        <th>Archivo / Link</th>
-                                        <th>Accion</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="temasBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
-                            </table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre del Tema</th>
+                                    <th>Duracion</th>
+                                    <th>Archivo / Link</th>
+                                    <th>Accion</th>
+                                </tr>
+                            </thead>
+                            <tbody id="temasBody">
+                                <!-- aca se carga la lista -->
+                            </tbody>
+                        </table>
                     </div>
-                    
                 </div>
-                
+
                 <div class="reproductor">
                     <div class="temaRep">
                         <img src="imagenes/espotify/user.png" class="artIMG">
                         <h3>Nombre Tema</h3>
                         <h2>Nombre Artista</h2>
                     </div>
-                    
+
                     <div class="controlRep">
-                        
                         <audio id="miAudio">
                             <source id="audioSource" src="temas/DONMAI.mp3" type="audio/mpeg">
                             Tu navegador no soporta el elemento audio.
                         </audio>
-                        
+
                         <div class="tiempoRep">
                             <div id="progressBar" onmousedown="startAdjustingProgressBar(event)">
                                 <div id="progress"></div>
@@ -155,7 +152,7 @@
                             <div class="tiempos">
                                 <span id="currentTime">0:00</span><span id="totalTime">0:00</span>
                             </div>
-                            
+
                             <div class="volumen">
                                 <button id="muteBtn" onclick="muteVolume()"><img src="imagenes/espotify/volume-on.png"></button>
                                 <button id="unmuteBtn" onclick="unmuteVolume()" style="display: none;"><img src="imagenes/espotify/volume-off.png"></button>
@@ -163,19 +160,18 @@
                                     <div id="volumeLevel"></div>
                                 </div>
                             </div>
-                            
+
                             <div class="btnsMedia">
                                 <button id="prevBtn" onclick="prevAudio()"><img src="imagenes/espotify/back-button.png"></button>
                                 <button id="pauseBtn" hidden><img src="imagenes/espotify/pause-button.png"></button>
                                 <button id="playBtn"><img src="imagenes/espotify/play-button.png"></button>
                                 <button id="nextBtn" onclick="nextAudio()"><img src="imagenes/espotify/next-button.png"></button>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
             </div>
-                    
+
             <dialog id="winLogin"> <!-- Dialogo de inicio de sesion -->
                 <button id="cerrarFormLogin">Cerrar</button>
                 <div class="tituloFormLogin">
@@ -197,16 +193,16 @@
                 </form>
                 <div id="resultado"></div> <!-- Mensajes de resultado -->
             </dialog>
-                    
-            <dialog id="winSignup"> <!-- Di?logo de registro de usuario -->
+
+            <dialog id="winSignup"> <!-- Diálogo de registro de usuario -->
                 <button id="cerrarFormSignup">Cerrar</button>
                 <div class="tituloFormSignup">
                     <h2>Registro de Usuario</h2>
                 </div>
                 <form id="altaUsuarioForm" method="post" action="AgregarUsuarioServlet" enctype="multipart/form-data">
-                        <c:if test="${not empty errorMessage}">
-                    <p id="errorMessage" style="color: red;">${errorMessage}</p>
-                        </c:if>
+                    <c:if test="${not empty errorMessage}">
+                        <p id="errorMessage" style="color: red;">${errorMessage}</p>
+                    </c:if>
                     <div>
                         <input type="hidden" id='Valido' name='Valido' value="true">  
                         <label for="tipoUsuario">Tipo de Usuario:</label>
@@ -266,50 +262,28 @@
                 </form>
             </dialog>
         </div> <!-- Fin Cuerpo -->
-        
+
         <!-- Consultar album -->
         <script src="scripts/ConsultarAlbum.js"></script>
 
         <!-- Script inicio y cierre de sesion -->
-        <script src = "scripts/Login.js"></script>
-        
+        <script src="scripts/Login.js"></script>
+        <script src="scripts/Logout.js"></script>
+
         <!-- Script registro de usuario -->
-        <script src = "scripts/AgregarUsuario.js"></script>
-        
+        <script src="scripts/AgregarUsuario.js"></script>
+
         <!-- Formulario de login y signup -->
-        <script>
-            const abrirFormLogin = document.querySelector("#abrirFormLogin");
-            const cerrarFormLogin = document.querySelector("#cerrarFormLogin");
-            const winLogin = document.querySelector("#winLogin");
-            const abrirFormSignup = document.querySelector("#abrirFormSignup");
-            const cerrarFormSignup = document.querySelector("#cerrarFormSignup");
-            const winSignup = document.querySelector("#winSignup");
-
-            abrirFormLogin.addEventListener("click", () => {
-                winLogin.showModal();
-            });
-
-            cerrarFormLogin.addEventListener("click", () => {
-                winLogin.close();
-            });
-
-            abrirFormSignup.addEventListener("click", () => {
-                winSignup.showModal();
-            });
-
-            cerrarFormSignup.addEventListener("click", () => {
-                winSignup.close();
-            });
-        </script>
-        
+        <script src = "scripts/LoginSignupForm.js"></script>
+ 
         <!-- Cosas del reproductor de musica -->
         <script src="scripts/Reproductor.js"></script>
-        
+
         <!-- Evitar que las imagenes sean arrastradas -->
         <script>
-            document.addEventListener('dragstart', function(event) {
-                event.preventDefault();
-            });
+                            document.addEventListener('dragstart', function (event) {
+                                event.preventDefault();
+                            });
         </script>
     </body>
 </html>
