@@ -52,6 +52,14 @@
         <servlet-name>ConsultarUsuarioServlet</servlet-name>
         <servlet-class>com.mycompany.espotifyweb.ConsultarUsuarioServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BuscarCosasServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.BuscarCosasServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PaginaInicioServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.PaginaInicioServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -103,6 +111,14 @@
     <servlet-mapping>
         <servlet-name>ConsultarUsuarioServlet</servlet-name>
         <url-pattern>/ConsultarUsuarioServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BuscarCosasServlet</servlet-name>
+        <url-pattern>/BuscarCosasServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PaginaInicioServlet</servlet-name>
+        <url-pattern>/PaginaInicioServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

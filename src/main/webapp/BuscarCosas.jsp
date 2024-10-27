@@ -14,7 +14,6 @@
             Boolean suscrito = (Boolean) session.getAttribute("suscrito");
         %>
         <div class="cuerpo">
-            
             <header class="encaPrin">
                 <div>
                     <a href="index.jsp" class="EspotifyLogo">
@@ -22,24 +21,25 @@
                         <h1>Espotify</h1>
                     </a>
                 </div>
-                
+
                 <div class="busqueda">
                     <input type="text" placeholder="Tema, Album, Lista" class="barraBusqueda">
                     <a class="btnBusqueda" href="BuscarCosas.jsp">Buscar</a>
                 </div>
-                
+
                 <div class="userDiv">
                     <div class="divUserIMG">
                         <a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><img src="imagenes/espotify/user.png" class="userIMG"></a>
                     </div>
                     <ul class="listUser">
-
-                        <li class="userName"><a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p></li>
-                            <% if (nickname == null) { %>
-                        <li><p><button id="abrirFormLogin">Iniciar sesi?n</button></p></li>
-                                    <% } else { %>
+                        <li class="userName">
+                            <a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p>
+                        </li>
+                        <% if (nickname == null) { %>
+                        <li><p><button id="abrirFormLogin">Iniciar sesion</button></p></li>
+                                    <% } else {%>
                         <li><p>Tipo: <%= userType != null ? userType : "Desconocido"%></p></li>
-                        <li><p><button id="logoutButton">Cerrar sesi?n</button></p></li>
+                        <li><p><button id="logoutButton">Cerrar sesion</button></p></li>
                                     <% } %>
                     </ul>
                 </div>
@@ -51,9 +51,7 @@
             </div>
 
             <div class="mainCon">
-                
                 <div class="dinamico">
-                    
                     <div class="btnsNav">
                         <% if ("Cliente".equals(userType) || userType == null) { %>
                         <a id="consultarListaLink" href="index.jsp">Consultar Album</a>
@@ -65,51 +63,116 @@
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
-                            <% if (suscrito) { %>       
-                            <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
-                            <% } %>
+                        <% if (suscrito) { %>       
+                        <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
+                        <% } %>
                         <% } %>
 
                         <% if ("Artista".equals(userType)) { %>
                         <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
                         <% }%>
                     </div>
-                    
+
                     <div class="realDinamico">
-                        <div class="container">
-                            <h1>Contratar Suscripción</h1>
-                            <form id="contratarSuscripcionForm">
-                                <label for="tipoSuscripcion">Seleccione tipo de suscripción:</label>
-                                <select id="tipoSuscripcion" name="tipoSuscripcion" required>
-                                    <option value="">Seleccione una opción</option>
-                                    <option value="Semanal">Semanal - $5</option>
-                                    <option value="Mensual">Mensual - $15</option>
-                                    <option value="Anual">Anual - $150</option>
-                                </select>
+                        <a href="index.jsp">Página Principal</a>
 
-                                <input type="submit" value="Confirmar Suscripción">
-                            </form>
+                        <h1>Buscar</h1>
 
-                            <div id="resultado"></div>
+                        <input type="text" id="es-gen" name="es-gen" hidden readonly value="0">
+                        <h2>Buscar Cosas:</h2>
+                        <label for="buscar">Escriba hdp:</label>
+                        <input type="text" id="buscar" name="buscar"><br>
+                        <button onclick="buscarDatos()">Buscar</button>
+
+                        <h2>Listas de Usuarios Encontradas:</h2>
+                        <table id="listaUsuarioTable">
+                            <thead>
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Nombre</th>
+                                    <th>Creador</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listaUsuarioBody">
+                                <!-- aca se carga la lista -->
+                            </tbody>
+                        </table>
+
+                        <h2>Listas de Genero Encontradas:</h2>
+                        <table id="listaGeneroTable">
+                            <thead>
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Nombre</th>
+                                    <th>Genero</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listaGeneroBody">
+                                <!-- aca se carga la lista -->
+                            </tbody>
+                        </table>
+
+                        <h2>Lista de Albumes Encontrados:</h2>
+                        <table id="albumTable">
+                            <thead>
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Nombre</th>
+                                    <th>Artista</th>
+                                    <th>Año de Publicacion</th>
+                                </tr>
+                            </thead>
+                            <tbody id="albumBody">
+                                <!-- aca se carga la lista -->
+                            </tbody>
+                        </table>
+
+                        <div id="todoDeUnGenero">
+                            <h2>Todo lo del Genero : </h2>
+                            <h3>Listas del Genero Encontradas:</h3>
+                            <table id="listaGeneroGenTable">
+                                <thead>
+                                    <tr>
+                                        <th>Imagen</th>
+                                        <th>Nombre</th>
+                                        <th>Genero</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaGeneroGenBody">
+                                    <!-- aca se carga la lista -->
+                                </tbody>
+                            </table>
+                            <h3>Lista de Albumes Encontrados:</h3>
+                            <table id="albumGenTable">
+                                <thead>
+                                    <tr>
+                                        <th>Imagen</th>
+                                        <th>Nombre</th>
+                                        <th>Artista</th>
+                                        <th>Año de Publicacion</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="albumGenBody">
+                                    <!-- aca se carga la lista -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    
                 </div>
-                
+
                 <div class="reproductor">
                     <div class="temaRep">
                         <img src="imagenes/espotify/user.png" class="artIMG">
                         <h3>Nombre Tema</h3>
                         <h2>Nombre Artista</h2>
                     </div>
-                    
+
                     <div class="controlRep">
-                        
                         <audio id="miAudio">
                             <source id="audioSource" src="temas/DONMAI.mp3" type="audio/mpeg">
                             Tu navegador no soporta el elemento audio.
                         </audio>
-                        
+
                         <div class="tiempoRep">
                             <div id="progressBar" onmousedown="startAdjustingProgressBar(event)">
                                 <div id="progress"></div>
@@ -117,7 +180,7 @@
                             <div class="tiempos">
                                 <span id="currentTime">0:00</span><span id="totalTime">0:00</span>
                             </div>
-                            
+
                             <div class="volumen">
                                 <button id="muteBtn" onclick="muteVolume()"><img src="imagenes/espotify/volume-on.png"></button>
                                 <button id="unmuteBtn" onclick="unmuteVolume()" style="display: none;"><img src="imagenes/espotify/volume-off.png"></button>
@@ -125,20 +188,19 @@
                                     <div id="volumeLevel"></div>
                                 </div>
                             </div>
-                            
+
                             <div class="btnsMedia">
                                 <button id="prevBtn" onclick="prevAudio()"><img src="imagenes/espotify/back-button.png"></button>
                                 <button id="pauseBtn" hidden><img src="imagenes/espotify/pause-button.png"></button>
                                 <button id="playBtn"><img src="imagenes/espotify/play-button.png"></button>
                                 <button id="nextBtn" onclick="nextAudio()"><img src="imagenes/espotify/next-button.png"></button>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
             </div>
-                    
-            <dialog id="winLogin"> <!-- Di?logo de inicio de sesi?n -->
+
+            <dialog id="winLogin"> <!-- Dialogo de inicio de sesion -->
                 <button id="cerrarFormLogin">Cerrar</button>
                 <div class="tituloFormLogin">
                     <h2>Inicio de Sesion</h2>
@@ -153,22 +215,22 @@
                         <input type="password" id="passLogin" name="passLogin" required>
                     </div>
                     <div class="btnsFormLogin">
-                        <button type="submit">Iniciar Sesi?n</button>
+                        <button type="submit">Iniciar Sesion</button>
                         <button type='reset' id="abrirFormSignup">Registrarse</button>
                     </div>
                 </form>
                 <div id="resultado"></div> <!-- Mensajes de resultado -->
             </dialog>
-                    
-            <dialog id="winSignup"> <!-- Di?logo de registro de usuario -->
+
+            <dialog id="winSignup"> <!-- Diálogo de registro de usuario -->
                 <button id="cerrarFormSignup">Cerrar</button>
                 <div class="tituloFormSignup">
                     <h2>Registro de Usuario</h2>
                 </div>
                 <form id="altaUsuarioForm" method="post" action="AgregarUsuarioServlet" enctype="multipart/form-data">
-                        <c:if test="${not empty errorMessage}">
-                    <p id="errorMessage" style="color: red;">${errorMessage}</p>
-                        </c:if>
+                    <c:if test="${not empty errorMessage}">
+                        <p id="errorMessage" style="color: red;">${errorMessage}</p>
+                    </c:if>
                     <div>
                         <input type="hidden" id='Valido' name='Valido' value="true">  
                         <label for="tipoUsuario">Tipo de Usuario:</label>
@@ -228,12 +290,12 @@
                 </form>
             </dialog>
         </div> <!-- Fin Cuerpo -->
-        
-        <!-- Contratar suscripcion -->
-        <script src = "scripts/ContratarSuscripcion.js"></script>
-        
+
+        <!-- Buscar cosas -->
+        <script src="scripts/BuscarCosas.js"></script>
+
         <!-- Script registro de usuario -->
-        <script src = "scripts/AgregarUsuario.js"></script>
+        <script src="scripts/AgregarUsuario.js"></script>
         
         <!-- Script inicio y cierre de sesion -->
         <script src="scripts/Login.js"></script>
@@ -241,15 +303,15 @@
 
         <!-- Formulario de login y signup -->
         <script src = "scripts/LoginSignupForm.js"></script>
-        
+ 
         <!-- Cosas del reproductor de musica -->
         <script src="scripts/Reproductor.js"></script>
-        
+
         <!-- Evitar que las imagenes sean arrastradas -->
         <script>
-            document.addEventListener('dragstart', function(event) {
-                event.preventDefault();
-            });
+                            document.addEventListener('dragstart', function (event) {
+                                event.preventDefault();
+                            });
         </script>
     </body>
 </html>

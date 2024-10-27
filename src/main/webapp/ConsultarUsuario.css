@@ -3,11 +3,13 @@
     justify-content: space-around; /* o space-around según tu necesidad */
     width: 100%; /* o el ancho que desees */
     background-color: chocolate;
+    border-width: 2px 0 2px 0;
+    border-style: solid;
 }
 
 .btnsPerfil button{
     border-style: solid;
-    border-width: 2px 2px 2px 2px;
+    border-width: 0 2px 0 2px;
     border-color: black;
     text-align: center;
     padding: 5px 10px 5px 10px;
@@ -15,14 +17,18 @@
     background-color: #ff760c;
 }
 
-.realDinamico{
-    display: grid;
-}
-
 #perfil{
     justify-self: center;
-    padding: 30px;
-    background-color: forestgreen;
+    padding: 15px;
+    background-color: chartreuse;
+    display: grid;
+    border: 2px solid;
+    margin: 10px;
+}
+
+#imagenPerfil{
+    justify-content: center;
+    text-align: center;
 }
 
 #perfil h2, #perfil p{
@@ -33,10 +39,32 @@
     margin-right: 1ch;
 }
 
+.contPerfil{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#seguidores, #seguidos, #listas, #favoritos, #albumes, .listFavs, .albFavs, .temFavs{
+    background-color: darkseagreen;
+    margin: 10px;
+    border: 2px solid;
+    padding: 15px;
+}
+
+.listFavs table, .listFavs table thead, .listFavs table thead tr, .listFavs table thead tr th, .listFavs table tbody tr, .listFavs table tbody tr td{
+    border: 3px solid white;
+}
+
 /*Resolucion de telefono*/
 @media (max-width: 960px){
     .btnsPerfil button{
         font-size: 1.5vw;
+    }
+    
+    #perfil{
+        width: 80%;
+        font-size: 2vw;
     }
     
     #imagenPerfil{
@@ -48,6 +76,10 @@
 @media (min-width: 960px){
     .btnsPerfil button{
         font-size: 1vw;
+    }
+    
+    #perfil{
+        max-width: 200ch;
     }
     
     #imagenPerfil{

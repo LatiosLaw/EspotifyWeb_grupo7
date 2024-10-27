@@ -7,6 +7,10 @@
     /*background-color: white;*/
 }
 
+html{
+    scrollbar-color: rgb(25, 0, 255) rgb(0, 187, 255);
+}
+
 .cuerpo{
     position: absolute;
     background-color: rgb(218, 76, 211);
@@ -44,12 +48,11 @@ ul{
 
 .busqueda{
     display: flex;
-    background-color: brown;
 }
 
 .barraBusqueda{
     width: 100%;
-    padding-left: 5px;
+    padding: 5px 0 5px 5px;
     border-radius: 3px;
     border-width: 3px;
     border-style: solid;
@@ -58,13 +61,13 @@ ul{
 
 .btnBusqueda{
     margin-left: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 5px 10px 5px 10px;
     border-radius: 3px;
     border-width: 3px;
     border-style: solid;
     border-color: black;
     box-shadow: 3px 3px black;
+    background-color: brown;
 }
 
 .userDiv{
@@ -113,14 +116,12 @@ ul{
 
 .dinamico{
     position: absolute;
-    background-color: chartreuse;
+    background-color: forestgreen;
     border-style: solid;
     border-color: black;
     border-width: 3px;
     overflow-y: scroll;
     overflow-x: auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgb(25, 0, 255) rgb(0, 187, 255);
 }
 
 .btnsNav{
@@ -137,6 +138,10 @@ ul{
     text-align: center;
     padding: 5px 5px 5px 5px;
     align-items: center;
+}
+
+.realDinamico{
+    display: grid;
 }
 
 .reproductor{
@@ -497,7 +502,7 @@ ul{
     .encaPrin{
         display: flex;
         margin: 40px 40px 20px 40px;
-        padding: 20px 0 20px 0;
+        padding: 10px;
     }
 
     .EspotifyIMG{

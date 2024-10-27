@@ -8,6 +8,11 @@
         <title>Espotify</title>
     </head>
     <body>
+        <%
+            String userType = (String) session.getAttribute("userType");
+            String nickname = (String) session.getAttribute("nickname");
+            Boolean suscrito = (Boolean) session.getAttribute("suscrito");
+        %>
         <div class="cuerpo">
             <header class="encaPrin">
                 <div>
@@ -19,19 +24,14 @@
 
                 <div class="busqueda">
                     <input type="text" placeholder="Tema, Album, Lista" class="barraBusqueda">
-                    <button class="btnBusqueda" onclick="busquedaGlobal()">Buscar</button>
+                    <a class="btnBusqueda" href="BuscarCosas.jsp">Buscar</a>
                 </div>
 
                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <a href="ConsultarUsuario.jsp"><img src="imagenes/espotify/user.png" class="userIMG"></a>
+                        <a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><img src="imagenes/espotify/user.png" class="userIMG"></a>
                     </div>
                     <ul class="listUser">
-                        <%
-                            String userType = (String) session.getAttribute("userType");
-                            String nickname = (String) session.getAttribute("nickname");
-                            Boolean suscrito = (Boolean) session.getAttribute("suscrito");
-                        %>
                         <li class="userName">
                             <a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p>
                         </li>
