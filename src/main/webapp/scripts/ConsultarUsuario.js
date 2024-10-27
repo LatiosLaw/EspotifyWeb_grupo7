@@ -1,3 +1,6 @@
+const urlParams = new URLSearchParams(window.location.search);
+const userId = urlParams.get('usr');
+
 document.addEventListener('DOMContentLoaded', function () {
     cargarPerfil();
 
@@ -33,7 +36,7 @@ function toggleSection(sectionId, loadFunction) {
 }
 
 function cargarPerfil() {
-    fetch('ConsultarUsuarioServlet?action=cargarPerfil')
+    fetch(`ConsultarUsuarioServlet?action=cargarPerfil&nickname=${encodeURIComponent(userId)}`)
             .then(response => response.json())
             .then(data => {
                 document.getElementById('nickname').textContent = data.nickname;
@@ -41,15 +44,19 @@ function cargarPerfil() {
                 document.getElementById('nombre').textContent = data.nombre;
                 document.getElementById('apellido').textContent = data.apellido;
                 document.getElementById('fechaNacimiento').textContent = data.fechaNacimiento;
-                document.getElementById('imagenPerfil').src = data.imagen ? `imagenes/usuarios/${data.imagen}` : 'imagenes/usuarios/defaultUser.png';
+                if(data.imagen!=="null" && (data.imagen.endsWith(".png") || data.imagen.endsWith(".jpg"))){
+                    document.getElementById('imagenPerfil').src = `imagenes/usuarios/${data.imagen}`;
+                }else{
+                    document.getElementById('imagenPerfil').src = 'imagenes/usuarios/defaultUser.png';
+                }
+                
                 checkUserType(data.nickname);
             })
             .catch(error => console.error('Error al cargar perfil:', error));
 }
 
 function cargarSeguidores() {
-    const nickname = document.getElementById('nickname').textContent;
-    fetch(`ConsultarUsuarioServlet?action=cargarSeguidores&nickname=${encodeURIComponent(nickname)}`)
+    fetch(`ConsultarUsuarioServlet?action=cargarSeguidores&nickname=${encodeURIComponent(userId)}`)
             .then(response => response.json())
             .then(seguidores => {
                 const seguidoresTbody = document.getElementById('tablaSeguidores');
@@ -65,8 +72,7 @@ function cargarSeguidores() {
 }
 
 function cargarSeguidos() {
-    const nickname = document.getElementById('nickname').textContent;
-    fetch(`ConsultarUsuarioServlet?action=cargarSeguidos&nickname=${encodeURIComponent(nickname)}`)
+    fetch(`ConsultarUsuarioServlet?action=cargarSeguidos&nickname=${encodeURIComponent(userId)}`)
             .then(response => response.json())
             .then(seguidos => {
                 const seguidosTbody = document.getElementById('tablaSeguidos');
@@ -82,8 +88,7 @@ function cargarSeguidos() {
 }
 
 function cargarListas() {
-    const nickname = document.getElementById('nickname').textContent;
-    fetch(`ConsultarUsuarioServlet?action=cargarListas&nickname=${encodeURIComponent(nickname)}`)
+    fetch(`ConsultarUsuarioServlet?action=cargarListas&nickname=${encodeURIComponent(userId)}`)
             .then(response => response.json())
             .then(listas => {
                 const listasTbody = document.getElementById('tablaListas');
@@ -99,7 +104,7 @@ function cargarListas() {
 }
 
 function cargarFavoritos() {
-    const nickname = document.getElementById('nickname').textContent;
+    const nickname = userId;
     cargarAlbumesFavoritos(nickname);
     cargarListasFavoritas(nickname);
     cargarTemasFavoritos(nickname);
@@ -107,8 +112,7 @@ function cargarFavoritos() {
 }
 
 function cargarAlbumes() {
-    const nickname = document.getElementById('nickname').textContent;
-    fetch(`ConsultarUsuarioServlet?action=cargarAlbumes&nickname=${encodeURIComponent(nickname)}`)
+    fetch(`ConsultarUsuarioServlet?action=cargarAlbumes&nickname=${encodeURIComponent(userId)}`)
             .then(response => response.json())
             .then(albumes => {
                 const albumesTbody = document.getElementById('tablaAlbumes');
@@ -200,7 +204,7 @@ function verDetallesAlbum(album) {
 }
 
 function checkUserType(nickname) {
-    fetch('LoginServlet?action=obtenerTipoUsuario')
+    fetch(`LoginServlet?action=obtenerTipoUsuario2&nickname=${encodeURIComponent(userId)}`)
             .then(response => response.json())
             .then(data => {
                 const userType = data.userType;
@@ -209,14 +213,14 @@ function checkUserType(nickname) {
                     document.getElementById('albumesBtn').style.display = 'block';
                 } else if (userType === 'Cliente') {
                     document.getElementById('seguidoresBtn').style.display = 'block';
-                    checkSuscripcion();
+                    checkSuscripcion(nickname);
                 }
             })
             .catch(error => console.error('Error al obtener el tipo de usuario:', error));
 }
 
 function checkSuscripcion(nickname) {
-    fetch('LoginServlet?action=obtenerSuscripcion')
+    fetch(`LoginServlet?action=obtenerSuscripcion2&nickname=${encodeURIComponent(nickname)}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error en la red: ' + response.statusText);

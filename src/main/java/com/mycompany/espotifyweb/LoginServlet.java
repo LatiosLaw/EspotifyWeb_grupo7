@@ -2,7 +2,6 @@ package com.mycompany.espotifyweb;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -59,6 +58,26 @@ public class LoginServlet extends HttpServlet {
                 out.print("{\"error\": \"Error al obtener el estado de la suscripcion del usuario\"}");
                 out.flush();
             }
+        }if ("obtenerTipoUsuario2".equals(action)) {
+            try {
+                getUserType2(request, response);
+            } catch (Exception e) {
+                response.setContentType("application/json");
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                PrintWriter out = response.getWriter();
+                out.print("{\"error\": \"Error al obtener el tipo de usuario\"}");
+                out.flush();
+            }
+        } else if ("obtenerSuscripcion2".equals(action)) {
+            try {
+                getSuscripcion2(request, response);
+            } catch (Exception e) {
+                response.setContentType("application/json");
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                PrintWriter out = response.getWriter();
+                out.print("{\"error\": \"Error al obtener el estado de la suscripcion del usuario\"}");
+                out.flush();
+            }
         } else {
             processRequest(request, response);
         }
@@ -92,6 +111,40 @@ public class LoginServlet extends HttpServlet {
     public Boolean getSuscripcionFromSession(HttpServletRequest request) {
         HttpSession session = request.getSession();
         return (Boolean) session.getAttribute("suscrito");
+    }
+    
+    public void getUserType2(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+
+        String userType = getUserTypeFromSession2(request); // Llama al método que ya tienes
+
+        out.print("{\"userType\": \"" + (userType != null ? userType : "") + "\"}");
+        out.flush();
+    }
+
+    public String getUserTypeFromSession2(HttpServletRequest request) {
+        DAO_Usuario controladorUsr = new DAO_Usuario();
+        String nickname = request.getParameter("nickname");
+        String tipo_usuario = controladorUsr.findUsuarioByNick(nickname).getDTYPE();
+        return tipo_usuario;
+    }
+
+    public void getSuscripcion2(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+
+        Boolean estaSuscrito = getSuscripcionFromSession2(request); // Llama al método que ya tienes
+
+        out.print("{\"suscrito\": " + (estaSuscrito != null ? estaSuscrito.toString() : "null") + "}");
+        out.flush();
+    }
+
+    public Boolean getSuscripcionFromSession2(HttpServletRequest request) {
+        ControladorSuscripcion controladorSus = new ControladorSuscripcion();
+        String nickname = request.getParameter("nickname");
+        Boolean suscrito = controladorSus.tieneSusValida(nickname);
+        return suscrito;
     }
 
     @Override

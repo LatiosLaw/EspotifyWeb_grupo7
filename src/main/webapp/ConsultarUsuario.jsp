@@ -34,7 +34,7 @@
                         String nickname = (String) session.getAttribute("nickname");
                         Boolean suscrito = (Boolean) session.getAttribute("suscrito");
                     %>
-                    <li class="userName"><a href="ConsultarUsuario.jsp"><p class="name"><%= nickname != null ? nickname : "Visitante"%></p></a></li>
+                    <li class="userName"><a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></p></a></li>
                     <% if (nickname == null) { %>
                     <li><p><button id="abrirFormLogin">Iniciar sesión</button></p></li>
                     <% } else { %>

@@ -19,7 +19,7 @@
 
                 <div class="busqueda">
                     <input type="text" placeholder="Tema, Album, Lista" class="barraBusqueda">
-                    <button class="btnBusqueda">Buscar</button>
+                    <button class="btnBusqueda" onclick="busquedaGlobal()">Buscar</button>
                 </div>
 
                 <div class="userDiv">
@@ -33,7 +33,7 @@
                             Boolean suscrito = (Boolean) session.getAttribute("suscrito");
                         %>
                         <li class="userName">
-                            <a href="ConsultarUsuario.jsp"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p>
+                            <a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p>
                         </li>
                         <% if (nickname == null) { %>
                         <li><p><button id="abrirFormLogin">Iniciar sesion</button></p></li>

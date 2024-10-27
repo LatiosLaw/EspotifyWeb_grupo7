@@ -67,8 +67,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
     private void cargarPerfil(HttpServletRequest request, PrintWriter out) {
 
-        HttpSession session = request.getSession();
-        String nickname = (String) session.getAttribute("nickname");
+        String nickname = request.getParameter("nickname");
 
         DAO_Usuario daoUser = new DAO_Usuario();
         Usuario user = daoUser.findUsuarioByNick(nickname);
@@ -92,8 +91,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
     private void cargarSeguidores(HttpServletRequest request, PrintWriter out) {
 
-        HttpSession session = request.getSession();
-        String nickname = (String) session.getAttribute("nickname");
+        String nickname = request.getParameter("nickname");
 
         if (nickname == null) {
             out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
@@ -128,8 +126,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
     private void cargarSeguidos(HttpServletRequest request, PrintWriter out) {
 
-        HttpSession session = request.getSession();
-        String nickname = (String) session.getAttribute("nickname");
+       String nickname = request.getParameter("nickname");
 
         if (nickname == null) {
             out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
@@ -147,8 +144,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
     private void cargarListas(HttpServletRequest request, PrintWriter out) {
 
-        HttpSession session = request.getSession();
-        String nickname = (String) session.getAttribute("nickname");
+       String nickname = request.getParameter("nickname");
 
         if (nickname == null) {
             out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
@@ -172,8 +168,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
     private void cargarAlbumes(HttpServletRequest request, PrintWriter out) {
 
-        HttpSession session = request.getSession();
-        String nickname = (String) session.getAttribute("nickname");
+       String nickname = request.getParameter("nickname");
 
         if (nickname == null) {
             out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
@@ -197,8 +192,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
     private void cargarFavoritos(HttpServletRequest request, PrintWriter out) {
 
-        HttpSession session = request.getSession();
-        String nickname = (String) session.getAttribute("nickname");
+       String nickname = request.getParameter("nickname");
 
         if (nickname == null) {
             out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
@@ -221,8 +215,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
     }
 
     private void cargarListasFavoritas(HttpServletRequest request, PrintWriter out) {
-        HttpSession session = request.getSession();
-        String nickname = (String) session.getAttribute("nickname");
+       String nickname = request.getParameter("nickname");
 
         if (nickname == null) {
             out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
@@ -251,8 +244,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
     private void cargarAlbumesFavoritos(HttpServletRequest request, PrintWriter out) {
 
-        HttpSession session = request.getSession();
-        String nickname = (String) session.getAttribute("nickname");
+       String nickname = request.getParameter("nickname");
 
         if (nickname == null) {
             out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
@@ -269,8 +261,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
     }
 
     private void cargarTemasFavoritos(HttpServletRequest request, PrintWriter out) {
-        HttpSession session = request.getSession();
-        String nickname = (String) session.getAttribute("nickname");
+       String nickname = request.getParameter("nickname");
 
         if (nickname == null) {
             out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
