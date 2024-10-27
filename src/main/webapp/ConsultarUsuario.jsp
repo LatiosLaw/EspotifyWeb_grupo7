@@ -75,7 +75,6 @@
                     </div>
                     
                     <div class="realDinamico">
-                        <h1>Consulta de Perfil de Usuario</h1>
 
                         <div id="perfil">
                             <h2>Perfil</h2>
@@ -84,7 +83,18 @@
                             <p><strong>Nombre:</strong> <span id="nombre"></span></p>
                             <p><strong>Apellido:</strong> <span id="apellido"></span></p>
                             <p><strong>Fecha de Nacimiento:</strong> <span id="fechaNacimiento"></span></p>
-                            <p><strong>Imagen:</strong> <img id="imagenPerfil" src="" alt="Imagen de perfil"></p>
+                            <p><strong>Imagen:</strong> <img id="imagenPerfil" alt="Imagen de perfil"></p>
+                        </div>
+                        
+                        <div class="btnsPerfil">
+                            <button id="seguidoresBtn">Seguidores</button>
+                                <% if ("Cliente".equals(userType) || userType == null) { %>
+                            <button id="seguidosBtn">Seguidos</button>
+                            <button id="listasBtn">Listas</button>
+                            <button id="favoritosBtn">Favoritos</button>
+                                <% } if ("Artista".equals(userType)) { %>
+                            <button id="albumesBtn">Albumes</button>
+                                <% } %>
                         </div>
 
                         <div id="seguidores">
@@ -222,6 +232,7 @@
                             </div>
                             
                         </div>
+                        
                     </div>
                 </div>
             </div>
