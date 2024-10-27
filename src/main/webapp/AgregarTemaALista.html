@@ -64,9 +64,9 @@
      <form id="agregarTemaListaForm" action="AgregarTemaAListaServlet" method="post" onsubmit="return validarFormulario()">
         <input type="hidden" id='albumTema' name='albumTema' value="nada">
         <label for="nombreLista">Tu Lista a la que Agregar el Tema:</label>
-        <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de una lista"><br>
+        <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de una lista" readonly><br>
         <label for="nombreTema">Nombre del Tema:</label>
-        <input type="text" id="nombreTema" name="nombreTema" required title="Ingresa el nombre de un tema"><br>
+        <input type="text" id="nombreTema" name="nombreTema" required title="Ingresa el nombre de un tema" readonly><br>
         
         <button type="submit">Agregar Tema a Lista</button>
     </form>
