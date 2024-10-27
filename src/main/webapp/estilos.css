@@ -100,9 +100,7 @@ ul{
 }
 
 .btnsEx{
-    position: absolute; /* Usamos posición absoluta */
-    left: 50%; /* Coloca el contenedor en el 50% desde la izquierda */
-    transform: translate(-50%, -90%); /* Mueve el contenedor hacia arriba y hacia la izquierda por la mitad de su tamaño */
+    margin-left: 10%
 }
 
 .mainCon{
@@ -121,6 +119,8 @@ ul{
     border-width: 3px;
     overflow-y: scroll;
     overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(25, 0, 255) rgb(0, 187, 255);
 }
 
 .btnsNav{
@@ -132,7 +132,6 @@ ul{
     
 .btnsNav a{
     flex: 1; /* Cada boton ocupa el mismo espacio */
-    font-size: 1vw;
     border-style: solid;
     border-width: 0px 2px 2px 0px;
     text-align: center;
@@ -487,13 +486,17 @@ ul{
     #tipoUsuario{
         margin-left: 7%; 
     }
+    
+    .btnsNav{
+        font-size: 1.5vw;
+    }
 }
 
 /*Resolucion de pc*/
 @media (min-width: 960px){
     .encaPrin{
         display: flex;
-        margin: 40px;
+        margin: 40px 40px 20px 40px;
         padding: 20px 0 20px 0;
     }
 
@@ -607,6 +610,10 @@ ul{
     #tipoUsuario{
         margin-left: 3%; 
     }
+    
+    .btnsNav{
+        font-size: 1vw;
+    }
 }
 
 @media (min-width: 1400px){
@@ -615,21 +622,4 @@ ul{
         max-width: 70%;
         min-width: 70%;
     }
-}
-
-.btnsPerfil{
-    display: flex;
-    justify-content: space-between; /* o space-around según tu necesidad */
-    width: 100%; /* o el ancho que desees */
-}
-
-.btnsPerfil button{
-    flex: 1; /* Cada boton ocupa el mismo espacio */
-    font-size: 1vw;
-    border-style: solid;
-    border-width: 0px 2px 2px 0px;
-    text-align: center;
-    padding: 5px 5px 5px 5px;
-    align-items: center;
-    background-color: #ff760c;
 }

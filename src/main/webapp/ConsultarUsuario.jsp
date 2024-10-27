@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" type="text/css" href="estilos.css">
+    <link rel="stylesheet" type="text/css" href="ConsultarUsuario.css">
     <title>Espotify</title>
 </head>
 <body>
@@ -80,10 +81,9 @@
                         <h2>Perfil</h2>
                         <p><strong>Nickname:</strong> <span id="nickname"></span></p>
                         <p><strong>Correo Electrónico:</strong> <span id="correo"></span></p>
-                        <p><strong>Nombre:</strong> <span id="nombre"></span></p>
-                        <p><strong>Apellido:</strong> <span id="apellido"></span></p>
+                        <p class="nya"><strong>Nombre y Apellido:</strong> <span id="nombre"></span><span id="apellido"></span></p>
                         <p><strong>Fecha de Nacimiento:</strong> <span id="fechaNacimiento"></span></p>
-                        <p><strong>Imagen:</strong> <img id="imagenPerfil" alt="Imagen de perfil"></p>
+                        <img id="imagenPerfil" alt="Imagen de perfil">
                     </div>
                     
                     <div class="btnsPerfil">
