@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="estilos.css">
+        <title>Espotify Web</title>
+    </head>
+    <body>
+        
+        <a href="index.jsp">Página Principal</a>
+        
+         <h1>Inicio</h1>
+         
+         <h2>Conoce a nuestros Artistas :</h2>
+    <table id="artistasTable">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody id="artistasBody">
+                <!-- aca se carga la lista -->
+            </tbody>
+        </table>
+         
+         <h2>Explora Albumes que no Conocias :</h2>
+    <table id="albumTable">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody id="albumBody">
+                <!-- aca se carga la lista -->
+            </tbody>
+        </table>
+         
+         <h2>Disfruta listas de diversos Generos :</h2>
+    <table id="listasTable">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody id="listasBody">
+                <!-- aca se carga la lista -->
+            </tbody>
+        </table>
+         
+         <h2>Sigue a otros usuarios como Tu :</h2>
+    <table id="usuariosTable">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody id="usuariosBody">
+                <!-- aca se carga la lista -->
+            </tbody>
+        </table>
+         
+         <script>
+             
+                fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarArtistas')
+                        .then(response => response.json())
+                        .then(data => {
+                            const tbody = document.getElementById('artistasBody');
+                            tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                           data.forEach(artista => {
+                               if(artista.imagen!=="null" && (artista.imagen.endsWith(".png") || artista.imagen.endsWith(".jpg"))){
+                                   const row = `<tr><td><a href="ConsultarUsuario.html?usr=${encodeURIComponent(artista.nombre)}"><img src="imagenes/usuarios/${artista.imagen}" id="imagenuser" alt="Imagen del Usuario" width="150"></a></td><td><a href="ConsultarUsuario.html?usr=${encodeURIComponent(artista.nombre)}">${artista.nombre}</td></a></tr>`;
+                                tbody.innerHTML += row;
+                                }else{
+                                   const row = `<tr><td><a href="ConsultarUsuario.html?usr=${encodeURIComponent(artista.nombre)}"><img src="imagenes/usuarios/defaultUser.png" id="imagenuser" alt="Imagen del Usuario" width="150"></a></td><td><a href="ConsultarUsuario.html?usr=${encodeURIComponent(artista.nombre)}">${artista.nombre}</td></a></tr>`;
+                               tbody.innerHTML += row;
+                               }
+                           });
+                       })
+                        .catch(error => console.error('Error al cargar usuarios:', error));
+                
+                fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarAlbumes')
+                        .then(response => response.json())
+                        .then(data => {
+                            const tbody = document.getElementById('albumBody');
+                            tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                           data.forEach(album => {
+                               if(album.imagen!=="null" && (album.imagen.endsWith(".png") || album.imagen.endsWith(".jpg"))){
+                                   const row = `<tr><td><a href="ConsultarAlbum.html?album=${encodeURIComponent(album.nombre)}"><img src="imagenes/albumes/${album.imagen}" id="imagenalbum" alt="Imagen del Album" width="150"></a></td><td><a href="ConsultarAlbum.html?album=${encodeURIComponent(album.nombre)}">${album.nombre}</a></td></tr>`;
+                                tbody.innerHTML += row;
+                                }else{
+                                   const row = `<tr><td><a href="ConsultarAlbum.html?album=${encodeURIComponent(album.nombre)}"><img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album" width="150"></a></td><td><a href="ConsultarAlbum.html?album=${encodeURIComponent(album.nombre)}">${album.nombre}</a></td></tr>`;
+                               tbody.innerHTML += row;
+                               }
+                           });
+                       })
+                        .catch(error => console.error('Error al cargar albumes:', error));
+                
+                fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarListas')
+                        .then(response => response.json())
+                        .then(data => {
+                            const tbody = document.getElementById('listasBody');
+                            tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                           data.forEach(lista => {
+                               if(lista.imagen!=="null" && (lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))){
+                                   const row = `<tr><td><a href="ConsultarListaRep.html?list=${encodeURIComponent(lista.nombre)}"><img src="imagenes/listas/${lista.imagen}" id="imagenlist" alt="Imagen del Lista" width="150"></a></td><td><a href="ConsultarListaRep.html?list=${encodeURIComponent(lista.nombre)}">${lista.nombre}</a></td></tr>`;
+                                tbody.innerHTML += row;
+                                }else{
+                                   const row = `<tr><td><a href="ConsultarListaRep.html?list=${encodeURIComponent(lista.nombre)}"><img src="imagenes/listas/defaultList.png" id="imagenlist" alt="Imagen del Lista" width="150"></a></td><td><a href="ConsultarListaRep.html?list=${encodeURIComponent(lista.nombre)}">${lista.nombre}</a></td></tr>`;
+                               tbody.innerHTML += row;
+                               }
+                           });
+                       })
+                        .catch(error => console.error('Error al cargar listas:', error));
+                
+                fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarClientes')
+                        .then(response => response.json())
+                        .then(data => {
+                            const tbody = document.getElementById('usuariosBody');
+                            tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                           data.forEach(cliente => {
+                               if(cliente.imagen!=="null" && (cliente.imagen.endsWith(".png") || cliente.imagen.endsWith(".jpg"))){
+                                   const row = `<tr><td><a href="ConsultarUsuario.html?usr=${encodeURIComponent(cliente.nombre)}"><img src="imagenes/usuarios/${cliente.imagen}" id="imagencliente" alt="Imagen del Cliente" width="150"></a></td><td><a href="ConsultarUsuario.html?usr=${encodeURIComponent(cliente.nombre)}">${cliente.nombre}</a></td></tr>`;
+                                tbody.innerHTML += row;
+                                }else{
+                                   const row = `<tr><td><a href="ConsultarUsuario.html?usr=${encodeURIComponent(cliente.nombre)}"><img src="imagenes/usuarios/defaultUser.png" id="imagencliente" alt="Imagen del Cliente" width="150"></a></td><td><a href="ConsultarUsuario.html?usr=${encodeURIComponent(cliente.nombre)}">${cliente.nombre}</a></td></tr>`;
+                               tbody.innerHTML += row;
+                               }
+                           });
+                       })
+                        .catch(error => console.error('Error al cargar clientes:', error));
+         </script>
+    </body>
+</html>

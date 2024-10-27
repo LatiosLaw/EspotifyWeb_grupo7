@@ -29,6 +29,10 @@
         <servlet-class>com.mycompany.espotifyweb.AgregarTemaAListaServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>PaginaInicioServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.PaginaInicioServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>SeguirUsuarioServlet</servlet-name>
         <servlet-class>com.mycompany.espotifyweb.SeguirUsuarioServlet</servlet-class>
     </servlet>
@@ -56,6 +60,10 @@
         <servlet-name>ConsultarUsuarioServlet</servlet-name>
         <servlet-class>com.mycompany.espotifyweb.ConsultarUsuarioServlet</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>PaginaInicioServlet</servlet-name>
+        <url-pattern>/PaginaInicioServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
