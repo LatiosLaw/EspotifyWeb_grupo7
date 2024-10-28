@@ -261,25 +261,21 @@
             </dialog>
         </div> <!-- Fin Cuerpo -->
 
-<<<<<<< Updated upstream
         <script>
-    function emitirBusqueda() {
-        const searchInput = document.getElementById('searchInput').value;
+            function emitirBusqueda() {
+                const searchInput = document.getElementById('searchInput').value;
 
-        // Redirigir a la URL con el parámetro de búsqueda
-        if(searchInput==="" || searchInput===null){
-        alert("Por favor, ingrese un termino de busqueda.");
-        }else{
-        window.location.href = "BuscarCosas.jsp?search=" + searchInput;
-        }
-    }
-</script>
-        <!-- Consultar album -->
-        <script src="scripts/ConsultarAlbum.js"></script>
-=======
+                // Redirigir a la URL con el parámetro de búsqueda
+                if(searchInput==="" || searchInput===null){
+                alert("Por favor, ingrese un termino de busqueda.");
+                }else{
+                window.location.href = "BuscarCosas.jsp?search=" + searchInput;
+                }
+            }
+        </script>
+
         <!-- index -->
         <script src="scripts/index.js"></script>
->>>>>>> Stashed changes
 
         <!-- Script registro de usuario -->
         <script src="scripts/AgregarUsuario.js"></script>
