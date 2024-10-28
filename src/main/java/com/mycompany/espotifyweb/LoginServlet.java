@@ -58,7 +58,7 @@ public class LoginServlet extends HttpServlet {
                 out.print("{\"error\": \"Error al obtener el estado de la suscripcion del usuario\"}");
                 out.flush();
             }
-        }if ("obtenerTipoUsuario2".equals(action)) {
+        } else if ("obtenerTipoUsuario2".equals(action)) {
             try {
                 getUserType2(request, response);
             } catch (Exception e) {
