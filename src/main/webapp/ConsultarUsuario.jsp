@@ -58,7 +58,7 @@
 
                     <div class="btnsNav">
                         <% if ("Cliente".equals(userType) || userType == null) { %>
-                        <a id="consultarListaLink" href="index.jsp">Consultar Album</a>
+                        <a id="consultarListaLink" href="ConsultarAlbum.jsp">Consultar Album</a>
                         <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
                         <% } %>
 
