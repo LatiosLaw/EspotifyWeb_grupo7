@@ -7,11 +7,11 @@
 }
 
 html{
-    scrollbar-color: #b63ebe #9e55bc;
+    scrollbar-color: #b63ebe #862f8c;
 }
 
 body{
-    background-color: #543f55;
+    background-color: #562859;
 }
 
 .cuerpo{
@@ -40,7 +40,7 @@ ul{
     display: block;
     position: relative;
     align-items: center;
-    background-color: #543f55;
+    background-color: #562859;
     border-bottom-width: 2px;
     border-bottom-style: dashed;
     border-color: black;
@@ -143,6 +143,7 @@ ul{
     justify-content: space-between; /* o space-around según tu necesidad */
     width: 100%; /* o el ancho que desees */
     border-bottom: 2px solid black;
+    background-color: #862f8c;
 }
     
 .btnsNav a{
@@ -196,7 +197,7 @@ ul{
 }
 
 #progressBar{
-    background-color: red;
+    background-color: #862f8c;
     border-style: solid;
     border-width: 3px;
     border-radius: 3px;
@@ -207,7 +208,7 @@ ul{
 
 #progress{
     height: 100%;
-    background-color: aqua;
+    background-color: #b63ebe;
     width: 0;
 }
 
@@ -254,7 +255,7 @@ ul{
 }
 
 #winLogin, #winSignup{
-    background-color: tomato;
+    background-color: #9e55bc;
     position: absolute; /* Usamos posición absoluta */
     left: 50%; /* Coloca el contenedor en el 50% desde la izquierda */
     transform: translate(-50%, -50%); /* Mueve el contenedor hacia arriba y hacia la izquierda por la mitad de su tamaño */
@@ -269,7 +270,7 @@ ul{
 }
 
 #winLogin::backdrop{
-    background-color: rgba(0, 0, 0, 0.33);
+    background-color: rgba(0, 0, 0, 0.44);
 }
 
 #winSignup::backdrop{
@@ -280,8 +281,16 @@ ul{
     border-width: 0 2px 2px 0;
     border-style: solid;
     border-color: black;
-    background-color: cornflowerblue;
+    background-color: #b63ebe;
     padding: 0px 6px 3px 6px;
+}
+
+#cerrarFormLogin:hover, #cerrarFormSignup:hover{
+    background-color: #cf48d7;
+}
+
+#cerrarFormLogin:active, #cerrarFormSignup:active{
+    background-color: #99339f;
 }
 
 .tituloFormLogin, .tituloFormSignup{
@@ -322,8 +331,16 @@ ul{
     border-color: black;
     border-radius: 3px;
     border-width: 2px;
-    background-color: cornflowerblue;
+    background-color: #b63ebe;
     padding: 2px 7px 2px 7px;
+}
+
+.btnsFormLogin button:hover, .btnsFormSignup button:hover{
+    background-color: #cf48d7;
+}
+
+.btnsFormLogin button:active, .btnsFormSignup button:active{
+    background-color: #99339f;
 }
 
 #nickValido, #correoValido{
@@ -334,7 +351,7 @@ ul{
     width: 70%;
     margin-top: 10px;
     height: 5px;
-    background: #dddd08;
+    background-color: #862f8c;
     border-radius: 5px;
     cursor: pointer;
     float: right;
@@ -344,7 +361,7 @@ ul{
 #volumeLevel{
     height: 100%;
     width: 50%; /* Inicializa en 50% */
-    background: #ff760c;
+    background-color: #b63ebe;
     border-radius: 5px;
     max-width: 100%;
 }
@@ -409,8 +426,8 @@ ul{
         bottom: 0;
         max-width: 80vw;
         min-width: 80vw;
-        min-height: 50vh;
-        max-height: 50vh;
+        min-height: 45vh;
+        max-height: 45vh;
     }
 
     .reproductor{

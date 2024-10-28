@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-around; /* o space-around según tu necesidad */
     width: 100%; /* o el ancho que desees */
-    background-color: chocolate;
+    background-color: #862f8c;
     border-width: 2px 0 2px 0;
     border-style: solid;
 }
@@ -14,16 +14,24 @@
     text-align: center;
     padding: 5px 10px 5px 10px;
     align-items: center;
-    background-color: #ff760c;
+    background-color: #b63ebe;
+}
+
+.btnsPerfil button:hover{
+    background-color: #cf48d7;
+}
+
+.btnsPerfil button:active{
+    background-color: #99339f;
 }
 
 #perfil {
     justify-self: center;
     padding: 15px;
-    background-color: chartreuse;
+    background-color: #b63ebe;
     display: grid;
-    border: 2px solid;
-    margin: 10px;
+    border-left: 2px solid;
+    border-right: 2px solid;
 }
 
 #imagenPerfil {
@@ -46,16 +54,44 @@
 }
 
 #seguidores, #seguidos, #listas, #favoritos, #albumes, .listFavs, .albFavs, .temFavs{
-    background-color: darkseagreen;
+    background-color: #b63ebe;
     margin: 10px;
     border: 2px solid;
     padding: 15px;
 }
 
-.listFavs table, .listFavs table thead, .listFavs table thead tr, .listFavs table thead tr th, .listFavs table tbody tr, .listFavs table tbody tr td{
-    border: 3px solid blanchedalmond;
+.listFavs h3, .albFavs h3, .temFavs h3{
+    align-self: center;
+    margin-bottom: 10px;
+}
+
+table, table thead, table thead tr, table thead tr th, table tbody, table tbody tr, table tbody tr td{
+    border: 2px solid black;
     border-collapse: collapse;
     padding: 5px 10px;
+    background-color: #9e55bc
+}
+
+.listFavs table, .albFavs table, .temFavs table, .listFavs table tbody tr td button, .albFavs table tbody tr td button{
+    width: 100%;
+}
+
+table tbody tr td button, table tbody tr td button{
+    background-color: #b63ebe;
+    border: 2px solid black;
+}
+
+table tbody tr td button:hover, table tbody tr td button:hover{
+    background-color: #cf48d7;
+}
+
+table tbody tr td button:active, table tbody tr td button:active{
+    background-color: #99339f;
+}
+
+.btnDetalles{
+    text-align: right;
+    background-color: black;
 }
 
 /*Resolucion de telefono*/
