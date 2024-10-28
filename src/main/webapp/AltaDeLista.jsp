@@ -24,8 +24,8 @@
                 </div>
                 
                 <div class="busqueda">
-                    <input type="text" placeholder="Tema, Album, Lista" class="barraBusqueda">
-                    <a class="btnBusqueda" href="BuscarCosas.jsp">Buscar</a>
+                    <input id="searchInput" type="text" placeholder="Tema, Album, Lista" class="barraBusqueda">
+                    <a class="btnBusqueda" onclick="emitirBusqueda()">Buscar</a>
                 </div>
                 
                 <div class="userDiv">
@@ -228,6 +228,18 @@
             </dialog>
         </div> <!-- Fin Cuerpo -->
         
+        <script>
+    function emitirBusqueda() {
+        const searchInput = document.getElementById('searchInput').value;
+
+        // Redirigir a la URL con el parámetro de búsqueda
+        if(searchInput==="" || searchInput===null){
+        alert("Por favor, ingrese un termino de busqueda.");
+        }else{
+        window.location.href = "BuscarCosas.jsp?search=" + searchInput;
+        }
+    }
+</script>
         <!-- Alta de lista -->
         <script src="scripts/AltaDeLista.js"></script>
         
