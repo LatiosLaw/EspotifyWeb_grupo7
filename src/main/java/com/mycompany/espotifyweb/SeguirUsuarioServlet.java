@@ -47,57 +47,52 @@ public class SeguirUsuarioServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("\n-----Seguir Usuario Servlet GET-----");
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    System.out.println("\n-----Seguir Usuario Servlet GET-----");
 
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
+    response.setContentType("application/json");
+    PrintWriter out = response.getWriter();
 
-        // Obtener la sesión
-        HttpSession session = request.getSession();
+    // Obtener la sesión
+    HttpSession session = request.getSession();
 
-        // Leer el nickname desde la sesión
-        String nickname = (String) session.getAttribute("nickname");
+    // Leer el nickname desde la sesión
+    String nickname = (String) session.getAttribute("nickname");
+    String nickToCheck = request.getParameter("id"); // Usuario a verificar
 
-        if (nickname == null) {
-            out.println("{\"success\": false, \"error\": \"Usuario no autenticado.\"}");
-            return;
-        }
+    if (nickname == null) {
+        out.println("{\"success\": false, \"error\": \"Usuario no autenticado.\"}");
+        return;
+    }
 
-        DAO_Usuario daoUsuario = new DAO_Usuario();
-        Collection<Usuario> usuariosNoSeguidos;
+    DAO_Usuario daoUsuario = new DAO_Usuario();
+    Collection<String> usuariosSeguidos;
 
-        try {
-            usuariosNoSeguidos = daoUsuario.obtenerNoSeguidosDeUsuario(nickname);
-        } catch (Exception e) {
-            out.println("{\"success\": false, \"error\": \"Error al obtener usuarios: " + e.getMessage() + "\"}");
-            return;
-        }
+    try {
+        // Obtener la lista de usuarios seguidos
+        usuariosSeguidos = daoUsuario.obtenerSeguidosDeUsuario(nickname);
+    } catch (Exception e) {
+        out.println("{\"success\": false, \"error\": \"Error al obtener usuarios: " + e.getMessage() + "\"}");
+        return;
+    }
 
-        // Construir respuesta JSON
-        StringBuilder jsonResponse = new StringBuilder();
-        jsonResponse.append("{\"usuarios\": [");
-
-        if (usuariosNoSeguidos != null && !usuariosNoSeguidos.isEmpty()) {
-            for (int i = 0; i < usuariosNoSeguidos.size(); i++) {
-                Usuario usuario = usuariosNoSeguidos.toArray(new Usuario[0])[i];
-                String tipo = usuario.getDTYPE();
-                jsonResponse.append("{\"nickname\": \"").append(escapeJson(usuario.getNickname())).append("\", \"tipo\": \"").append(escapeJson(tipo)).append("\"}");
-                if (i < usuariosNoSeguidos.size() - 1) {
-                    jsonResponse.append(","); // Agregar coma solo si no es el último elemento
-                }
+    // Verificar si el usuario a seguir está en la lista
+    boolean isFollowed = false;
+    if (usuariosSeguidos != null) {
+        for (String usuario : usuariosSeguidos) {
+            if (usuario.equals(nickToCheck)) {
+                isFollowed = true;
+                break;
             }
         }
-
-        jsonResponse.append("]}");
-
-        System.out.println("JSON Response: " + jsonResponse.toString()); // Log para depuracion
-
-        out.print(jsonResponse.toString());
-        out.flush();
-
-        System.out.println("\n-----End Seguir Usuario Servlet GET-----");
     }
+
+    // Construir respuesta JSON
+    out.println("{\"isFollowed\": " + isFollowed + "}");
+    out.flush();
+
+    System.out.println("\n-----End Seguir Usuario Servlet GET-----");
+}
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

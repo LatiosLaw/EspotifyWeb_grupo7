@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
-        <link rel="stylesheet" type="text/css" href="estilos.css">
-        <link rel="stylesheet" type="text/css" href="ConsultarUsuario.css">
+        <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/ConsultarUsuario.css">
         <title>Espotify</title>
     </head>
     <body>
@@ -336,9 +336,14 @@
             const nickToFollow = nicknameElement ? nicknameElement.innerText : null;
 
             if (nickToFollow) {
+                // Verificar el estado de seguimiento al cargar la página
+                verificarEstadoSeguimiento(nickToFollow);
+
+                // Mostrar los botones
                 document.getElementById('seguirUsuarioBtn').style.display = 'block';
                 document.getElementById('dejarSeguirUsuarioBtn').style.display = 'block';
 
+                // Agregar eventos de clic a los botones
                 document.getElementById('seguirUsuarioBtn').addEventListener('click', function () {
                     seguirUsuario(nickToFollow);
                 });
@@ -346,6 +351,23 @@
                 document.getElementById('dejarSeguirUsuarioBtn').addEventListener('click', function () {
                     dejarSeguirUsuario(nickToFollow);
                 });
+            }
+
+            function verificarEstadoSeguimiento(nick) {
+                fetch('http://localhost:8080/EspotifyWeb/SeguirUsuarioServlet?id=' + nick)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.isFollowed) {
+                                document.getElementById('seguirUsuarioBtn').style.display = 'none';
+                                document.getElementById('dejarSeguirUsuarioBtn').style.display = 'block';
+                            } else {
+                                document.getElementById('seguirUsuarioBtn').style.display = 'block';
+                                document.getElementById('dejarSeguirUsuarioBtn').style.display = 'none';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
             }
 
             function seguirUsuario(nick) {
@@ -360,7 +382,7 @@
                         .then(data => {
                             if (data.success) {
                                 alert('Ahora sigues a este usuario.');
-                                document.getElementById('seguirUsuarioBtn').style.display = 'block';
+                                document.getElementById('seguirUsuarioBtn').style.display = 'none';
                                 document.getElementById('dejarSeguirUsuarioBtn').style.display = 'block';
                             } else {
                                 alert('Error al seguir al usuario: ' + (data.error || 'Error desconocido'));
@@ -384,7 +406,7 @@
                         .then(data => {
                             if (data.success) {
                                 alert('Has dejado de seguir a este usuario.');
-                                document.getElementById('dejarSeguirUsuarioBtn').style.display = 'block';
+                                document.getElementById('dejarSeguirUsuarioBtn').style.display = 'none';
                                 document.getElementById('seguirUsuarioBtn').style.display = 'block';
                             } else {
                                 alert('Error al dejar de seguir al usuario: ' + (data.error || 'Error desconocido'));
