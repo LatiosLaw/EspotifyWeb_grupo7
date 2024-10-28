@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
-        <link rel="stylesheet" href="estilos/EstilosGenerales.css">
-        <link rel="stylesheet" href="estilos/ConsultarUsuario.css">
+        <link rel="stylesheet" type="text/css" href="estilos/ConsultarUsuario.css">
+        <link rel="stylesheet" type="text/css" href="estilos/EstilosGenerales.css">
         <title>Espotify</title>
     </head>
     <body>
@@ -335,6 +335,9 @@
             const nicknameElement = document.getElementById('nickname');
             const nickToFollow = nicknameElement ? nicknameElement.innerText : null;
 
+            // Obtener el nickname de la sesión (esto debe ser pasado desde el backend)
+            const sessionNickname = "${sessionScope.nickname}"; // Asegúrate de que esto se renderice correctamente en tu JSP
+
             if (nickToFollow) {
                 // Verificar el estado de seguimiento al cargar la página
                 verificarEstadoSeguimiento(nickToFollow);
@@ -357,10 +360,16 @@
                 fetch('http://localhost:8080/EspotifyWeb/SeguirUsuarioServlet?id=' + nick)
                         .then(response => response.json())
                         .then(data => {
-                            if (data.isFollowed) {
+                            if (nick === sessionNickname) {
+                                // Si es el mismo nickname, ocultar ambos botones
+                                document.getElementById('seguirUsuarioBtn').style.display = 'none';
+                                document.getElementById('dejarSeguirUsuarioBtn').style.display = 'none';
+                            } else if (data.isFollowed) {
+                                // Si está siendo seguido, mostrar el botón de dejar de seguir
                                 document.getElementById('seguirUsuarioBtn').style.display = 'none';
                                 document.getElementById('dejarSeguirUsuarioBtn').style.display = 'block';
                             } else {
+                                // Si no está siendo seguido, mostrar el botón de seguir
                                 document.getElementById('seguirUsuarioBtn').style.display = 'block';
                                 document.getElementById('dejarSeguirUsuarioBtn').style.display = 'none';
                             }
