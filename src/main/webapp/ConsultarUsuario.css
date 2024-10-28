@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-around; /* o space-around según tu necesidad */
     width: 100%; /* o el ancho que desees */
-    background-color: #862f8c;
+    background-color: #80007a;
     border-width: 2px 0 2px 0;
     border-style: solid;
 }
@@ -28,7 +28,7 @@
 #perfil {
     justify-self: center;
     padding: 15px;
-    background-color: #b63ebe;
+    background-color: #a241b6;
     display: grid;
     border-left: 2px solid;
     border-right: 2px solid;
@@ -43,10 +43,6 @@
     margin-bottom: 10px;
 }
 
-#nombre{
-    margin-right: 1ch;
-}
-
 .contPerfil{
     display: flex;
     flex-wrap: wrap;
@@ -54,7 +50,7 @@
 }
 
 #seguidores, #seguidos, #listas, #favoritos, #albumes, .listFavs, .albFavs, .temFavs{
-    background-color: #b63ebe;
+    background-color: #a241b6;
     margin: 10px;
     border: 2px solid;
     padding: 15px;

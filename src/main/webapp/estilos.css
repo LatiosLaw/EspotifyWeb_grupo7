@@ -135,7 +135,7 @@ ul{
     border-width: 3px;
     overflow-y: auto;
     overflow-x: auto;
-    background-color: #9e55bc;
+    background-color: #862f8c;
 }
 
 .btnsNav{
@@ -143,7 +143,7 @@ ul{
     justify-content: space-between; /* o space-around según tu necesidad */
     width: 100%; /* o el ancho que desees */
     border-bottom: 2px solid black;
-    background-color: #862f8c;
+    background-color: #80007a;
 }
     
 .btnsNav a{
