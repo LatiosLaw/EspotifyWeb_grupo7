@@ -32,6 +32,28 @@
     display: grid;
     border-left: 2px solid;
     border-right: 2px solid;
+    position: relative;
+}
+
+#perfil h2{
+    position: relative;
+}
+
+#seguirUsuarioBtn, #dejarSeguirUsuarioBtn{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 2px solid black;
+    padding: 5px 10px;
+    background-color: #b63ebe;
+}
+
+#seguirUsuarioBtn:hover, #dejarSeguirUsuarioBtn:hover{
+    background-color: #cf48d7;
+}
+
+#seguirUsuarioBtn:active, #dejarSeguirUsuarioBtn:active{
+    background-color: #99339fc;
 }
 
 #imagenPerfil {
