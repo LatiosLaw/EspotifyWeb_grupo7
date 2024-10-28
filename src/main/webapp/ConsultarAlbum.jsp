@@ -74,38 +74,6 @@
                     </div>
 
                     <div class="realDinamico">
-                        <h2>Filtrar Albumes Por:</h2>
-                        <select id="opciones" name="opciones">
-                            <option value="nada">Seleccione...</option>
-                            <option value="genero">Genero</option>
-                            <option value="artista">Artista</option>
-                        </select>
-
-                        <table id="filtroTable">
-                            <thead>
-                                <tr>
-                                    <th>Nombre del Genero / Artista</th>
-                                    <td>Accion</td>
-                                </tr>
-                            </thead>
-                            <tbody id="filtroBody">
-                                <!-- aca se carga la lista -->
-                            </tbody>
-                        </table>
-
-                        <h2>Albumes del Artista / Genero:</h2>
-                        <table id="albumTable">
-                            <thead>
-                                <tr>
-                                    <th>Album</th>
-                                    <td>Accion</td>
-                                </tr>
-                            </thead>
-                            <tbody id="albumBody">
-                                <!-- aca se carga la lista -->
-                            </tbody>
-                        </table>
-
                         <h2>Informacion del Album</h2>
                         <div>
                             <img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album" width="300">

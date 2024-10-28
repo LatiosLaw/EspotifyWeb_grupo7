@@ -1,3 +1,5 @@
+window.onload(SuccionarInformacion());
+
 function formatearTiempo(segundos) {
 // Convertir los segundos a minutos y segundos
 const minutos = Math.floor(segundos / 60);
@@ -46,72 +48,6 @@ return minutos + ":" + segundosFormateados;
         }
         });
 
-        function manejarGenero() {
-            fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=cargarGeneros')
-                    .then(response => response.json())
-                    .then(data => {
-                        const tbody = document.getElementById('filtroBody');
-                        tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
-                        data.forEach(genero => {
-                            const row = `<tr><td>${genero.nombre}</td><td><button onclick="buscarAlbumGenero(this)">Buscar Albumes</button></td></tr>`;
-                            tbody.innerHTML += row;
-                        });
-                    })
-                    .catch(error => console.error('Error al cargar listas:', error));
-            // Lógica para manejar la opción 'Álbum'
-        }
-
-        function manejarArtista() {
-            fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=cargarArtistas')
-                    .then(response => response.json())
-                    .then(data => {
-                        const tbody = document.getElementById('filtroBody');
-                        tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
-                        data.forEach(artista => {
-                            const row = `<tr><td>${artista.nombre}</td><td><button onclick="buscarAlbumArtista(this)">Buscar Albumes</button></td></tr>`;
-                            tbody.innerHTML += row;
-                        });
-                    })
-                    .catch(error => console.error('Error al cargar artistas:', error));
-            // Lógica para manejar la opción 'Álbum'
-        }
-
-        function buscarAlbumArtista(boton){
-              // Obtener la fila del botón
-const fila = boton.parentElement.parentElement;  
-// Obtener el texto del primer 'td' (primer campo de la fila)
-const primerCampo = fila.querySelector('td').innerText;
-fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=cargarAlbumsArtistas&artistaName=' + encodeURIComponent(primerCampo))
-                    .then(response => response.json())
-                    .then(data => {
-                        const tbody = document.getElementById('albumBody');
-                        tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
-                        data.forEach(album => {
-                            const row = `<tr><td>${album.nombre}</td><td><button onclick="SuccionarInformacion(this)">Ver Informacion</button></td></tr>`;
-                            tbody.innerHTML += row;
-                        });
-                    })
-                    .catch(error => console.error('Error al cargar album del artista:', error));
-        }
-
-        function buscarAlbumGenero(boton){
-                              // Obtener la fila del botón
-const fila = boton.parentElement.parentElement;  
-// Obtener el texto del primer 'td' (primer campo de la fila)
-const primerCampo = fila.querySelector('td').innerText;
-fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=cargarAlbumsGeneros&generoName=' + encodeURIComponent(primerCampo))
-                    .then(response => response.json())
-                    .then(data => {
-                        const tbody = document.getElementById('albumBody');
-                        tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
-                        data.forEach(album => {
-                            const row = `<tr><td>${album.nombre}</td><td><button onclick="SuccionarInformacion(this)">Ver Informacion</button></td></tr>`;
-                            tbody.innerHTML += row;
-                        });
-                    })
-                    .catch(error => console.error('Error al cargar album del genero:', error));
-        }
-
         // Boolean suscrito = (Boolean) session.getAttribute("suscrito");
 
         function obtenerValorSesion() {
@@ -140,9 +76,9 @@ fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=cargarAlbu
 
     }
 
-        async function SuccionarInformacion(boton){
-            const fila = boton.parentElement.parentElement;  
-            const primerCampo = fila.querySelector('td').innerText;
+        async function SuccionarInformacion(){
+const urlParams = new URLSearchParams(window.location.search);
+            const primerCampo = urlParams.get('album');
             const resultado = await obtenerValorSesion();
             if (resultado) {
                 fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
@@ -193,7 +129,11 @@ fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverIn
                             NOMBREALBUM.value=album.nombre;
                     ANIOALBUM.value=album.anio;
                     CREADORALBUM.value=album.creador;
-                    IMAGENALBUM.src="imagenes/albumes/" + album.imagen;
+                    if(album.imagen!=="" && album.imagen!==null && (album.imagen==="png" || album.imagen==="jpg")){
+                       IMAGENALBUM.src="imagenes/albumes/" + album.imagen; 
+                    }else{
+                        IMAGENALBUM.src="imagenes/albumes/defaultAlbum.png";
+                    }
                     GENEROSLIST.innerHTML = '';
 
                     album.generos.forEach(genero => {
