@@ -74,15 +74,10 @@
                     </div>
 
                     <div class="realDinamico">
-                        <a href="index.jsp">Página Principal</a>
 
                         <h1>Buscar</h1>
-
-                        <input type="text" id="es-gen" name="es-gen" hidden readonly value="0">
-                        <h2>Buscar Cosas:</h2>
-                        <label for="buscar">Escriba hdp:</label>
-                        <input type="text" id="buscar" name="buscar"><br>
-                        <button onclick="buscarDatos()">Buscar</button>
+                        
+<input type="text" id="es-gen" name="es-gen" hidden readonly value="0">
 
                         <h2>Listas de Usuarios Encontradas:</h2>
                         <table id="listaUsuarioTable">

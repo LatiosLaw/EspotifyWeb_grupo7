@@ -1,10 +1,14 @@
-function checkGenero() {
+window.onload(buscarDatos());
 
-const buscarName = buscarInput.value;
+function checkGenero() {
+const urlParams = new URLSearchParams(window.location.search);
+  var isGenero = document.getElementById("es-gen");
+const buscarName = urlParams.get('search');
 const xhr = new XMLHttpRequest();
 xhr.open("GET", "http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=VerificarSiEsGenero&buscar=" + encodeURIComponent(buscarName), true);
 
 xhr.onreadystatechange = function() {
+    
     if (xhr.readyState === 4 && xhr.status === 200) {
         let mensaje = xhr.responseText;
 if (mensaje==="existe") {
@@ -18,12 +22,10 @@ isGenero.value="2";
 xhr.send();
 }
 
-
-var buscarInput = document.getElementById("buscar");
-  var isGenero = document.getElementById("es-gen");
  function buscarDatos(){
-
-     var buscarName = buscarInput.value;
+       var isGenero = document.getElementById("es-gen");
+const urlParams = new URLSearchParams(window.location.search);
+     var buscarName = urlParams.get('search');
 
      if(buscarName!==null && buscarName!==""){
 
