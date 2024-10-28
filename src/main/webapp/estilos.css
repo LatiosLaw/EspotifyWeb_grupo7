@@ -150,8 +150,8 @@ ul{
     flex: 1; /* Cada boton ocupa el mismo espacio */
     border-style: solid;
     border-width: 0px 2px 2px 0px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
     text-align: center;
     padding: 5px 5px 5px 5px;
     align-items: center;

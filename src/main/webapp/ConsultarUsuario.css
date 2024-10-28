@@ -39,7 +39,7 @@
     margin: 0 auto; /* Centra la imagen */
 }
 
-#perfil h2, #perfil p{
+#perfil h2, #perfil p, .listFavs h3, .albFavs h3, .temFavs h3, #seguidores h2, #seguidos h2, #listas h2, #albumes h2{
     margin-bottom: 10px;
 }
 
@@ -60,11 +60,6 @@
     padding: 15px;
 }
 
-.listFavs h3, .albFavs h3, .temFavs h3{
-    align-self: center;
-    margin-bottom: 10px;
-}
-
 table, table thead, table thead tr, table thead tr th, table tbody, table tbody tr, table tbody tr td{
     border: 2px solid black;
     border-collapse: collapse;
@@ -72,7 +67,7 @@ table, table thead, table thead tr, table thead tr th, table tbody, table tbody 
     background-color: #9e55bc
 }
 
-.listFavs table, .albFavs table, .temFavs table, .listFavs table tbody tr td button, .albFavs table tbody tr td button{
+.listFavs table, .albFavs table, .temFavs table, table tbody tr td button, table tbody tr td button, #seguidores table, #seguidos table, #listas table, #albumes table {
     width: 100%;
 }
 
