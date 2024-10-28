@@ -53,7 +53,9 @@
 }
 
 .listFavs table, .listFavs table thead, .listFavs table thead tr, .listFavs table thead tr th, .listFavs table tbody tr, .listFavs table tbody tr td{
-    border: 3px solid white;
+    border: 3px solid blanchedalmond;
+    border-collapse: collapse;
+    padding: 5px 10px;
 }
 
 /*Resolucion de telefono*/

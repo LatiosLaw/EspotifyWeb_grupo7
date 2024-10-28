@@ -4,16 +4,18 @@
     font-family: cursive;
     text-decoration: none;
     color: black;
-    /*background-color: white;*/
 }
 
 html{
-    scrollbar-color: rgb(25, 0, 255) rgb(0, 187, 255);
+    scrollbar-color: #b63ebe #9e55bc;
+}
+
+body{
+    background-color: #543f55;
 }
 
 .cuerpo{
     position: absolute;
-    background-color: rgb(218, 76, 211);
     top: 0;
     height: 100%;
     width: 100%;
@@ -38,7 +40,10 @@ ul{
     display: block;
     position: relative;
     align-items: center;
-    background-color: blueviolet;
+    background-color: #543f55;
+    border-bottom-width: 2px;
+    border-bottom-style: dashed;
+    border-color: black;
 }
 
 .EspotifyLogo{
@@ -67,7 +72,16 @@ ul{
     border-style: solid;
     border-color: black;
     box-shadow: 3px 3px black;
-    background-color: brown;
+    background-color: #b63ebe;
+    cursor: pointer;
+}
+
+.btnBusqueda:hover{
+    background-color: #cf48d7;
+}
+
+.btnBusqueda:active{
+    background-color: #99339f;
 }
 
 .userDiv{
@@ -116,28 +130,40 @@ ul{
 
 .dinamico{
     position: absolute;
-    background-color: forestgreen;
     border-style: solid;
     border-color: black;
     border-width: 3px;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: auto;
+    background-color: #9e55bc;
 }
 
 .btnsNav{
     display: flex;
     justify-content: space-between; /* o space-around según tu necesidad */
     width: 100%; /* o el ancho que desees */
-    background-color: darkolivegreen;
+    border-bottom: 2px solid black;
 }
     
 .btnsNav a{
     flex: 1; /* Cada boton ocupa el mismo espacio */
     border-style: solid;
     border-width: 0px 2px 2px 0px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 15px;
     text-align: center;
     padding: 5px 5px 5px 5px;
     align-items: center;
+    background-color: #b63ebe;
+    margin-bottom: 5px;
+}
+
+.btnsNav a:hover{
+    background-color: #cf48d7;
+}
+
+.btnsNav a:active{
+    background-color: #99339f;
 }
 
 .realDinamico{
@@ -146,7 +172,7 @@ ul{
 
 .reproductor{
     position: absolute;
-    background-color: springgreen;
+    background-color: #9e55bc;
     border-style: solid;
     border-color: black;
     border-width: 3px;
@@ -338,7 +364,7 @@ ul{
 @media (max-width: 960px){
     .encaPrin{
         display: block;
-        padding-bottom: 75px;
+        padding-bottom: 95px;
         margin: 20px;
     }
 
@@ -383,8 +409,8 @@ ul{
         bottom: 0;
         max-width: 80vw;
         min-width: 80vw;
-        min-height: 50%;
-        max-height: 50%;
+        min-height: 50vh;
+        max-height: 50vh;
     }
 
     .reproductor{
@@ -501,7 +527,7 @@ ul{
 @media (min-width: 960px){
     .encaPrin{
         display: flex;
-        margin: 40px 40px 20px 40px;
+        margin: 10px 40px 20px 40px;
         padding: 10px;
     }
 
@@ -536,7 +562,7 @@ ul{
         display: inline-block;
         right: 0;
         margin-right: 50px;
-        height: 600px;
+        height: 550px;
         padding-right: 40px;
         padding-left: 40px;
     }
