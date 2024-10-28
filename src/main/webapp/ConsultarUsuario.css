@@ -17,7 +17,7 @@
     background-color: #ff760c;
 }
 
-#perfil{
+#perfil {
     justify-self: center;
     padding: 15px;
     background-color: chartreuse;
@@ -26,9 +26,9 @@
     margin: 10px;
 }
 
-#imagenPerfil{
-    justify-content: center;
-    text-align: center;
+#imagenPerfil {
+    display: block; /* Cambia el display a block */
+    margin: 0 auto; /* Centra la imagen */
 }
 
 #perfil h2, #perfil p{
