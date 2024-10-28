@@ -112,38 +112,44 @@ public class DejarDeSeguirUsuarioServlet extends HttpServlet {
 
         // Obtener la sesión
         HttpSession session = request.getSession();
+        System.out.println("Sesión obtenida: " + session.getId());
 
         // Leer el nickname desde la sesión
         String nickname = (String) session.getAttribute("nickname");
+        System.out.println("Nickname del usuario en sesión: " + nickname);
 
         if (nickname == null) {
             out.println("{\"success\": false, \"error\": \"Usuario no autenticado.\"}");
-            return;
+            System.out.println("Error: Usuario no autenticado.");
+            return; // Salir si no se encuentra el usuario
         }
 
-        // Obtener el nickname del usuario a seguir desde el cuerpo de la solicitud
+        // Obtener el nickname del usuario a dejar de seguir desde el cuerpo de la solicitud
         String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
+        System.out.println("Cuerpo de la solicitud: " + body);
 
-        // Parsear el JSON para obtener el nickname del usuario a seguir
         String nickToFollow = null;
 
         try {
             JSONObject jsonObject = new JSONObject(body);
-            nickToFollow = jsonObject.getString("id"); // Suponiendo que "id" es el campo que contiene el nickname del usuario a seguir
+            nickToFollow = jsonObject.getString("id"); // Suponiendo que "id" es el campo que contiene el nickname del usuario a dejar de seguir
+            System.out.println("Nickname del usuario a dejar de seguir: " + nickToFollow);
         } catch (JSONException e) {
             out.println("{\"success\": false, \"error\": \"Error al procesar la solicitud.\"}");
+            System.out.println("Error al procesar el JSON: " + e.getMessage());
             return; // Salir si hay un error al procesar el JSON
         }
 
-        // Llamar al método seguirUsuario de ControladorCliente
         ControladorCliente controladorCliente = new ControladorCliente();
+        System.out.println("Llamando a dejarDeSeguirUsuarioWeb con " + nickname + " y " + nickToFollow);
 
-        boolean success = controladorCliente.dejarDeSeguirUsuarioWeb(nickname, nickToFollow); // Captura el resultado de la operación
+        // Llama al método para dejar de seguir al usuario
+        boolean success = controladorCliente.dejarDeSeguirUsuarioWeb(nickname, nickToFollow);
 
         // Construir respuesta JSON
         if (success) {
             out.println("{\"success\": true}");
-            System.out.println(nickname + " ahora sigue a " + nickToFollow);
+            System.out.println(nickname + " ha dejado de seguir a " + nickToFollow);
         } else {
             out.println("{\"success\": false, \"error\": \"Error al dejar de seguir al usuario.\"}");
             System.out.println("Error al dejar de seguir a " + nickToFollow);

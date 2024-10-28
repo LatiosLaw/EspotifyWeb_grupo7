@@ -12,6 +12,7 @@
         <%
             String userType = (String) session.getAttribute("userType");
             String nickname = (String) session.getAttribute("nickname");
+            String userToFollow = request.getParameter("usr");
             Boolean suscrito = (Boolean) session.getAttribute("suscrito");
         %>
         <div class="cuerpo">
@@ -31,11 +32,11 @@
 
                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><img src="imagenes/espotify/user.png" class="userIMG"></a>
+                        <a href="ConsultarUsuario.jsp?usr=<%= nickname%>"><img src="imagenes/espotify/user.png" class="userIMG"></a>
                     </div>
                     <ul class="listUser">
                         <li class="userName">
-                            <a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p>
+                            <a href="ConsultarUsuario.jsp?usr=<%= nickname%>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p>
                         </li>
                         <% if (nickname == null) { %>
                         <li><p><button id="abrirFormLogin">Iniciar sesion</button></p></li>
@@ -63,23 +64,25 @@
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripción</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripción</a>
-                            <% if (suscrito) { %>       
-                            <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
-                            <% } %>
+                        <% if (suscrito) { %>       
+                        <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
+                        <% } %>
                         <% } %>
 
                         <% if ("Artista".equals(userType)) { %>
                         <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
-                        <% } %>
+                        <% }%>
                     </div>
 
                     <div class="realDinamico">
 
                         <div id="perfil">
                             <h2>Perfil</h2>
-                            <p><strong>Nickname:</strong> <span id="nickname"></span></p>
+                            <button id="seguirUsuarioBtn" style="display:none;">Follow</button>
+                            <button id="dejarSeguirUsuarioBtn" style="display:none;">Unfollow</button>
+                            <p><strong>Nickname:</strong> <span id="nickname"><%= userToFollow != null ? userToFollow : nickname%></span></p>
                             <p><strong>Correo Electrónico:</strong> <span id="correo"></span></p>
-                            <p class="nya"><strong>Nombre y Apellido:</strong> <span id="nombre"></span><span id="apellido"></span></p>
+                            <p class="nya"><strong>Nombre y Apellido:</strong> <span id="nombre"></span> <span id="apellido"></span></p>
                             <p><strong>Fecha de Nacimiento:</strong> <span id="fechaNacimiento"></span></p>
                             <img id="imagenPerfil" alt="Imagen de perfil">
                         </div>
@@ -91,9 +94,9 @@
                             <button id="favoritosBtn" style="display:none;">Favoritos</button>
                             <button id="albumesBtn" style="display:none;">Álbumes</button>
                         </div>
-                        
+
                         <div class="contPerfil">
-                        
+
                             <div id="seguidores" style="display:none;">
                                 <h2>Seguidores</h2>
                                 <table>
@@ -187,7 +190,7 @@
                                     <tbody id="tablaAlbumes"></tbody>
                                 </table>
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -328,17 +331,84 @@
         </div> <!-- Fin Cuerpo -->
 
         <script>
-    function emitirBusqueda() {
-        const searchInput = document.getElementById('searchInput').value;
+            // Obtener el nickname del usuario a seguir
+            const nicknameElement = document.getElementById('nickname');
+            const nickToFollow = nicknameElement ? nicknameElement.innerText : null;
 
-        // Redirigir a la URL con el parámetro de búsqueda
-        if(searchInput==="" || searchInput===null){
-        alert("Por favor, ingrese un termino de busqueda.");
-        }else{
-        window.location.href = "BuscarCosas.jsp?search=" + searchInput;
-        }
-    }
-</script>
+            if (nickToFollow) {
+                document.getElementById('seguirUsuarioBtn').style.display = 'block';
+                document.getElementById('dejarSeguirUsuarioBtn').style.display = 'block';
+
+                document.getElementById('seguirUsuarioBtn').addEventListener('click', function () {
+                    seguirUsuario(nickToFollow);
+                });
+
+                document.getElementById('dejarSeguirUsuarioBtn').addEventListener('click', function () {
+                    dejarSeguirUsuario(nickToFollow);
+                });
+            }
+
+            function seguirUsuario(nick) {
+                fetch('http://localhost:8080/EspotifyWeb/SeguirUsuarioServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({id: nick})
+                })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Ahora sigues a este usuario.');
+                                document.getElementById('seguirUsuarioBtn').style.display = 'block';
+                                document.getElementById('dejarSeguirUsuarioBtn').style.display = 'block';
+                            } else {
+                                alert('Error al seguir al usuario: ' + (data.error || 'Error desconocido'));
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Error al intentar seguir al usuario.');
+                        });
+            }
+
+            function dejarSeguirUsuario(nick) {
+                fetch('http://localhost:8080/EspotifyWeb/DejarDeSeguirUsuarioServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({id: nick})
+                })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Has dejado de seguir a este usuario.');
+                                document.getElementById('dejarSeguirUsuarioBtn').style.display = 'block';
+                                document.getElementById('seguirUsuarioBtn').style.display = 'block';
+                            } else {
+                                alert('Error al dejar de seguir al usuario: ' + (data.error || 'Error desconocido'));
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Error al intentar dejar de seguir al usuario.');
+                        });
+            }
+        </script>
+
+        <script>
+            function emitirBusqueda() {
+                const searchInput = document.getElementById('searchInput').value;
+
+                // Redirigir a la URL con el parámetro de búsqueda
+                if (searchInput === "" || searchInput === null) {
+                    alert("Por favor, ingrese un termino de busqueda.");
+                } else {
+                    window.location.href = "BuscarCosas.jsp?search=" + searchInput;
+                }
+            }
+        </script>
         <!-- Consultar usuario -->
         <script src="scripts/ConsultarUsuario.js"></script>
 
@@ -357,7 +427,7 @@
 
         <!-- Evitar que las imágenes sean arrastradas -->
         <script>
-            document.addEventListener('dragstart', function(event) {
+            document.addEventListener('dragstart', function (event) {
                 event.preventDefault();
             });
         </script>

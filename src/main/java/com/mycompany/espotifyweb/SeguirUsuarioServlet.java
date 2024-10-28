@@ -101,7 +101,7 @@ public class SeguirUsuarioServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+                
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
@@ -118,8 +118,6 @@ public class SeguirUsuarioServlet extends HttpServlet {
 
         // Obtener el nickname del usuario a seguir desde el cuerpo de la solicitud
         String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
-
-        // Parsear el JSON para obtener el nickname del usuario a seguir
         String nickToFollow = null;
 
         try {
@@ -132,7 +130,8 @@ public class SeguirUsuarioServlet extends HttpServlet {
 
         ControladorCliente controladorCliente = new ControladorCliente();
 
-        boolean success = controladorCliente.seguirUsuarioWeb(nickname, nickToFollow); // Captura el resultado de la operación
+        // Llama al método para seguir al usuario
+        boolean success = controladorCliente.seguirUsuarioWeb(nickname, nickToFollow);
 
         // Construir respuesta JSON
         if (success) {
