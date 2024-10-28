@@ -23,8 +23,8 @@
                 </div>
 
                 <div class="busqueda">
-                    <input id="searchInput" type="text" placeholder="Tema, Album, Lista" class="barraBusqueda">
-                    <a class="btnBusqueda" onclick="emitirBusqueda()">Buscar</a>
+                    <input type="text" placeholder="Tema, Album, Lista" class="barraBusqueda">
+                    <a class="btnBusqueda" href="BuscarCosas.jsp">Buscar</a>
                 </div>
 
                 <div class="userDiv">
@@ -54,7 +54,7 @@
                 <div class="dinamico">
                     <div class="btnsNav">
                         <% if ("Cliente".equals(userType) || userType == null) { %>
-                        <a id="consultarListaLink" href="ConsultarAlbum.jsp">Consultar Album</a>
+                        <a id="consultarListaLink" href="index.jsp">Consultar Album</a>
                         <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
                         <% } %>
 
@@ -74,59 +74,61 @@
                     </div>
 
                     <div class="realDinamico">
-                        <h1>Inicio</h1>
+                        <h2>Filtrar Albumes Por:</h2>
+                        <select id="opciones" name="opciones">
+                            <option value="nada">Seleccione...</option>
+                            <option value="genero">Genero</option>
+                            <option value="artista">Artista</option>
+                        </select>
 
-                        <h2>Conoce a nuestros Artistas :</h2>
-                        <table id="artistasTable">
-                                <thead>
-                                    <tr>
-                                        <th>Imagen</th>
-                                        <th>Nombre</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="artistasBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
-                            </table>
+                        <table id="filtroTable">
+                            <thead>
+                                <tr>
+                                    <th>Nombre del Genero / Artista</th>
+                                    <td>Accion</td>
+                                </tr>
+                            </thead>
+                            <tbody id="filtroBody">
+                                <!-- aca se carga la lista -->
+                            </tbody>
+                        </table>
 
-                             <h2>Explora Albumes que no Conocias :</h2>
+                        <h2>Albumes del Artista / Genero:</h2>
                         <table id="albumTable">
-                                <thead>
-                                    <tr>
-                                        <th>Imagen</th>
-                                        <th>Nombre</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="albumBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
-                            </table>
+                            <thead>
+                                <tr>
+                                    <th>Album</th>
+                                    <td>Accion</td>
+                                </tr>
+                            </thead>
+                            <tbody id="albumBody">
+                                <!-- aca se carga la lista -->
+                            </tbody>
+                        </table>
 
-                             <h2>Disfruta listas de diversos Generos :</h2>
-                        <table id="listasTable">
-                                <thead>
-                                    <tr>
-                                        <th>Imagen</th>
-                                        <th>Nombre</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="listasBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
-                            </table>
-
-                             <h2>Sigue a otros usuarios como Tu :</h2>
-                        <table id="usuariosTable">
-                                <thead>
-                                    <tr>
-                                        <th>Imagen</th>
-                                        <th>Nombre</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="usuariosBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
-                            </table>
+                        <h2>Informacion del Album</h2>
+                        <div>
+                            <img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album" width="300">
+                        </div>
+                        <input type="text" id="nombrealbum" value="" readonly>
+                        <input type="text" id="anioalbum" value="" readonly>
+                        <input type="text" id="creadoralbum" value="" readonly>
+                        <h3>Generos del Album</h3>
+                        <ul id="generoslist"></ul>
+                        <h3>Temas del Album</h3>
+                        <table id="temasTable">
+                            <thead>
+                                <tr>
+                                    <th>Nombre del Tema</th>
+                                    <th>Duracion</th>
+                                    <th>Archivo / Link</th>
+                                    <th>Accion</th>
+                                </tr>
+                            </thead>
+                            <tbody id="temasBody">
+                                <!-- aca se carga la lista -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -261,25 +263,8 @@
             </dialog>
         </div> <!-- Fin Cuerpo -->
 
-<<<<<<< Updated upstream
-        <script>
-    function emitirBusqueda() {
-        const searchInput = document.getElementById('searchInput').value;
-
-        // Redirigir a la URL con el parámetro de búsqueda
-        if(searchInput==="" || searchInput===null){
-        alert("Por favor, ingrese un termino de busqueda.");
-        }else{
-        window.location.href = "BuscarCosas.jsp?search=" + searchInput;
-        }
-    }
-</script>
         <!-- Consultar album -->
         <script src="scripts/ConsultarAlbum.js"></script>
-=======
-        <!-- index -->
-        <script src="scripts/index.js"></script>
->>>>>>> Stashed changes
 
         <!-- Script registro de usuario -->
         <script src="scripts/AgregarUsuario.js"></script>

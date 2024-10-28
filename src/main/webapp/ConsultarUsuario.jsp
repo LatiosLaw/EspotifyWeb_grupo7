@@ -23,17 +23,6 @@
                         <h1>Espotify</h1>
                     </a>
                 </div>
-                <ul class="listUser">
-                    <li class="userName"><a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></p></a></li>
-                    <% if (nickname == null) { %>
-                    <li><p><button id="abrirFormLogin">Iniciar sesión</button></p></li>
-                    <% } else { %>
-                    <li><p>Tipo: <%= userType != null ? userType : "Desconocido"%></p></li>
-                    <li><p><button id="logoutButton">Cerrar sesión</button></p></li>
-                    <% } %>
-                </ul>
-            </div>
-        </header>
 
                 <div class="busqueda">
                     <input type="text" placeholder="Tema, Album, Lista" class="barraBusqueda">
@@ -45,14 +34,15 @@
                         <a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><img src="imagenes/espotify/user.png" class="userIMG"></a>
                     </div>
                     <ul class="listUser">
-
-                        <li class="userName"><a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></p></a></li>
+                        <li class="userName">
+                            <a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p>
+                        </li>
                         <% if (nickname == null) { %>
-                        <li><p><button id="abrirFormLogin">Iniciar sesión</button></p></li>
-                        <% } else { %>
+                        <li><p><button id="abrirFormLogin">Iniciar sesion</button></p></li>
+                                    <% } else {%>
                         <li><p>Tipo: <%= userType != null ? userType : "Desconocido"%></p></li>
-                        <li><p><button id="logoutButton">Cerrar sesión</button></p></li>
-                        <% } %>
+                        <li><p><button id="logoutButton">Cerrar sesion</button></p></li>
+                                    <% } %>
                     </ul>
                 </div>
             </header>
