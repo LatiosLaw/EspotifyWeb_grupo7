@@ -199,8 +199,7 @@ function verDetallesLista(lista) {
 }
 
 function verDetallesAlbum(album) {
-    alert(`Detalles del álbum: ${album}`);
-    // Implementar 
+    window.location.href = "ConsultarAlbum.jsp?album=" + album;
 }
 
 function checkUserType(nickname) {
