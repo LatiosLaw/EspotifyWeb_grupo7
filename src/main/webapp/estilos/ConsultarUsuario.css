@@ -53,7 +53,7 @@
 }
 
 #seguirUsuarioBtn:active, #dejarSeguirUsuarioBtn:active{
-    background-color: #99339fc;
+    background-color: #99339f;
 }
 
 #imagenPerfil {
@@ -80,10 +80,14 @@
 
 #seguidores, #seguidos, #listas, #favoritos, #albumes{
     max-width: 500px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .listFavs, .albFavs, .temFavs{
     max-width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 table, table thead, table thead tr, table thead tr th, table tbody, table tbody tr, table tbody tr td{

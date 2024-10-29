@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/PaginaInicio.css"/>
         <title>Espotify</title>
     </head>
     <body>
@@ -73,56 +74,25 @@
                         <h1>Inicio</h1>
 
                         <h2>Conoce a nuestros Artistas :</h2>
-                        <table id="artistasTable">
-                                <thead>
-                                    <tr>
-                                        <th>Imagen</th>
-                                        <th>Nombre</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="artistasBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
-                            </table>
+                        <div id="artistasBody">
+                            <!-- aca se carga la lista -->
+                        </div>
 
-                             <h2>Explora Albumes que no Conocias :</h2>
-                        <table id="albumTable">
-                                <thead>
-                                    <tr>
-                                        <th>Imagen</th>
-                                        <th>Nombre</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="albumBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
-                            </table>
+                        <h2>Explora Albumes que no Conocias :</h2>
+                        <div id="albumBody">
+                            <!-- aca se carga la lista -->
+                        </div>
 
-                             <h2>Disfruta listas de diversos Generos :</h2>
-                        <table id="listasTable">
-                                <thead>
-                                    <tr>
-                                        <th>Imagen</th>
-                                        <th>Nombre</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="listasBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
-                            </table>
+                        <h2>Disfruta listas de diversos Generos :</h2>
+                        <div id="listasBody">
+                            <!-- aca se carga la lista -->
+                        </div>
 
-                             <h2>Sigue a otros usuarios como Tu :</h2>
-                        <table id="usuariosTable">
-                                <thead>
-                                    <tr>
-                                        <th>Imagen</th>
-                                        <th>Nombre</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="usuariosBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
-                            </table>
+                        <h2>Sigue a otros usuarios como Tu :</h2>
+                        <div id="clientesBody">
+                            <!-- aca se carga la lista -->
+                        </div>
+
                     </div>
                 </div>
 

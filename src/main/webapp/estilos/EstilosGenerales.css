@@ -107,9 +107,6 @@ ul{
     text-overflow: ellipsis;
 }
 
-.name{
-    margin-right: 5px;
-}
 
 #abrirFormLogin, #logoutButton{
     border: 0px none;
@@ -134,7 +131,7 @@ ul{
     border-color: black;
     border-width: 3px;
     overflow-y: auto;
-    overflow-x: auto;
+    overflow-x: hidden;
     background-color: #862f8c;
     z-index: 1;
 }

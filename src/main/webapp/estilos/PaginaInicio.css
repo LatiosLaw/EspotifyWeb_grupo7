@@ -1,0 +1,30 @@
+#artistasBody, #albumBody, #listasBody, #clientesBody{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.artista, .album, .lista, .cliente{
+    margin: 10px;
+    text-align: center;
+    border: 2px solid black;
+}
+
+.imagenUser, .imagenAlbum, .imagenLista, .imagenCliente, .artista div, .album div, .lista div, .cliente div{
+    width: 15vw;
+}
+
+.imagenUser, .imagenAlbum, .imagenLista, .imagenCliente{
+    border-bottom: 2px solid black;
+}
+
+.artista div, .album div, .lista div, .cliente div{
+    margin-bottom: 5px;
+}
+
+.artista div p, .album div p, .lista div p, .cliente div p{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1vw;
+}
