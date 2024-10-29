@@ -136,6 +136,7 @@ ul{
     overflow-y: auto;
     overflow-x: auto;
     background-color: #862f8c;
+    z-index: 1;
 }
 
 .btnsNav{
