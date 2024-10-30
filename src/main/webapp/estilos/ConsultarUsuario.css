@@ -131,7 +131,8 @@ table tbody tr td button:active, table tbody tr td button:active{
     }
     
     #imagenPerfil{
-        width: 20vw;
+        width: 45vw;
+        height: 45vw;
     }
 }
 
@@ -147,5 +148,6 @@ table tbody tr td button:active, table tbody tr td button:active{
     
     #imagenPerfil{
         width: 300px;
+        height: 300px;
     }
 }

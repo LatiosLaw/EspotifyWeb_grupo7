@@ -410,6 +410,7 @@ ul{
 
     .userIMG{
         width: 10vw;
+        height: 10vw;
     }
 
     .listUser p{
@@ -455,6 +456,7 @@ ul{
 
     .artIMG{
         width: 15vw;
+        height: 15vw;
     }
 
     .controlRep{
@@ -505,20 +507,12 @@ ul{
         right: 10px;
     }
 
-    #prevBtn img{
+    #prevBtn img, #nextBtn img{
         width: 4.5vw;
     }
 
-    #playBtn img{
+    #playBtn img, #pauseBtn img{
         width: 6vw;
-    }
-
-    #pauseBtn img{
-        width: 6vw;
-    }
-
-    #nextBtn img{
-        width: 4.5vw;
     }
 
     #muteBtn img, #unmuteBtn img{
@@ -599,6 +593,7 @@ ul{
 
     .artIMG{
         width: 200px;
+        height: 200px;
         margin-bottom: 10px;
     }
 
@@ -633,20 +628,12 @@ ul{
         right: 0;
     }
     
-    #prevBtn img{
+    #prevBtn img, #nextBtn img{
         width: 60px;
     }
     
-    #playBtn img{
+    #playBtn img, #pauseBtn img{
         width: 65px;
-    }
-    
-    #pauseBtn img{
-        width: 65px;
-    }
-    
-    #nextBtn img{
-        width: 60px;
     }
 
     #volumeBar{

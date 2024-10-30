@@ -16,6 +16,7 @@
 
 .imagenUser, .imagenAlbum, .imagenLista, .imagenCliente{
     border-bottom: 2px solid black;
+    height: 15vw;
 }
 
 .artista div, .album div, .lista div, .cliente div{
