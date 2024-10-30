@@ -45,16 +45,12 @@
                 </div>
             </header>
 
-            <div class="btnsEx">
-                <button>Generos</button>
-                <button>Artistas</button>
-            </div>
-
             <div class="mainCon">
                 <div class="dinamico">
                     <div class="btnsNav">
+                        <a href="">Generos</a>
+                        <a href="">Artistas</a>
                         <% if ("Cliente".equals(userType) || userType == null) { %>
-                        <a id="consultarListaLink" href="index.jsp">Consultar Album</a>
                         <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
                         <% } %>
 
