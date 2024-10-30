@@ -79,7 +79,7 @@
                            <thead>
                                <tr>
                                    <th>Id</th>
-                                   <th>Ultima Fecha de Acrualizacion</th>
+                                   <th>Ultima Fecha de Actualizacion</th>
                                    <th>Tipo</th>
                                    <th>Estado</th>
                                </tr>
