@@ -71,78 +71,41 @@
 
                     <div class="realDinamico">
 
-                        <h1>Buscar</h1>
-                        
 <input type="text" id="es-gen" name="es-gen" hidden readonly value="0">
 
-                        <h2>Listas de Usuarios Encontradas:</h2>
+                        <h2>Usuarios Encontradas:</h2>
                         <table id="listaUsuarioTable">
-                            <thead>
-                                <tr>
-                                    <th>Imagen</th>
-                                    <th>Nombre</th>
-                                    <th>Creador</th>
-                                </tr>
-                            </thead>
                             <tbody id="listaUsuarioBody">
                                 <!-- aca se carga la lista -->
                             </tbody>
                         </table>
 
-                        <h2>Listas de Genero Encontradas:</h2>
+                        <h2>Generos Encontrados:</h2>
                         <table id="listaGeneroTable">
-                            <thead>
-                                <tr>
-                                    <th>Imagen</th>
-                                    <th>Nombre</th>
-                                    <th>Genero</th>
-                                </tr>
-                            </thead>
                             <tbody id="listaGeneroBody">
                                 <!-- aca se carga la lista -->
                             </tbody>
                         </table>
 
-                        <h2>Lista de Albumes Encontrados:</h2>
+                        <h2>Albumes Encontrados:</h2>
                         <table id="albumTable">
-                            <thead>
-                                <tr>
-                                    <th>Imagen</th>
-                                    <th>Nombre</th>
-                                    <th>Artista</th>
-                                    <th>Año de Publicacion</th>
-                                </tr>
-                            </thead>
                             <tbody id="albumBody">
                                 <!-- aca se carga la lista -->
                             </tbody>
                         </table>
 
                         <div id="todoDeUnGenero">
-                            <h2>Todo lo del Genero : </h2>
+                            <h2>Todo lo del Genero:</h2>
+                            
                             <h3>Listas del Genero Encontradas:</h3>
                             <table id="listaGeneroGenTable">
-                                <thead>
-                                    <tr>
-                                        <th>Imagen</th>
-                                        <th>Nombre</th>
-                                        <th>Genero</th>
-                                    </tr>
-                                </thead>
                                 <tbody id="listaGeneroGenBody">
                                     <!-- aca se carga la lista -->
                                 </tbody>
                             </table>
+                            
                             <h3>Lista de Albumes Encontrados:</h3>
                             <table id="albumGenTable">
-                                <thead>
-                                    <tr>
-                                        <th>Imagen</th>
-                                        <th>Nombre</th>
-                                        <th>Artista</th>
-                                        <th>Año de Publicacion</th>
-                                    </tr>
-                                </thead>
                                 <tbody id="albumGenBody">
                                     <!-- aca se carga la lista -->
                                 </tbody>
