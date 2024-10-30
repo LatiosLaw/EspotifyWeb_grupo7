@@ -36,10 +36,10 @@
                         
                         <li class="userName"><a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p></li>
                             <% if (nickname == null) { %>
-                        <li><p><button id="abrirFormLogin">Iniciar sesi?n</button></p></li>
+                        <li><p><button id="abrirFormLogin">Iniciar sesion</button></p></li>
                                     <% } else { %>
                         <li><p>Tipo: <%= userType != null ? userType : "Desconocido"%></p></li>
-                        <li><p><button id="logoutButton">Cerrar sesi?n</button></p></li>
+                        <li><p><button id="logoutButton">Cerrar sesion</button></p></li>
                                     <% } %>
                     </ul>
                 </div>
@@ -153,11 +153,11 @@
                         <input type="text" id="nicknameLogin" name="nicknameLogin" required>
                     </div>
                     <div>
-                        <label for="passLogin">Contrase?a:</label>
+                        <label for="passLogin">Contraseña:</label>
                         <input type="password" id="passLogin" name="passLogin" required>
                     </div>
                     <div class="btnsFormLogin">
-                        <button type="submit">Iniciar Sesi?n</button>
+                        <button type="submit">Iniciar Sesion</button>
                         <button type='reset' id="abrirFormSignup">Registrarse</button>
                     </div>
                 </form>
@@ -215,11 +215,11 @@
                         </div>
                     </div>
                     <div>
-                        <label for="pass">Contrase?a:</label>
+                        <label for="pass">Contraseña:</label>
                         <input type="password" id="pass" name="pass" required>
                     </div>
                     <div>
-                        <label for="confirmPass">Confirmar Contrase?a:</label>
+                        <label for="confirmPass">Confirmar Contraseña:</label>
                         <input type="password" id="confirmPass" name="confirmPass" required>
                     </div>
                     <div>

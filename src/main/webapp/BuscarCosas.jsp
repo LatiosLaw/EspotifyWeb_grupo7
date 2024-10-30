@@ -202,7 +202,7 @@
                         <input type="text" id="nicknameLogin" name="nicknameLogin" required>
                     </div>
                     <div>
-                        <label for="passLogin">Contrase?a:</label>
+                        <label for="passLogin">Contraseña:</label>
                         <input type="password" id="passLogin" name="passLogin" required>
                     </div>
                     <div class="btnsFormLogin">
@@ -264,11 +264,11 @@
                         </div>
                     </div>
                     <div>
-                        <label for="pass">Contrase?a:</label>
+                        <label for="pass">Contraseña:</label>
                         <input type="password" id="pass" name="pass" required>
                     </div>
                     <div>
-                        <label for="confirmPass">Confirmar Contrase?a:</label>
+                        <label for="confirmPass">Confirmar Contraseña:</label>
                         <input type="password" id="confirmPass" name="confirmPass" required>
                     </div>
                     <div>

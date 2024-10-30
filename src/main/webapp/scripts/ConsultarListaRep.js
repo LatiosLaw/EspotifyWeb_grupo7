@@ -13,7 +13,7 @@ fetch('AltaDeAlbumServlet?action=cargarGeneros')
         .then(data => {
             let select = document.getElementById('generos');
             select.innerHTML = ''; // Limpia las opciones
-            select.append(new Option('Seleccione un género', ''));
+            select.append(new Option('Seleccione un genero', ''));
             data.forEach(genero => {
                 select.append(new Option(genero, genero));
             });
