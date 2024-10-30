@@ -1,0 +1,76 @@
+.contStart{
+    background-color: #9e55bc;
+    padding: 10px 0 10px 5%;
+}
+
+.contStart2{
+    background-color: #80007a;
+    padding: 7px 0 7px 10%;
+    width: 40%;
+}
+
+.contStart, .contStart2{
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+    border-right: 2px solid black;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    margin-top: 5px;
+}
+
+#listaUsuarioBody{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#listaUsuarioBody tr{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/*Resolucion de telefono*/
+@media (max-width: 960px){
+    .contStart{
+        font-size: 3.5vw;
+    }
+
+    .contStart2{                    
+        font-size: 3vw;
+    }
+    
+    #imagenalbum, #imagenlista{
+        width: 8vw;
+        height: 8vw;
+    }
+}
+
+/*Resolucion de pc*/
+@media (min-width: 960px) and (max-width: 1400px){
+    .contStart{
+        font-size: 2.5vw;
+    }
+
+    .contStart2{
+        font-size: 2vw;
+    }
+    
+    #imagenalbum, #imagenlista{
+        width: 5vw;
+        height: 5vw;
+    }
+}
+
+@media (min-width: 1400px){
+    .contStart{
+        font-size: 1.5vw;
+    }
+
+    .contStart2{
+        font-size: 1vw;
+    }
+    
+    #imagenalbum, #imagenlista{
+        width: 4vw;
+        height: 4vw;
+    }
+}

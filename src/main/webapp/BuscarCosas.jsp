@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/BuscarCosas.css">
         <title>Espotify</title>
     </head>
     <body>
@@ -71,21 +72,27 @@
 
                     <div class="realDinamico">
 
+<<<<<<< Updated upstream
                         <h2>Usuarios Encontradas:</h2>
+=======
+<input type="text" id="es-gen" name="es-gen" hidden readonly value="0">
+
+                        <h2 class="contStart">Listas de Usuarios Encontradas:</h2>
+>>>>>>> Stashed changes
                         <table id="listaUsuarioTable">
                             <tbody id="listaUsuarioBody">
                                 <!-- aca se carga la lista -->
                             </tbody>
                         </table>
 
-                        <h2>Generos Encontrados:</h2>
+                        <h2 class="contStart">Listas de Generos Encontradas:</h2>
                         <table id="listaGeneroTable">
                             <tbody id="listaGeneroBody">
                                 <!-- aca se carga la lista -->
                             </tbody>
                         </table>
 
-                        <h2>Albumes Encontrados:</h2>
+                        <h2 class="contStart">Listas de Albumes Encontradas:</h2>
                         <table id="albumTable">
                             <tbody id="albumBody">
                                 <!-- aca se carga la lista -->
@@ -100,16 +107,16 @@
                         </table>
 
                         <div id="todoDeUnGenero">
-                            <h2>Todo lo del Genero:</h2>
+                            <h2 class="contStart">Todo lo del Genero:</h2>
                             
-                            <h3>Listas del Genero Encontradas:</h3>
+                            <h3 class="contStart2">Listas del Genero Encontradas:</h3>
                             <table id="listaGeneroGenTable">
                                 <tbody id="listaGeneroGenBody">
                                     <!-- aca se carga la lista -->
                                 </tbody>
                             </table>
                             
-                            <h3>Lista de Albumes Encontrados:</h3>
+                            <h3 class="contStart2">Lista de Albumes Encontrados:</h3>
                             <table id="albumGenTable">
                                 <tbody id="albumGenBody">
                                     <!-- aca se carga la lista -->

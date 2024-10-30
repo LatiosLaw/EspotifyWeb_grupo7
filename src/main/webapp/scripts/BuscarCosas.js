@@ -36,10 +36,10 @@ const urlParams = new URLSearchParams(window.location.search);
                 tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
                 data.forEach(lista => {
                     if(lista.imagen!=="null" && (lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))){
-                    const row = `<tr><td><img src="imagenes/listas/${lista.imagen}" id="imagenalbum" alt="Imagen del Album" width="150"></td><td>${lista.nombre}</td><td>${lista.creador}</td></tr>`;
+                    const row = `<tr><td><img src="imagenes/listas/${lista.imagen}" id="imagenalbum" alt="Imagen del Album"></td><td>${lista.nombre}</td><td>${lista.creador}</td></tr>`;
                     tbody.innerHTML += row;
                 }else{
-                    const row = `<tr><td><img src="imagenes/listas/defaultList.png" id="imagenlista" alt="Imagen del Album" width="150"></td><td>${lista.nombre}</td><td>${lista.creador}</td></tr>`;
+                    const row = `<tr><td><img src="imagenes/listas/defaultList.png" id="imagenlista" alt="Imagen del Album" ></td><td>${lista.nombre}</td><td>${lista.creador}</td></tr>`;
                     tbody.innerHTML += row;
                     }
                 });
