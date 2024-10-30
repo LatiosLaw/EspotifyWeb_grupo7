@@ -94,7 +94,7 @@ table, table thead, table thead tr, table thead tr th, table tbody, table tbody 
     border: 2px solid black;
     border-collapse: collapse;
     padding: 5px 10px;
-    background-color: #9e55bc
+    background-color: #9e55bc;
 }
 
 .listFavs table, .albFavs table, .temFavs table, table tbody tr td button, table tbody tr td button, #seguidores table, #seguidos table, #listas table, #albumes table {

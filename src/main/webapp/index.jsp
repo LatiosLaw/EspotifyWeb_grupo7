@@ -49,7 +49,7 @@
             <div class="mainCon">
                 <div class="dinamico">
                     <div class="btnsNav">
-                        <a href="">Generos</a>
+                        <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="">Artistas</a>
                         <% if ("Cliente".equals(userType) || userType == null) { %>
                         <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
@@ -73,26 +73,62 @@
                     <div class="realDinamico">
                         <h1 class="inicioIndex">Inicio</h1>
 
-                        <h2 class="contStart">Conoce a nuestros artistas:</h2>
-                        <div id="artistasBody">
-                            <!-- aca se carga la lista -->
+                        <div>
+                            <h2 class="contStart">Conoce a nuestros artistas:</h2>
+                            <div id="artistasBody">
+                                <!-- aca se carga la lista -->
+                            </div>
+                            <div class="verMas">
+                                <a href="">
+                                    <div>
+                                        <p>Ver mas</p>
+                                    </div>
+                                    <img class="verMasImg" src="imagenes/espotify/next-button.png"/>
+                                </a>
+                            </div>
                         </div>
-
-                        <h2 class="contStart contStart2">Explora Albumes que no conocias:</h2>
-                        <div id="albumBody">
-                            <!-- aca se carga la lista -->
+                        <div>
+                            <h2 class="contStart contStart2">Explora Albumes que no conocias:</h2>
+                            <div id="albumBody">
+                                <!-- aca se carga la lista -->
+                            </div>
+                            <div class="verMas">
+                                <a href="">
+                                    <div>
+                                        <p>Ver mas</p>
+                                    </div>
+                                    <img class="verMasImg" src="imagenes/espotify/next-button.png"/>
+                                </a>
+                            </div>
                         </div>
-
-                        <h2 class="contStart contStart2">Disfruta listas de diversos generos:</h2>
-                        <div id="listasBody">
-                            <!-- aca se carga la lista -->
+                        <div>
+                            <h2 class="contStart contStart2">Disfruta listas de diversos generos:</h2>
+                            <div id="listasBody">
+                                <!-- aca se carga la lista -->
+                            </div>
+                            <div class="verMas">
+                                <a href="">
+                                    <div>
+                                        <p>Ver mas</p>
+                                    </div>
+                                    <img class="verMasImg" src="imagenes/espotify/next-button.png"/>
+                                </a>
+                            </div>
                         </div>
-
-                        <h2 class="contStart contStart2">Sigue a otros usuarios como tu:</h2>
-                        <div id="clientesBody">
-                            <!-- aca se carga la lista -->
+                        <div>
+                            <h2 class="contStart contStart2">Sigue a otros usuarios como tu:</h2>
+                            <div id="clientesBody">
+                                <!-- aca se carga la lista -->
+                            </div>
+                            <div class="verMas">
+                                <a href="">
+                                    <div>
+                                        <p>Ver mas</p>
+                                    </div>
+                                    <img class="verMasImg" src="imagenes/espotify/next-button.png"/>
+                                </a>
+                            </div>
                         </div>
-
                     </div>
                 </div>
 
