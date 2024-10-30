@@ -13,6 +13,14 @@
         <servlet-class>com.mycompany.espotifyweb.CerrarSesionServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>TodosLosGenerosServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.TodosLosGenerosServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TodosLosArtistasServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.TodosLosArtistasServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AgregarUsuarioServlet</servlet-name>
         <servlet-class>com.mycompany.espotifyweb.AgregarUsuarioServlet</servlet-class>
     </servlet>
@@ -91,6 +99,14 @@
     <servlet-mapping>
         <servlet-name>AltaDeAlbumServlet</servlet-name>
         <url-pattern>/AltaDeAlbumServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TodosLosGenerosServlet</servlet-name>
+        <url-pattern>/TodosLosGenerosServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TodosLosArtistasServlet</servlet-name>
+        <url-pattern>/TodosLosArtistasServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AgregarTemaAListaServlet</servlet-name>

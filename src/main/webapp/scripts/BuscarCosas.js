@@ -1,8 +1,9 @@
 window.onload(buscarDatos());
 
+var Genero = "0";
+
 function checkGenero() {
 const urlParams = new URLSearchParams(window.location.search);
-  var isGenero = document.getElementById("es-gen");
 const buscarName = urlParams.get('search');
 const xhr = new XMLHttpRequest();
 xhr.open("GET", "http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=VerificarSiEsGenero&buscar=" + encodeURIComponent(buscarName), true);
@@ -12,9 +13,9 @@ xhr.onreadystatechange = function() {
     if (xhr.readyState === 4 && xhr.status === 200) {
         let mensaje = xhr.responseText;
 if (mensaje==="existe") {
-isGenero.value="1";
+cargarGeneroStuff();
 } else {
-isGenero.value="2";
+descargarGenero();
 }
     }
 };
@@ -23,7 +24,6 @@ xhr.send();
 }
 
  function buscarDatos(){
-       var isGenero = document.getElementById("es-gen");
 const urlParams = new URLSearchParams(window.location.search);
      var buscarName = urlParams.get('search');
 
@@ -81,9 +81,13 @@ const urlParams = new URLSearchParams(window.location.search);
             .catch(error => console.error('Error al cargar Albumes:', error));
 
     checkGenero();
-
-           if(isGenero.value==="1"){
-               document.getElementById("todoDeUnGenero").style.display = "block";
+     }
+              }
+              
+              function cargarGeneroStuff(){
+                  const urlParams = new URLSearchParams(window.location.search);
+                       var buscarName = urlParams.get('search');
+    document.getElementById("todoDeUnGenero").style.display = "block";
 
                fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarListasDelGeneroU&buscar=' + encodeURIComponent(buscarName))
             .then(response => response.json())
@@ -118,8 +122,8 @@ const urlParams = new URLSearchParams(window.location.search);
                });
            })
             .catch(error => console.error('Error al cargar listas:', error));
-           }else{
-               document.getElementById("todoDeUnGenero").style.display = "none";
-           }
-     }
-              }
+}
+
+function descargarGenero(){
+   document.getElementById("todoDeUnGenero").style.display = "none"; 
+}

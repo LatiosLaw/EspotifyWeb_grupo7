@@ -63,7 +63,7 @@ function cargarSeguidores() {
                 seguidoresTbody.innerHTML = ''; // Limpiar tabla
                 seguidores.forEach(seguidor => {
                     const row = document.createElement('tr');
-                    row.innerHTML = `<td>${seguidor}</td>`;
+                    row.innerHTML = `<td><a href="ConsultarUsuario.jsp?usr=${seguidor}">${seguidor}</a></td>`;
                     seguidoresTbody.appendChild(row);
                 });
                 document.getElementById('seguidores').style.display = 'block';
@@ -78,8 +78,9 @@ function cargarSeguidos() {
                 const seguidosTbody = document.getElementById('tablaSeguidos');
                 seguidosTbody.innerHTML = ''; // Limpiar tabla
                 seguidos.forEach(seguido => {
+                    const nombreUsuario = seguido.split("/")[0];
                     const row = document.createElement('tr');
-                    row.innerHTML = `<td>${seguido}</td>`;
+                    row.innerHTML = `<td><a href="ConsultarUsuario.jsp?usr=${nombreUsuario}">${seguido}</a></td>`;
                     seguidosTbody.appendChild(row);
                 });
                 document.getElementById('seguidos').style.display = 'block';
