@@ -71,24 +71,24 @@
                     </div>
 
                     <div class="realDinamico">
-                        <h1>Inicio</h1>
+                        <h1 class="inicioIndex">Inicio</h1>
 
-                        <h2>Conoce a nuestros Artistas :</h2>
+                        <h2 class="contStart">Conoce a nuestros artistas:</h2>
                         <div id="artistasBody">
                             <!-- aca se carga la lista -->
                         </div>
 
-                        <h2>Explora Albumes que no Conocias :</h2>
+                        <h2 class="contStart contStart2">Explora Albumes que no conocias:</h2>
                         <div id="albumBody">
                             <!-- aca se carga la lista -->
                         </div>
 
-                        <h2>Disfruta listas de diversos Generos :</h2>
+                        <h2 class="contStart contStart2">Disfruta listas de diversos generos:</h2>
                         <div id="listasBody">
                             <!-- aca se carga la lista -->
                         </div>
 
-                        <h2>Sigue a otros usuarios como Tu :</h2>
+                        <h2 class="contStart contStart2">Sigue a otros usuarios como tu:</h2>
                         <div id="clientesBody">
                             <!-- aca se carga la lista -->
                         </div>
