@@ -4,22 +4,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import logica.Genero;
-import logica.controladores.ControladorArtista;
-import logica.controladores.ControladorListaParticular;
-import logica.controladores.ControladorTema;
-import logica.dt.DataArtista;
-import logica.dt.DataTema;
-import persistencia.DAO_Genero;
+import logica.controladores.ControladorCliente;
+import logica.dt.DataCliente;
 
-public class TodosLosArtistasServlet extends HttpServlet {
+public class TodosLosClientesServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -40,24 +33,24 @@ public class TodosLosArtistasServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("\n-----Start Todos Los Artistas Servlet GET-----");
+        System.out.println("\n-----Start Todos Los Clientes Servlet GET-----");
         String action = request.getParameter("action");
         
         response.setContentType("application/json;charset=UTF-8");
         
-        if ("devolverArtias".equals(action)) {
+        if ("devolverClientes".equals(action)) {
       try (PrintWriter out = response.getWriter()) {
 
             // Obtener todas las listas de reproducción del cliente
-            ControladorArtista persistence = new ControladorArtista();
-            Collection<DataArtista> artistas = persistence.mostrarArtistas();
-            List<DataArtista> artistasList = new ArrayList<>(artistas);
+            ControladorCliente persistence = new ControladorCliente();
+            Collection<DataCliente> clientes = persistence.mostrarClientes();
+            List<DataCliente> clientesList = new ArrayList<>(clientes);
 
             StringBuilder jsonResponse = new StringBuilder("[");
-for (DataArtista artista : artistasList) {
+for (DataCliente cliente : clientesList) {
 
-     jsonResponse.append("{\"nombre\":\"").append(artista.getNickname()).append("\",")
-                        .append("\"imagen\":\"").append(artista.getFoto())
+     jsonResponse.append("{\"nombre\":\"").append(cliente.getNickname()).append("\",")
+                        .append("\"imagen\":\"").append(cliente.getFoto())
                         .append("\"},");
 }
 
@@ -72,7 +65,7 @@ for (DataArtista artista : artistasList) {
             e.printStackTrace(); // Para depuración
         }
         }
-        System.out.println("\n-----End Todos Los Artistas Servlet GET-----");
+        System.out.println("\n-----End Todos Los Clientes Servlet GET-----");
     }
 
     @Override

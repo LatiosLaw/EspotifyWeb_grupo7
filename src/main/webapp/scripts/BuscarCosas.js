@@ -79,6 +79,18 @@ const urlParams = new URLSearchParams(window.location.search);
                 });
             })
             .catch(error => console.error('Error al cargar Albumes:', error));
+    
+        fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarTemas&buscar=' + encodeURIComponent(buscarName))
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('temasBody');
+                tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                data.forEach(temazo => {
+                        const row = `<tr><td>${temazo.nombre}</td><td>${temazo.album}</td><td>${temazo.artista}</td></tr>`;
+                    tbody.innerHTML += row;
+                });
+            })
+            .catch(error => console.error('Error al cargar Temas:', error));
 
     checkGenero();
      }

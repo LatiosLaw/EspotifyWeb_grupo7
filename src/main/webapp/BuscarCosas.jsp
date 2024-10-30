@@ -71,8 +71,6 @@
 
                     <div class="realDinamico">
 
-<input type="text" id="es-gen" name="es-gen" hidden readonly value="0">
-
                         <h2>Usuarios Encontradas:</h2>
                         <table id="listaUsuarioTable">
                             <tbody id="listaUsuarioBody">
@@ -90,6 +88,13 @@
                         <h2>Albumes Encontrados:</h2>
                         <table id="albumTable">
                             <tbody id="albumBody">
+                                <!-- aca se carga la lista -->
+                            </tbody>
+                        </table>
+                        
+                        <h2>Temas Encontrados:</h2>
+                        <table id="temasTable">
+                            <tbody id="temasBody">
                                 <!-- aca se carga la lista -->
                             </tbody>
                         </table>

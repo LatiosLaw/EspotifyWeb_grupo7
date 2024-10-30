@@ -21,6 +21,18 @@
         <servlet-class>com.mycompany.espotifyweb.TodosLosArtistasServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>TodosLosClientesServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.TodosLosClientesServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TodosLosAlbumesServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.TodosLosAlbumesServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TodasLasListasDefaultServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.TodasLasListasDefaultServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AgregarUsuarioServlet</servlet-name>
         <servlet-class>com.mycompany.espotifyweb.AgregarUsuarioServlet</servlet-class>
     </servlet>
@@ -107,6 +119,18 @@
     <servlet-mapping>
         <servlet-name>TodosLosArtistasServlet</servlet-name>
         <url-pattern>/TodosLosArtistasServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TodosLosClientesServlet</servlet-name>
+        <url-pattern>/TodosLosClientesServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TodosLosAlbumesServlet</servlet-name>
+        <url-pattern>/TodosLosAlbumesServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TodasLasListasDefaultServlet</servlet-name>
+        <url-pattern>/TodasLasListasDefaultServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AgregarTemaAListaServlet</servlet-name>

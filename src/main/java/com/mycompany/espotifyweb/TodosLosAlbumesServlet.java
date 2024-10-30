@@ -2,24 +2,16 @@ package com.mycompany.espotifyweb;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import logica.Album;
 import logica.Genero;
-import logica.controladores.ControladorArtista;
-import logica.controladores.ControladorListaParticular;
-import logica.controladores.ControladorTema;
-import logica.dt.DataArtista;
-import logica.dt.DataTema;
-import persistencia.DAO_Genero;
+import persistencia.DAO_Album;
 
-public class TodosLosArtistasServlet extends HttpServlet {
+public class TodosLosAlbumesServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -40,26 +32,23 @@ public class TodosLosArtistasServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("\n-----Start Todos Los Artistas Servlet GET-----");
+        System.out.println("\n-----Start Todos Los Albumes Servlet GET-----");
         String action = request.getParameter("action");
         
         response.setContentType("application/json;charset=UTF-8");
         
-        if ("devolverArtias".equals(action)) {
-      try (PrintWriter out = response.getWriter()) {
-
+        if ("devolverAlbumes".equals(action)) {
+            try (PrintWriter out = response.getWriter()) {
             // Obtener todas las listas de reproducción del cliente
-            ControladorArtista persistence = new ControladorArtista();
-            Collection<DataArtista> artistas = persistence.mostrarArtistas();
-            List<DataArtista> artistasList = new ArrayList<>(artistas);
-
+            DAO_Album persistence = new DAO_Album();
+            Collection<Album> albums = persistence.findAll();
+            
             StringBuilder jsonResponse = new StringBuilder("[");
-for (DataArtista artista : artistasList) {
-
-     jsonResponse.append("{\"nombre\":\"").append(artista.getNickname()).append("\",")
-                        .append("\"imagen\":\"").append(artista.getFoto())
-                        .append("\"},");
-}
+            for (Album album : albums) {
+                 jsonResponse.append("{\"nombre\":\"").append(album.getNombre()).append("\",")
+                        .append("\"creador\":\"").append(album.getCreador().getNickname()).append("\",")
+                        .append("\"imagen\":\"").append(album.getImagen()).append("\"},");
+            }
 
             if (jsonResponse.length() > 1) {
                 jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
@@ -72,14 +61,14 @@ for (DataArtista artista : artistasList) {
             e.printStackTrace(); // Para depuración
         }
         }
-        System.out.println("\n-----End Todos Los Artistas Servlet GET-----");
+        System.out.println("\n-----End Todos Los Albumes Servlet GET-----");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       System.out.println("\n-----Start Todos Los Artistas Servlet POST-----");
+       System.out.println("\n-----Start Todos Los Albumes Servlet POST-----");
 
-        System.out.println("\n-----End Todos Los Artistas Servlet POST-----");
+        System.out.println("\n-----End Todos Los Albumes Servlet POST-----");
     }
 
 }

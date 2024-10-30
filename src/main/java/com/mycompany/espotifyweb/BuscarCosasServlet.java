@@ -16,9 +16,11 @@ import logica.controladores.ControladorAlbum;
 import logica.controladores.ControladorListaPorDefecto;
 import logica.dt.DataAlbum;
 import logica.dt.DataListaPorDefecto;
+import logica.tema;
 import persistencia.DAO_Album;
 import persistencia.DAO_Genero;
 import persistencia.DAO_ListaReproduccion;
+import persistencia.DAO_Tema;
 
 @MultipartConfig
 
@@ -123,6 +125,32 @@ try (PrintWriter out = response.getWriter()) {
         } catch (Exception e) {
             e.printStackTrace(); // Para depuración
         }
+                  
+              }else if("MostrarTemas".equals(action)){
+               try (PrintWriter out = response.getWriter()) {
+
+            DAO_Tema persistence = new DAO_Tema();
+            Collection<tema> temas = persistence.findAllPorParecido(busqueda);
+
+            StringBuilder jsonResponse = new StringBuilder("[");
+            for (tema temazo : temas) {
+                jsonResponse.append("{\"nombre\":\"").append(temazo.getNickname()).append("\",")
+                        .append("\"album\":\"").append(temazo.getNombreAlbum()).append("\",")
+                        .append("\"artista\":\"").append(temazo.getAlbum().getCreador().getNickname())
+                        .append("\"},");
+            }
+
+            if (jsonResponse.length() > 1) {
+                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+            }
+
+            jsonResponse.append("]");
+
+            out.print(jsonResponse.toString());
+        } catch (Exception e) {
+            e.printStackTrace(); // Para depuración
+        }   
+                  
                   
               }else if("VerificarSiEsGenero".equals(action)){
 
