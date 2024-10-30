@@ -70,7 +70,7 @@
     display: flex; 
     align-items: center; 
     width: 100%;
-    padding: 3px 2% 3px 2%;
+    padding: 3px 2px 3px 2%;
     cursor: pointer;
     background-color: #b63ebe;
     border-top-right-radius: 50px;
