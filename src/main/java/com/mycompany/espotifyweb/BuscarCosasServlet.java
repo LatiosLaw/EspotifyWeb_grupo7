@@ -135,7 +135,7 @@ try (PrintWriter out = response.getWriter()) {
             StringBuilder jsonResponse = new StringBuilder("[");
             for (tema temazo : temas) {
                 jsonResponse.append("{\"nombre\":\"").append(temazo.getNickname()).append("\",")
-                        .append("\"album\":\"").append(temazo.getNombreAlbum()).append("\",")
+                        .append("\"album\":\"").append(temazo.getAlbum().getNombre()).append("\",")
                         .append("\"artista\":\"").append(temazo.getAlbum().getCreador().getNickname())
                         .append("\"},");
             }
