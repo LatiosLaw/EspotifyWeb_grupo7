@@ -73,11 +73,11 @@
                     
                     <div class="realDinamico">
                         <div class="container">
-                            <h1>Contratar Suscripción</h1>
+                            <h1>Contratar Suscripcion</h1>
                             <form id="contratarSuscripcionForm">
-                                <label for="tipoSuscripcion">Seleccione tipo de suscripción:</label>
+                                <label for="tipoSuscripcion">Seleccione tipo de suscripcion:</label>
                                 <select id="tipoSuscripcion" name="tipoSuscripcion" required>
-                                    <option value="">Seleccione una opción</option>
+                                    <option value="">Seleccione una opcion</option>
                                     <option value="Semanal">Semanal - $5</option>
                                     <option value="Mensual">Mensual - $15</option>
                                     <option value="Anual">Anual - $150</option>
@@ -149,7 +149,7 @@
                         <input type="password" id="passLogin" name="passLogin" required>
                     </div>
                     <div class="btnsFormLogin">
-                        <button type="submit">Iniciar Sesiñn</button>
+                        <button type="submit">Iniciar Sesion</button>
                         <button type='reset' id="abrirFormSignup">Registrarse</button>
                     </div>
                 </form>

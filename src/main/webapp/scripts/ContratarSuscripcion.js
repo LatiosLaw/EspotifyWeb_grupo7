@@ -25,15 +25,15 @@ document.getElementById('contratarSuscripcionForm').addEventListener('submit', f
                         console.log("Datos recibidos:", data); // Para depuración
 
                         if (data.success) {
-                            alert("Suscripción contratada exitosamente.");
-                            document.getElementById('resultado').innerText = "Suscripción contratada exitosamente.";
+                            alert("Suscripcion contratada exitosamente.");
+                            document.getElementById('resultado').innerText = "Suscripcion contratada exitosamente.";
                         } else {
-                            alert("Error al contratar la suscripción: Código de error " + data.errorCode);
-                            document.getElementById('resultado').innerText = "Error al contratar la suscripción: Código de error " + data.errorCode;
+                            alert("Error al contratar la suscripcion: Código de error " + data.errorCode);
+                            document.getElementById('resultado').innerText = "Error al contratar la suscripcion: Codigo de error " + data.errorCode;
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert("Error al contratar la suscripción.");
+                        alert("Error al contratar la suscripcion.");
                     });
             });
