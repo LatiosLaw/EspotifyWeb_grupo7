@@ -51,7 +51,7 @@
                     
                     <div class="btnsNav">
                         <a href="TodosLosGeneros.jsp">Generos</a>
-                        <a href="">Artistas</a>
+                        <a href="TodosLosArtistas.jsp">Artistas</a>
                         <% if ("Cliente".equals(userType) || userType == null) { %>
                         <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
                         <% } %>
