@@ -48,7 +48,7 @@
             <div class="mainCon">
                 <div class="dinamico">
                     <div class="btnsNav">
-                        <a href="">Generos</a>
+                        <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="">Artistas</a>
                         <% if ("Cliente".equals(userType) || userType == null) { %>
                         <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
