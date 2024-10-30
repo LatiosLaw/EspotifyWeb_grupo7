@@ -25,7 +25,7 @@
     background-color: #99339f;
 }
 
-#perfil {
+#perfil{
     justify-self: center;
     padding: 15px;
     background-color: #a241b6;
@@ -56,9 +56,11 @@
     background-color: #99339f;
 }
 
-#imagenPerfil {
+#imagenPerfil{
     display: block; /* Cambia el display a block */
     margin: 0 auto; /* Centra la imagen */
+    border: 3px solid black;
+    text-align: center;
 }
 
 #perfil h2, #perfil p, .listFavs h3, .albFavs h3, .temFavs h3, #seguidores h2, #seguidos h2, #listas h2, #albumes h2{

@@ -81,7 +81,7 @@
                             <div class="verMas">
                                 <a href="">
                                     <div>
-                                        <p>Ver mas</p>
+                                        <p>Ver mas artistas</p>
                                     </div>
                                     <img class="verMasImg" src="imagenes/espotify/next-button.png"/>
                                 </a>
@@ -95,7 +95,7 @@
                             <div class="verMas">
                                 <a href="">
                                     <div>
-                                        <p>Ver mas</p>
+                                        <p>Ver mas albumes</p>
                                     </div>
                                     <img class="verMasImg" src="imagenes/espotify/next-button.png"/>
                                 </a>
@@ -109,7 +109,7 @@
                             <div class="verMas">
                                 <a href="">
                                     <div>
-                                        <p>Ver mas</p>
+                                        <p>Ver mas listas</p>
                                     </div>
                                     <img class="verMasImg" src="imagenes/espotify/next-button.png"/>
                                 </a>
@@ -123,7 +123,7 @@
                             <div class="verMas">
                                 <a href="">
                                     <div>
-                                        <p>Ver mas</p>
+                                        <p>Ver mas usuarios</p>
                                     </div>
                                     <img class="verMasImg" src="imagenes/espotify/next-button.png"/>
                                 </a>
