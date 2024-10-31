@@ -75,6 +75,7 @@
     background-color: #b63ebe;
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
+    transition: background-color 0.15s;
 }
 
 .verMas a:hover{

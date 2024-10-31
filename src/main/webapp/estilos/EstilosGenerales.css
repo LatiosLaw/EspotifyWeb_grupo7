@@ -74,6 +74,7 @@ ul{
     box-shadow: 3px 3px black;
     background-color: #b63ebe;
     cursor: pointer;
+    transition: background-color 0.15s;
 }
 
 .btnBusqueda:hover{
@@ -155,6 +156,7 @@ ul{
     align-items: center;
     background-color: #b63ebe;
     margin-bottom: 5px;
+    transition: background-color 0.15s;
 }
 
 .btnsNav a:hover{
@@ -281,6 +283,7 @@ ul{
     border-color: black;
     background-color: #b63ebe;
     padding: 0px 6px 3px 6px;
+    transition: background-color 0.15s;
 }
 
 #cerrarFormLogin:hover, #cerrarFormSignup:hover{
@@ -331,6 +334,7 @@ ul{
     border-width: 2px;
     background-color: #b63ebe;
     padding: 2px 7px 2px 7px;
+    transition: background-color 0.15s;
 }
 
 .btnsFormLogin button:hover, .btnsFormSignup button:hover{

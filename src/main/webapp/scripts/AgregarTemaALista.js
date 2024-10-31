@@ -54,7 +54,7 @@ function loadListas() {
                 const tbody = document.getElementById('listasBody');
                 tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
                 data.forEach(lista => {
-                    const row = `<tr><td>${lista.nombre}</td><td><button onclick="seleccionarLista(this)">Seleccionar</button></td></tr>`;
+                    const row = `<tr><td>${lista.nombre}</td><td><button onclick="seleccionarLista(this)" class="btnSelect">Seleccionar</button></td></tr>`;
                     tbody.innerHTML += row;
                 });
             })

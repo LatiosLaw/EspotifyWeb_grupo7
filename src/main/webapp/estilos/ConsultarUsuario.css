@@ -15,6 +15,7 @@
     padding: 5px 10px 5px 10px;
     align-items: center;
     background-color: #b63ebe;
+    transition: background-color 0.15s;
 }
 
 .btnsPerfil button:hover{
@@ -46,6 +47,7 @@
     border: 2px solid black;
     padding: 5px 10px;
     background-color: #b63ebe;
+    transition: background-color 0.15s;
 }
 
 #seguirUsuarioBtn:hover, #dejarSeguirUsuarioBtn:hover{
@@ -106,6 +108,7 @@ table, table thead, table thead tr, table thead tr th, table tbody, table tbody 
 table tbody tr td button, table tbody tr td button{
     background-color: #b63ebe;
     border: 2px solid black;
+    transition: background-color 0.15s;
 }
 
 table tbody tr td button:hover, table tbody tr td button:hover{
