@@ -88,7 +88,7 @@
                             </div>
                         </div>
                         <div>
-                            <h2 class="contStart contStart2">Explora Albumes que no conocias:</h2>
+                            <h2 class="contStart contStart2">Explora albumes que no conocias:</h2>
                             <div id="albumBody">
                                 <!-- aca se carga la lista -->
                             </div>
@@ -116,7 +116,7 @@
                             </div>
                         </div>
                         <div>
-                            <h2 class="contStart contStart2">Sigue a otros usuarios como tu:</h2>
+                            <h2 class="contStart contStart2">Sigue a otros usuarios:</h2>
                             <div id="clientesBody">
                                 <!-- aca se carga la lista -->
                             </div>

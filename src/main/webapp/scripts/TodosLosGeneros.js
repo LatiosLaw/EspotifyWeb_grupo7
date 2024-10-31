@@ -4,24 +4,26 @@ fetch('http://localhost:8080/EspotifyWeb/obtenerImagenesGeneros')
         fetch('http://localhost:8080/EspotifyWeb/TodosLosGenerosServlet?action=devolverGeneros')
             .then(response => response.json())
             .then(data => {
-                const tbody = document.getElementById('listaGenerosBody');
-                tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                const container = document.getElementById('listaGenerosBody');
+                container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas listas
 
                 data.forEach(genero => {
                     // Seleccionar una imagen aleatoria de la lista obtenida del servlet
                     const imagenAleatoria = imagenes[Math.floor(Math.random() * imagenes.length)];
                     const imgPath = `imagenes/generos/${imagenAleatoria}`;
 
-                    // Crear una fila con la imagen aleatoria y el nombre del género
-                    const row = `
-                        <tr>
-                            <td><img src="${imgPath}" alt="Imagen de género" class="imagenGenero" style="width:50px; height:50px;"></td>
-                            <td>${genero.nombre}</td>
-                        </tr>`;
+                    const generoDiv = `
+                        <div class="genero">
+                            <img src="${imgPath}" alt="Imagen de genero" class="imagenGenero">
+                            <div>
+                                <p>${genero.nombre}</p>
+                            </div>
+                        </div>`;
 
-                    tbody.innerHTML += row;
+                    container.innerHTML += generoDiv;
                 });
             })
-            .catch(error => console.error('Error al cargar géneros:', error));
+            .catch(error => console.error('Error al cargar generos:', error));
+
     })
-    .catch(error => console.error('Error al obtener imágenes de géneros:', error));
+    .catch(error => console.error('Error al obtener imágenes de generos:', error));
