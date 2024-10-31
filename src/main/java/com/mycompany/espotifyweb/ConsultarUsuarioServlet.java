@@ -158,7 +158,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
         Collection<String> nombreListaParticular = new ArrayList<>();
 
         for (ListaParticular lista : listas) {
-            nombreListaParticular.add(lista.getNombreLista());
+            nombreListaParticular.add(lista.getNombreLista()+"/"+lista.getNombreCliente());
         }
 
         String jsonListas = convertToJson(nombreListaParticular);
@@ -225,16 +225,16 @@ public class ConsultarUsuarioServlet extends HttpServlet {
         DAO_Usuario daoUsuario = new DAO_Usuario();
 
         Collection<String> listasD = daoUsuario.obtenerListasFavPorDefectoCliente(nickname);
-        Collection<String> listasP = daoUsuario.obtenerListasParticularesFavCliente(nickname);
+        Collection<ListaParticular> listasP = daoUsuario.obtenerListasParticularesFavCliente2(nickname);
 
         Collection<String> listas = new ArrayList<>();
 
         for (String listad : listasD) {
-            listas.add(listad);
+            listas.add(listad + "‎-");
         }
 
-        for (String listap : listasP) {
-            listas.add(listap);
+        for (ListaParticular listap : listasP) {
+            listas.add(listap.getNombreLista()+"/"+listap.getNombreCliente());
         }
 
         String jsonListas = convertToJson(listas);

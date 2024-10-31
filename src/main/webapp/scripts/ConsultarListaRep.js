@@ -1,85 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
-    cargarGeneros();
-    cargarListasParticulares();
+    const urlParams = new URLSearchParams(window.location.search);
+            const primerCampo = urlParams.get('listaName').split("tipo=")[0].split("&#8206;-")[0].split("/")[0];
+            console.log(primerCampo);
+            const segundoCampo = urlParams.get('listaName').split("tipo=")[1];
+            console.log(segundoCampo);
+    cargarTemas(primerCampo, segundoCampo);
+    cargarInfo(primerCampo, segundoCampo);
 });
-function cargarGeneros() {
-    fetch('AltaDeAlbumServlet?action=cargarGeneros')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('La respuesta de la red no fue correcta');
-                }
-                return response.json();
-            })
-            .then(data => {
-                let select = document.getElementById('generos');
-                select.innerHTML = ''; // Limpia las opciones
-                select.append(new Option('Seleccione un genero', ''));
-                data.forEach(genero => {
-                    select.append(new Option(genero, genero));
-                });
-                console.log('Géneros cargados:', data);
-            })
-            .catch(error => console.error('Error al cargar los géneros:', error));
-}
 
-function cargarListasParticulares() {
-    fetch('ConsultarListaRepServlet?action=getListasParticulares')
-            .then(response => response.json())
-            .then(data => llenarTablaParticular(data))
-            .catch(error => console.error('Error al cargar listas particulares:', error));
-}
-
-function llenarTablaResultados(listas) {
-    const tbody = document.querySelector('#tablaResultados tbody');
-    tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos resultados
-
-    if (listas.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4">No hay listas disponibles.</td></tr>';
-        return;
-    }
-
-    listas.forEach(lista => {
-        const imagenSrc = lista.imagen ? `imagenes/listas/${lista.imagen}` : 'imagenes/listas/defaultList.png';
-        console.log('Foto:', lista.foto);
-        tbody.innerHTML += `
-<tr>
-<td>${lista.nombre}</td>
-<td>${lista.genero}</td>
-<td><img src="${imagenSrc}" alt="${lista.nombre}" width="50"/></td>
-<td><button type="button" onclick="cargarTemas('${lista.nombre}')">Ver Temas</button></td>
-</tr>`;
-    });
-}
-
-function llenarTablaParticular(listas) {
-    const tbody = document.querySelector('#tablaParticulares tbody');
-    tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos resultados
-
-    listas.forEach(lista => {
-        const imagenSrc = lista.imagen ? `imagenes/listas/${lista.imagen}` : 'imagenes/listas/defaultList.png';
-        console.log('Foto:', lista.imagen);
-        tbody.innerHTML += `
-<tr data-lista-id="${lista.nombre}">
-<td>${lista.nombre}</td>
-<td>${lista.cliente}</td>
-<td><img src="${imagenSrc}" alt="${lista.nombre}" width="50"/></td>
-<td><button type="button" onclick="cargarTemas('${lista.nombre}')">Ver Temas</button></td>
-</tr>`;
-    });
-}
-
-function filtrarListas() {
-    const generoSeleccionado = document.getElementById('generos').value;
-
-    fetch(`ConsultarListaRepServlet?action=getListasPorGenero&genero=${encodeURIComponent(generoSeleccionado)}`)
-            .then(response => response.json())
-            .then(data => llenarTablaResultados(data))
-            .catch(error => console.error('Error al filtrar listas:', error));
-}
-
-function cargarTemas(listaNombre) {
+function cargarTemas(listaNombre, tipo) {
     const encodedNombre = encodeURIComponent(listaNombre);
-    fetch(`ConsultarListaRepServlet?action=getTemasPorLista&listaNombre=${encodedNombre}`)
+    const encodedTipo = encodeURIComponent(tipo);
+    fetch(`ConsultarListaRepServlet?action=getTemasPorLista&listaNombre=${encodedNombre}&tipo=${encodedTipo}`)
             .then(response => {
                 if (!response.ok) {
                     return response.text().then(text => {
@@ -93,6 +25,57 @@ function cargarTemas(listaNombre) {
                 checkSuscripcion(data);
             })
             .catch(error => console.error('Error al cargar temas:', error));
+}
+
+function cargarInfo(listaNombre, tipo){
+    var NOMBRELISTA = document.getElementById('nombrelista');
+    var CREADORGENERO = document.getElementById('creadorgenerolista');
+    var IMAGENLISTA = document.getElementById('imagenlista');
+
+if(tipo==="1"){
+    fetch('http://localhost:8080/EspotifyWeb/ConsultarListaRepServlet?action=devolverInformacionLista&listaNombre=' + encodeURIComponent(listaNombre) + '&tipo=' + encodeURIComponent(tipo))
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(lista => {
+                            NOMBRELISTA.value=lista.nombre;
+                    CREADORGENERO.value=lista.adicional;
+                    if(lista.imagen!=="" && lista.imagen!==null && (lista.imagen==="png" || lista.imagen==="jpg")){
+                       IMAGENLISTA.src="imagenes/listas/" + lista.imagen; 
+                    }else{
+                        IMAGENLISTA.src="imagenes/listas/defaultList.png";
+                    }
+
+                        });
+                    })
+                    .catch(error => console.error('Error al datos del album:', error));
+}else{
+        const urlParams = new URLSearchParams(window.location.search);
+    const tercerCampo = urlParams.get('listaName').split("tipo=")[0].split("&#8206;-")[0].split("/")[1];
+    console.log(tercerCampo);
+    fetch('http://localhost:8080/EspotifyWeb/ConsultarListaRepServlet?action=devolverInformacionLista&listaNombre=' + encodeURIComponent(listaNombre) + '&tipo=' + encodeURIComponent(tipo)+ '&usuario=' + encodeURIComponent(tercerCampo))
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(lista => {
+                            NOMBRELISTA.value=lista.nombre;
+                    if(data.tipo==="1"){
+                        // Si es un por defecto, link a todo lo de un genero
+                        CREADORGENERO.value=lista.adicional;
+                    }else{
+                        // Si es un particular, link al perfil del creador
+                        CREADORGENERO.value=lista.adicional;
+                    }
+                    
+                    if(lista.imagen!=="" && lista.imagen!==null && (lista.imagen==="png" || lista.imagen==="jpg")){
+                       IMAGENLISTA.src="imagenes/listas/" + lista.imagen; 
+                    }else{
+                        IMAGENLISTA.src="imagenes/listas/defaultList.png";
+                    }
+
+                        });
+                    })
+                    .catch(error => console.error('Error al datos del album:', error));
+}
+
 }
 
 function checkSuscripcion(temas) {

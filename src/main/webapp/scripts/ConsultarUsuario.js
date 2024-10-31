@@ -96,7 +96,7 @@ function cargarListas() {
                 listasTbody.innerHTML = ''; // Limpiar tabla
                 listas.forEach(lista => {
                     const row = document.createElement('tr');
-                    row.innerHTML = `<td>${lista}</td><td><button onclick="verDetalles('${lista}')">Ver Detalles</button></td>`;
+                    row.innerHTML = `<td>${lista}</td><td><button onclick="verDetallesLista('${lista}')">Ver Detalles</button></td>`;
                     listasTbody.appendChild(row);
                 });
                 document.getElementById('listas').style.display = 'block';
@@ -195,7 +195,15 @@ function cargarTemasFavoritos(nickname) {
 }
 
 function verDetallesLista(lista) {
-    alert(`Detalles de la lista: ${lista}`);
+    var tipo = "0";
+    if(lista.toString().endsWith("-")){
+        var tipo = "1";
+        window.location.href = "ConsultarListaRep.jsp?listaName=" + lista + "tipo=" + tipo;
+    }else{
+        var tipo = "2";
+        window.location.href = "ConsultarListaRep.jsp?listaName=" + lista + "tipo=" + tipo;
+    }
+    
     // Implementar 
 }
 

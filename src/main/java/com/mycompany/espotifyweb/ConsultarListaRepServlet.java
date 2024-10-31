@@ -1,24 +1,18 @@
 package com.mycompany.espotifyweb;
 
-import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import logica.Genero;
-import logica.ListaParticular;
-import logica.ListaPorDefecto;
+import logica.controladores.ControladorListaParticular;
+import logica.controladores.ControladorListaPorDefecto;
 import logica.controladores.ControladorTema;
+import logica.dt.DataListaParticular;
+import logica.dt.DataListaPorDefecto;
 import logica.dt.DataTema;
-import persistencia.DAO_Genero;
-import persistencia.DAO_ListaReproduccion;
 
 public class ConsultarListaRepServlet extends HttpServlet {
 
@@ -53,25 +47,51 @@ public class ConsultarListaRepServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         System.out.println("Acción recibida: " + action);
 
-        if ("getGeneros".equals(action)) {
-            obtenerGeneros(out);
-        } else if ("getListasParticulares".equals(action)) {
-            obtenerListasParticulares(out);
-        } else if ("getListasPorGenero".equals(action)) {
-            String genero = request.getParameter("genero");
-            if (genero == null || genero.isEmpty()) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El género es requerido");
-                return;
-            }
-            obtenerListasPorGenero(genero, out);
-        } else if ("getTemasPorLista".equals(action)) {
+        if ("getTemasPorLista".equals(action)) {
             String nombreLista = request.getParameter("listaNombre");
             System.out.println("Nombre de la lista recibido: " + nombreLista);
-            if (nombreLista == null || nombreLista.isEmpty()) {
+            String tipo = request.getParameter("tipo");
+            System.out.println("Tipo de la lista recibido: " + tipo);
+            if (nombreLista == null || nombreLista.isEmpty() || tipo == null || tipo.isEmpty()) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El nombre de la lista es requerido");
                 return;
             }
-            obtenerTemasPorLista(nombreLista, out, response);
+            obtenerTemasPorLista(nombreLista, tipo, out, response);
+        }else if ("devolverInformacionLista".equals(action)) {
+            try (PrintWriter out2 = response.getWriter()) {
+                // Obtener todas las listas de reproducción del cliente
+                String nombreLista = request.getParameter("listaNombre");
+            System.out.println("Nombre de la lista recibido: " + nombreLista);
+            String tipo = request.getParameter("tipo");
+            System.out.println("Tipo de la lista recibido: " + tipo);
+            StringBuilder jsonResponse = new StringBuilder("[");
+            if(tipo.equals("1")){
+                ControladorListaPorDefecto ctrl = new ControladorListaPorDefecto();
+                DataListaPorDefecto lista = ctrl.devolverInformacionChu(nombreLista);
+                
+                jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\",")
+                        .append("\"imagen\":\"").append(lista.getFoto()).append("\",")
+                .append("\"tipo\":\"").append("1").append("\",");
+                jsonResponse.append("\"adicional\":\"").append(lista.getGenero().getNombre()).append("\"},");
+            }else{
+                ControladorListaParticular ctrl = new ControladorListaParticular();
+                String usuario = request.getParameter("usuario");
+            System.out.println("Usuario recibido: " + usuario);
+                DataListaParticular lista = ctrl.devolverInformacion(nombreLista, usuario);
+                jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\",")
+                        .append("\"imagen\":\"").append(lista.getFoto()).append("\",")
+                        .append("\"tipo\":\"").append("2").append("\",");
+                jsonResponse.append("\"adicional\":\"").append(lista.getDataCliente().getNickname()).append("\"},");
+            }
+
+                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+
+                jsonResponse.append("]");
+
+                out.print(jsonResponse.toString());
+            } catch (Exception e) {
+                e.printStackTrace(); // Para depuración
+            }
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida");
         }
@@ -79,63 +99,7 @@ public class ConsultarListaRepServlet extends HttpServlet {
         out.flush();
     }
 
-    private void obtenerGeneros(PrintWriter out) throws IOException {
-        DAO_Genero persistence = new DAO_Genero();
-        Collection<Genero> generosObjeto = persistence.findAll();
-        ArrayList<String> generosString = new ArrayList<>();
-
-        for (Genero g : generosObjeto) {
-            generosString.add(g.getNombre());
-        }
-
-        Gson gson = new Gson();
-        String json = gson.toJson(generosString);
-        out.write(json);
-    }
-
-    private void obtenerListasParticulares(PrintWriter out) throws IOException {
-        DAO_ListaReproduccion daoListaPart = new DAO_ListaReproduccion();
-        Collection<ListaParticular> listaP = daoListaPart.findAllListasParticulares();
-
-        List<Map<String, Object>> listasParticularesRetornables = new ArrayList<>();
-
-        for (ListaParticular lista : listaP) {
-            if (lista.getVisibilidad()) {
-                Map<String, Object> listaMap = new HashMap<>();
-                listaMap.put("nombre", lista.getNombreLista());
-                listaMap.put("cliente", lista.getCliente().getNickname());
-                listaMap.put("imagen", lista.getFoto());
-                listasParticularesRetornables.add(listaMap);
-                System.out.println(listaMap.get("imagen"));
-            }
-        }
-
-        Gson gson2 = new Gson();
-        String json2 = gson2.toJson(listasParticularesRetornables);
-        out.write(json2);
-    }
-
-    private void obtenerListasPorGenero(String genero, PrintWriter out) throws IOException {
-        DAO_ListaReproduccion daoListaRep = new DAO_ListaReproduccion();
-        Collection<ListaPorDefecto> listas = daoListaRep.findListasPorGeneros(genero);
-
-        List<Map<String, Object>> listasRetornables = new ArrayList<>();
-
-        for (ListaPorDefecto lista : listas) {
-            Map<String, Object> listaMap = new HashMap<>();
-            listaMap.put("nombre", lista.getNombreLista());
-            listaMap.put("genero", lista.getGenero().getNombre());
-            listaMap.put("imagen", lista.getFoto());
-            listasRetornables.add(listaMap);
-            System.out.println(listaMap.get("imagen"));
-        }
-
-        Gson gson3 = new Gson();
-        String json3 = gson3.toJson(listasRetornables);
-        out.write(json3);
-    }
-
-    private void obtenerTemasPorLista(String nombreLista, PrintWriter out, HttpServletResponse response) throws IOException {
+    private void obtenerTemasPorLista(String nombreLista, String tipo, PrintWriter out, HttpServletResponse response) throws IOException {
         if (nombreLista == null || nombreLista.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El nombre de la lista es requerido");
             return;
@@ -143,7 +107,7 @@ public class ConsultarListaRepServlet extends HttpServlet {
 
         try {
             ControladorTema ctrlTema = new ControladorTema();
-            Collection<DataTema> temas = ctrlTema.retornarTemasDeLaLista(nombreLista, 2);
+            Collection<DataTema> temas = ctrlTema.retornarTemasDeLaLista(nombreLista, Integer.valueOf(tipo));
 
             if (temas.isEmpty()) {
                 out.print("[]");

@@ -72,42 +72,12 @@
                     </div>
 
                     <div class="realDinamico">
-                        <h1>Consulta de Lista de Reproduccion</h1>
-
-                        <form id="formularioFiltro">
-                            <label for="selectGenero">Selecciona un Genero:</label>
-                            <select id="generos" name="genero">
-                                <option value="">Seleccione un genero</option>
-                            </select>
-                            <!-- Cambiado el tipo de botón a 'button' -->
-                            <button type="button" onclick="filtrarListas()">Filtrar</button>
-
-                            <h2>Listas de Reproducción</h2>
-                            <table id="tablaResultados">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Género</th>
-                                        <th>Imagen</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-
-                            <h2>Listas Particulares Públicas</h2>
-                            <table id="tablaParticulares">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Cliente</th>
-                                        <th>Imagen</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-
+                        <h2>Informacion de la Lista</h2>
+                        <div>
+                            <img src="imagenes/listas/defaultList.png" id="imagenlista" alt="Imagen de la Lista" width="300">
+                        </div>
+                        <input type="text" id="nombrelista" value="" readonly>
+                        <input type="text" id="creadorgenerolista" value="" readonly>
                             <h2>Temas de la Lista Seleccionada</h2>
                             <table id="tablaTemas" style="display:none;">
                                 <thead>
@@ -119,7 +89,6 @@
                                 </thead>
                                 <tbody></tbody>
                             </table>
-                        </form>
                     </div>
 
                 </div>
