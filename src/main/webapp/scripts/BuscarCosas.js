@@ -1,4 +1,4 @@
-window.onload(buscarDatos());
+window.onload = buscarDatos();
 
 var Genero = "0";
 
@@ -41,9 +41,13 @@ const urlParams = new URLSearchParams(window.location.search);
                     
                     const listaUserDiv = `
                         <div class="listaUser">
+                 <a href="ConsultarListaRep.jsp?listaName=${encodeURIComponent(lista.nombre)}tipo=2">
                             <img src="${imagen}" class="imagenUser alt="Imagen del Usuario">
+                 </a>
                             <div>
+                 <a href="ConsultarListaRep.jsp?listaName=${encodeURIComponent(lista.nombre)}tipo=2">
                                 <p>${lista.nombre}</p>
+                 </a>
                             </div>
                             <div>
                                 <p>${lista.creador}</p>
@@ -67,9 +71,13 @@ const urlParams = new URLSearchParams(window.location.search);
 
                     const listaGeneroDiv = `
                         <div class="listaGenero">
+                 <a href="ConsultarListaRep.jsp?listaName=${encodeURIComponent(lista.nombre)}tipo=1">
                             <img src="${imagen}" class="imagenGenero" alt="Imagen del Álbum">
+                 </a>
                             <div>
+                 <a href="ConsultarListaRep.jsp?listaName=${encodeURIComponent(lista.nombre)}tipo=1">
                                 <p>${lista.nombre}</p>
+                 </a>
                             </div>
                             <div>
                                 <p>${lista.genero}</p>
@@ -94,9 +102,13 @@ const urlParams = new URLSearchParams(window.location.search);
             
             const albumDiv = `
                 <div class="album">
+                 <a href="ConsultarAlbum.jsp?album=${encodeURIComponent(album.nombre)}">
                     <img src="${imagen}" class="imagenAlbum" alt="Imagen del Álbum">
+                 </a>
                     <div>
+                 <a href="ConsultarAlbum.jsp?album=${encodeURIComponent(album.nombre)}">
                         <p>${album.nombre}</p>
+                 </a>
                     </div>
                     <div>
                         <p>${album.artista}</p>
@@ -124,7 +136,9 @@ const urlParams = new URLSearchParams(window.location.search);
                                 <p>${temazo.nombre}</p>
                             </div>
                             <div>
+                 <a href="ConsultarAlbum.jsp?album=${encodeURIComponent(temazo.album)}">
                                 <p>${temazo.album}</p>
+                 </a>
                             </div>
                             <div>
                                 <p>${temazo.artista}</p>
@@ -157,9 +171,13 @@ const urlParams = new URLSearchParams(window.location.search);
 
                         const listaGeneroGenDiv = `
                             <div class="listaGeneroGen">
+                          <a href="ConsultarListaRep.jsp?listaName=${encodeURIComponent(lista.nombre)}tipo=1">
                                 <img src="${imagen}" class="imagenGeneroGen" alt="Imagen del Álbum">
+                          </a>
                                 <div>
+                          <a href="ConsultarListaRep.jsp?listaName=${encodeURIComponent(lista.nombre)}tipo=1">
                                     <p>${lista.nombre}</p>
+                          </a>
                                 </div>
                                 <div>
                                     <p>${lista.genero}</p>
@@ -184,9 +202,13 @@ const urlParams = new URLSearchParams(window.location.search);
 
                 const albumGenDiv = `
                     <div class="albumGen">
+                          <a href="ConsultarAlbum.jsp?album=${encodeURIComponent(album.nombre)}">
                         <img src="${imagen}" class="imagenAlbumGen" alt="Imagen del Álbum">
+                          </a>
                         <div>
+                          <a href="ConsultarAlbum.jsp?album=${encodeURIComponent(album.nombre)}">
                             <p>${album.nombre}</p>
+                          </a>
                         </div>
                         <div>
                             <p>${album.artista}</p>

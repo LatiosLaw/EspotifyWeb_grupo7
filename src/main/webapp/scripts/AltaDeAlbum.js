@@ -1,3 +1,5 @@
+window.onload = cargarGeneros();
+
 let generosSeleccionados = [];
 
 function cargarGeneros() {
