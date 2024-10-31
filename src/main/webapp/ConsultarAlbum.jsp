@@ -87,6 +87,7 @@
                                     <th>Duracion</th>
                                     <th>Archivo / Link</th>
                                     <th>Accion</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="temasBody">
@@ -225,7 +226,67 @@
                     </div>
                 </form>
             </dialog>
+                    
+                    <dialog id="dialogoAgregarTema">
+                <h1>Agregar Tema a Lista</h1>
+
+                <h2>Tus Listas</h2>
+                <table id="listasTable">
+                    <thead>
+                        <tr>
+                            <th>Nombre de la Lista</th>
+                            <td>Acción</td>
+                        </tr>
+                    </thead>
+                    <tbody id="listasBody">
+                        <!-- Aquí se carga la lista -->
+                    </tbody>
+                </table>
+
+                <form id="agregarTemaListaForm" onsubmit="return validarFormulario()">
+                    <input type="hidden" id='albumTema' name='albumTema' value="">
+                    <label for="nombreLista">Tu Lista a la que Agregar el Tema:</label>
+                    <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de una lista" readonly><br>
+                    <label for="nombreTema">Nombre del Tema:</label>
+                    <input type="text" id="nombreTema" name="nombreTema" required title="Ingresa el nombre de un tema" readonly><br>
+
+                    <button type="submit">Agregar Tema a Lista</button>
+                </form>
+                <button onclick="cerrarDialogo()">Cerrar</button>
+            </dialog>
+                    
         </div> <!-- Fin Cuerpo -->
+        
+        <script>
+            function abrirDialogo(nombreTema, albumTema) {
+                document.getElementById('nombreTema').value = nombreTema;
+                document.getElementById('albumTema').value = albumTema;
+
+                const dialog = document.getElementById('dialogoAgregarTema');
+                dialog.showModal(); // Usar showModal para abrir como un modal
+            }
+
+            function cerrarDialogo() {
+                const dialog = document.getElementById('dialogoAgregarTema');
+                dialog.close(); 
+            }
+
+            document.getElementById('agregarTemaListaForm').addEventListener('submit', function (event) {
+                event.preventDefault(); 
+            });
+
+            function validarFormulario() {
+                const nombreLista = document.getElementById('nombreLista').value;
+                const nombreTema = document.getElementById('nombreTema').value;
+
+                if (!nombreLista || !nombreTema) {
+                    alert("Por favor, complete todos los campos requeridos.");
+                    return false;
+                }
+
+                return true;
+            }
+        </script>
 
         <!-- Consultar album -->
         <script src="scripts/ConsultarAlbum.js"></script>
@@ -242,6 +303,8 @@
  
         <!-- Cosas del reproductor de musica -->
         <script src="scripts/Reproductor.js"></script>
+        
+        <script src = "scripts/AgregarTemaALista.js"></script>
 
         <!-- Evitar que las imagenes sean arrastradas -->
         <script>

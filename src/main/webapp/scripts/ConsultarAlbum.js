@@ -1,4 +1,4 @@
-window.onload(SuccionarInformacion());
+window.onload = SuccionarInformacion();
 
 function formatearTiempo(segundos) {
 // Convertir los segundos a minutos y segundos
@@ -88,10 +88,10 @@ const urlParams = new URLSearchParams(window.location.search);
                         tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
                         data.forEach(tema => {
                             if(tema.link!="null"){
-                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)">Escuchar Tema</button></td></tr>`;
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)">Escuchar Tema</button></td><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td></tr>`;
                             tbody.innerHTML += row;
                             }else{
-                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)">Descargar</button></td></tr>`;
+                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)">Descargar</button></td><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td></tr>`;
                             tbody.innerHTML += row;
                             }
                         });

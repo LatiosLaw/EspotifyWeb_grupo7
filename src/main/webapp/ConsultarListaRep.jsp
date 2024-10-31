@@ -301,27 +301,23 @@
 
 
         <script>
-            // Funciones JavaScript
             function abrirDialogo(nombreTema, albumTema) {
                 document.getElementById('nombreTema').value = nombreTema;
                 document.getElementById('albumTema').value = albumTema;
 
-                // Abrir el diálogo
                 const dialog = document.getElementById('dialogoAgregarTema');
                 dialog.showModal(); // Usar showModal para abrir como un modal
             }
 
             function cerrarDialogo() {
                 const dialog = document.getElementById('dialogoAgregarTema');
-                dialog.close(); // Cerrar el diálogo
+                dialog.close(); 
             }
 
-            // Prevenir envío automático del formulario
             document.getElementById('agregarTemaListaForm').addEventListener('submit', function (event) {
-                event.preventDefault(); // Evitar el envío automático
+                event.preventDefault(); 
             });
 
-            // Validar formulario antes de enviar
             function validarFormulario() {
                 const nombreLista = document.getElementById('nombreLista').value;
                 const nombreTema = document.getElementById('nombreTema').value;
@@ -331,9 +327,7 @@
                     return false;
                 }
 
-                // Aquí puedes agregar lógica para enviar los datos manualmente si es necesario.
-
-                return true; // Retorna true solo si todo está correcto.
+                return true;
             }
         </script>
         <!-- Consultar listas de reproduccion -->

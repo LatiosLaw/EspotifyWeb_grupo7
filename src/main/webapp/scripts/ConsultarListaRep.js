@@ -140,7 +140,7 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
                     ? `<a href="${urlDescarga}" target="_blank">Descargar</a>`
                     : `<button disabled>Descargar</button>`}
                 </td>
-                <td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td> <!-- Botón para agregar -->
+                <td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td>
             </tr>`;
         });
     }
