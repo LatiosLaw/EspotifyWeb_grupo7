@@ -29,11 +29,11 @@
 
                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><img src="imagenes/espotify/user.png" class="userIMG"></a>
+                        <a href="ConsultarUsuario.jsp?usr=<%= nickname%>"><img src="imagenes/espotify/user.png" class="userIMG"></a>
                     </div>
                     <ul class="listUser">
                         <li class="userName">
-                            <a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p>
+                            <a href="ConsultarUsuario.jsp?usr=<%= nickname%>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p>
                         </li>
                         <% if (nickname == null) { %>
                         <li><p><button id="abrirFormLogin">Iniciar sesion</button></p></li>
@@ -75,6 +75,7 @@
                             <img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album" width="300">
                         </div>
                         <input type="text" id="nombrealbum" value="" readonly>
+                        <input type="hidden" id="albumTema" name="albumTema" value="">
                         <input type="text" id="anioalbum" value="" readonly>
                         <input type="text" id="creadoralbum" value="" readonly>
                         <h3>Generos del Album</h3>
@@ -226,8 +227,8 @@
                     </div>
                 </form>
             </dialog>
-                    
-                    <dialog id="dialogoAgregarTema">
+
+            <dialog id="dialogoAgregarTema">
                 <h1>Agregar Tema a Lista</h1>
 
                 <h2>Tus Listas</h2>
@@ -254,25 +255,26 @@
                 </form>
                 <button onclick="cerrarDialogo()">Cerrar</button>
             </dialog>
-                    
+
         </div> <!-- Fin Cuerpo -->
-        
+
         <script>
             function abrirDialogo(nombreTema, albumTema) {
                 document.getElementById('nombreTema').value = nombreTema;
-                document.getElementById('albumTema').value = albumTema;
+                document.getElementById('albumTema').value = albumTema; // Asigna aquí
 
                 const dialog = document.getElementById('dialogoAgregarTema');
                 dialog.showModal(); // Usar showModal para abrir como un modal
             }
 
+
             function cerrarDialogo() {
                 const dialog = document.getElementById('dialogoAgregarTema');
-                dialog.close(); 
+                dialog.close();
             }
 
             document.getElementById('agregarTemaListaForm').addEventListener('submit', function (event) {
-                event.preventDefault(); 
+                event.preventDefault();
             });
 
             function validarFormulario() {
@@ -293,24 +295,24 @@
 
         <!-- Script registro de usuario -->
         <script src="scripts/AgregarUsuario.js"></script>
-        
+
         <!-- Script inicio y cierre de sesion -->
         <script src="scripts/Login.js"></script>
         <script src="scripts/Logout.js"></script>
 
         <!-- Formulario de login y signup -->
         <script src = "scripts/LoginSignupForm.js"></script>
- 
+
         <!-- Cosas del reproductor de musica -->
         <script src="scripts/Reproductor.js"></script>
-        
+
         <script src = "scripts/AgregarTemaALista.js"></script>
 
         <!-- Evitar que las imagenes sean arrastradas -->
         <script>
-                            document.addEventListener('dragstart', function (event) {
-                                event.preventDefault();
-                            });
+            document.addEventListener('dragstart', function (event) {
+                event.preventDefault();
+            });
         </script>
     </body>
 </html>

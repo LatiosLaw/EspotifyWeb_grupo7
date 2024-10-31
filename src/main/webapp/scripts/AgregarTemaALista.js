@@ -4,7 +4,7 @@ function validarFormulario() {
 
     if (!nombreLista || !nombreTema) {
         alert("Por favor, complete todos los campos requeridos.");
-        return false; 
+        return false;
     }
 
     enviarDatos(nombreLista, nombreTema);
@@ -19,6 +19,10 @@ function enviarDatos(nombreLista, nombreTema) {
         nombreTema: nombreTema,
         albumTema: albumTema
     };
+
+    console.log("Nombre Lista:", nombreLista);
+    console.log("Nombre Tema:", nombreTema);
+    console.log("Album Tema:", albumTema);
 
     fetch('http://localhost:8080/EspotifyWeb/AgregarTemaAListaServlet', {
         method: 'POST',

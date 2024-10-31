@@ -88,7 +88,7 @@ const urlParams = new URLSearchParams(window.location.search);
                         tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
                         data.forEach(tema => {
                             if(tema.link!="null"){
-                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)">Escuchar Tema</button></td><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td></tr>`;
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td></tr>`;
                             tbody.innerHTML += row;
                             }else{
                             const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)">Descargar</button></td><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td></tr>`;
@@ -117,6 +117,7 @@ const urlParams = new URLSearchParams(window.location.search);
             }
 
 var NOMBREALBUM = document.getElementById('nombrealbum');
+var ALBUMTEMA = document.getElementById('albumTema');
     var ANIOALBUM = document.getElementById('anioalbum');
     var IMAGENALBUM = document.getElementById('imagenalbum');
     var CREADORALBUM = document.getElementById('creadoralbum');
@@ -127,6 +128,7 @@ fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverIn
                     .then(data => {
                         data.forEach(album => {
                             NOMBREALBUM.value=album.nombre;
+                            ALBUMTEMA.value = album.nombre;
                     ANIOALBUM.value=album.anio;
                     CREADORALBUM.value=album.creador;
                     if(album.imagen!=="" && album.imagen!==null && (album.imagen==="png" || album.imagen==="jpg")){
