@@ -29,68 +29,112 @@ const urlParams = new URLSearchParams(window.location.search);
 
      if(buscarName!==null && buscarName!==""){
 
-         fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarListasU&buscar=' + encodeURIComponent(buscarName))
+        fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarListasU&buscar=' + encodeURIComponent(buscarName))
             .then(response => response.json())
             .then(data => {
-                const tbody = document.getElementById('listaUsuarioBody');
-                tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                const container = document.getElementById('listaUsuarioBody');
+                container.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
                 data.forEach(lista => {
-                    if(lista.imagen!=="null" && (lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))){
-                    const row = `<tr><td><img src="imagenes/listas/${lista.imagen}" id="imagenalbum" alt="Imagen del Album"></td><td>${lista.nombre}</td><td>${lista.creador}</td></tr>`;
-                    tbody.innerHTML += row;
-                }else{
-                    const row = `<tr><td><img src="imagenes/listas/defaultList.png" id="imagenlista" alt="Imagen del Album" ></td><td>${lista.nombre}</td><td>${lista.creador}</td></tr>`;
-                    tbody.innerHTML += row;
-                    }
+                    const imagen = lista.imagen !== "null" && (lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))
+                        ? `imagenes/listas/${lista.imagen}`
+                        : 'imagenes/listas/defaultList.png';
+                    
+                    const listaUserDiv = `
+                        <div class="listaUser">
+                            <img src="${imagen}" class="imagenUser alt="Imagen del Usuario">
+                            <div>
+                                <p>${lista.nombre}</p>
+                            </div>
+                            <div>
+                                <p>${lista.creador}</p>
+                            </div>
+                        </div>`;
+                 
+                    container.innerHTML += listaUserDiv;
                 });
             })
-            .catch(error => console.error('Error al cargar listas:', error));
+        .catch(error => console.error('Error al cargar listas:', error));
 
-    fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarListasG&buscar=' + encodeURIComponent(buscarName))
+        fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarListasG&buscar=' + encodeURIComponent(buscarName))
             .then(response => response.json())
             .then(data => {
-                const tbody = document.getElementById('listaGeneroBody');
-                tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                const container = document.getElementById('listaGeneroBody');
+                container.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
                 data.forEach(lista => {
-                    if(lista.imagen!=="null" && (lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))){
-                    const row = `<tr><td><img src="imagenes/listas/${lista.imagen}" id="imagenalbum" alt="Imagen del Album" width="150"></td><td>${lista.nombre}</td><td>${lista.genero}</td></tr>`;
-                    tbody.innerHTML += row;
-                }else{
-                    const row = `<tr><td><img src="imagenes/listas/defaultList.png" id="imagenlista" alt="Imagen del Album" width="150"></td><td>${lista.nombre}</td><td>${lista.genero}</td></tr>`;
-                    tbody.innerHTML += row;
-                    }
+                    const imagen = lista.imagen !== "null" && (lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))
+                        ? `imagenes/listas/${lista.imagen}`
+                        : 'imagenes/listas/defaultList.png';
+
+                    const listaGeneroDiv = `
+                        <div class="listaGenero">
+                            <img src="${imagen}" class="imagenGenero" alt="Imagen del Álbum">
+                            <div>
+                                <p>${lista.nombre}</p>
+                            </div>
+                            <div>
+                                <p>${lista.genero}</p>
+                            </div>
+                        </div>`;
+
+                    container.innerHTML += listaGeneroDiv;
                 });
             })
-            .catch(error => console.error('Error al cargar listas:', error));
+        .catch(error => console.error('Error al cargar listas:', error));
+
 
     fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarAlbumes&buscar=' + encodeURIComponent(buscarName))
-            .then(response => response.json())
-            .then(data => {
-                const tbody = document.getElementById('albumBody');
-                tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
-                data.forEach(album => {
-                    if(album.imagen!=="null" && (album.imagen.endsWith(".png") || album.imagen.endsWith(".jpg"))){
-                        const row = `<tr><td><img src="imagenes/albumes/${album.imagen}" id="imagenalbum" alt="Imagen del Album" width="150"></td><td>${album.nombre}</td><td>${album.artista}</td><td>${album.anio}</td></tr>`;
-                    tbody.innerHTML += row;
-                    }else{
-                        const row = `<tr><td><img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album" width="150"></td><td>${album.nombre}</td><td>${album.artista}</td><td>${album.anio}</td></tr>`;
-                    tbody.innerHTML += row;
-                    }
-                });
-            })
-            .catch(error => console.error('Error al cargar Albumes:', error));
+    .then(response => response.json())
+    .then(data => {
+        const container = document.getElementById('albumBody');
+        container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevos álbumes
+        data.forEach(album => {
+            const imagen = album.imagen !== "null" && (album.imagen.endsWith(".png") || album.imagen.endsWith(".jpg"))
+                ? `imagenes/albumes/${album.imagen}`
+                : 'imagenes/albumes/defaultAlbum.png';
+            
+            const albumDiv = `
+                <div class="album">
+                    <img src="${imagen}" class="imagenAlbum" alt="Imagen del Álbum">
+                    <div>
+                        <p>${album.nombre}</p>
+                    </div>
+                    <div>
+                        <p>${album.artista}</p>
+                    </div>
+                    <div>
+                        <p>${album.anio}</p>
+                    </div>
+                </div>`;
+            
+            container.innerHTML += albumDiv;
+        });
+    })
+    .catch(error => console.error('Error al cargar Álbumes:', error));
+
     
         fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarTemas&buscar=' + encodeURIComponent(buscarName))
             .then(response => response.json())
             .then(data => {
-                const tbody = document.getElementById('temasBody');
-                tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                const container = document.getElementById('temasBody');
+                container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevos temas
                 data.forEach(temazo => {
-                        const row = `<tr><td>${temazo.nombre}</td><td>${temazo.album}</td><td>${temazo.artista}</td></tr>`;
-                    tbody.innerHTML += row;
+                    const temazoDiv = `
+                        <div class="temazo">
+                            <div>
+                                <p>${temazo.nombre}</p>
+                            </div>
+                            <div>
+                                <p>${temazo.album}</p>
+                            </div>
+                            <div>
+                                <p>${temazo.artista}</p>
+                            </div>
+                        </div>`;
+
+                    container.innerHTML += temazoDiv;
                 });
             })
-            .catch(error => console.error('Error al cargar Temas:', error));
+        .catch(error => console.error('Error al cargar Temas:', error));
 
     checkGenero();
      }
@@ -101,39 +145,62 @@ const urlParams = new URLSearchParams(window.location.search);
                        var buscarName = urlParams.get('search');
     document.getElementById("todoDeUnGenero").style.display = "block";
 
-               fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarListasDelGeneroU&buscar=' + encodeURIComponent(buscarName))
-            .then(response => response.json())
-            .then(data => {
-                const tbody = document.getElementById('listaGeneroGenBody');
-                tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
-                data.forEach(lista => {
-                    if(lista.imagen!=="null" && (lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))){
-                    const row = `<tr><td><img src="imagenes/listas/${lista.imagen}" id="imagenalbum" alt="Imagen del Album" width="150"></td><td>${lista.nombre}</td><td>${lista.genero}</td></tr>`;
-                    tbody.innerHTML += row;
-                }else{
-                    const row = `<tr><td><img src="imagenes/listas/defaultList.png" id="imagenlista" alt="Imagen del Album" width="150"></td><td>${lista.nombre}</td><td>${lista.genero}</td></tr>`;
-                    tbody.innerHTML += row;
-                    }
-                });
-            })
+            fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarListasDelGeneroU&buscar=' + encodeURIComponent(buscarName))
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('listaGeneroGenBody');
+                    container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas listas
+                    data.forEach(lista => {
+                        const imagen = lista.imagen !== "null" && (lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))
+                            ? `imagenes/listas/${lista.imagen}`
+                            : 'imagenes/listas/defaultList.png';
+
+                        const listaGeneroGenDiv = `
+                            <div class="listaGeneroGen">
+                                <img src="${imagen}" class="imagenGeneroGen" alt="Imagen del Álbum">
+                                <div>
+                                    <p>${lista.nombre}</p>
+                                </div>
+                                <div>
+                                    <p>${lista.genero}</p>
+                                </div>
+                            </div>`;
+
+                        container.innerHTML += listaGeneroGenDiv;
+                    });
+                })
             .catch(error => console.error('Error al cargar listas:', error));
 
+
     fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarAlbumesDelGeneroU&buscar=' + encodeURIComponent(buscarName))
-            .then(response => response.json())
-            .then(data => {
-                const tbody = document.getElementById('albumGenBody');
-                tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
-               data.forEach(album => {
-                   if(album.imagen!=="null" && (album.imagen.endsWith(".png") || album.imagen.endsWith(".jpg"))){
-                       const row = `<tr><td><img src="imagenes/albumes/${album.imagen}" id="imagenalbum" alt="Imagen del Album" width="150"></td><td>${album.nombre}</td><td>${album.artista}</td><td>${album.anio}</td></tr>`;
-                    tbody.innerHTML += row;
-                    }else{
-                       const row = `<tr><td><img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album" width="150"></td><td>${album.nombre}</td><td>${album.artista}</td><td>${album.anio}</td></tr>`;
-                   tbody.innerHTML += row;
-                   }
-               });
-           })
-            .catch(error => console.error('Error al cargar listas:', error));
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('albumGenBody');
+            container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevos álbumes
+            data.forEach(album => {
+                const imagen = album.imagen !== "null" && (album.imagen.endsWith(".png") || album.imagen.endsWith(".jpg"))
+                    ? `imagenes/albumes/${album.imagen}`
+                    : 'imagenes/albumes/defaultAlbum.png';
+
+                const albumGenDiv = `
+                    <div class="albumGen">
+                        <img src="${imagen}" class="imagenAlbumGen" alt="Imagen del Álbum">
+                        <div>
+                            <p>${album.nombre}</p>
+                        </div>
+                        <div>
+                            <p>${album.artista}</p>
+                        </div>
+                        <div>
+                            <p>${album.anio}</p>
+                        </div>
+                    </div>`;
+
+                container.innerHTML += albumGenDiv;
+            });
+        })
+    .catch(error => console.error('Error al cargar álbumes:', error));
+
 }
 
 function descargarGenero(){

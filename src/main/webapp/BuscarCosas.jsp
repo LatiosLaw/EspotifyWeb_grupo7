@@ -75,50 +75,37 @@
 <input type="text" id="es-gen" name="es-gen" hidden readonly value="0">
 
                         <h2 class="contStart">Listas de Usuarios Encontradas:</h2>
-
-                        <table id="listaUsuarioTable">
-                            <tbody id="listaUsuarioBody">
-                                <!-- aca se carga la lista -->
-                            </tbody>
-                        </table>
+                        <div id="listaUsuarioBody">
+                            <!-- aca se carga la lista -->
+                        </div>
 
                         <h2 class="contStart">Listas de Generos Encontradas:</h2>
-                        <table id="listaGeneroTable">
-                            <tbody id="listaGeneroBody">
-                                <!-- aca se carga la lista -->
-                            </tbody>
-                        </table>
+                        <div id="listaGeneroBody">
+                            <!-- aca se carga la lista -->
+                        </div>
 
                         <h2 class="contStart">Listas de Albumes Encontradas:</h2>
-                        <table id="albumTable">
-                            <tbody id="albumBody">
-                                <!-- aca se carga la lista -->
-                            </tbody>
-                        </table>
+                        <div id="albumBody">
+                            <!-- aca se carga la lista -->
+                        </div>
                         
-                        <h2>Temas Encontrados:</h2>
-                        <table id="temasTable">
-                            <tbody id="temasBody">
-                                <!-- aca se carga la lista -->
-                            </tbody>
-                        </table>
+                        <h2 class="contStart">Temas Encontrados:</h2>
+                        <div id="temasBody">
+                            <!-- aca se carga la lista -->
+                        </div>
 
                         <div id="todoDeUnGenero">
                             <h2 class="contStart">Todo lo del Genero:</h2>
                             
                             <h3 class="contStart2">Listas del Genero Encontradas:</h3>
-                            <table id="listaGeneroGenTable">
-                                <tbody id="listaGeneroGenBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
-                            </table>
+                            <div id="listaGeneroGenBody">
+                                <!-- aca se carga la lista -->
+                            </div>
                             
                             <h3 class="contStart2">Lista de Albumes Encontrados:</h3>
-                            <table id="albumGenTable">
-                                <tbody id="albumGenBody">
-                                    <!-- aca se carga la lista -->
-                                </tbody>
-                            </table>
+                            <div id="albumGenBody">
+                                <!-- aca se carga la lista -->
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -16,6 +16,55 @@
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
     margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#listaUsuarioBody, #listaGeneroBody, #albumBody, #temasBody, #listaGeneroGenBody, #albumGenBody{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.listaUser, .listaGenero, .album, .temazo, .listaGeneroGen, .albumGen{
+    margin: 10px;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 3px;
+    background-color: #a241b6;
+}
+
+.imagenUser, .imagenGenero, .imagenAlbum, .listaUser div, .listaGenero div, .album div, .temazo div{
+    width: 15vw;
+    border-radius: 3px;
+}
+
+.imagenUser, .imagenGenero, .imagenAlbum{
+    border: 2px solid black;
+    height: 15vw;
+    margin-top: 3px;
+}
+
+.listaUser div, .listaGenero div, .album div, .temazo div, .listaGeneroGen div, .albumGen div{
+    margin-bottom: 5px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.listaUser div p, .listaGenero div p, .album div p, .temazo div p, .listaGeneroGen div p, .albumGen div p{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.listaGeneroGen div, .albumGen div, .imagenGeneroGen, .imagenAlbumGen{
+    width: 12vw;
+    border-radius: 3px;
+}
+
+.imagenGeneroGen, .imagenAlbumGen{
+    border: 2px solid black;
+    height: 12vw;
+    margin-top: 3px;
 }
 
 /*Resolucion de telefono*/
@@ -28,9 +77,12 @@
         font-size: 3vw;
     }
     
-    #imagenalbum, #imagenlista{
-        width: 8vw;
-        height: 8vw;
+    .listaUser div p, .listaGenero div p, .album div p, .temazo div p{
+        font-size: 2.5vw;
+    }
+    
+    .listaGeneroGen div p, .albumGen div p{
+        font-size: 1.8vw;
     }
 }
 
@@ -44,9 +96,12 @@
         font-size: 2vw;
     }
     
-    #imagenalbum, #imagenlista{
-        width: 5vw;
-        height: 5vw;
+    .listaUser div p, .listaGenero div p, .album div p, .temazo div p{
+        font-size: 1.5vw;
+    }
+    
+    .listaGeneroGen div p, .albumGen div p{
+        font-size: 1.2vw;
     }
 }
 
@@ -59,8 +114,11 @@
         font-size: 1vw;
     }
     
-    #imagenalbum, #imagenlista{
-        width: 4vw;
-        height: 4vw;
+    .listaUser div p, .listaGenero div p, .album div p, .temazo div p{
+        font-size: 1vw;
+    }
+    
+    .listaGeneroGen div p, .albumGen div p{
+        font-size: 0.9vw;
     }
 }
