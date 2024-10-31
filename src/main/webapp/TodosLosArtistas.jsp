@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/PaginaInicio.css">
         <title>Espotify</title>
     </head>
     <body>
@@ -71,7 +72,7 @@
 
                     <div class="realDinamico">
 
-                        <h1>Todos nuestros Artistas</h1>
+                        <h1 class="contStart">Todos nuestros Artistas</h1>
 
                         <div id="artistasBody">
                             <!-- aca se carga la lista -->
