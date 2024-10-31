@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/TodosLosGenerosAlbumesListas.css"/>
         <title>Espotify</title>
     </head>
     <body>
@@ -71,19 +72,10 @@
 
                     <div class="realDinamico">
 
-                        <h1>Todos nuestros Generos</h1>
-
-                        <table id="listaGeneros">
-                            <thead>
-                                <tr>
-                                    <th>Imagen</th>
-                                    <th>Nombre</th>
-                                </tr>
-                            </thead>
-                            <tbody id="listaGenerosBody">
-                                <!-- aca se carga la lista -->
-                            </tbody>
-                        </table>
+                        <h1 class="contStart">Todos nuestros Generos</h1>
+                        <div id="listaGenerosBody">
+                            <!-- aca se carga la lista -->
+                        </div>
 
                     </div>
                 </div>
