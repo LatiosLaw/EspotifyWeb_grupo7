@@ -62,7 +62,7 @@ fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarListas
         
         const listaDiv = `
             <div class="lista">
-                <a href="ConsultarListaRep.jsp?list=${encodeURIComponent(lista.nombre)}">
+                <a href="ConsultarListaRep.jsp?listaName=${encodeURIComponent(lista.nombre)}tipo=1">
                     <img src="${imagen}" class="imagenLista" alt="Imagen de la Lista">
                     <div>
                         <p>${lista.nombre}</p>
