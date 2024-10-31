@@ -72,13 +72,10 @@
 
                     <div class="realDinamico">
 
-<<<<<<< Updated upstream
-                        <h2>Usuarios Encontradas:</h2>
-=======
 <input type="text" id="es-gen" name="es-gen" hidden readonly value="0">
 
                         <h2 class="contStart">Listas de Usuarios Encontradas:</h2>
->>>>>>> Stashed changes
+
                         <table id="listaUsuarioTable">
                             <tbody id="listaUsuarioBody">
                                 <!-- aca se carga la lista -->

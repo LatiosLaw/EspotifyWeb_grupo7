@@ -18,16 +18,6 @@
     margin-top: 5px;
 }
 
-#listaUsuarioBody{
-    display: flex;
-    flex-wrap: wrap;
-}
-
-#listaUsuarioBody tr{
-    display: flex;
-    flex-wrap: wrap;
-}
-
 /*Resolucion de telefono*/
 @media (max-width: 960px){
     .contStart{
