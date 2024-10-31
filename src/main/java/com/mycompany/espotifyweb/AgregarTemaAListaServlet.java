@@ -1,5 +1,6 @@
 package com.mycompany.espotifyweb;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
@@ -39,7 +40,7 @@ public class AgregarTemaAListaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        
+
         response.setContentType("application/json;charset=UTF-8");
 
         // Obtener la sesión
@@ -47,202 +48,240 @@ public class AgregarTemaAListaServlet extends HttpServlet {
 
         // Leer el nickname desde la sesión
         String nickname = (String) session.getAttribute("nickname");
-        
+
         if ("cargarListas".equals(action)) {
 
-        try (PrintWriter out = response.getWriter()) {
-            // Comprobar si se obtuvo el nickname
-            if (nickname == null) {
-                out.print("{\"error\": \"No se encontró el nickname.\"}");
-                return;
+            try (PrintWriter out = response.getWriter()) {
+                // Comprobar si se obtuvo el nickname
+                if (nickname == null) {
+                    out.print("{\"error\": \"No se encontró el nickname.\"}");
+                    return;
+                }
+                // Obtener todas las listas de reproducción del cliente
+                DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
+                Collection<ListaParticular> listasReproduccion = persistence.findListaPorCliente(nickname);
+
+                StringBuilder jsonResponse = new StringBuilder("[");
+                for (ListaParticular lista : listasReproduccion) {
+                    jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\"},");
+                }
+
+                if (jsonResponse.length() > 1) {
+                    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+                }
+
+                jsonResponse.append("]");
+
+                out.print(jsonResponse.toString());
+            } catch (Exception e) {
+                e.printStackTrace(); // Para depuración
             }
-            // Obtener todas las listas de reproducción del cliente
-            DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
-            Collection<ListaParticular> listasReproduccion = persistence.findListaPorCliente(nickname);
+        } else if ("cargarListasParticular".equals(action)) {
 
-            StringBuilder jsonResponse = new StringBuilder("[");
-            for (ListaParticular lista : listasReproduccion) {
-                jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\"},");
+            try (PrintWriter out = response.getWriter()) {
+                // Obtener todas las listas de reproducción del cliente
+                DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
+                Collection<ListaParticular> listasReproduccion = persistence.findAllListasParticularesPublicas();
+
+                StringBuilder jsonResponse = new StringBuilder("[");
+                for (ListaParticular lista : listasReproduccion) {
+
+                    jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\",")
+                            .append("\"nombrecreador\":\"").append(lista.getCliente().getNickname()).append("\"},");
+                }
+
+                if (jsonResponse.length() > 1) {
+                    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+                }
+
+                jsonResponse.append("]");
+
+                out.print(jsonResponse.toString());
+            } catch (Exception e) {
+                e.printStackTrace(); // Para depuración
             }
+        } else if ("cargarListasDefault".equals(action)) {
 
-            if (jsonResponse.length() > 1) {
-                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+            try (PrintWriter out = response.getWriter()) {
+                // Obtener todas las listas de reproducción del cliente
+                DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
+                Collection<ListaPorDefecto> listasReproduccion = persistence.devolverListasPorDefecto();
+
+                StringBuilder jsonResponse = new StringBuilder("[");
+                for (ListaPorDefecto lista : listasReproduccion) {
+
+                    jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\",")
+                            .append("\"genero\":\"").append(lista.getGenero().getNombre()).append("\"},");
+                }
+
+                if (jsonResponse.length() > 1) {
+                    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+                }
+
+                jsonResponse.append("]");
+
+                out.print(jsonResponse.toString());
+            } catch (Exception e) {
+                e.printStackTrace(); // Para depuración
             }
+        } else if ("cargarAlbumes".equals(action)) {
+            try (PrintWriter out = response.getWriter()) {
+                // Obtener todas las listas de reproducción del cliente
+                DAO_Album persistence = new DAO_Album();
+                Collection<Album> albumes = persistence.findAll();
 
-            jsonResponse.append("]");
+                StringBuilder jsonResponse = new StringBuilder("[");
+                for (Album album : albumes) {
 
-            out.print(jsonResponse.toString());
-        } catch (Exception e) {
-            e.printStackTrace(); // Para depuración
-        }
-        }else if ("cargarListasParticular".equals(action)){
+                    jsonResponse.append("{\"nombre\":\"").append(album.getNombre()).append("\",")
+                            .append("\"nombrecreador\":\"").append(album.getCreador().getNickname()).append("\"},");
+                }
 
-             try (PrintWriter out = response.getWriter()) {
-            // Obtener todas las listas de reproducción del cliente
-            DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
-            Collection<ListaParticular> listasReproduccion = persistence.findAllListasParticularesPublicas();
+                if (jsonResponse.length() > 1) {
+                    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+                }
 
-            StringBuilder jsonResponse = new StringBuilder("[");
-            for (ListaParticular lista : listasReproduccion) {
+                jsonResponse.append("]");
 
-                jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\",")
-                        .append("\"nombrecreador\":\"").append(lista.getCliente().getNickname()).append("\"},");
+                out.print(jsonResponse.toString());
+            } catch (Exception e) {
+                e.printStackTrace(); // Para depuración
             }
-
-            if (jsonResponse.length() > 1) {
-                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-            }
-
-            jsonResponse.append("]");
-
-            out.print(jsonResponse.toString());
-        } catch (Exception e) {
-            e.printStackTrace(); // Para depuración
-        }
-        }else if ("cargarListasDefault".equals(action)){
-
-             try (PrintWriter out = response.getWriter()) {
-            // Obtener todas las listas de reproducción del cliente
-            DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
-            Collection<ListaPorDefecto> listasReproduccion = persistence.devolverListasPorDefecto();
-
-            StringBuilder jsonResponse = new StringBuilder("[");
-            for (ListaPorDefecto lista : listasReproduccion) {
-
-                jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\",")
-                        .append("\"genero\":\"").append(lista.getGenero().getNombre()).append("\"},");
-            }
-
-            if (jsonResponse.length() > 1) {
-                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-            }
-
-            jsonResponse.append("]");
-
-            out.print(jsonResponse.toString());
-        } catch (Exception e) {
-            e.printStackTrace(); // Para depuración
-        }
-        }else if ("cargarAlbumes".equals(action)){
-             try (PrintWriter out = response.getWriter()) {
-            // Obtener todas las listas de reproducción del cliente
-            DAO_Album persistence = new DAO_Album();
-            Collection<Album> albumes = persistence.findAll();
-
-            StringBuilder jsonResponse = new StringBuilder("[");
-            for (Album album : albumes) {
-
-                jsonResponse.append("{\"nombre\":\"").append(album.getNombre()).append("\",")
-                        .append("\"nombrecreador\":\"").append(album.getCreador().getNickname()).append("\"},");
-            }
-
-            if (jsonResponse.length() > 1) {
-                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-            }
-
-            jsonResponse.append("]");
-
-            out.print(jsonResponse.toString());
-        } catch (Exception e) {
-            e.printStackTrace(); // Para depuración
-        }
-        }else if("buscarTemasListaParticular".equals(action)){
+        } else if ("buscarTemasListaParticular".equals(action)) {
             String nombreLista = request.getParameter("listaName");
             try (PrintWriter out = response.getWriter()) {
-            // Obtener todas las listas de reproducción del cliente
-            ControladorTema ctrlTema = new ControladorTema();
-            Collection<DataTema> temas = ctrlTema.retornarTemasDeLaLista(nombreLista, 2);
+                // Obtener todas las listas de reproducción del cliente
+                ControladorTema ctrlTema = new ControladorTema();
+                Collection<DataTema> temas = ctrlTema.retornarTemasDeLaLista(nombreLista, 2);
 
-            StringBuilder jsonResponse = new StringBuilder("[");
-            for (DataTema tema : temas) {
+                StringBuilder jsonResponse = new StringBuilder("[");
+                for (DataTema tema : temas) {
 
-                jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
-                        .append("\"album\":\"").append(tema.getNomAlb()).append("\"},");
+                    jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
+                            .append("\"album\":\"").append(tema.getNomAlb()).append("\"},");
+                }
+
+                if (jsonResponse.length() > 1) {
+                    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+                }
+
+                jsonResponse.append("]");
+
+                out.print(jsonResponse.toString());
+            } catch (Exception e) {
+                e.printStackTrace(); // Para depuración
             }
-
-            if (jsonResponse.length() > 1) {
-                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-            }
-
-            jsonResponse.append("]");
-
-            out.print(jsonResponse.toString());
-        } catch (Exception e) {
-            e.printStackTrace(); // Para depuración
-        }
-        }else if("buscarTemasListaDefecto".equals(action)){
+        } else if ("buscarTemasListaDefecto".equals(action)) {
             String nombreLista = request.getParameter("listaName");
             try (PrintWriter out = response.getWriter()) {
-            // Obtener todas las listas de reproducción del cliente
-            ControladorTema ctrlTema = new ControladorTema();
-            Collection<DataTema> temas = ctrlTema.retornarTemasDeLaLista(nombreLista, 1);
+                // Obtener todas las listas de reproducción del cliente
+                ControladorTema ctrlTema = new ControladorTema();
+                Collection<DataTema> temas = ctrlTema.retornarTemasDeLaLista(nombreLista, 1);
 
-            StringBuilder jsonResponse = new StringBuilder("[");
-            for (DataTema tema : temas) {
+                StringBuilder jsonResponse = new StringBuilder("[");
+                for (DataTema tema : temas) {
 
-                jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
-                        .append("\"album\":\"").append(tema.getNomAlb()).append("\"},");
+                    jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
+                            .append("\"album\":\"").append(tema.getNomAlb()).append("\"},");
+                }
+
+                if (jsonResponse.length() > 1) {
+                    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+                }
+
+                jsonResponse.append("]");
+
+                out.print(jsonResponse.toString());
+            } catch (Exception e) {
+                e.printStackTrace(); // Para depuración
             }
-
-            if (jsonResponse.length() > 1) {
-                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-            }
-
-            jsonResponse.append("]");
-
-            out.print(jsonResponse.toString());
-        } catch (Exception e) {
-            e.printStackTrace(); // Para depuración
-        }
-        }else if("buscarTemasAlbum".equals(action)){
+        } else if ("buscarTemasAlbum".equals(action)) {
             String nombreAlbum = request.getParameter("albumName");
             try (PrintWriter out = response.getWriter()) {
-            // Obtener todas las listas de reproducción del cliente
-            ControladorTema ctrlTema = new ControladorTema();
-            Collection<DataTema> temas = ctrlTema.retornarTemasDeAlbum(nombreAlbum);
+                // Obtener todas las listas de reproducción del cliente
+                ControladorTema ctrlTema = new ControladorTema();
+                Collection<DataTema> temas = ctrlTema.retornarTemasDeAlbum(nombreAlbum);
 
-            StringBuilder jsonResponse = new StringBuilder("[");
-            for (DataTema tema : temas) {
+                StringBuilder jsonResponse = new StringBuilder("[");
+                for (DataTema tema : temas) {
 
-                jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
-                        .append("\"album\":\"").append(tema.getNomAlb()).append("\"},");
+                    jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
+                            .append("\"album\":\"").append(tema.getNomAlb()).append("\"},");
+                }
+
+                if (jsonResponse.length() > 1) {
+                    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+                }
+
+                jsonResponse.append("]");
+
+                out.print(jsonResponse.toString());
+            } catch (Exception e) {
+                e.printStackTrace(); // Para depuración
             }
-
-            if (jsonResponse.length() > 1) {
-                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-            }
-
-            jsonResponse.append("]");
-
-            out.print(jsonResponse.toString());
-        } catch (Exception e) {
-            e.printStackTrace(); // Para depuración
-        }
         }
         System.out.println("\n-----End Agregar Tema a Lista Servlet GET-----");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       System.out.println("\n-----Start Agregar Tema A Lista Servlet POST-----");
+        System.out.println("\n-----Start Agregar Tema A Lista Servlet POST-----");
 
         response.setContentType("application/json");
-        
+
         HttpSession session = request.getSession();
 
-        // Leer el nickname desde la sesión
         String nickname = (String) session.getAttribute("nickname");
 
-        // Obtener parametros del formulario
-        String albumTema = request.getParameter("albumTema");
-        String nombreLista = request.getParameter("nombreLista");
-        String nombreTema = request.getParameter("nombreTema");
+        // Leer el cuerpo de la solicitud
+        StringBuilder jsonBuffer = new StringBuilder();
+        String line;
+        BufferedReader reader = request.getReader();
+
+        while ((line = reader.readLine()) != null) {
+            jsonBuffer.append(line);
+        }
+
+        // Convertir el JSON a una cadena
+        String jsonData = jsonBuffer.toString();
+
+        // Extraer los campos del JSON manualmente
+        String albumTema = extractJsonValue(jsonData, "albumTema");
+        String nombreLista = extractJsonValue(jsonData, "nombreLista");
+        String nombreTema = extractJsonValue(jsonData, "nombreTema");
+
         System.out.println(albumTema);
+        System.out.println(nombreLista);
+        System.out.println(nombreTema);
+
         ControladorListaParticular ctrlLista = new ControladorListaParticular();
         ControladorTema ctrlTema = new ControladorTema();
+
         DataTema temazo = ctrlTema.retornarTema(nombreTema, albumTema);
         ctrlLista.agregarTema(nickname, nombreLista, temazo);
+
         System.out.println("\n-----End Agregar Tema a Lista Servlet POST-----");
+    }
+
+// Metodo para extraer valores del JSON
+    private String extractJsonValue(String jsonData, String key) {
+        String value = null;
+
+        // Busca la clave en el JSON y extrae su valor
+        int keyIndex = jsonData.indexOf(key);
+
+        if (keyIndex != -1) {
+            int startIndex = jsonData.indexOf(":", keyIndex) + 1;
+            int endIndex = jsonData.indexOf(",", startIndex);
+
+            if (endIndex == -1) {
+                endIndex = jsonData.indexOf("}", startIndex); // Para el último valor
+            }
+
+            value = jsonData.substring(startIndex, endIndex).trim().replace("\"", ""); // Eliminar comillas
+        }
+
+        return value;
     }
 
 }
