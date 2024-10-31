@@ -30,11 +30,11 @@
 
                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><img src="imagenes/espotify/user.png" class="userIMG"></a>
+                        <a href="ConsultarUsuario.jsp?usr=<%= nickname%>"><img src="imagenes/espotify/user.png" class="userIMG"></a>
                     </div>
                     <ul class="listUser">
                         <li class="userName">
-                            <a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p>
+                            <a href="ConsultarUsuario.jsp?usr=<%= nickname%>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p>
                         </li>
                         <% if (nickname == null) { %>
                         <li><p><button id="abrirFormLogin">Iniciar sesion</button></p></li>
@@ -199,7 +199,7 @@
                 <div class="tituloFormSignup">
                     <h2>Registro de Usuario</h2>
                 </div>
-                <form id="altaUsuarioForm" method="post" action="AgregarUsuarioServlet" enctype="multipart/form-data">
+                <form id="altaUsuarioForm" method="post" enctype="multipart/form-data">
                     <c:if test="${not empty errorMessage}">
                         <p id="errorMessage" style="color: red;">${errorMessage}</p>
                     </c:if>
@@ -257,7 +257,7 @@
                         <input type="date" id="fechaNac" name="fechaNac" required>
                     </div>
                     <div class="btnsFormSignup">
-                        <button type="submit">Agregar Usuario</button>
+                        <button type="button" onclick="submitForm()">Agregar Usuario</button>
                     </div>
                 </form>
             </dialog>
@@ -268,10 +268,10 @@
                 const searchInput = document.getElementById('searchInput').value;
 
                 // Redirigir a la URL con el parámetro de búsqueda
-                if(searchInput==="" || searchInput===null){
-                alert("Por favor, ingrese un termino de busqueda.");
-                }else{
-                window.location.href = "BuscarCosas.jsp?search=" + searchInput;
+                if (searchInput === "" || searchInput === null) {
+                    alert("Por favor, ingrese un termino de busqueda.");
+                } else {
+                    window.location.href = "BuscarCosas.jsp?search=" + searchInput;
                 }
             }
         </script>
@@ -281,22 +281,22 @@
 
         <!-- Script registro de usuario -->
         <script src="scripts/AgregarUsuario.js"></script>
-        
+
         <!-- Script inicio y cierre de sesion -->
         <script src="scripts/Login.js"></script>
         <script src="scripts/Logout.js"></script>
 
         <!-- Formulario de login y signup -->
         <script src = "scripts/LoginSignupForm.js"></script>
- 
+
         <!-- Cosas del reproductor de musica -->
         <script src="scripts/Reproductor.js"></script>
 
         <!-- Evitar que las imagenes sean arrastradas -->
         <script>
-                            document.addEventListener('dragstart', function (event) {
-                                event.preventDefault();
-                            });
+            document.addEventListener('dragstart', function (event) {
+                event.preventDefault();
+            });
         </script>
     </body>
 </html>
