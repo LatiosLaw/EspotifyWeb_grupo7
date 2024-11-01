@@ -1,0 +1,187 @@
+.contStart{
+    background-color: #9e55bc;
+    padding: 10px 0 10px 5%;
+    border-bottom: 2px solid black;
+    margin-bottom: 15px;
+}
+
+.contStart2{
+    border-top: 2px solid black;
+    border-right: 2px solid black;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+#imagenlista{
+    display: block; /* Cambia el display a block */
+    margin: 0 auto; /* Centra la imagen */
+    border: 3px solid black;
+    text-align: center;
+}
+
+#creadorgenerolista{
+    margin-bottom: 15px;
+}
+
+#dialogoAgregarTema{
+    background-color: #a241b6;
+    position: absolute; /* Usamos posición absoluta */
+    top: 45%;
+    left: 50%; /* Coloca el contenedor en el 50% desde la izquierda */
+    transform: translate(-50%, -50%); /* Mueve el contenedor hacia arriba y hacia la izquierda por la mitad de su tamaño */
+    padding: 10px;
+}
+
+#dialogoAgregarTema:backdrop{
+    background-color: rgba(0, 0, 0, 0.44);
+}
+
+#agregarTemaListaForm, .camposLista{
+    display: flex;
+    flex-direction: column;
+}
+
+.camposLista input{
+    margin-top: 15px;
+}
+
+.btnsLista{
+    width: 100%;
+    border: 2px solid black;
+    background-color: #b63ebe;
+    transition: background-color 0.15s;
+    padding: 5px 10px;
+}
+
+.btnsLista:hover{
+    background-color: #cf48d7;
+}
+
+.btnsLista:active{
+    background-color: #99339f;
+}
+
+.contTablaTemas{
+    display: flex;
+    justify-content: center;
+}
+
+#agregarTemaListaForm div{
+    margin-top: 5px;
+}
+
+#agregarTemaListaForm div label{
+    margin-left: 7%;
+}
+
+#agregarTemaListaForm div input, .camposLista input{
+    border-radius: 3px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+    box-sizing: border-box;
+    padding: 2px 0px 2px 5px;
+}
+
+#agregarTemaListaForm div input{
+    width: 90%;
+    margin-left: 5%;
+}
+
+.camposLista{
+    display: grid;
+}
+
+.camposLista input{
+    justify-self: center;
+    width: 20%
+}
+
+#listasTable, #tablaTemas{
+    border-collapse: collapse;
+    align-self: center;
+    margin-bottom: 10px;
+}
+
+#listasTable{
+    width: 100%;
+}
+
+#listasTable tr, #listasTable tr td, #listasTable tr th, #tablaTemas tr, #tablaTemas tr td, #tablaTemas tr th{
+    border: 2px solid black;
+    padding: 5px 10px;
+    background-color: #9e55bc;
+    text-align: center;
+}
+
+.btnSelect{
+    background-color: #b63ebe;
+    border: none;
+    transition: background-color 0.15s;
+    padding: 5px 10px;
+    width: 100%;
+    border: 2px solid black;
+}
+
+.btnSelect:hover{
+    background-color: #cf48d7;
+}
+
+.btnSelect:active{
+    background-color: #99339f;
+}
+
+.btnsAddTema{
+    text-align: center;
+    margin-top: 10px;
+}
+
+.btnsAddTema button{
+    border-style: solid;
+    border-color: black;
+    border-radius: 3px;
+    border-width: 2px;
+    background-color: #b63ebe;
+    padding: 2px 7px 2px 7px;
+    transition: background-color 0.15s;
+}
+
+.btnsAddTema button:hover{
+    background-color: #cf48d7;
+}
+
+.btnsAddTema button:active{
+    background-color: #99339f;
+}
+
+.addTema{
+    margin-left: 5%;
+    margin-top: 10px;
+}
+
+.tusListas{
+    margin: 10px 0 10px 8%;
+}
+
+/*Resolucion de telefono*/
+@media (max-width: 960px){
+    #imagenlista{
+        width: 30vw;
+        heigth: 30vw;
+    }
+}
+
+/*Resolucion de pc*/
+@media (min-width: 960px) and (max-width: 1400px){
+    #imagenlista{
+        width: 20vw;
+        heigth: 20vw;
+    }
+}
+
+@media (min-width: 1400px){
+    #imagenlista{
+        width: 15vw;
+        heigth: 15vw;
+    }
+}

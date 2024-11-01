@@ -105,17 +105,17 @@ table, table thead, table thead tr, table thead tr th, table tbody, table tbody 
     width: 100%;
 }
 
-table tbody tr td button, table tbody tr td button{
+table tbody tr td button{
     background-color: #b63ebe;
     border: 2px solid black;
     transition: background-color 0.15s;
 }
 
-table tbody tr td button:hover, table tbody tr td button:hover{
+table tbody tr td button:hover{
     background-color: #cf48d7;
 }
 
-table tbody tr td button:active, table tbody tr td button:active{
+table tbody tr td button:active{
     background-color: #99339f;
 }
 

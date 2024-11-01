@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/ConsultarListaRep.css">
         <title>Espotify</title>
     </head>
     <body>
@@ -72,13 +73,15 @@
                     </div>
 
                     <div class="realDinamico">
-                        <h2>Informacion de la Lista</h2>
-                        <div>
-                            <img src="imagenes/listas/defaultList.png" id="imagenlista" alt="Imagen de la Lista" width="300">
+                        
+                        <h2 class="contStart">Informacion de la Lista</h2>
+                        <img src="imagenes/listas/defaultList.png" id="imagenlista" alt="Imagen de la Lista">
+                        <div class="camposLista">
+                            <input type="text" id="nombrelista" value="" readonly>
+                            <input type="text" id="creadorgenerolista" value="" readonly>
                         </div>
-                        <input type="text" id="nombrelista" value="" readonly>
-                        <input type="text" id="creadorgenerolista" value="" readonly>
-                            <h2>Temas de la Lista Seleccionada</h2>
+                        <h2 class="contStart contStart2">Temas de la Lista Seleccionada</h2>
+                        <div class="contTablaTemas">
                             <table id="tablaTemas" style="display:none;">
                                 <thead>
                                     <tr>
@@ -87,8 +90,11 @@
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody>
+                                    <!-- Aca se carga la lista -->
+                                </tbody>
                             </table>
+                        </div>
                     </div>
 
                 </div>
@@ -226,14 +232,13 @@
             </dialog>
 
             <dialog id="dialogoAgregarTema">
-                <h1>Agregar Tema a Lista</h1>
-
-                <h2>Tus Listas</h2>
+                <h2 class="addTema">Agregar Tema a Lista</h2>
+                <h3 class="tusListas">Tus Listas</h3>
                 <table id="listasTable">
                     <thead>
                         <tr>
                             <th>Nombre de la Lista</th>
-                            <td>Acción</td>
+                            <th class="action">Acción</th>
                         </tr>
                     </thead>
                     <tbody id="listasBody">
@@ -241,16 +246,21 @@
                     </tbody>
                 </table>
 
-                <form id="agregarTemaListaForm" onsubmit="return validarFormulario()">
-                    <input type="hidden" id='albumTema' name='albumTema' value="">
-                    <label for="nombreLista">Tu Lista a la que Agregar el Tema:</label>
-                    <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de una lista" readonly><br>
-                    <label for="nombreTema">Nombre del Tema:</label>
-                    <input type="text" id="nombreTema" name="nombreTema" required title="Ingresa el nombre de un tema" readonly><br>
-
-                    <button type="submit">Agregar Tema a Lista</button>
+                <form id="agregarTemaListaForm" method="post" onsubmit="return validarFormulario()">
+                    <div>
+                        <label for="nombreLista">Tu Lista a la que Agregar el Tema:</label>
+                        <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de una lista" readonly>
+                        <input type="hidden" id='albumTema' name='albumTema' value="">
+                    </div>
+                    <div>
+                        <label for="nombreTema">Nombre del Tema:</label>
+                        <input type="text" id="nombreTema" name="nombreTema" required title="Ingresa el nombre de un tema" readonly> 
+                    </div>
+                    <div class="btnsAddTema">
+                        <button type="submit">Agregar Tema a Lista</button>
+                        <button onclick="cerrarDialogo()" type="reset">Cerrar</button>
+                    </div>
                 </form>
-                <button onclick="cerrarDialogo()">Cerrar</button>
             </dialog>
                     
         </div> <!-- Fin Cuerpo -->
