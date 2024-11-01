@@ -12,9 +12,13 @@ fetch('http://localhost:8080/EspotifyWeb/TodosLosAlbumesServlet?action=devolverA
 
             const albumDiv = `
                 <div class="album">
+        <a href="ConsultarAlbum.jsp?album=${encodeURIComponent(album.nombre)}">
                     <img src="${imagen}" alt="Imagen de album" class="imagenAlbum">
+        </a>
                     <div>
+        <a href="ConsultarAlbum.jsp?album=${encodeURIComponent(album.nombre)}">
                         <p>${album.nombre}</p>
+        </a>
                         <p><a href="ConsultarUsuario.jsp?usr=${album.creador}">${album.creador}</a></p>
                     </div>
                 </div>`;
