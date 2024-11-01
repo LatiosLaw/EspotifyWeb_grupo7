@@ -1,5 +1,5 @@
 function validarFormulario() {
-    const nombreLista = document.getElementById('nombreAlbum').value;
+    const nombreLista = document.getElementById('nombreLista').value;
 
     if (!nombreLista) {
         alert("Por favor, complete todos los campos requeridos.");
@@ -7,32 +7,35 @@ function validarFormulario() {
     }
 
     return true;
+}
+
+function submitForm(event) {
+    event.preventDefault(); // Evita que el formulario se envíe por defecto
+
+    // Validar el formulario antes de enviar
+    if (!validarFormulario()) {
+        return; // Si la validación falla, no continuar
     }
 
-    var liNameInput = document.getElementById('nombreLista');
-    var listaExistsMessage = document.getElementById('ListaExistsMessage');
-    var validoField = document.getElementById('Valido');
-    var errorMessageElement = document.getElementById("errorMessage");
+    const formData = new FormData(document.getElementById('ListaForm'));
 
-    liNameInput.addEventListener('input', function() {
-    var listaName = liNameInput.value;
+    fetch('AltaDeListaServlet', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            alert(data.message); 
+            document.getElementById('nombreLista').value = '';
+        } else {
+            alert("Error: " + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("Ocurrió un error en el registro.");
+    });
+}
 
-    if (listaName.length > 0) {
-        // Utiliza fetch para hacer una solicitud GET al servidor
-        fetch('AltaDeListaServlet?listaName=' + encodeURIComponent(listaName))
-            .then(response => response.text())
-            .then(data => {
-                errorMessageElement.style.display = "none";
-                if (data === 'exists') {
-                    validoField.value = "false";
-                    listaExistsMessage.textContent = 'Esta lista ya existe en tu biblioteca.';
-                } else {
-                    validoField.value = "true";
-                    listaExistsMessage.textContent = '';
-                }
-            })
-            .catch(error => console.error('Error al verificar la lista:', error));
-    } else {
-        listaExistsMessage.textContent = '';
-    }
-});
+document.getElementById('ListaForm').addEventListener('submit', submitForm);
