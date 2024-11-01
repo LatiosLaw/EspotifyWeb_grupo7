@@ -14,9 +14,13 @@ fetch('http://localhost:8080/EspotifyWeb/obtenerImagenesGeneros')
 
                     const generoDiv = `
                         <div class="genero">
+            <a href="TodoLoDeUnGenero.jsp?search=${encodeURIComponent(genero.nombre)}">
                             <img src="${imgPath}" alt="Imagen de genero" class="imagenGenero">
+            </a>
                             <div>
+            <a href="TodoLoDeUnGenero.jsp?search=${encodeURIComponent(genero.nombre)}">
                                 <p>${genero.nombre}</p>
+            </a>
                             </div>
                         </div>`;
 

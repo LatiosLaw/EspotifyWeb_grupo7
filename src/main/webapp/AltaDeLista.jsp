@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/AltaLista.css">
         <title>Espotify</title>
     </head>
     <body>
@@ -72,17 +73,17 @@
                     </div>
 
                     <div class="realDinamico">
-                        <h1>Alta de Lista</h1>
                         <c:if test="${not empty errorMessage}">
                             <p id="errorMessage" style="color: red;">${errorMessage}</p>
                         </c:if>
-                        <form id="ListaForm" method="post" enctype="multipart/form-data">
+                        <form id="ListaForm" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
+                            <h1 class="titulo">Alta de Lista</h1>
                             <input type="hidden" id='Valido' name='Valido' value="true">  
                             <label for="nombreLista">Nombre de la Lista : </label>
                             <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de la Lista"><br>
                             <span id="ListaExistsMessage" style="color: red;"></span>
 
-                            <label for="imagenLista">Imagen de la Lista (opcional):</label>
+                            <label for="imagenDeLaLista">Imagen de la Lista (opcional):</label>
                             <input type="file" id="imagenLista" name="imagenLista" accept="image/png, image/jpeg">
 
                             <input type="submit" value="Registrar Lista">
@@ -146,7 +147,7 @@
                         <input type="text" id="nicknameLogin" name="nicknameLogin" required>
                     </div>
                     <div>
-                        <label for="passLogin">Contraseña:</label>
+                        <label for="passLogin">Contraseï¿½a:</label>
                         <input type="password" id="passLogin" name="passLogin" required>
                     </div>
                     <div class="btnsFormLogin">
@@ -208,11 +209,11 @@
                         </div>
                     </div>
                     <div>
-                        <label for="pass">Contraseña:</label>
+                        <label for="pass">Contraseï¿½a:</label>
                         <input type="password" id="pass" name="pass" required>
                     </div>
                     <div>
-                        <label for="confirmPass">Confirmar Contraseña:</label>
+                        <label for="confirmPass">Confirmar Contraseï¿½a:</label>
                         <input type="password" id="confirmPass" name="confirmPass" required>
                     </div>
                     <div>
@@ -230,7 +231,7 @@
             function emitirBusqueda() {
                 const searchInput = document.getElementById('searchInput').value;
 
-                // Redirigir a la URL con el parámetro de búsqueda
+                // Redirigir a la URL con el parï¿½metro de bï¿½squeda
                 if (searchInput === "" || searchInput === null) {
                     alert("Por favor, ingrese un termino de busqueda.");
                 } else {

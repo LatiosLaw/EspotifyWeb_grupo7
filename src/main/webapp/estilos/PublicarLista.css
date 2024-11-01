@@ -1,0 +1,60 @@
+.containerPublicar{
+     width: 500px;
+     margin-top: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.titulazo {
+    margin-top: 20px;
+    font-size: 1.8em;
+    text-align: center;
+}
+            /* Estilo de la tabla */
+#listasTable {
+    width: 90%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: auto;
+}
+
+#listasTable thead tr {
+    background-color: #843794;
+    color: white;
+}
+
+#listasTable th, #listasTable td {
+    border: 2px solid #0f0f0f;
+    padding: 12px;
+    text-align: center;
+}
+
+#listasTable tbody tr {
+
+}
+
+#listasTable tbody tr:hover {
+    background-color: #ddd;
+}
+
+/* Estilo para el botón */
+button#buscarListasBtn {
+    display: none;
+}
+
+/* Estilo para el mensaje de resultado */
+#resultado {
+    margin-top: 15px;
+    font-size: 1.1em;
+    color: #141414;
+    text-align: center;
+}

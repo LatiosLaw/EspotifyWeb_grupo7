@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/ActualizarSus.css">
         <title>Espotify</title>
     </head>
     <body>
@@ -72,6 +73,7 @@
                     </div>
                     
                     <div class="realDinamico">
+                        <div class="containerActualizarSus"> 
                         <h1>Actualizar Suscripcion</h1>
         
                         <form id = "actualiSus">
@@ -82,11 +84,13 @@
                                    <th>Ultima Fecha de Actualizacion</th>
                                    <th>Tipo</th>
                                    <th>Estado</th>
+                                   <th>Accion</th>
                                </tr>
                            </thead>
                            <tbody id="susiLista"></tbody>
                            </table>
                         </form>
+                        </div>
                     </div>
                     
                 </div>
