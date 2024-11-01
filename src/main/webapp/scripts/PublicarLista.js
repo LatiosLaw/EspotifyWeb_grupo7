@@ -23,18 +23,18 @@ fetch('http://localhost:8080/EspotifyWeb/PublicarListaServlet')
         .catch(error => console.error('Error al cargar listas:', error));
 });
 
-document.getElementById('publicarListaForm').addEventListener('submit', function (event) {
-event.preventDefault();
+function PublicarLista(boton){
+        const fila = boton.parentElement.parentElement; 
+            const primerCampo = fila.querySelector('td').innerText;
 
-const formData = new FormData(this);
-const params = new URLSearchParams(formData).toString();
+const params2 = new URLSearchParams({primerCampo}).toString();
 
 fetch('http://localhost:8080/EspotifyWeb/PublicarListaServlet', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
     },
-    body: params
+    body: params2
 })
         .then(response => response.json())
         .then(data => {
@@ -49,7 +49,7 @@ fetch('http://localhost:8080/EspotifyWeb/PublicarListaServlet', {
             document.getElementById('resultado').innerText = errorMessage;
             alert(errorMessage);
         });
-});
+        }
 
 // Cargar la lista de usuarios al entrar a la página
 window.onload = loadListas;
@@ -61,7 +61,7 @@ fetch('http://localhost:8080/EspotifyWeb/PublicarListaServlet')
             const tbody = document.getElementById('listasBody');
             tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
             data.forEach(lista => {
-                const row = `<tr><td>${lista.nombre}</td><td>${lista.visibilidad ? 'Pública' : 'Privada'}</td></tr>`;
+                const row = `<tr><td>${lista.nombre}</td><td>${lista.visibilidad ? 'Pública' : 'Privada'}</td><td><button onclick="PublicarLista(this)">Publicar</button></td></tr>`;
                 tbody.innerHTML += row;
             });
         })

@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/ContratarSubscripcion.css">
         <title>Espotify</title>
     </head>
     <body>
@@ -72,7 +73,7 @@
                     </div>
                     
                     <div class="realDinamico">
-                        <div class="container">
+                        <div class="containersubscripcion">
                             <h1>Contratar Suscripcion</h1>
                             <form id="contratarSuscripcionForm">
                                 <label for="tipoSuscripcion">Seleccione tipo de suscripcion:</label>

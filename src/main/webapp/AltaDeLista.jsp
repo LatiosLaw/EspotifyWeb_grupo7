@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/AltaLista.css">
         <title>Espotify</title>
     </head>
     <body>
@@ -72,17 +73,17 @@
                     </div>
                     
                     <div class="realDinamico">
-                        <h1>Alta de Lista</h1>
                         <c:if test="${not empty errorMessage}">
                             <p id="errorMessage" style="color: red;">${errorMessage}</p>
                         </c:if>
                         <form id="ListaForm" action="AltaDeListaServlet" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
+                            <h1 class="titulo">Alta de Lista</h1>
                             <input type="hidden" id='Valido' name='Valido' value="true">  
                             <label for="nombreLista">Nombre de la Lista : </label>
                             <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de la Lista"><br>
                             <span id="ListaExistsMessage" style="color: red;"></span>
 
-                            <label for="imagenLista">Imagen de la Lista (opcional):</label>
+                            <label for="imagenDeLaLista">Imagen de la Lista (opcional):</label>
                             <input type="file" id="imagenLista" name="imagenLista" accept="image/png, image/jpeg">
 
                             <input type="submit" value="Registrar Lista">
