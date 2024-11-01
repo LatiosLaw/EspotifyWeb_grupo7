@@ -14,9 +14,12 @@ import logica.ListaParticular;
 import logica.ListaPorDefecto;
 import logica.controladores.ControladorListaParticular;
 import logica.controladores.ControladorTema;
+import logica.dt.DataErrorBundle;
 import logica.dt.DataTema;
+import logica.tema;
 import persistencia.DAO_Album;
 import persistencia.DAO_ListaReproduccion;
+import persistencia.DAO_Tema;
 
 public class AgregarTemaAListaServlet extends HttpServlet {
 
@@ -228,9 +231,9 @@ public class AgregarTemaAListaServlet extends HttpServlet {
         System.out.println("\n-----Start Agregar Tema A Lista Servlet POST-----");
 
         response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
 
         HttpSession session = request.getSession();
-
         String nickname = (String) session.getAttribute("nickname");
 
         // Leer el cuerpo de la solicitud
@@ -256,10 +259,35 @@ public class AgregarTemaAListaServlet extends HttpServlet {
 
         ControladorListaParticular ctrlLista = new ControladorListaParticular();
         ControladorTema ctrlTema = new ControladorTema();
+        DAO_Tema persistence = new DAO_Tema();
 
-        DataTema temazo = ctrlTema.retornarTema(nombreTema, albumTema);
-        ctrlLista.agregarTema(nickname, nombreLista, temazo);
+        tema teMartin = persistence.find(nombreTema, albumTema);
 
+        if (teMartin != null) {
+            DAO_ListaReproduccion listPersistence = new DAO_ListaReproduccion();
+            ListaParticular listaExistente = listPersistence.findListaPorNicks(nickname, nombreLista);
+
+            boolean temaYaExiste = false;
+            for (tema t : listaExistente.getTemas()) {
+                if (t.getNickname().equals(teMartin.getNickname())) {
+                    temaYaExiste = true;
+                    break;
+                }
+            }
+
+            if (temaYaExiste) {
+                out.print("{\"status\": \"error\", \"message\": \"Este tema ya pertenece a tu lista.\"}");
+            } else {
+                DataTema temazo = ctrlTema.retornarTema(nombreTema, albumTema);
+                ctrlLista.agregarTema(nickname, nombreLista, temazo);
+                out.print("{\"status\": \"success\", \"message\": \"Tema agregado exitosamente.\"}");
+            }
+
+        } else {
+            out.print("{\"status\": \"error\", \"message\": \"Error al agregar el tema a la lista.\"}");
+        }
+
+        out.flush(); // enviar la respuesta
         System.out.println("\n-----End Agregar Tema a Lista Servlet POST-----");
     }
 
