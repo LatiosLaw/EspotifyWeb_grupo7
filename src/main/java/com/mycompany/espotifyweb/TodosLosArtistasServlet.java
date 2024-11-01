@@ -1,23 +1,16 @@
 package com.mycompany.espotifyweb;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import logica.Genero;
 import logica.controladores.ControladorArtista;
-import logica.controladores.ControladorListaParticular;
-import logica.controladores.ControladorTema;
 import logica.dt.DataArtista;
-import logica.dt.DataTema;
-import persistencia.DAO_Genero;
 
 public class TodosLosArtistasServlet extends HttpServlet {
 

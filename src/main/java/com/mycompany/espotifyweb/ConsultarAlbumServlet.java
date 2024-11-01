@@ -1,5 +1,10 @@
 package com.mycompany.espotifyweb;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -7,11 +12,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Iterator;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import logica.controladores.ControladorAlbum;
 import logica.controladores.ControladorArtista;
 import logica.controladores.ControladorCliente;
