@@ -60,10 +60,9 @@
                         <% } %>
 
                         <% if ("Cliente".equals(userType)) { %>
-                        <a id="AgregarTemaListaLink" href="AgregarTemaALista.jsp">Agregar Tema a Lista</a>
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
-                        <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripción</a>
-                        <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripción</a>
+                        <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
+                        <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
                         <% if (suscrito) { %>       
                         <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
                         <% } %>
