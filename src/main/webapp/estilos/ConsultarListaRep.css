@@ -94,7 +94,6 @@
 
 .camposLista input{
     justify-self: center;
-    width: 20%
 }
 
 #listasTable, #tablaTemas{
@@ -169,6 +168,10 @@
         width: 30vw;
         heigth: 30vw;
     }
+    
+    #nombrelista, #creadorgenerolista{
+        width: 80%;
+    }
 }
 
 /*Resolucion de pc*/
@@ -177,11 +180,27 @@
         width: 20vw;
         heigth: 20vw;
     }
+    
+    #nombrelista{
+        width: 50%;
+    }
+    
+    #creadorgenerolista{
+        width: 20%;
+    }
 }
 
 @media (min-width: 1400px){
     #imagenlista{
         width: 15vw;
         heigth: 15vw;
+    }
+    
+    #nombrelista{
+        width: 30%;
+    }
+    
+    #creadorgenerolista{
+        width: 20%;
     }
 }

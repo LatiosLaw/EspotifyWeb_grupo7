@@ -241,7 +241,7 @@
                     </tbody>
                 </table>
 
-                <form id="agregarTemaListaForm" method="post" onsubmit="return validarFormulario()">
+                <form id="agregarTemaListaForm" onsubmit="return validarFormulario()">
                     <div>
                         <label for="nombreLista">Tu Lista a la que Agregar el Tema:</label>
                         <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de una lista" readonly>
