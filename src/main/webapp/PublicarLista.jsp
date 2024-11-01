@@ -70,8 +70,6 @@
                     <div class="realDinamico">
                         <div class="containerPublicar">
                         <h1 class="titulazo">Publicar Lista</h1>
-                        
-                            <button type="button" id="buscarListasBtn" hidden></button>
 
                         <table id="listasTable">
                             <thead>
