@@ -11,3 +11,48 @@
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
 }
+
+#imagenalbum{
+    display: block; /* Cambia el display a block */
+    margin: 0 auto; /* Centra la imagen */
+    border: 3px solid black;
+    text-align: center;
+}
+
+#dialogoAgregarTema{
+    background-color: #a241b6;
+    position: absolute; /* Usamos posición absoluta */
+    top: 50%;
+    left: 50%; /* Coloca el contenedor en el 50% desde la izquierda */
+    transform: translate(-50%, -50%); /* Mueve el contenedor hacia arriba y hacia la izquierda por la mitad de su tamaño */
+    padding: 10px;
+}
+
+#dialogoAgregarTema:backdrop{
+    background-color: rgba(0, 0, 0, 0.44);
+}
+
+#agregarTemaListaForm, .camposAlbum{
+    display: flex;
+    flex-direction: column;
+}
+
+.camposAlbum input{
+    margin-top: 15px;
+}
+
+.btnsAlbum{
+    width: 100%;
+    border: 2px solid black;
+    background-color: #b63ebe;
+    transition: background-color 0.15s;
+    padding: 5px 10px;
+}
+
+.btnsAlbum:hover{
+    background-color: #cf48d7;
+}
+
+.btnsAlbum:action{
+    background-color: #99339f;
+}

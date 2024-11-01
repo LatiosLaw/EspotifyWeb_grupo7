@@ -26,7 +26,7 @@
 #dialogoAgregarTema{
     background-color: #a241b6;
     position: absolute; /* Usamos posición absoluta */
-    top: 45%;
+    top: 50%;
     left: 50%; /* Coloca el contenedor en el 50% desde la izquierda */
     transform: translate(-50%, -50%); /* Mueve el contenedor hacia arriba y hacia la izquierda por la mitad de su tamaño */
     padding: 10px;
