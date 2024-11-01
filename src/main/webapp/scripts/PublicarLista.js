@@ -16,7 +16,7 @@ fetch('http://localhost:8080/EspotifyWeb/PublicarListaServlet')
             }
 
             data.forEach(lista => {
-                const row = `<tr><td>${lista.nombre}</td><td>${lista.visibilidad ? 'Pública' : 'Privada'}</td></tr>`;
+                const row = `<tr><td>${lista.nombre}</td><td>${lista.visibilidad ? 'Publica' : 'Privada'}</td></tr>`;
                 tbody.innerHTML += row;
             });
         })
@@ -61,7 +61,7 @@ fetch('http://localhost:8080/EspotifyWeb/PublicarListaServlet')
             const tbody = document.getElementById('listasBody');
             tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
             data.forEach(lista => {
-                const row = `<tr><td>${lista.nombre}</td><td>${lista.visibilidad ? 'Pública' : 'Privada'}</td><td><button onclick="PublicarLista(this)">Publicar</button></td></tr>`;
+                const row = `<tr><td>${lista.nombre}</td><td>${lista.visibilidad ? 'Publica' : 'Privada'}</td><td><button onclick="PublicarLista(this)">Publicar</button></td></tr>`;
                 tbody.innerHTML += row;
             });
         })

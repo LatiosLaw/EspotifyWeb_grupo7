@@ -43,7 +43,7 @@ function cargarDatosSus() {
                         susLista.appendChild(susRow);
                     });
                 } else {
-                    susLista.innerHTML = '<tr><td colspan="3">Aun no posees una Suscripion.</td></tr>';
+                    susLista.innerHTML = '<tr><td colspan="5">Aun no posees una Suscripion.</td></tr>';
                 }
             })
             .catch(error => {
