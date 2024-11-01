@@ -197,10 +197,9 @@ public class ConsultarAlbumServlet extends HttpServlet {
 
                 StringBuilder jsonResponse = new StringBuilder("[");
                 jsonResponse.append("{\"nombre\":\"").append(album_buscado.getNombre()).append("\",")
-                        .append("\"fav\":\"").append(tieneLaik).append("\",")
                         .append("\"anio\":\"").append(album_buscado.getAnioCreacion()).append("\",")
-                        .append("\"imagen\":\"").append(album_buscado.getImagen()).append("\",");
-                        
+                        .append("\"imagen\":\"").append(album_buscado.getImagen()).append("\",")
+                         .append("\"fav\":\"").append(tieneLaik).append("\",");
                 jsonResponse.append("\"generos\":[");
 
                 Collection<DataGenero> generos_album = album_buscado.getGeneros();

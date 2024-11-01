@@ -137,8 +137,8 @@ async function SuccionarInformacion() {
     var IMAGENALBUM = document.getElementById('imagenalbum');
     var CREADORALBUM = document.getElementById('creadoralbum');
     var GENEROSLIST = document.getElementById('generoslist');
-    var LAIK = document.getElementById('favListaBtn');
-    var NOLAIK = document.getElementById('sacarDeFavListaBtn');
+    var LAIK = document.getElementById('favAlbumBtn');
+    var NOLAIK = document.getElementById('sacarDeFavAlbumBtn');
     fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverInformacionAlbum&albumName=' + encodeURIComponent(primerCampo))
             .then(response => response.json())
             .then(data => {
@@ -155,11 +155,11 @@ async function SuccionarInformacion() {
                     if(album.fav === "fav"){
                         NOLAIK.style.display = 'block';
                         LAIK.style.display = 'none';
-                         
+                         // NOMBREALBUM.value = "fav";
                     }else{
                         LAIK.style.display = 'block';
                         NOLAIK.style.display = 'none';
-                         
+                         //NOMBREALBUM .value = "nofav";
                     }
                     
                     

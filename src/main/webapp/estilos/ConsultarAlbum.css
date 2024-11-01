@@ -181,6 +181,21 @@
     margin-bottom: 10px;
 }
 
+#favAlbumBtn, #sacarDeFavAlbumBtn{
+    background-color: #b63ebe;
+    transition: background-color 0.15s;
+    padding: 2px 7px 2px 7px;
+    border: 2px solid black;
+    border-radius: 3px;
+    width: 150px;
+    justify-self: center;
+    margin-top: 10px;
+}
+
+
+
+
+
 /*Resolucion de telefono*/
 @media (max-width: 960px){
     #imagenlista{
