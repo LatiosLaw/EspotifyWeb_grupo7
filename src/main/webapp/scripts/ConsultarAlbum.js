@@ -89,7 +89,7 @@ async function SuccionarInformacion() {
                     tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
                     data.forEach(tema => {
 
-
+                    
                         if(tema.fav === "fav"/*El usuario ya le puso laik*/){
                             if (tema.link !== "null") {
                                 const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td><td><button onclick="algo(this)">Fav</button></td></tr>`;
@@ -109,18 +109,6 @@ async function SuccionarInformacion() {
                                 tbody.innerHTML += row;
                             }
                         }
-
-
-                        if (tema.link !== "null") {
-                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)" class="btnsAlbum">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')" class="btnsAlbum">Agregar a Lista</button></td></tr>`;
-                            tbody.innerHTML += row;
-                        } else {
-                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button></td></tr>`;
-                            tbody.innerHTML += row;
-                        }
-
-
-
                     });
                 })
                 .catch(error => console.error('Error al cargar temas del album:', error));
@@ -149,7 +137,8 @@ async function SuccionarInformacion() {
     var IMAGENALBUM = document.getElementById('imagenalbum');
     var CREADORALBUM = document.getElementById('creadoralbum');
     var GENEROSLIST = document.getElementById('generoslist');
-
+    var LAIK = document.getElementById('favListaBtn');
+    var NOLAIK = document.getElementById('sacarDeFavListaBtn');
     fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverInformacionAlbum&albumName=' + encodeURIComponent(primerCampo))
             .then(response => response.json())
             .then(data => {

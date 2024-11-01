@@ -54,11 +54,11 @@ if(tipo==="1"){
                     if(lista.fav === "fav"){
                         NOLAIK.style.display = 'block';
                         LAIK.style.display = 'none';
-                          NOMBRELISTA.value="fav";
+                       
                     }else{
                         LAIK.style.display = 'block';
                         NOLAIK.style.display = 'none';
-                         NOMBRELISTA.value="nofav";
+                       
                     }
 
                         });
@@ -90,11 +90,11 @@ if(tipo==="1"){
                      if(lista.fav === "fav"){
                         NOLAIK.style.display = 'block';
                         LAIK.style.display = 'none';
-                          //NOMBRELISTA.value="fav";
+                          
                     }else{
                         LAIK.style.display = 'block';
                         NOLAIK.style.display = 'none';
-                         //NOMBRELISTA.value="nofav"; 
+                         
                     }
                     
                         });
@@ -133,10 +133,7 @@ function ensureUrlProtocol(url) {
 function llenarTablaTemas(temas, tieneSuscripcion) {
     const tbody = document.querySelector('#tablaTemas tbody');
     tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos resultados
-     //var NOMBRELISTA = document.getElementById('nombrelista');
-     
-     
-     
+
      
     if (temas.length === 0) {
         tbody.innerHTML = '<tr><td colspan="3">No hay temas disponibles.</td></tr>'; // Aumentar a 3 columnas
@@ -145,18 +142,22 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
             const urlDescarga = ensureUrlProtocol(tema.identificador_archivo.trim());
 
             console.log('URL de descarga:', urlDescarga);
-           // println(temas.fav);
+           // println(temas.fav);<td><button onclick="algo(this)">NoFav</button></td>
             if(tema.fav === "fav"){
                
                 tbody.innerHTML += `
-                <tr>
+            <tr>
                 <td>${tema.nombre}</td>
                 <td>${tieneSuscripcion
-                    ? `<a href="${urlDescarga}" target="_blank">Descargar</a>`
-                    : `<button disabled>Descargar</button>`}
+                    ? `<a href="${urlDescarga}" target="_blank" class="btnsLista">Descargar</a>`
+                    : `<button disabled class="btnsLista">Descargar</button>`}
                 </td>
-                <td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td>
-                <td><button onclick="algo(this)">NoFav</button></td>
+                <td>
+                    <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsLista">
+                        Agregar a Lista
+                    </button>
+                </td>
+                <td> <button onclick="algo(this)">NoFav</button></td>
             </tr>`;
             }else{
                  tbody.innerHTML += `
@@ -171,7 +172,6 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
                         Agregar a Lista
                     </button>
                 </td>
-                <td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td>
                 <td><button onclick="algo(this)">Fav</button></td>
             </tr>`;
             }
