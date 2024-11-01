@@ -67,42 +67,42 @@
                     </div>
                     
                     <div class="realDinamico">
-                        <h1>Alta de Álbum</h1>
+                        <h1>Alta de Album</h1>
                         <c:if test="${not empty errorMessage}">
                             <p id="errorMessage" style="color: red;">${errorMessage}</p>
                         </c:if>
-                        <form id="albumForm" action="AltaDeAlbumServlet" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
+                        <form id="albumForm" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
                             <input type="hidden" id='Valido' name='Valido' value="true">  
-                            <label for="nombreAlbum">Nombre del Álbum:</label>
-                            <input type="text" id="nombreAlbum" name="nombreAlbum" onkeyup="checkAlbum()" required title="Ingresa el nombre del álbum"><br>
+                            <label for="nombreAlbum">Nombre del Album:</label>
+                            <input type="text" id="nombreAlbum" name="nombreAlbum" onkeyup="checkAlbum()" required title="Ingresa el nombre del album"><br>
                             <span id="albumExistsMessage" style="color: red;"></span>
 
-                            <label for="anioCreacion">Año de Creación:</label>
-                            <input type="number" id="anioCreacion" name="anioCreacion" min="1900" max="2100" required title="Ingresa el año de creación"><br>
+                            <label for="anioCreacion">Año de Creacion:</label>
+                            <input type="number" id="anioCreacion" name="anioCreacion" min="1900" max="2100" required title="Ingresa el año de creacion"><br>
 
-                            <label for="generos">Géneros:</label>
+                            <label for="generos">Generos:</label>
                             <select id="generos" name="generos">
-                                <option value="">Seleccione un género</option>
+                                <option value="">Seleccione un genero</option>
                                 <!-- se llenan con AJAX -->
                             </select><br>
 
-                            <label>Géneros Seleccionados:</label>
+                            <label>Generos Seleccionados:</label>
                             <div id="selectedGenerosContainer"></div>
 
                             <!-- Campo oculto para enviar los géneros seleccionados -->
                             <input type="hidden" id="generosSeleccionados" name="generosSeleccionados">
 
-                            <label for="imagenAlbum">Imagen del Álbum (opcional):</label>
+                            <label for="imagenAlbum">Imagen del Album (opcional):</label>
                             <input type="file" id="imagenAlbum" name="imagenAlbum" accept="image/png, image/jpeg">
 
-                            <h2>Temas del Álbum</h2>
+                            <h2>Temas del Album</h2>
                             <div id="temasContainer">
                             </div>
 
                             <button type="button" onclick="agregarTemaMP3()">Agregar Otro Tema - Archivo MP3</button><br>
                             <button type="button" onclick="agregarTemaWeb()">Agregar Otro Tema - Direccion URL</button><br>
 
-                            <input type="submit" value="Registrar Álbum">
+                            <input type="submit" value="Registrar Album">
                         </form>
                     </div>
                     

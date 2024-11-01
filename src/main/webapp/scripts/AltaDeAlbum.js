@@ -13,12 +13,12 @@ function cargarGeneros() {
         .then(data => {
             let select = document.getElementById('generos');
             select.innerHTML = ''; // Limpia las opciones
-            select.append(new Option('Seleccione un género', ''));
+            select.append(new Option('Seleccione un genero', ''));
             data.forEach(genero => {
                 select.append(new Option(genero, genero)); // Crear opcion con genero cargado
             });
         })
-        .catch(error => console.error('Error al cargar los géneros:', error));
+        .catch(error => console.error('Error al cargar los generos:', error));
 }
 
 function agregarGenero() {
@@ -71,7 +71,7 @@ function validarFormulario() {
     }
 
     if (generosSeleccionados.length === 0) {
-        alert("Por favor, seleccione al menos un género.");
+        alert("Por favor, seleccione al menos un genero.");
         return false;
     }
 
