@@ -89,10 +89,10 @@ async function SuccionarInformacion() {
                     tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
                     data.forEach(tema => {
                         if (tema.link !== "null") {
-                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td></tr>`;
+                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)" class="btnsAlbum">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')" class="btnsAlbum">Agregar a Lista</button></td></tr>`;
                             tbody.innerHTML += row;
                         } else {
-                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)">Descargar</button></td></tr>`;
+                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button></td></tr>`;
                             tbody.innerHTML += row;
                         }
                     });

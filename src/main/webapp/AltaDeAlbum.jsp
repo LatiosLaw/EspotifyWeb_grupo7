@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/AltaDeAlbum.css">
         <title>Espotify</title>
     </head>
     <body>
@@ -67,6 +68,7 @@
                     </div>
                     
                     <div class="realDinamico">
+                        <div class="containerAltaAlbum">
                         <h1>Alta de Album</h1>
                         <c:if test="${not empty errorMessage}">
                             <p id="errorMessage" style="color: red;">${errorMessage}</p>
@@ -99,11 +101,12 @@
                             <div id="temasContainer">
                             </div>
 
-                            <button type="button" onclick="agregarTemaMP3()">Agregar Otro Tema - Archivo MP3</button><br>
-                            <button type="button" onclick="agregarTemaWeb()">Agregar Otro Tema - Direccion URL</button><br>
+                            <button type="button" onclick="agregarTemaMP3()">Agregar Tema - Archivo MP3</button><br>
+                            <button type="button" onclick="agregarTemaWeb()">Agregar Tema - Direccion URL</button><br>
 
                             <input type="submit" value="Registrar Album">
                         </form>
+                        </div>
                     </div>
                     
                 </div>

@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/ConsultarAlbum.css">
         <title>Espotify</title>
     </head>
     <body>
@@ -65,17 +66,17 @@
                     </div>
 
                     <div class="realDinamico">
-                        <h2>Informacion del Album</h2>
-                        <div>
-                            <img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album" width="300">
+                        <h2 class="contStart">Informacion del Album</h2>
+                        <img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album">
+                        <div class="camposAlbum">
+                            <input type="text" id="nombrealbum" value="" readonly>
+                            <input type="hidden" id="albumTema" name="albumTema" value="">
+                            <input type="text" id="anioalbum" value="" readonly>
+                            <input type="text" id="creadoralbum" value="" readonly>
                         </div>
-                        <input type="text" id="nombrealbum" value="" readonly>
-                        <input type="hidden" id="albumTema" name="albumTema" value="">
-                        <input type="text" id="anioalbum" value="" readonly>
-                        <input type="text" id="creadoralbum" value="" readonly>
-                        <h3>Generos del Album</h3>
+                        <h2 class="contStart contStart2">Generos del Album</h2>
                         <ul id="generoslist"></ul>
-                        <h3>Temas del Album</h3>
+                        <h2 class="contStart contStart2">Temas del Album</h2>
                         <table id="temasTable">
                             <thead>
                                 <tr>
@@ -240,15 +241,21 @@
                 </table>
 
                 <form id="agregarTemaListaForm" onsubmit="return validarFormulario()">
-                    <input type="hidden" id='albumTema' name='albumTema' value="">
-                    <label for="nombreLista">Tu Lista a la que Agregar el Tema:</label>
-                    <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de una lista" readonly><br>
-                    <label for="nombreTema">Nombre del Tema:</label>
-                    <input type="text" id="nombreTema" name="nombreTema" required title="Ingresa el nombre de un tema" readonly><br>
-
-                    <button type="submit">Agregar Tema a Lista</button>
+                    <div>
+                        <input type="hidden" id='albumTema' name='albumTema' value="">
+                        <label for="nombreLista">Tu Lista a la que Agregar el Tema:</label>
+                        <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de una lista" readonly>
+                    </div>
+                    <div>
+                        <label for="nombreTema">Nombre del Tema:</label>
+                        <input type="text" id="nombreTema" name="nombreTema" required title="Ingresa el nombre de un tema" readonly>
+                    </div>
+                    <div class="btnsAddTema">
+                        <button type="submit">Agregar Tema a Lista</button>
+                        <button onclick="cerrarDialogo()">Cerrar</button>
+                    </div>
                 </form>
-                <button onclick="cerrarDialogo()">Cerrar</button>
+                
             </dialog>
 
         </div> <!-- Fin Cuerpo -->
