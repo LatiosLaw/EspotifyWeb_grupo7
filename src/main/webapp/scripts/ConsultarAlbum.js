@@ -87,13 +87,25 @@ const urlParams = new URLSearchParams(window.location.search);
                         const tbody = document.getElementById('temasBody');
                         tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
                         data.forEach(tema => {
-                            if(tema.link!="null"){
-                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td></tr>`;
+                            
+                            if(tema.fav === "fav"/*El usuario ya le puso laik*/){
+                                if(tema.link!=="null"){
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td><td><button onclick="DescargarTema(this)">Fav</button></td></tr>`;
                             tbody.innerHTML += row;
                             }else{
-                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)">Descargar</button></td><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td></tr>`;
-                            tbody.innerHTML += row;
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)">Descargar</button></td><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td><td><button onclick="DescargarTema(this)">Fav</button></td></tr>`;
+                                tbody.innerHTML += row;
                             }
+                            }else{//no le puso laik aun
+                                
+                                if(tema.link!=="null"){
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td>`;
+                                    tbody.innerHTML += row;
+                                }else{
+                                    const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)">Descargar</button></td><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td></tr>`;
+                                tbody.innerHTML += row;
+                                }      
+                            }   
                         });
                     })
                     .catch(error => console.error('Error al cargar temas del album:', error));
@@ -122,7 +134,8 @@ var ALBUMTEMA = document.getElementById('albumTema');
     var IMAGENALBUM = document.getElementById('imagenalbum');
     var CREADORALBUM = document.getElementById('creadoralbum');
     var GENEROSLIST = document.getElementById('generoslist');
-
+    var LAIK = document.getElementById('favAlbumBtn');
+    var NOLAIK = document.getElementById('sacarDeFavAlbumBtn');
 fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverInformacionAlbum&albumName=' + encodeURIComponent(primerCampo))
                     .then(response => response.json())
                     .then(data => {
@@ -136,6 +149,19 @@ fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverIn
                     }else{
                         IMAGENALBUM.src="imagenes/albumes/defaultAlbum.png";
                     }
+                    if(album.fav === "fav"){
+                        NOLAIK.style.display = 'block';
+                        LAIK.style.display = 'none';
+                         
+                    }else{
+                        LAIK.style.display = 'block';
+                        NOLAIK.style.display = 'none';
+                         
+                    }
+                    
+                    
+                    
+                    
                     GENEROSLIST.innerHTML = '';
 
                     album.generos.forEach(genero => {

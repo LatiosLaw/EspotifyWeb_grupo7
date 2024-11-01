@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import logica.controladores.ControladorAlbum;
 import logica.controladores.ControladorArtista;
+import logica.controladores.ControladorCliente;
 import logica.controladores.ControladorGenero;
 import logica.controladores.ControladorListaParticular;
 import logica.controladores.ControladorTema;
@@ -45,7 +46,7 @@ public class ConsultarAlbumServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("\n-----Start Consultar Album Servlet GET-----");
         String action = request.getParameter("action");
-
+        
         response.setContentType("application/json;charset=UTF-8");
 
         // Obtener la sesión
@@ -148,19 +149,28 @@ public class ConsultarAlbumServlet extends HttpServlet {
             try (PrintWriter out = response.getWriter()) {
                 // Obtener todas las listas de reproducción del cliente
                 ControladorTema persistence = new ControladorTema();
+                ControladorCliente controlCli = new ControladorCliente();
                 String albumName = request.getParameter("albumName");
                 Collection<DataTema> temas = persistence.retornarTemasDeAlbum(albumName);
-
+                
+                Collection<String> temasCole = controlCli.obtenerTemaFavCliente(nickname);
+                
                 StringBuilder jsonResponse = new StringBuilder("[");
-
+                
+                
                 for (DataTema tema : temas) {
-                    jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
+                    
+                    String tieneLaik = controlCli.corroborarTemaEnFav(tema.getNickname(), temasCole);
+                            
+                        jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
                             .append("\"duracion\":\"").append(tema.getDuracion().toString()).append("\",")
                             .append("\"archivo\":\"").append(tema.getArchivo()).append("\",")
                             .append("\"link\":\"").append(tema.getAccess()).append("\",")
-                            .append("\"album\":\"").append(tema.getNomAlb()).append("\"},");
+                            .append("\"album\":\"").append(tema.getNomAlb()).append("\",")
+                            .append("\"fav\":\"").append(tieneLaik).append("\"},");
 
-                    System.out.println(tema.getNomAlb());
+
+                    //System.out.println(tema.getNomAlb());
                 }
 
                 if (jsonResponse.length() > 1) {
@@ -177,13 +187,20 @@ public class ConsultarAlbumServlet extends HttpServlet {
             try (PrintWriter out = response.getWriter()) {
                 // Obtener todas las listas de reproducción del cliente
                 ControladorAlbum persistence = new ControladorAlbum();
+                ControladorCliente controlCli = new ControladorCliente();
                 String albumName = request.getParameter("albumName");
                 DataAlbum album_buscado = persistence.retornarInfoAlbum(albumName);
+                
+                Collection<String> albumsFav = controlCli.obtenerAlbumFavCliente(nickname);
+                
+                String tieneLaik = controlCli.corroborarAlbumEnFav(album_buscado.getNombre(), albumsFav);
 
                 StringBuilder jsonResponse = new StringBuilder("[");
                 jsonResponse.append("{\"nombre\":\"").append(album_buscado.getNombre()).append("\",")
+                        .append("\"fav\":\"").append(tieneLaik).append("\",")
                         .append("\"anio\":\"").append(album_buscado.getAnioCreacion()).append("\",")
                         .append("\"imagen\":\"").append(album_buscado.getImagen()).append("\",");
+                        
                 jsonResponse.append("\"generos\":[");
 
                 Collection<DataGenero> generos_album = album_buscado.getGeneros();

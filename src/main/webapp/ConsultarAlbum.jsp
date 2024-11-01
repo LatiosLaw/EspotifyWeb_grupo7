@@ -73,6 +73,8 @@
                         <h2>Informacion del Album</h2>
                         <div>
                             <img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album" width="300">
+                             <button id="favAlbumBtn" style="display:none;">Fav</button>
+                             <button id="sacarDeFavAlbumBtn" style="display:none;">NoFav</button>
                         </div>
                         <input type="text" id="nombrealbum" value="" readonly>
                         <input type="hidden" id="albumTema" name="albumTema" value="">

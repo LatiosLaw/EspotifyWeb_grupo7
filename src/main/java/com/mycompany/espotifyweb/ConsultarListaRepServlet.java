@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import logica.controladores.ControladorCliente;
 import logica.controladores.ControladorListaParticular;
 import logica.controladores.ControladorListaPorDefecto;
 import logica.controladores.ControladorTema;
@@ -35,7 +37,11 @@ public class ConsultarListaRepServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+          // Obtener la sesión
+        HttpSession session = request.getSession();
 
+        // Leer el nickname desde la sesión
+        String nickname = (String) session.getAttribute("nickname");
         if (action == null || action.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El parámetro 'action' es requerido");
             return;
@@ -56,7 +62,7 @@ public class ConsultarListaRepServlet extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El nombre de la lista es requerido");
                 return;
             }
-            obtenerTemasPorLista(nombreLista, tipo, out, response);
+            obtenerTemasPorLista(nombreLista, tipo, nickname, out, response);
         }else if ("devolverInformacionLista".equals(action)) {
             try (PrintWriter out2 = response.getWriter()) {
                 // Obtener todas las listas de reproducción del cliente
@@ -65,22 +71,35 @@ public class ConsultarListaRepServlet extends HttpServlet {
             String tipo = request.getParameter("tipo");
             System.out.println("Tipo de la lista recibido: " + tipo);
             StringBuilder jsonResponse = new StringBuilder("[");
+            ControladorCliente controlCli = new ControladorCliente();
+            Collection<String> listasCole = controlCli.obtenerListasFavCliente(nickname);
+            
+
             if(tipo.equals("1")){
+                String tieneLaik = controlCli.corroborarListaEnFav(nombreLista, "Por Defecto", listasCole);
+                
+
                 ControladorListaPorDefecto ctrl = new ControladorListaPorDefecto();
                 DataListaPorDefecto lista = ctrl.devolverInformacionChu(nombreLista);
                 
                 jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\",")
                         .append("\"imagen\":\"").append(lista.getFoto()).append("\",")
-                .append("\"tipo\":\"").append("1").append("\",");
+                        .append("\"tipo\":\"").append("1").append("\",")
+                        .append("\"fav\":\"").append(tieneLaik).append("\",");
                 jsonResponse.append("\"adicional\":\"").append(lista.getGenero().getNombre()).append("\"},");
             }else{
+                
+                
+                
                 ControladorListaParticular ctrl = new ControladorListaParticular();
                 String usuario = request.getParameter("usuario");
+                String tieneLaik = controlCli.corroborarListaEnFav(nombreLista, usuario, listasCole);
             System.out.println("Usuario recibido: " + usuario);
                 DataListaParticular lista = ctrl.devolverInformacion(nombreLista, usuario);
                 jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\",")
                         .append("\"imagen\":\"").append(lista.getFoto()).append("\",")
-                        .append("\"tipo\":\"").append("2").append("\",");
+                        .append("\"tipo\":\"").append("2").append("\",")
+                        .append("\"fav\":\"").append(tieneLaik).append("\",");
                 jsonResponse.append("\"adicional\":\"").append(lista.getDataCliente().getNickname()).append("\"},");
             }
 
@@ -99,7 +118,10 @@ public class ConsultarListaRepServlet extends HttpServlet {
         out.flush();
     }
 
-    private void obtenerTemasPorLista(String nombreLista, String tipo, PrintWriter out, HttpServletResponse response) throws IOException {
+    private void obtenerTemasPorLista(String nombreLista, String tipo,String nickname, PrintWriter out, HttpServletResponse response) throws IOException {
+
+        
+        
         if (nombreLista == null || nombreLista.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El nombre de la lista es requerido");
             return;
@@ -113,12 +135,18 @@ public class ConsultarListaRepServlet extends HttpServlet {
                 out.print("[]");
                 return;
             }
-
+            ControladorCliente controlCli = new ControladorCliente();
+            Collection <String> cole = controlCli.obtenerTemaFavCliente(nickname);
+            
             StringBuilder jsonResponse = new StringBuilder("[");
             for (DataTema tema : temas) {
+                
+                String tieneLaik = controlCli.corroborarTemaEnFav(tema.getNickname(), cole);
+                System.out.println("Tiene laik: " + tieneLaik);
                 System.out.println(tema.getArchivo());
                 jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
                         .append("\"album\":\"").append(tema.getNomAlb()).append("\",")
+                        .append("\"fav\":\"").append(tieneLaik).append("\",")
                         .append("\"identificador_archivo\":\"").append(tema.getArchivo()).append("\"},");
             }
 

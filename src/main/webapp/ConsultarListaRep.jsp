@@ -75,6 +75,10 @@
                         <h2>Informacion de la Lista</h2>
                         <div>
                             <img src="imagenes/listas/defaultList.png" id="imagenlista" alt="Imagen de la Lista" width="300">
+                             <button id="favListaBtn" style="display:none;">Fav</button>
+                            <button id="sacarDeFavListaBtn" style="display:none;">NoFav</button>
+                        
+                        
                         </div>
                         <input type="text" id="nombrelista" value="" readonly>
                         <input type="text" id="creadorgenerolista" value="" readonly>

@@ -31,12 +31,18 @@ function cargarInfo(listaNombre, tipo){
     var NOMBRELISTA = document.getElementById('nombrelista');
     var CREADORGENERO = document.getElementById('creadorgenerolista');
     var IMAGENLISTA = document.getElementById('imagenlista');
-
+    var LAIK = document.getElementById('favListaBtn');
+    var NOLAIK = document.getElementById('sacarDeFavListaBtn');
+    
+    
+    
+    
 if(tipo==="1"){
     fetch('http://localhost:8080/EspotifyWeb/ConsultarListaRepServlet?action=devolverInformacionLista&listaNombre=' + encodeURIComponent(listaNombre) + '&tipo=' + encodeURIComponent(tipo))
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(lista => {
+
                             NOMBRELISTA.value=lista.nombre;
                     CREADORGENERO.value=lista.adicional;
                     if(lista.imagen!=="" && lista.imagen!==null && (lista.imagen==="png" || lista.imagen==="jpg")){
@@ -44,10 +50,20 @@ if(tipo==="1"){
                     }else{
                         IMAGENLISTA.src="imagenes/listas/defaultList.png";
                     }
+                    
+                    if(lista.fav === "fav"){
+                        NOLAIK.style.display = 'block';
+                        LAIK.style.display = 'none';
+                          NOMBRELISTA.value="fav";
+                    }else{
+                        LAIK.style.display = 'block';
+                        NOLAIK.style.display = 'none';
+                         NOMBRELISTA.value="nofav";
+                    }
 
                         });
                     })
-                    .catch(error => console.error('Error al datos del album:', error));
+                    .catch(error => console.error('Error al datos de la lista:', error));
 }else{
         const urlParams = new URLSearchParams(window.location.search);
     const tercerCampo = urlParams.get('listaName').split("tipo=")[0].split("&#8206;-")[0].split("/")[1];
@@ -70,10 +86,20 @@ if(tipo==="1"){
                     }else{
                         IMAGENLISTA.src="imagenes/listas/defaultList.png";
                     }
-
+                    
+                     if(lista.fav === "fav"){
+                        NOLAIK.style.display = 'block';
+                        LAIK.style.display = 'none';
+                          //NOMBRELISTA.value="fav";
+                    }else{
+                        LAIK.style.display = 'block';
+                        NOLAIK.style.display = 'none';
+                         //NOMBRELISTA.value="nofav"; 
+                    }
+                    
                         });
                     })
-                    .catch(error => console.error('Error al datos del album:', error));
+                    .catch(error => console.error('Error al cargar datos de la lista:', error));
 }
 
 }
@@ -107,7 +133,11 @@ function ensureUrlProtocol(url) {
 function llenarTablaTemas(temas, tieneSuscripcion) {
     const tbody = document.querySelector('#tablaTemas tbody');
     tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos resultados
-
+     //var NOMBRELISTA = document.getElementById('nombrelista');
+     
+     
+     
+     
     if (temas.length === 0) {
         tbody.innerHTML = '<tr><td colspan="3">No hay temas disponibles.</td></tr>'; // Aumentar a 3 columnas
     } else {
@@ -115,8 +145,21 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
             const urlDescarga = ensureUrlProtocol(tema.identificador_archivo.trim());
 
             console.log('URL de descarga:', urlDescarga);
-
-            tbody.innerHTML += `
+           // println(temas.fav);
+            if(tema.fav === "fav"){
+               
+                tbody.innerHTML += `
+                <tr>
+                <td>${tema.nombre}</td>
+                <td>${tieneSuscripcion
+                    ? `<a href="${urlDescarga}" target="_blank">Descargar</a>`
+                    : `<button disabled>Descargar</button>`}
+                </td>
+                <td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td>
+                <td><button onclick="algo(this)">NoFav</button></td>
+            </tr>`;
+            }else{
+                 tbody.innerHTML += `
             <tr>
                 <td>${tema.nombre}</td>
                 <td>${tieneSuscripcion
@@ -124,7 +167,10 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
                     : `<button disabled>Descargar</button>`}
                 </td>
                 <td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td>
+                <td><button onclick="algo(this)">Fav</button></td>
             </tr>`;
+            }
+            
         });
     }
 
