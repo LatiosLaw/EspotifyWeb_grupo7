@@ -90,22 +90,31 @@ async function SuccionarInformacion() {
                     data.forEach(tema => {
 
                     
-                        if(tema.fav === "fav"/*El usuario ya le puso laik*/){
+                       if(tema.fav === "fav"/*El usuario ya le puso laik*/){
                             if (tema.link !== "null") {
-                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td><td><button onclick="algo(this)">Fav</button></td></tr>`;
+                                const row = `<tr><td>${tema.nombre}</td>
+                                <td>${formatearTiempo(tema.duracion)}</td>
+                                <td>${tema.link}</td>
+                                <td><button onclick="VamoAYoutube(this)" class="btnsAlbum">Escuchar Tema</button><td>
+                                <button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')"class="btnsAlbum" >Agregar a Lista</button></td>
+                                 <td><button onclick="sacarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')" class="btnsAlbum">NoFav</button></td>
+                                </tr>`;
                                 tbody.innerHTML += row;
                             } else {
-                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)">Descargar</button></td><td><button onclick="algo(this)">Fav</button></td></tr>`;
+                                const row = `<tr><td>${tema.nombre}</td>
+                                <td>${formatearTiempo(tema.duracion)}</td>
+                                <td>${tema.archivo}</td>
+                                <td><button onclick="DescargarTema(this)">Descargar</button></td>
+                                <td><button onclick="sacarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')"class="btnsAlbum">NoFav</button></td>
+                                </tr>`;
                                 tbody.innerHTML += row;
                             }
-                        
-                        
                         }else{
                             if (tema.link !== "null") {
-                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)" class="btnsAlbum">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')" class="btnsAlbum">Agregar a Lista</button></td></td><td><button onclick="algo(this)" class="btnsAlbum">NoFav</button></td></tr>`;
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)" class="btnsAlbum">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')" class="btnsAlbum">Agregar a Lista</button></td></td><td><button onclick="agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')" class="btnsAlbum">Fav</button></td></tr>`;
                                 tbody.innerHTML += row;
                             } else {
-                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button></td></td><td><button onclick="DescargarTema(this)">Fav</button></td><td><button onclick="algo(this)" class="btnsAlbum">NoFav</button></td></tr>`;
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button></td></td><td><button onclick="agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')" class="btnsAlbum">Fav</button></td></tr>`;
                                 tbody.innerHTML += row;
                             }
                         }
@@ -178,3 +187,161 @@ async function SuccionarInformacion() {
             .catch(error => console.error('Error al datos del album:', error));
 
 }
+
+function agregarAlgoFav(id, coso, album){
+    var LAIK = document.getElementById('favAlbumBtn');
+    var NOLAIK = document.getElementById('sacarDeFavAlbumBtn');
+    event.preventDefault();
+    fetch('http://localhost:8080/EspotifyWeb/AgregarAlgoFavServlet', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id: id, coso: coso, album: album})
+        
+        
+    })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Se agrego a favoritos.');
+                   
+            if(coso === "Album"){
+                NOLAIK.style.display = 'block';
+                LAIK.style.display = 'none';
+            }else{
+                recargarListas();
+            }
+
+                } else {
+                    alert('Error al agregar a favotitos: ' + (data.error || 'Error desconocido'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al intentar agregar a favoritos.');
+            });
+    
+    
+}
+
+function sacarAlgoFav(id, coso, album){
+    var LAIK = document.getElementById('favAlbumBtn');
+    var NOLAIK = document.getElementById('sacarDeFavAlbumBtn');
+    event.preventDefault();
+    fetch('http://localhost:8080/EspotifyWeb/SacarAlgoFavServlet', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id: id, coso: coso, album:album})
+    })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Se elimino de tus favoritos.');
+                    
+                    if(coso === "Album"){
+                        NOLAIK.style.display = 'none';
+                        LAIK.style.display = 'block';
+                    }else{
+                        recargarListas();
+            }
+                    
+                } else {
+                    alert('Error al eliminar de tus favoritos: ' + (data.error || 'Error desconocido'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al intentar eliminar de tus favoritos.');
+            });
+    
+    
+}
+
+async function recargarListas() {
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const primerCampo = urlParams.get('album');
+    const resultado = await obtenerValorSesion();
+
+    if (resultado) {
+        fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('temasBody');
+                    tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                    data.forEach(tema => {
+
+                    
+                       if(tema.fav === "fav"/*El usuario ya le puso laik*/){
+                            if (tema.link !== "null") {
+                                const row = `<tr><td>${tema.nombre}</td>
+                                <td>${formatearTiempo(tema.duracion)}</td>
+                                <td>${tema.link}</td>
+                                <td><button onclick="VamoAYoutube(this)" class="btnsAlbum">Escuchar Tema</button><td>
+                                <button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')"class="btnsAlbum" >Agregar a Lista</button></td>
+                                 <td><button onclick="sacarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')" class="btnsAlbum">NoFav</button></td>
+                                </tr>`;
+                                tbody.innerHTML += row;
+                            } else {
+                                const row = `<tr><td>${tema.nombre}</td>
+                                <td>${formatearTiempo(tema.duracion)}</td>
+                                <td>${tema.archivo}</td>
+                                <td><button onclick="DescargarTema(this)">Descargar</button></td>
+                                <td><button onclick="sacarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')"class="btnsAlbum">NoFav</button></td>
+                                </tr>`;
+                                tbody.innerHTML += row;
+                            }
+                        }else{
+                            if (tema.link !== "null") {
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)" class="btnsAlbum">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')" class="btnsAlbum">Agregar a Lista</button></td></td><td><button onclick="agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')" class="btnsAlbum">Fav</button></td></tr>`;
+                                tbody.innerHTML += row;
+                            } else {
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button></td></td><td><button onclick="agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')" class="btnsAlbum">Fav</button></td></tr>`;
+                                tbody.innerHTML += row;
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error al cargar temas del album:', error));
+    } else {
+        fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('temasBody');
+                    tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
+                    data.forEach(tema => {
+                        if (tema.link !== "null") {
+                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td>Fuck You Pobre</td></tr>`;
+                            tbody.innerHTML += row;
+                        } else {
+                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td>Fuck You Pobre</td></tr>`;
+                            tbody.innerHTML += row;
+                        }
+                    });
+                })
+                .catch(error => console.error('Error al cargar temas del album:', error));
+    }
+    
+}
+        function agregarAlbumAFav() {
+            var NOMBREALBUM = document.getElementById('nombrealbum');
+            
+            const idAlbum =NOMBREALBUM.value;
+           
+            agregarAlgoFav(idAlbum,"Album","none");
+                
+                
+        }
+        function sacarAlbumAFav() {
+            var NOMBREALBUM = document.getElementById('nombrealbum');
+            
+            const idAlbum =NOMBREALBUM.value;
+           
+            sacarAlgoFav(idAlbum,"Album","none");
+                
+                
+        }
+

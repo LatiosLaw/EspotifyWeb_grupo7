@@ -68,8 +68,8 @@
                     <div class="realDinamico">
                         <h2 class="contStart">Informacion del Album</h2>
                         <img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album">
-                        <button id="favAlbumBtn" style="display:none;">Fav</button>
-                        <button id="sacarDeFavAlbumBtn" style="display:none;">NoFav</button>
+                        <button onclick="agregarAlbumAFav()" id="favAlbumBtn" style="display:none;">Fav</button>
+                        <button onclick="sacarAlbumAFav()" id="sacarDeFavAlbumBtn" style="display:none;">NoFav</button>
                         <div class="camposAlbum">
                             <input type="text" id="nombrealbum" value="" readonly>
                             <input type="hidden" id="albumTema" name="albumTema" value="">
@@ -293,6 +293,11 @@
 
                 return true;
             }
+            
+            
+            
+            
+            
         </script>
 
         <!-- Consultar album -->
