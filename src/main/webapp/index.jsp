@@ -51,12 +51,7 @@
                     <div class="btnsNav">
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
-                        <% if ("Cliente".equals(userType) || userType == null) { %>
-                        <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
-                        <% } %>
-
                         <% if ("Cliente".equals(userType)) { %>
-                        <a id="AgregarTemaListaLink" href="AgregarTemaALista.jsp">Agregar Tema a Lista</a>
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>

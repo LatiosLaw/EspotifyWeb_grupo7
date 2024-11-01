@@ -163,8 +163,13 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
             <tr>
                 <td>${tema.nombre}</td>
                 <td>${tieneSuscripcion
-                    ? `<a href="${urlDescarga}" target="_blank">Descargar</a>`
-                    : `<button disabled>Descargar</button>`}
+                    ? `<a href="${urlDescarga}" target="_blank" class="btnsLista">Descargar</a>`
+                    : `<button disabled class="btnsLista">Descargar</button>`}
+                </td>
+                <td>
+                    <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsLista">
+                        Agregar a Lista
+                    </button>
                 </td>
                 <td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td>
                 <td><button onclick="algo(this)">Fav</button></td>

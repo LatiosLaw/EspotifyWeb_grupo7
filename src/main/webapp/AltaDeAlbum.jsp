@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/AltaDeAlbum.css">
         <title>Espotify</title>
     </head>
     <body>
@@ -52,12 +53,7 @@
                     <div class="btnsNav">
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
-                        <% if ("Cliente".equals(userType) || userType == null) { %>
-                        <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
-                        <% } %>
-
                         <% if ("Cliente".equals(userType)) { %>
-                        <a id="AgregarTemaListaLink" href="AgregarTemaALista.jsp">Agregar Tema a Lista</a>
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
@@ -72,43 +68,45 @@
                     </div>
                     
                     <div class="realDinamico">
-                        <h1>Alta de Álbum</h1>
+                        <div class="containerAltaAlbum">
+                        <h1>Alta de Album</h1>
                         <c:if test="${not empty errorMessage}">
                             <p id="errorMessage" style="color: red;">${errorMessage}</p>
                         </c:if>
-                        <form id="albumForm" action="AltaDeAlbumServlet" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
+                        <form id="albumForm" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
                             <input type="hidden" id='Valido' name='Valido' value="true">  
-                            <label for="nombreAlbum">Nombre del Álbum:</label>
-                            <input type="text" id="nombreAlbum" name="nombreAlbum" onkeyup="checkAlbum()" required title="Ingresa el nombre del álbum"><br>
+                            <label for="nombreAlbum">Nombre del Album:</label>
+                            <input type="text" id="nombreAlbum" name="nombreAlbum" onkeyup="checkAlbum()" required title="Ingresa el nombre del album"><br>
                             <span id="albumExistsMessage" style="color: red;"></span>
 
-                            <label for="anioCreacion">Año de Creación:</label>
-                            <input type="number" id="anioCreacion" name="anioCreacion" min="1900" max="2100" required title="Ingresa el año de creación"><br>
+                            <label for="anioCreacion">Año de Creacion:</label>
+                            <input type="number" id="anioCreacion" name="anioCreacion" min="1900" max="2100" required title="Ingresa el año de creacion"><br>
 
-                            <label for="generos">Géneros:</label>
+                            <label for="generos">Generos:</label>
                             <select id="generos" name="generos">
-                                <option value="">Seleccione un género</option>
+                                <option value="">Seleccione un genero</option>
                                 <!-- se llenan con AJAX -->
                             </select><br>
 
-                            <label>Géneros Seleccionados:</label>
+                            <label>Generos Seleccionados:</label>
                             <div id="selectedGenerosContainer"></div>
 
                             <!-- Campo oculto para enviar los géneros seleccionados -->
                             <input type="hidden" id="generosSeleccionados" name="generosSeleccionados">
 
-                            <label for="imagenAlbum">Imagen del Álbum (opcional):</label>
+                            <label for="imagenAlbum">Imagen del Album (opcional):</label>
                             <input type="file" id="imagenAlbum" name="imagenAlbum" accept="image/png, image/jpeg">
 
-                            <h2>Temas del Álbum</h2>
+                            <h2>Temas del Album</h2>
                             <div id="temasContainer">
                             </div>
 
-                            <button type="button" onclick="agregarTemaMP3()">Agregar Otro Tema - Archivo MP3</button><br>
-                            <button type="button" onclick="agregarTemaWeb()">Agregar Otro Tema - Direccion URL</button><br>
+                            <button type="button" onclick="agregarTemaMP3()">Agregar Tema - Archivo MP3</button><br>
+                            <button type="button" onclick="agregarTemaWeb()">Agregar Tema - Direccion URL</button><br>
 
-                            <input type="submit" value="Registrar Álbum">
+                            <input type="submit" value="Registrar Album">
                         </form>
+                        </div>
                     </div>
                     
                 </div>
@@ -182,7 +180,7 @@
                 <div class="tituloFormSignup">
                     <h2>Registro de Usuario</h2>
                 </div>
-                <form id="altaUsuarioForm" method="post" action="AgregarUsuarioServlet" enctype="multipart/form-data">
+                <form id="altaUsuarioForm" method="post" enctype="multipart/form-data">
                         <c:if test="${not empty errorMessage}">
                     <p id="errorMessage" style="color: red;">${errorMessage}</p>
                         </c:if>
@@ -240,7 +238,7 @@
                         <input type="date" id="fechaNac" name="fechaNac" required>
                     </div>
                     <div class="btnsFormSignup">
-                        <button type="submit">Agregar Usuario</button>
+                        <button type="button" onclick="submitForm()">Agregar Usuario</button>
                     </div>
                 </form>
             </dialog>

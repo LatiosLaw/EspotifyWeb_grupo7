@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/ConsultarAlbum.css">
         <title>Espotify</title>
     </head>
     <body>
@@ -50,12 +51,7 @@
                     <div class="btnsNav">
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
-                        <% if ("Cliente".equals(userType) || userType == null) { %>
-                        <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
-                        <% } %>
-
                         <% if ("Cliente".equals(userType)) { %>
-                        <a id="AgregarTemaListaLink" href="AgregarTemaALista.jsp">Agregar Tema a Lista</a>
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
@@ -70,19 +66,19 @@
                     </div>
 
                     <div class="realDinamico">
-                        <h2>Informacion del Album</h2>
-                        <div>
-                            <img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album" width="300">
-                             <button id="favAlbumBtn" style="display:none;">Fav</button>
-                             <button id="sacarDeFavAlbumBtn" style="display:none;">NoFav</button>
+                        <h2 class="contStart">Informacion del Album</h2>
+                        <img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album">
+                        <button id="favAlbumBtn" style="display:none;">Fav</button>
+                        <button id="sacarDeFavAlbumBtn" style="display:none;">NoFav</button>
+                        <div class="camposAlbum">
+                            <input type="text" id="nombrealbum" value="" readonly>
+                            <input type="hidden" id="albumTema" name="albumTema" value="">
+                            <input type="text" id="anioalbum" value="" readonly>
+                            <input type="text" id="creadoralbum" value="" readonly>
                         </div>
-                        <input type="text" id="nombrealbum" value="" readonly>
-                        <input type="hidden" id="albumTema" name="albumTema" value="">
-                        <input type="text" id="anioalbum" value="" readonly>
-                        <input type="text" id="creadoralbum" value="" readonly>
-                        <h3>Generos del Album</h3>
+                        <h2 class="contStart contStart2">Generos del Album</h2>
                         <ul id="generoslist"></ul>
-                        <h3>Temas del Album</h3>
+                        <h2 class="contStart contStart2">Temas del Album</h2>
                         <table id="temasTable">
                             <thead>
                                 <tr>
@@ -151,7 +147,7 @@
                         <input type="text" id="nicknameLogin" name="nicknameLogin" required>
                     </div>
                     <div>
-                        <label for="passLogin">Contraseña:</label>
+                        <label for="passLogin">Contraseï¿½a:</label>
                         <input type="password" id="passLogin" name="passLogin" required>
                     </div>
                     <div class="btnsFormLogin">
@@ -162,12 +158,12 @@
                 <div id="resultado"></div> <!-- Mensajes de resultado -->
             </dialog>
 
-            <dialog id="winSignup"> <!-- Diálogo de registro de usuario -->
+            <dialog id="winSignup"> <!-- Diï¿½logo de registro de usuario -->
                 <button id="cerrarFormSignup">Cerrar</button>
                 <div class="tituloFormSignup">
                     <h2>Registro de Usuario</h2>
                 </div>
-                <form id="altaUsuarioForm" method="post" action="AgregarUsuarioServlet" enctype="multipart/form-data">
+                <form id="altaUsuarioForm" method="post" enctype="multipart/form-data">
                     <c:if test="${not empty errorMessage}">
                         <p id="errorMessage" style="color: red;">${errorMessage}</p>
                     </c:if>
@@ -213,11 +209,11 @@
                         </div>
                     </div>
                     <div>
-                        <label for="pass">Contraseña:</label>
+                        <label for="pass">Contraseï¿½a:</label>
                         <input type="password" id="pass" name="pass" required>
                     </div>
                     <div>
-                        <label for="confirmPass">Confirmar Contraseña:</label>
+                        <label for="confirmPass">Confirmar Contraseï¿½a:</label>
                         <input type="password" id="confirmPass" name="confirmPass" required>
                     </div>
                     <div>
@@ -225,7 +221,7 @@
                         <input type="date" id="fechaNac" name="fechaNac" required>
                     </div>
                     <div class="btnsFormSignup">
-                        <button type="submit">Agregar Usuario</button>
+                        <button type="button" onclick="submitForm()">Agregar Usuario</button>
                     </div>
                 </form>
             </dialog>
@@ -238,24 +234,30 @@
                     <thead>
                         <tr>
                             <th>Nombre de la Lista</th>
-                            <td>Acción</td>
+                            <td>Acciï¿½n</td>
                         </tr>
                     </thead>
                     <tbody id="listasBody">
-                        <!-- Aquí se carga la lista -->
+                        <!-- Aquï¿½ se carga la lista -->
                     </tbody>
                 </table>
 
                 <form id="agregarTemaListaForm" onsubmit="return validarFormulario()">
-                    <input type="hidden" id='albumTema' name='albumTema' value="">
-                    <label for="nombreLista">Tu Lista a la que Agregar el Tema:</label>
-                    <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de una lista" readonly><br>
-                    <label for="nombreTema">Nombre del Tema:</label>
-                    <input type="text" id="nombreTema" name="nombreTema" required title="Ingresa el nombre de un tema" readonly><br>
-
-                    <button type="submit">Agregar Tema a Lista</button>
+                    <div>
+                        <input type="hidden" id='albumTema' name='albumTema' value="">
+                        <label for="nombreLista">Tu Lista a la que Agregar el Tema:</label>
+                        <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de una lista" readonly>
+                    </div>
+                    <div>
+                        <label for="nombreTema">Nombre del Tema:</label>
+                        <input type="text" id="nombreTema" name="nombreTema" required title="Ingresa el nombre de un tema" readonly>
+                    </div>
+                    <div class="btnsAddTema">
+                        <button type="submit">Agregar Tema a Lista</button>
+                        <button onclick="cerrarDialogo()">Cerrar</button>
+                    </div>
                 </form>
-                <button onclick="cerrarDialogo()">Cerrar</button>
+                
             </dialog>
 
         </div> <!-- Fin Cuerpo -->
@@ -263,7 +265,7 @@
         <script>
             function abrirDialogo(nombreTema, albumTema) {
                 document.getElementById('nombreTema').value = nombreTema;
-                document.getElementById('albumTema').value = albumTema; // Asigna aquí
+                document.getElementById('albumTema').value = albumTema; // Asigna aquï¿½
 
                 const dialog = document.getElementById('dialogoAgregarTema');
                 dialog.showModal(); // Usar showModal para abrir como un modal

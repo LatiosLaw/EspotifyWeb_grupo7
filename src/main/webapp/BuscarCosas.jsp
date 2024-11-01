@@ -51,12 +51,7 @@
                     <div class="btnsNav">
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
-                        <% if ("Cliente".equals(userType) || userType == null) { %>
-                        <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
-                        <% } %>
-
                         <% if ("Cliente".equals(userType)) { %>
-                        <a id="AgregarTemaListaLink" href="AgregarTemaALista.jsp">Agregar Tema a Lista</a>
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
@@ -177,7 +172,7 @@
                 <div class="tituloFormSignup">
                     <h2>Registro de Usuario</h2>
                 </div>
-                <form id="altaUsuarioForm" method="post" action="AgregarUsuarioServlet" enctype="multipart/form-data">
+                <form id="altaUsuarioForm" method="post" enctype="multipart/form-data">
                     <c:if test="${not empty errorMessage}">
                         <p id="errorMessage" style="color: red;">${errorMessage}</p>
                     </c:if>
@@ -235,7 +230,7 @@
                         <input type="date" id="fechaNac" name="fechaNac" required>
                     </div>
                     <div class="btnsFormSignup">
-                        <button type="submit">Agregar Usuario</button>
+                        <button type="button" onclick="submitForm()">Agregar Usuario</button>
                     </div>
                 </form>
             </dialog>

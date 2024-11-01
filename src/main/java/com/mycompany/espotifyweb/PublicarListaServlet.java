@@ -83,8 +83,8 @@ public class PublicarListaServlet extends HttpServlet {
 
         System.out.println("\n----------Publicar Lista Servlet POST----------");
 
-        String listaNombre = request.getParameter("lista");
-
+        String listaNombre = request.getParameter("primerCampo");
+        System.out.println(listaNombre);
         // Obtener la sesión
         HttpSession session = request.getSession();
 

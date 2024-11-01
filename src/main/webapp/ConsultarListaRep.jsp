@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/ConsultarListaRep.css">
         <title>Espotify</title>
     </head>
     <body>
@@ -52,12 +53,7 @@
                     <div class="btnsNav">
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
-                        <% if ("Cliente".equals(userType) || userType == null) { %>
-                        <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
-                        <% } %>
-
                         <% if ("Cliente".equals(userType)) { %>
-                        <a id="AgregarTemaListaLink" href="AgregarTemaALista.jsp">Agregar Tema a Lista</a>
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
@@ -72,17 +68,17 @@
                     </div>
 
                     <div class="realDinamico">
-                        <h2>Informacion de la Lista</h2>
-                        <div>
-                            <img src="imagenes/listas/defaultList.png" id="imagenlista" alt="Imagen de la Lista" width="300">
-                             <button id="favListaBtn" style="display:none;">Fav</button>
-                            <button id="sacarDeFavListaBtn" style="display:none;">NoFav</button>
                         
-                        
+                        <h2 class="contStart">Informacion de la Lista</h2>
+                        <img src="imagenes/listas/defaultList.png" id="imagenlista" alt="Imagen de la Lista">
+                        <button id="favListaBtn" style="display:none;">Fav</button>
+                        <button id="sacarDeFavListaBtn" style="display:none;">NoFav</button>
+                        <div class="camposLista">
+                            <input type="text" id="nombrelista" value="" readonly>
+                            <input type="text" id="creadorgenerolista" value="" readonly>
                         </div>
-                        <input type="text" id="nombrelista" value="" readonly>
-                        <input type="text" id="creadorgenerolista" value="" readonly>
-                            <h2>Temas de la Lista Seleccionada</h2>
+                        <h2 class="contStart contStart2">Temas de la Lista Seleccionada</h2>
+                        <div class="contTablaTemas">
                             <table id="tablaTemas" style="display:none;">
                                 <thead>
                                     <tr>
@@ -91,8 +87,11 @@
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody>
+                                    <!-- Aca se carga la lista -->
+                                </tbody>
                             </table>
+                        </div>
                     </div>
 
                 </div>
@@ -150,7 +149,7 @@
                         <input type="text" id="nicknameLogin" name="nicknameLogin" required>
                     </div>
                     <div>
-                        <label for="passLogin">Contraseña:</label>
+                        <label for="passLogin">Contraseï¿½a:</label>
                         <input type="password" id="passLogin" name="passLogin" required>
                     </div>
                     <div class="btnsFormLogin">
@@ -166,7 +165,7 @@
                 <div class="tituloFormSignup">
                     <h2>Registro de Usuario</h2>
                 </div>
-                <form id="altaUsuarioForm" method="post" action="AgregarUsuarioServlet" enctype="multipart/form-data">
+                <form id="altaUsuarioForm" method="post" enctype="multipart/form-data">
                     <c:if test="${not empty errorMessage}">
                         <p id="errorMessage" style="color: red;">${errorMessage}</p>
                     </c:if>
@@ -212,11 +211,11 @@
                         </div>
                     </div>
                     <div>
-                        <label for="pass">Contraseña:</label>
+                        <label for="pass">Contraseï¿½a:</label>
                         <input type="password" id="pass" name="pass" required>
                     </div>
                     <div>
-                        <label for="confirmPass">Confirmar Contraseña:</label>
+                        <label for="confirmPass">Confirmar Contraseï¿½a:</label>
                         <input type="password" id="confirmPass" name="confirmPass" required>
                     </div>
                     <div>
@@ -224,37 +223,41 @@
                         <input type="date" id="fechaNac" name="fechaNac" required>
                     </div>
                     <div class="btnsFormSignup">
-                        <button type="submit">Agregar Usuario</button>
+                        <button type="button" onclick="submitForm()">Agregar Usuario</button>
                     </div>
                 </form>
             </dialog>
 
             <dialog id="dialogoAgregarTema">
-                <h1>Agregar Tema a Lista</h1>
-
-                <h2>Tus Listas</h2>
+                <h2 class="addTema">Agregar Tema a Lista</h2>
+                <h3 class="tusListas">Tus Listas</h3>
                 <table id="listasTable">
                     <thead>
                         <tr>
                             <th>Nombre de la Lista</th>
-                            <td>Acción</td>
+                            <th class="action">Acciï¿½n</th>
                         </tr>
                     </thead>
                     <tbody id="listasBody">
-                        <!-- Aquí se carga la lista -->
+                        <!-- Aquï¿½ se carga la lista -->
                     </tbody>
                 </table>
 
                 <form id="agregarTemaListaForm" onsubmit="return validarFormulario()">
-                    <input type="hidden" id='albumTema' name='albumTema' value="">
-                    <label for="nombreLista">Tu Lista a la que Agregar el Tema:</label>
-                    <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de una lista" readonly><br>
-                    <label for="nombreTema">Nombre del Tema:</label>
-                    <input type="text" id="nombreTema" name="nombreTema" required title="Ingresa el nombre de un tema" readonly><br>
-
-                    <button type="submit">Agregar Tema a Lista</button>
+                    <div>
+                        <label for="nombreLista">Tu Lista a la que Agregar el Tema:</label>
+                        <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de una lista" readonly>
+                        <input type="hidden" id='albumTema' name='albumTema' value="">
+                    </div>
+                    <div>
+                        <label for="nombreTema">Nombre del Tema:</label>
+                        <input type="text" id="nombreTema" name="nombreTema" required title="Ingresa el nombre de un tema" readonly> 
+                    </div>
+                    <div class="btnsAddTema">
+                        <button type="submit">Agregar Tema a Lista</button>
+                        <button onclick="cerrarDialogo()" type="reset">Cerrar</button>
+                    </div>
                 </form>
-                <button onclick="cerrarDialogo()">Cerrar</button>
             </dialog>
                     
         </div> <!-- Fin Cuerpo -->
@@ -263,7 +266,7 @@
             function emitirBusqueda() {
                 const searchInput = document.getElementById('searchInput').value;
 
-                // Redirigir a la URL con el parámetro de búsqueda
+                // Redirigir a la URL con el parï¿½metro de bï¿½squeda
                 if (searchInput === "" || searchInput === null) {
                     alert("Por favor, ingrese un termino de busqueda.");
                 } else {

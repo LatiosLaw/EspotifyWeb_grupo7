@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/AltaLista.css">
         <title>Espotify</title>
     </head>
     <body>
@@ -14,7 +15,7 @@
             Boolean suscrito = (Boolean) session.getAttribute("suscrito");
         %>
         <div class="cuerpo">
-            
+
             <header class="encaPrin">
                 <div>
                     <a href="index.jsp" class="EspotifyLogo">
@@ -22,22 +23,22 @@
                         <h1>Espotify</h1>
                     </a>
                 </div>
-                
+
                 <div class="busqueda">
                     <input id="searchInput" type="text" placeholder="Tema, Album, Lista" class="barraBusqueda">
                     <a class="btnBusqueda" onclick="emitirBusqueda()">Buscar</a>
                 </div>
-                
+
                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><img src="imagenes/espotify/user.png" class="userIMG"></a>
+                        <a href="ConsultarUsuario.jsp?usr=<%= nickname%>"><img src="imagenes/espotify/user.png" class="userIMG"></a>
                     </div>
                     <ul class="listUser">
-                        
-                        <li class="userName"><a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p></li>
+
+                        <li class="userName"><a href="ConsultarUsuario.jsp?usr=<%= nickname%>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p></li>
                             <% if (nickname == null) { %>
                         <li><p><button id="abrirFormLogin">Iniciar sesion</button></p></li>
-                                    <% } else { %>
+                                    <% } else {%>
                         <li><p>Tipo: <%= userType != null ? userType : "Desconocido"%></p></li>
                         <li><p><button id="logoutButton">Cerrar sesion</button></p></li>
                                     <% } %>
@@ -46,65 +47,62 @@
             </header>
 
             <div class="mainCon">
-                
+
                 <div class="dinamico">
-                    
+
                     <div class="btnsNav">
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
-                        <% if ("Cliente".equals(userType) || userType == null) { %>
-                        <a id="consultarListaLink" href="ConsultarListaRep.jsp">Consultar Lista</a>
-                        <% } %>
-
                         <% if ("Cliente".equals(userType)) { %>
-                        <a id="AgregarTemaListaLink" href="AgregarTemaALista.jsp">Agregar Tema a Lista</a>
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
-                            <% if (suscrito) { %>       
-                            <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
-                            <% } %>
+                        <% if (suscrito) { %>       
+                        <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
+                        <% } %>
                         <% } %>
 
                         <% if ("Artista".equals(userType)) { %>
                         <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
                         <% }%>
                     </div>
-                    
+
                     <div class="realDinamico">
-                        <h1>Alta de Lista</h1>
                         <c:if test="${not empty errorMessage}">
                             <p id="errorMessage" style="color: red;">${errorMessage}</p>
                         </c:if>
-                        <form id="ListaForm" action="AltaDeListaServlet" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
+                        <form id="ListaForm" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
+                            <h1 class="titulo">Alta de Lista</h1>
                             <input type="hidden" id='Valido' name='Valido' value="true">  
                             <label for="nombreLista">Nombre de la Lista : </label>
                             <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de la Lista"><br>
                             <span id="ListaExistsMessage" style="color: red;"></span>
 
-                            <label for="imagenLista">Imagen de la Lista (opcional):</label>
+                            <label for="imagenDeLaLista">Imagen de la Lista (opcional):</label>
                             <input type="file" id="imagenLista" name="imagenLista" accept="image/png, image/jpeg">
 
                             <input type="submit" value="Registrar Lista">
                         </form>
                     </div>
-                    
+
+
+
                 </div>
-                
+
                 <div class="reproductor">
                     <div class="temaRep">
                         <img src="imagenes/espotify/user.png" class="artIMG">
                         <h3>Nombre Tema</h3>
                         <h2>Nombre Artista</h2>
                     </div>
-                    
+
                     <div class="controlRep">
-                        
+
                         <audio id="miAudio">
                             <source id="audioSource" src="temas/DONMAI.mp3" type="audio/mpeg">
                             Tu navegador no soporta el elemento audio.
                         </audio>
-                        
+
                         <div class="tiempoRep">
                             <div id="progressBar" onmousedown="startAdjustingProgressBar(event)">
                                 <div id="progress"></div>
@@ -112,7 +110,7 @@
                             <div class="tiempos">
                                 <span id="currentTime">0:00</span><span id="totalTime">0:00</span>
                             </div>
-                            
+
                             <div class="volumen">
                                 <button id="muteBtn" onclick="muteVolume()"><img src="imagenes/espotify/volume-on.png"></button>
                                 <button id="unmuteBtn" onclick="unmuteVolume()" style="display: none;"><img src="imagenes/espotify/volume-off.png"></button>
@@ -120,19 +118,19 @@
                                     <div id="volumeLevel"></div>
                                 </div>
                             </div>
-                            
+
                             <div class="btnsMedia">
                                 <button id="prevBtn" onclick="prevAudio()"><img src="imagenes/espotify/back-button.png"></button>
                                 <button id="pauseBtn" hidden><img src="imagenes/espotify/pause-button.png"></button>
                                 <button id="playBtn"><img src="imagenes/espotify/play-button.png"></button>
                                 <button id="nextBtn" onclick="nextAudio()"><img src="imagenes/espotify/next-button.png"></button>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
             </div>
-                    
+
             <dialog id="winLogin"> <!-- Di?logo de inicio de sesi?n -->
                 <button id="cerrarFormLogin">Cerrar</button>
                 <div class="tituloFormLogin">
@@ -144,7 +142,7 @@
                         <input type="text" id="nicknameLogin" name="nicknameLogin" required>
                     </div>
                     <div>
-                        <label for="passLogin">Contraseña:</label>
+                        <label for="passLogin">Contraseï¿½a:</label>
                         <input type="password" id="passLogin" name="passLogin" required>
                     </div>
                     <div class="btnsFormLogin">
@@ -154,16 +152,16 @@
                 </form>
                 <div id="resultado"></div> <!-- Mensajes de resultado -->
             </dialog>
-                    
+
             <dialog id="winSignup"> <!-- Di?logo de registro de usuario -->
                 <button id="cerrarFormSignup">Cerrar</button>
                 <div class="tituloFormSignup">
                     <h2>Registro de Usuario</h2>
                 </div>
-                <form id="altaUsuarioForm" method="post" action="AgregarUsuarioServlet" enctype="multipart/form-data">
-                        <c:if test="${not empty errorMessage}">
-                    <p id="errorMessage" style="color: red;">${errorMessage}</p>
-                        </c:if>
+                <form id="altaUsuarioForm" method="post" enctype="multipart/form-data">
+                    <c:if test="${not empty errorMessage}">
+                        <p id="errorMessage" style="color: red;">${errorMessage}</p>
+                    </c:if>
                     <div>
                         <input type="hidden" id='Valido' name='Valido' value="true">  
                         <label for="tipoUsuario">Tipo de Usuario:</label>
@@ -206,11 +204,11 @@
                         </div>
                     </div>
                     <div>
-                        <label for="pass">Contraseña:</label>
+                        <label for="pass">Contraseï¿½a:</label>
                         <input type="password" id="pass" name="pass" required>
                     </div>
                     <div>
-                        <label for="confirmPass">Confirmar Contraseña:</label>
+                        <label for="confirmPass">Confirmar Contraseï¿½a:</label>
                         <input type="password" id="confirmPass" name="confirmPass" required>
                     </div>
                     <div>
@@ -218,43 +216,43 @@
                         <input type="date" id="fechaNac" name="fechaNac" required>
                     </div>
                     <div class="btnsFormSignup">
-                        <button type="submit">Agregar Usuario</button>
+                        <button type="button" onclick="submitForm()">Agregar Usuario</button>
                     </div>
                 </form>
             </dialog>
         </div> <!-- Fin Cuerpo -->
-        
-        <script>
-    function emitirBusqueda() {
-        const searchInput = document.getElementById('searchInput').value;
 
-        // Redirigir a la URL con el parámetro de búsqueda
-        if(searchInput==="" || searchInput===null){
-        alert("Por favor, ingrese un termino de busqueda.");
-        }else{
-        window.location.href = "BuscarCosas.jsp?search=" + searchInput;
-        }
-    }
-</script>
+        <script>
+            function emitirBusqueda() {
+                const searchInput = document.getElementById('searchInput').value;
+
+                // Redirigir a la URL con el parï¿½metro de bï¿½squeda
+                if (searchInput === "" || searchInput === null) {
+                    alert("Por favor, ingrese un termino de busqueda.");
+                } else {
+                    window.location.href = "BuscarCosas.jsp?search=" + searchInput;
+                }
+            }
+        </script>
         <!-- Alta de lista -->
         <script src="scripts/AltaDeLista.js"></script>
-        
+
         <!-- Script registro de usuario -->
         <script src = "scripts/AgregarUsuario.js"></script>
-        
+
         <!-- Script inicio y cierre de sesion -->
         <script src="scripts/Login.js"></script>
         <script src="scripts/Logout.js"></script>
 
         <!-- Formulario de login y signup -->
         <script src = "scripts/LoginSignupForm.js"></script>
-        
+
         <!-- Cosas del reproductor de musica -->
         <script src="scripts/Reproductor.js"></script>
-        
+
         <!-- Evitar que las imagenes sean arrastradas -->
         <script>
-            document.addEventListener('dragstart', function(event) {
+            document.addEventListener('dragstart', function (event) {
                 event.preventDefault();
             });
         </script>

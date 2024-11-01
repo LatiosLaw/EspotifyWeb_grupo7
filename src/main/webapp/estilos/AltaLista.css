@@ -1,0 +1,69 @@
+#ListaForm {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+/* Estilo para los labels */
+#ListaForm label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #1c1c1c;
+}
+
+/* Estilo para los inputs de texto */
+#ListaForm input[type="text"],
+#ListaForm input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    color: black;
+    background-color: #ebebeb;
+    margin-bottom: 15px;
+    border: 1px solid #030203;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Estilo para el mensaje de error */
+#errorMessage,
+#ListaExistsMessage {
+    color: red;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+/* Estilo para el botón de enviar */
+#ListaForm input[type="submit"] {
+    width: 100%;
+    background-color: #843794;
+    color: white;
+    padding: 10px;
+    border: 1px solid #030203;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#ListaForm input[type="submit"]:hover {
+    background-color: #662673;
+    
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    #ListaForm {
+        padding: 15px;
+    }
+}
+
+.titulo{
+    margin-bottom: 13px;
+    text-align: center;
+}

@@ -17,6 +17,10 @@
         <servlet-class>com.mycompany.espotifyweb.TodosLosGenerosServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>TodoLoDeUnGeneroServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.TodoLoDeUnGeneroServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>TodosLosArtistasServlet</servlet-name>
         <servlet-class>com.mycompany.espotifyweb.TodosLosArtistasServlet</servlet-class>
     </servlet>
@@ -115,6 +119,10 @@
     <servlet-mapping>
         <servlet-name>TodosLosGenerosServlet</servlet-name>
         <url-pattern>/TodosLosGenerosServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TodoLoDeUnGeneroServlet</servlet-name>
+        <url-pattern>/TodoLoDeUnGeneroServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>TodosLosArtistasServlet</servlet-name>

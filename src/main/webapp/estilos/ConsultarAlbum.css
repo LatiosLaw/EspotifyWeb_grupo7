@@ -1,0 +1,13 @@
+.contStart{
+    background-color: #9e55bc;
+    padding: 10px 0 10px 5%;
+    border-bottom: 2px solid black;
+    margin-bottom: 15px;
+}
+
+.contStart2{
+    border-top: 2px solid black;
+    border-right: 2px solid black;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
