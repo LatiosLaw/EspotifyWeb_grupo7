@@ -56,3 +56,170 @@
 .btnsAlbum:action{
     background-color: #99339f;
 }
+
+.contTablaTemas{
+    display: flex;
+    justify-content: center;
+}
+
+#agregarTemaListaForm div{
+    margin-top: 5px;
+}
+
+#agregarTemaListaForm div label{
+    margin-left: 7%;
+}
+
+#agregarTemaListaForm div input, .camposAlbum input{
+    border-radius: 3px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+    box-sizing: border-box;
+    padding: 2px 0px 2px 5px;
+}
+
+#agregarTemaListaForm div input{
+    width: 90%;
+    margin-left: 5%;
+}
+
+.camposAlbum{
+    display: grid;
+}
+
+.camposAlbum input{
+    justify-self: center;
+}
+
+#listasTable, #temasTable{
+    border-collapse: collapse;
+    align-self: center;
+    margin-bottom: 10px;
+}
+
+#listasTable{
+    width: 100%;
+}
+
+#listasTable tr, #listasTable tr td, #listasTable tr th, #temasTable tr, #temasTable tr td, #temasTable tr th{
+    border: 2px solid black;
+    padding: 5px 10px;
+    background-color: #9e55bc;
+    text-align: center;
+}
+
+.btnSelect{
+    background-color: #b63ebe;
+    border: none;
+    transition: background-color 0.15s;
+    padding: 5px 10px;
+    width: 100%;
+    border: 2px solid black;
+}
+
+.btnSelect:hover{
+    background-color: #cf48d7;
+}
+
+.btnSelect:active{
+    background-color: #99339f;
+}
+
+.btnsAddTema{
+    text-align: center;
+    margin-top: 10px;
+}
+
+.btnsAddTema button{
+    border-style: solid;
+    border-color: black;
+    border-radius: 3px;
+    border-width: 2px;
+    background-color: #b63ebe;
+    padding: 2px 7px 2px 7px;
+    transition: background-color 0.15s;
+}
+
+.btnsAddTema button:hover{
+    background-color: #cf48d7;
+}
+
+.btnsAddTema button:active{
+    background-color: #99339f;
+}
+
+.addTema{
+    margin-left: 5%;
+    margin-top: 10px;
+}
+
+.tusListas{
+    margin: 10px 0 10px 8%;
+}
+
+#anioalbum{
+    width: 50px;
+}
+
+#generoslist{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#generoslist li{
+    margin: 0 10px 10px 10px;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 50px;
+    background-color: #a241b6;
+    padding: 5px 10px;
+}
+
+#creadoralbum{
+    margin-bottom: 10px;
+}
+
+/*Resolucion de telefono*/
+@media (max-width: 960px){
+    #imagenlista{
+        width: 30vw;
+        heigth: 30vw;
+    }
+    
+    #nombrealbum, #creadoralbum{
+        width: 80%;
+    }
+}
+
+/*Resolucion de pc*/
+@media (min-width: 960px) and (max-width: 1400px){
+    #imagenalbum{
+        width: 20vw;
+        heigth: 20vw;
+    }
+    
+    #nombrealbum{
+        width: 50%;
+    }
+    
+    #creadoralbum{
+        width: 20%;
+    }
+}
+
+@media (min-width: 1400px){
+    #imagenalbum{
+        width: 15vw;
+        heigth: 15vw;
+    }
+    
+    #nombrealbum{
+        width: 30%;
+    }
+    
+    #creadoralbum{
+        width: 20%;
+    }
+}

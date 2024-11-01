@@ -77,20 +77,22 @@
                         <h2 class="contStart contStart2">Generos del Album</h2>
                         <ul id="generoslist"></ul>
                         <h2 class="contStart contStart2">Temas del Album</h2>
-                        <table id="temasTable">
-                            <thead>
-                                <tr>
-                                    <th>Nombre del Tema</th>
-                                    <th>Duracion</th>
-                                    <th>Archivo / Link</th>
-                                    <th>Accion</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="temasBody">
-                                <!-- aca se carga la lista -->
-                            </tbody>
-                        </table>
+                        <div class="contTablaTemas">
+                            <table id="temasTable">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre del Tema</th>
+                                        <th>Duracion</th>
+                                        <th>Archivo / Link</th>
+                                        <th>Accion</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="temasBody">
+                                    <!-- aca se carga la lista -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -225,9 +227,9 @@
             </dialog>
 
             <dialog id="dialogoAgregarTema">
-                <h1>Agregar Tema a Lista</h1>
+                <h2 class="addTema">Agregar Tema a Lista</h2>
 
-                <h2>Tus Listas</h2>
+                <h3 class="tusListas">Tus Listas</h3>
                 <table id="listasTable">
                     <thead>
                         <tr>
@@ -252,7 +254,7 @@
                     </div>
                     <div class="btnsAddTema">
                         <button type="submit">Agregar Tema a Lista</button>
-                        <button onclick="cerrarDialogo()">Cerrar</button>
+                        <button onclick="cerrarDialogo()" type="reset">Cerrar</button>
                     </div>
                 </form>
                 
