@@ -157,7 +157,7 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
                         Agregar a Lista
                     </button>
                 </td>
-                <td> <button onclick="algo(this)">NoFav</button></td>
+                <td> <button onclick="algo(this)" class="btnsLista">NoFav</button></td>
             </tr>`;
             }else{
                  tbody.innerHTML += `
@@ -172,7 +172,7 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
                         Agregar a Lista
                     </button>
                 </td>
-                <td><button onclick="algo(this)">Fav</button></td>
+                <td><button onclick="algo(this)" class="btnsLista">Fav</button></td>
             </tr>`;
             }
             

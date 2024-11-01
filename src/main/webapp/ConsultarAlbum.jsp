@@ -86,8 +86,7 @@
                                         <th>Nombre del Tema</th>
                                         <th>Duracion</th>
                                         <th>Archivo / Link</th>
-                                        <th>Accion</th>
-                                        <th>Acciones</th>
+                                        <th colspan="3">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody id="temasBody">

@@ -102,10 +102,10 @@ async function SuccionarInformacion() {
                         
                         }else{
                             if (tema.link !== "null") {
-                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')">Agregar a Lista</button></td></td><td><button onclick="algo(this)">NoFav</button></td></tr>`;
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)" class="btnsAlbum">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')" class="btnsAlbum">Agregar a Lista</button></td></td><td><button onclick="algo(this)" class="btnsAlbum">NoFav</button></td></tr>`;
                                 tbody.innerHTML += row;
                             } else {
-                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)">Descargar</button></td></td><td><button onclick="DescargarTema(this)">Fav</button></td><td><button onclick="algo(this)">NoFav</button></td></tr>`;
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button></td></td><td><button onclick="DescargarTema(this)">Fav</button></td><td><button onclick="algo(this)" class="btnsAlbum">NoFav</button></td></tr>`;
                                 tbody.innerHTML += row;
                             }
                         }

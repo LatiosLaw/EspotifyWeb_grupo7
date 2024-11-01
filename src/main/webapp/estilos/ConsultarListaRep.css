@@ -162,6 +162,25 @@
     margin: 10px 0 10px 8%;
 }
 
+#favListaBtn, #sacarDeFavListaBtn{
+    background-color: #b63ebe;
+    transition: background-color 0.15s;
+    padding: 2px 7px 2px 7px;
+    border: 2px solid black;
+    border-radius: 3px;
+    width: 150px;
+    justify-self: center;
+    margin-top: 10px;
+}
+
+#favListaBtn:hover, #sacarDeFavListaBtn:hover{
+    background-color: #cf48d7;
+}
+
+#favListaBtn:active, #sacarDeFavListaBtn:active{
+    background-color: #99339f;
+}
+
 /*Resolucion de telefono*/
 @media (max-width: 960px){
     #imagenlista{

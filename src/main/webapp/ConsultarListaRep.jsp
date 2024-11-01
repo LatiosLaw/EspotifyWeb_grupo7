@@ -71,9 +71,9 @@
                         
                         <h2 class="contStart">Informacion de la Lista</h2>
                         <img src="imagenes/listas/defaultList.png" id="imagenlista" alt="Imagen de la Lista">
-                        <button id="favListaBtn" style="display:none;">Fav</button>
-                        <button id="sacarDeFavListaBtn" style="display:none;">NoFav</button>
                         <div class="camposLista">
+                            <button id="favListaBtn" style="display:none;">Fav</button>
+                            <button id="sacarDeFavListaBtn" style="display:none;">NoFav</button>
                             <input type="text" id="nombrelista" value="" readonly>
                             <input type="text" id="creadorgenerolista" value="" readonly>
                         </div>
@@ -83,8 +83,7 @@
                                 <thead>
                                     <tr>
                                         <th>Tema</th>
-                                        <th>Descargar</th>
-                                        <th>Acciones</th>
+                                        <th colspan="3">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
