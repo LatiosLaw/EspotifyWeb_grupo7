@@ -4,21 +4,21 @@ let generosSeleccionados = [];
 
 function cargarGeneros() {
     fetch('AltaDeAlbumServlet?action=cargarGeneros')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            let select = document.getElementById('generos');
-            select.innerHTML = ''; // Limpia las opciones
-            select.append(new Option('Seleccione un genero', ''));
-            data.forEach(genero => {
-                select.append(new Option(genero, genero)); // Crear opcion con genero cargado
-            });
-        })
-        .catch(error => console.error('Error al cargar los generos:', error));
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                let select = document.getElementById('generos');
+                select.innerHTML = ''; // Limpia las opciones
+                select.append(new Option('Seleccione un genero', ''));
+                data.forEach(genero => {
+                    select.append(new Option(genero, genero)); // Crear opcion con genero cargado
+                });
+            })
+            .catch(error => console.error('Error al cargar los generos:', error));
 }
 
 function agregarGenero() {
@@ -139,18 +139,18 @@ function checkAlbum() {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "AltaDeAlbumServlet?action=verificarAlbum&albumName=" + encodeURIComponent(album), true);
 
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             errorMessageElement.style.display = "none";
             let mensaje = xhr.responseText;
-let correoValidoField = document.getElementById("albumExistsMessage");
-if (mensaje === "Album name is available") {
-    correoValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
-    validoField.value = "true";
-} else {
-    correoValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
-    validoField.value = "false";
-}
+            let correoValidoField = document.getElementById("albumExistsMessage");
+            if (mensaje === "Album name is available") {
+                correoValidoField.innerHTML = "<span style='color: green;'>" + mensaje + "</span>";
+                validoField.value = "true";
+            } else {
+                correoValidoField.innerHTML = "<span style='color: red;'>" + mensaje + "</span>";
+                validoField.value = "false";
+            }
         }
     };
 
@@ -158,3 +158,39 @@ if (mensaje === "Album name is available") {
 }
 
 document.getElementById('generos').addEventListener('change', agregarGenero);
+
+document.getElementById('albumForm').onsubmit = function (event) {
+    event.preventDefault();
+
+    if (!validarFormulario()) {
+        return;
+    }
+
+    const formData = new FormData(this);
+
+    fetch('AltaDeAlbumServlet', {
+        method: 'POST',
+        body: formData
+    })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(data.message);
+                    this.reset(); // Resetea el formulario
+
+                    document.getElementById('selectedGenerosContainer').innerHTML = '';
+                    document.getElementById('generosSeleccionados').value = '';
+
+                    const temasContainer = document.getElementById('temasContainer');
+                    while (temasContainer.firstChild) {
+                        temasContainer.removeChild(temasContainer.firstChild);
+                    }
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Ocurrio un error en el registro.");
+            });
+};
