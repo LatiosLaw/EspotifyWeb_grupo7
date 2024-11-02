@@ -234,27 +234,22 @@ public class AltaDeAlbumServlet extends HttpServlet {
                             }
                             TemaPersistence.crearTemaCasiCompleto(nombreTema, nombreAlbum, duracionEnSegundos, null, nombreArchivo, ubicacionTema);
                         } else if (ti_tema.equals("direccionWeb")) {
-String nombreTema2  = nombreTema.replace(" ", "_");
-       String outputDirectory = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/temas/"+nombreTema2;
-String outputFileName = nombreTema2 + ".mp3"; 
+                            
+        String outputFileName = nombreTema + ".mp3"; 
 
-String projectDir = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/scripts/";
-String executablePath;
-String osys = System.getProperty("os.name").toLowerCase();
+       String outputDirectory = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/temas/%(title)s.%(ext)s";
+       // RUTA CURE : String outputDirectory = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/temas/%(title)s.%(ext)s";   
 
-if (osys.contains("win")) {
-    executablePath = projectDir + "yt-dlp.exe";
-} else if (osys.contains("nix") || osys.contains("nux")) {
-    executablePath = projectDir + "yt-dlp";
-} else {
-    throw new UnsupportedOperationException("Sistema operativo no soportado");
-}
+        String projectDir = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/scripts/";
+       // RUTA CURE : String projectDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/scripts/"; 
+       
+        String executablePath = projectDir + "yt-dlp.exe";
+        // RUTA CURE String executablePath = projectDir + "yt-dlp";
 
-// Comando para descargar el video usando yt-dlp
-String downloadCommand = executablePath + " -x --audio-format mp3 -o " + outputDirectory + " " + direccionWeb;
+        // Comando para descargar el video usando yt-dlp
+        String downloadCommand = executablePath + " -x --audio-format mp3 -o \"" + outputDirectory + "\" \"" + direccionWeb + "\"";
 
 try {
-    // Crear la carpeta de salida si no existe
 
     // Ejecutar comando de descarga
     Process downloadProcess = Runtime.getRuntime().exec(downloadCommand);
