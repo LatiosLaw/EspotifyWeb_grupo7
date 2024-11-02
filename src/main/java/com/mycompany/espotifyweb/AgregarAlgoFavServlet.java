@@ -19,7 +19,6 @@ import logica.controladores.ControladorSuscripcion;
 import logica.controladores.ControladorTema;
 import logica.dt.DataAlbum;
 import logica.dt.DataCliente;
-import logica.dt.DataSus;
 import logica.dt.DataTema;
 import org.eclipse.persistence.exceptions.JSONException;
 import org.json.JSONObject;

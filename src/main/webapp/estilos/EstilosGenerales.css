@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
+
 *{
     padding: 0;
     margin: 0;
-    font-family: cursive;
-    text-decoration: none;
+    font-family: "Kavoon", serif;
+    font-weight: 300;
+    font-style: normal;
     color: black;
 }
 
@@ -34,6 +37,10 @@ input{
 
 ul{
     list-style: none;
+}
+
+a{
+    text-decoration: none;
 }
 
 .encaPrin{

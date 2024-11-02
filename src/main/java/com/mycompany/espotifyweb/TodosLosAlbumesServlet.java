@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import logica.Album;
-import logica.Genero;
 import persistencia.DAO_Album;
 
 public class TodosLosAlbumesServlet extends HttpServlet {

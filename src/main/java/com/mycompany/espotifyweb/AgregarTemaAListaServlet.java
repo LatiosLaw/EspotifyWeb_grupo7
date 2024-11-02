@@ -14,7 +14,6 @@ import logica.ListaParticular;
 import logica.ListaPorDefecto;
 import logica.controladores.ControladorListaParticular;
 import logica.controladores.ControladorTema;
-import logica.dt.DataErrorBundle;
 import logica.dt.DataTema;
 import logica.tema;
 import persistencia.DAO_Album;

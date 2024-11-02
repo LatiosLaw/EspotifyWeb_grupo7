@@ -148,7 +148,7 @@ public class AgregarUsuarioServlet extends HttpServlet {
             // COMENTAR ESTA RUTA Y COLOCAR LA SUYA PROPIA, RUTA DONDE GUARDAR LA FOTO DEL ALBUM /////////////////////////////////////////////////////// 
             String targetDir = "C:\\Users\\Law\\Documents\\GitHub\\EspotifyWeb_grupo7\\src\\main\\webapp\\imagenes\\usuarios\\"; // Ajusta esta ruta
             //String targetDir = "D:\\Github Proyectos\\EspotifyWeb_grupo7\\src\\main\\webapp\\imagenes\\usuarios";
-
+// RUTA CURE : String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/imagenes/usuarios/";    
             // Crear el directorio si no existe
             File uploadDir = new File(targetDir);
             if (!uploadDir.exists()) {

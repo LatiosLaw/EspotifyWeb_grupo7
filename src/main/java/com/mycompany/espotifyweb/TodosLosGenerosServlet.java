@@ -9,9 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import logica.Genero;
-import logica.controladores.ControladorListaParticular;
-import logica.controladores.ControladorTema;
-import logica.dt.DataTema;
 import persistencia.DAO_Genero;
 
 public class TodosLosGenerosServlet extends HttpServlet {

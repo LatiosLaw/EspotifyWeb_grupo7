@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import logica.Usuario;
 import logica.controladores.ControladorCliente;
 import org.eclipse.persistence.exceptions.JSONException;
 import persistencia.DAO_Usuario;
