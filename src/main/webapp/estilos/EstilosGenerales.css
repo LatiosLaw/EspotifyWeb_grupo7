@@ -6,6 +6,7 @@
     font-family: "Kavoon", serif;
     font-weight: 300;
     font-style: normal;
+    text-decoration: none;
     color: black;
 }
 
@@ -37,10 +38,6 @@ input{
 
 ul{
     list-style: none;
-}
-
-a{
-    text-decoration: none;
 }
 
 .encaPrin{
@@ -101,6 +98,7 @@ a{
 
 .userIMG{
     width: 65px;
+    height: 65px;
     margin-right: 20px;
 }
 
