@@ -55,10 +55,7 @@ public class DejarDeSeguirUsuarioServlet extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-        // Obtener la sesión
         HttpSession session = request.getSession();
-
-        // Leer el nickname desde la sesión
         String nickname = (String) session.getAttribute("nickname");
 
         if (nickname == null) {
@@ -83,13 +80,13 @@ public class DejarDeSeguirUsuarioServlet extends HttpServlet {
         if (usuariosSeguidos != null && !usuariosSeguidos.isEmpty()) {
             for (int i = 0; i < usuariosSeguidos.size(); i++) {
                 Usuario usuario = usuariosSeguidos.toArray(new Usuario[0])[i];
-                String tipo = usuario.getDTYPE(); // Asegúrate de tener un método para obtener el tipo
+                String tipo = usuario.getDTYPE();
                 jsonResponse
                         .append("{\"nickname\": \"").append(escapeJson(usuario.getNickname()))
                         .append("\", \"tipo\": \"").append(escapeJson(tipo))
                         .append("\"}");
                 if (i < usuariosSeguidos.size() - 1) {
-                    jsonResponse.append(","); // Agregar coma solo si no es el último elemento
+                    jsonResponse.append(",");
                 }
             }
         }
@@ -110,13 +107,12 @@ public class DejarDeSeguirUsuarioServlet extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-        // Obtener la sesión
         HttpSession session = request.getSession();
         System.out.println("Sesión obtenida: " + session.getId());
-
-        // Leer el nickname desde la sesión
         String nickname = (String) session.getAttribute("nickname");
         System.out.println("Nickname del usuario en sesión: " + nickname);
+
+        Boolean suscrito = (Boolean) session.getAttribute("suscrito");
 
         if (nickname == null) {
             out.println("{\"success\": false, \"error\": \"Usuario no autenticado.\"}");
@@ -124,6 +120,11 @@ public class DejarDeSeguirUsuarioServlet extends HttpServlet {
             return; // Salir si no se encuentra el usuario
         }
 
+        if (suscrito != true) {
+            out.println("{\"success\": false, \"error\": \"No posees una suscripcion vigente.\"}");
+            return;
+        }
+        
         // Obtener el nickname del usuario a dejar de seguir desde el cuerpo de la solicitud
         String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
         System.out.println("Cuerpo de la solicitud: " + body);
