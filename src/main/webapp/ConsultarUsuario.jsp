@@ -330,7 +330,9 @@
         </div> <!-- Fin Cuerpo -->
 
         <script type="text/javascript">
-            const sessionNickname = "${sessionScope.nickname}"; // Asegúrate de que esto se renderice correctamente
+            const sessionNickname = "${sessionScope.nickname}";
+            const sessionUserType = "${sessionScope.userType}";
+            const sessionSuscrito = "${sessionScope.suscrito}";
         </script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
