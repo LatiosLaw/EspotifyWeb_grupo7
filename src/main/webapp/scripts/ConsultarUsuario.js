@@ -36,7 +36,9 @@ function toggleSection(sectionId, loadFunction) {
 }
 
 function cargarPerfil() {
-    fetch(`ConsultarUsuarioServlet?action=cargarPerfil&nickname=${encodeURIComponent(userId)}`)
+    console.log(sessionUserType);
+    if(sessionUserType !== "Artista" || (sessionNickname === userId)){
+        fetch(`ConsultarUsuarioServlet?action=cargarPerfil&nickname=${encodeURIComponent(userId)}`)
             .then(response => response.json())
             .then(data => {
                 document.getElementById('nickname').textContent = data.nickname;
@@ -53,6 +55,10 @@ function cargarPerfil() {
                 checkUserType(data.nickname);
             })
             .catch(error => console.error('Error al cargar perfil:', error));
+    } else {
+        window.location.href = "index.jsp";
+    }
+    
 }
 
 function cargarSeguidores() {
