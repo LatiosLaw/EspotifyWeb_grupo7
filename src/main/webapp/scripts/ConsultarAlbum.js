@@ -118,10 +118,10 @@ async function SuccionarInformacion() {
                     tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
                     data.forEach(tema => {
                         if (tema.link !== "null") {
-                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td>Fuck You Pobre</td></tr>`;
+                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td>Sin Subscripcion</td></tr>`;
                             tbody.innerHTML += row;
                         } else {
-                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td>Fuck You Pobre</td></tr>`;
+                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td>Sin Subscripcion</td></tr>`;
                             tbody.innerHTML += row;
                         }
                     });

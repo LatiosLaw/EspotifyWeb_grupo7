@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import com.google.gson.Gson;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Paths;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -232,7 +234,37 @@ public class AltaDeAlbumServlet extends HttpServlet {
                             }
                             TemaPersistence.crearTemaCasiCompleto(nombreTema, nombreAlbum, duracionEnSegundos, null, nombreArchivo, ubicacionTema);
                         } else if (ti_tema.equals("direccionWeb")) {
-                            TemaPersistence.crearTemaCasiCompleto(nombreTema, nombreAlbum, duracionEnSegundos, direccionWeb, null, ubicacionTema);
+String nombreTema2  = nombreTema.replace(" ", "_");
+       String outputDirectory = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/temas/"+nombreTema2;
+String outputFileName = nombreTema2 + ".mp3"; 
+
+String projectDir = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/scripts/";
+String executablePath;
+String osys = System.getProperty("os.name").toLowerCase();
+
+if (osys.contains("win")) {
+    executablePath = projectDir + "yt-dlp.exe";
+} else if (osys.contains("nix") || osys.contains("nux")) {
+    executablePath = projectDir + "yt-dlp";
+} else {
+    throw new UnsupportedOperationException("Sistema operativo no soportado");
+}
+
+// Comando para descargar el video usando yt-dlp
+String downloadCommand = executablePath + " -x --audio-format mp3 -o " + outputDirectory + " " + direccionWeb;
+
+try {
+    // Crear la carpeta de salida si no existe
+
+    // Ejecutar comando de descarga
+    Process downloadProcess = Runtime.getRuntime().exec(downloadCommand);
+    downloadProcess.waitFor();
+
+} catch (Exception e) {
+    e.printStackTrace();
+    response.getWriter().println("Error al procesar el video: " + e.getMessage());
+}
+                            TemaPersistence.crearTemaCasiCompleto(nombreTema, nombreAlbum, duracionEnSegundos, null, outputFileName, ubicacionTema);
                         }
                         DataTema tema = TemaPersistence.retornarTema(nombreTema, nombreAlbum);
                         temas.add(tema);
