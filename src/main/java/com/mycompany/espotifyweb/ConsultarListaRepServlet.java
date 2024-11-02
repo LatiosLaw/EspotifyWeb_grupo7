@@ -81,7 +81,6 @@ public class ConsultarListaRepServlet extends HttpServlet {
 
                 ControladorListaPorDefecto ctrl = new ControladorListaPorDefecto();
                 DataListaPorDefecto lista = ctrl.devolverInformacionChu(nombreLista);
-                
                 jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\",")
                         .append("\"imagen\":\"").append(lista.getFoto()).append("\",")
                         .append("\"tipo\":\"").append("1").append("\",")

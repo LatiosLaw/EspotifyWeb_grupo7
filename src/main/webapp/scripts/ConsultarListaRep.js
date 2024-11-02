@@ -45,8 +45,9 @@ if(tipo==="1"){
 
                             NOMBRELISTA.value=lista.nombre;
                     CREADORGENERO.value=lista.adicional;
-                    if(lista.imagen!=="" && lista.imagen!==null && (lista.imagen==="png" || lista.imagen==="jpg")){
-                       IMAGENLISTA.src="imagenes/listas/" + lista.imagen; 
+ 
+                    if((lista.imagen.toString().endsWith(".png") || lista.imagen.toString().endsWith(".jpg"))){
+                       IMAGENLISTA.src="imagenes/listas/" + lista.imagen.toString(); 
                     }else{
                         IMAGENLISTA.src="imagenes/listas/defaultList.png";
                     }
@@ -81,8 +82,8 @@ if(tipo==="1"){
                         CREADORGENERO.value=lista.adicional;
                     }
                     
-                    if(lista.imagen!=="" && lista.imagen!==null && (lista.imagen==="png" || lista.imagen==="jpg")){
-                       IMAGENLISTA.src="imagenes/listas/" + lista.imagen; 
+                    if((lista.imagen.toString().endsWith(".png") || lista.imagen.toString().endsWith(".jpg"))){
+                       IMAGENLISTA.src="imagenes/listas/" + lista.imagen.toString(); 
                     }else{
                         IMAGENLISTA.src="imagenes/listas/defaultList.png";
                     }
