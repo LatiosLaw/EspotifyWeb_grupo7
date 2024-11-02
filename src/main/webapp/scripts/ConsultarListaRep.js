@@ -65,7 +65,7 @@ if(tipo==="1"){
                     })
                     .catch(error => console.error('Error al datos de la lista:', error));
 }else{
-        const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window.location.search);
     const tercerCampo = urlParams.get('listaName').split("tipo=")[0].split("&#8206;-")[0].split("/")[1];
     console.log(tercerCampo);
     fetch('http://localhost:8080/EspotifyWeb/ConsultarListaRepServlet?action=devolverInformacionLista&listaNombre=' + encodeURIComponent(listaNombre) + '&tipo=' + encodeURIComponent(tipo)+ '&usuario=' + encodeURIComponent(tercerCampo))
@@ -157,7 +157,8 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
                         Agregar a Lista
                     </button>
                 </td>
-                <td> <button onclick="algo(this)" class="btnsLista">NoFav</button></td>
+                <td> <button onclick="sacarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}', '${tema.album}')" class="btnsLista">NoFav</button></td>
+             
             </tr>`;
             }else{
                  tbody.innerHTML += `
@@ -172,7 +173,7 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
                         Agregar a Lista
                     </button>
                 </td>
-                <td><button onclick="algo(this)" class="btnsLista">Fav</button></td>
+                <td> <button onclick="agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}', '${"Ninguno"}', '${document.getElementById('albumTema').value}')" class="btnsLista">Fav</button></td>
             </tr>`;
             }
             
@@ -180,4 +181,116 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
     }
 
     document.getElementById('tablaTemas').style.display = 'table';
+}
+
+function agregarAlgoFav(id, coso, creador, tipoLista){    
+    var LAIK = document.getElementById('favListaBtn');
+    var NOLAIK = document.getElementById('sacarDeFavListaBtn');
+    event.preventDefault();
+    fetch('http://localhost:8080/EspotifyWeb/AgregarAlgoFavListaServlet', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id: id, coso: coso, creaDoorAlboom:creador, tipo:tipoLista})
+    })      
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if(coso === "Lista"){
+                        NOLAIK.style.display = 'block';
+                        LAIK.style.display = 'none';
+                    }else{
+                        recargarListas();
+                    }
+                    
+                    alert('Se agrego a tus favoritos.');
+                    
+                    
+                    
+                } else {
+                    alert('Error al agregar a tus favoritos: ' + (data.error || 'Error desconocido'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al intentar agregar a tus favoritos.');
+            });
+    
+    
+}
+
+function sacarAlgoFav(id, coso, creadorAlbum, tipoLista){
+    const album = document.getElementById('albumTema').value;
+    var LAIK = document.getElementById('favListaBtn');
+    var NOLAIK = document.getElementById('sacarDeFavListaBtn');
+    event.preventDefault();
+    fetch('http://localhost:8080/EspotifyWeb/SacarAlgoFavListaServlet', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id: id, coso: coso, creaDoorAlboom:creadorAlbum, tipo:tipoLista})
+    })      
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if(coso === "Lista"){
+                        NOLAIK.style.display = 'none';
+                        LAIK.style.display = 'block';
+                    }else{
+                        recargarListas();
+                    }
+                    
+                    alert('Se elimino de tus favoritos.');
+                    
+                    
+                    
+                } else {
+                    alert('Error al agregar a tus favoritos: ' + (data.error || 'Error desconocido'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al intentar sacar de tus favoritos.');
+            });
+    
+    
+}
+
+
+function llamarAgregarAlgoFav(){
+    const urlParams = new URLSearchParams(window.location.search);
+     var NOMBRELISTA = document.getElementById('nombrelista');
+     var CREADORGENERO = document.getElementById('creadorgenerolista');
+     const idCreador = urlParams.get('listaName').split("tipo=")[0].split("&#8206;-")[0].split("/")[1];
+     const tipo = urlParams.get('listaName').split("tipo=")[1];
+     const idLista =NOMBRELISTA.value;
+     // const idCreador =CREADORGENERO.value;
+     
+    agregarAlgoFav(idLista,"Lista",idCreador,tipo);
+}
+function llamarSacarAlgoFav(){
+    const urlParams = new URLSearchParams(window.location.search);
+     var NOMBRELISTA = document.getElementById('nombrelista');
+     var CREADORGENERO = document.getElementById('creadorgenerolista');
+     const idCreador = urlParams.get('listaName').split("tipo=")[0].split("&#8206;-")[0].split("/")[1];
+     const tipo = urlParams.get('listaName').split("tipo=")[1];
+     const idLista =NOMBRELISTA.value;
+     
+     
+     
+     
+     // const idCreador =CREADORGENERO.value;
+     
+    sacarAlgoFav(idLista,"Lista",idCreador,tipo);
+}
+function recargarListas(){
+     const urlParams = new URLSearchParams(window.location.search);
+            const primerCampo = urlParams.get('listaName').split("tipo=")[0].split("&#8206;-")[0].split("/")[0];
+            console.log(primerCampo);
+            const segundoCampo = urlParams.get('listaName').split("tipo=")[1];
+            console.log(segundoCampo);
+    cargarTemas(primerCampo, segundoCampo);
+ 
 }
