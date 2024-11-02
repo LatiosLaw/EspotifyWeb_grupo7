@@ -75,10 +75,10 @@
                             <h2>Perfil</h2>
                             <button id="seguirUsuarioBtn" style="display:none;">Follow</button>
                             <button id="dejarSeguirUsuarioBtn" style="display:none;">Unfollow</button>
-                            <p><strong>Nickname:</strong> <span id="nickname"><%= userToFollow != null ? userToFollow : nickname%></span></p>
-                            <p><strong>Correo Electrónico:</strong> <span id="correo"></span></p>
-                            <p class="nya"><strong>Nombre y Apellido:</strong> <span id="nombre"></span> <span id="apellido"></span></p>
-                            <p><strong>Fecha de Nacimiento:</strong> <span id="fechaNacimiento"></span></p>
+                            <p id = "pNickname"><strong>Nickname:</strong> <span id="nickname"><%= userToFollow != null ? userToFollow : nickname%></span></p>
+                            <p id = "pCorreo"><strong>Correo Electronico:</strong> <span id="correo"></span></p>
+                            <p id = "pNya" class="nya"><strong>Nombre y Apellido:</strong> <span id="nombre"></span> <span id="apellido"></span></p>
+                            <p id = "pFechaNacimiento"><strong>Fecha de Nacimiento:</strong> <span id="fechaNacimiento"></span></p>
                             <img id="imagenPerfil" alt="Imagen de perfil">
                         </div>
 
@@ -329,23 +329,99 @@
             </dialog>
         </div> <!-- Fin Cuerpo -->
 
+        <script type="text/javascript">
+            const sessionNickname = "${sessionScope.nickname}"; // Asegúrate de que esto se renderice correctamente
+        </script>
         <script>
-            // Obtener el nickname del usuario a seguir
-            const nicknameElement = document.getElementById('nickname');
-            const nickToFollow = nicknameElement ? nicknameElement.innerText : null;
+            document.addEventListener('DOMContentLoaded', function () {
+                // Obtener el nickname del usuario a seguir
+                const nicknameElement = document.getElementById('nickname');
+                const nickToFollow = nicknameElement ? nicknameElement.innerText : null;
 
-            // Obtener el nickname de la sesión (esto debe ser pasado desde el backend)
-            const sessionNickname = "${sessionScope.nickname}"; // Asegúrate de que esto se renderice correctamente en tu JSP
+                const sessionNickname = "${sessionScope.nickname}";
 
-            if (nickToFollow) {
-                // Verificar el estado de seguimiento al cargar la página
-                verificarEstadoSeguimiento(nickToFollow);
+                if (sessionNickname) {
+                    if (nickToFollow) {
+                        verificarEstadoSeguimiento(nickToFollow);
+                        document.getElementById('seguirUsuarioBtn').style.display = 'block';
+                        document.getElementById('dejarSeguirUsuarioBtn').style.display = 'block';
+                    }
+                } else {
+                    document.getElementById('seguirUsuarioBtn').style.display = 'none';
+                    document.getElementById('dejarSeguirUsuarioBtn').style.display = 'none';
+                }
 
-                // Mostrar los botones
-                document.getElementById('seguirUsuarioBtn').style.display = 'block';
-                document.getElementById('dejarSeguirUsuarioBtn').style.display = 'block';
+                function verificarEstadoSeguimiento(nick) {
+                    fetch('http://localhost:8080/EspotifyWeb/SeguirUsuarioServlet?id=' + nick)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (nick === sessionNickname) {
+                                    // Si es el mismo nickname, ocultar ambos botones
+                                    document.getElementById('seguirUsuarioBtn').style.display = 'none';
+                                    document.getElementById('dejarSeguirUsuarioBtn').style.display = 'none';
+                                } else if (data.isFollowed) {
+                                    // Si esta siendo seguido, mostrar el boton de dejar de seguir
+                                    document.getElementById('seguirUsuarioBtn').style.display = 'none';
+                                    document.getElementById('dejarSeguirUsuarioBtn').style.display = 'block';
+                                } else {
+                                    // Si no esta siendo seguido, mostrar el boton de seguir
+                                    document.getElementById('seguirUsuarioBtn').style.display = 'block';
+                                    document.getElementById('dejarSeguirUsuarioBtn').style.display = 'none';
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                }
 
-                // Agregar eventos de clic a los botones
+                function seguirUsuario(nick) {
+                    fetch('http://localhost:8080/EspotifyWeb/SeguirUsuarioServlet', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({id: nick})
+                    })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert('Ahora sigues a este usuario.');
+                                    document.getElementById('seguirUsuarioBtn').style.display = 'none';
+                                    document.getElementById('dejarSeguirUsuarioBtn').style.display = 'block';
+                                } else {
+                                    alert('Error al seguir al usuario: ' + (data.error || 'Error desconocido'));
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Error al intentar seguir al usuario.');
+                            });
+                }
+
+                function dejarSeguirUsuario(nick) {
+                    fetch('http://localhost:8080/EspotifyWeb/DejarDeSeguirUsuarioServlet', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({id: nick})
+                    })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert('Has dejado de seguir a este usuario.');
+                                    document.getElementById('dejarSeguirUsuarioBtn').style.display = 'none';
+                                    document.getElementById('seguirUsuarioBtn').style.display = 'block';
+                                } else {
+                                    alert('Error al dejar de seguir al usuario: ' + (data.error || 'Error desconocido'));
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Error al intentar dejar de seguir al usuario.');
+                            });
+                }
+
                 document.getElementById('seguirUsuarioBtn').addEventListener('click', function () {
                     seguirUsuario(nickToFollow);
                 });
@@ -353,78 +429,7 @@
                 document.getElementById('dejarSeguirUsuarioBtn').addEventListener('click', function () {
                     dejarSeguirUsuario(nickToFollow);
                 });
-            }
-
-            function verificarEstadoSeguimiento(nick) {
-                fetch('http://localhost:8080/EspotifyWeb/SeguirUsuarioServlet?id=' + nick)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (nick === sessionNickname) {
-                                // Si es el mismo nickname, ocultar ambos botones
-                                document.getElementById('seguirUsuarioBtn').style.display = 'none';
-                                document.getElementById('dejarSeguirUsuarioBtn').style.display = 'none';
-                            } else if (data.isFollowed) {
-                                // Si está siendo seguido, mostrar el botón de dejar de seguir
-                                document.getElementById('seguirUsuarioBtn').style.display = 'none';
-                                document.getElementById('dejarSeguirUsuarioBtn').style.display = 'block';
-                            } else {
-                                // Si no está siendo seguido, mostrar el botón de seguir
-                                document.getElementById('seguirUsuarioBtn').style.display = 'block';
-                                document.getElementById('dejarSeguirUsuarioBtn').style.display = 'none';
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-            }
-
-            function seguirUsuario(nick) {
-                fetch('http://localhost:8080/EspotifyWeb/SeguirUsuarioServlet', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({id: nick})
-                })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert('Ahora sigues a este usuario.');
-                                document.getElementById('seguirUsuarioBtn').style.display = 'none';
-                                document.getElementById('dejarSeguirUsuarioBtn').style.display = 'block';
-                            } else {
-                                alert('Error al seguir al usuario: ' + (data.error || 'Error desconocido'));
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Error al intentar seguir al usuario.');
-                        });
-            }
-
-            function dejarSeguirUsuario(nick) {
-                fetch('http://localhost:8080/EspotifyWeb/DejarDeSeguirUsuarioServlet', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({id: nick})
-                })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert('Has dejado de seguir a este usuario.');
-                                document.getElementById('dejarSeguirUsuarioBtn').style.display = 'none';
-                                document.getElementById('seguirUsuarioBtn').style.display = 'block';
-                            } else {
-                                alert('Error al dejar de seguir al usuario: ' + (data.error || 'Error desconocido'));
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Error al intentar dejar de seguir al usuario.');
-                        });
-            }
+            });
         </script>
 
         <script>

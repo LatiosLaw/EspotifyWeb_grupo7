@@ -44,12 +44,12 @@ function cargarPerfil() {
                 document.getElementById('nombre').textContent = data.nombre;
                 document.getElementById('apellido').textContent = data.apellido;
                 document.getElementById('fechaNacimiento').textContent = data.fechaNacimiento;
-                if(data.imagen!=="null" && (data.imagen.endsWith(".png") || data.imagen.endsWith(".jpg"))){
+                if (data.imagen !== "null" && (data.imagen.endsWith(".png") || data.imagen.endsWith(".jpg"))) {
                     document.getElementById('imagenPerfil').src = `imagenes/usuarios/${data.imagen}`;
-                }else{
+                } else {
                     document.getElementById('imagenPerfil').src = 'imagenes/usuarios/defaultUser.png';
                 }
-                
+
                 checkUserType(data.nickname);
             })
             .catch(error => console.error('Error al cargar perfil:', error));
@@ -96,12 +96,12 @@ function cargarListas() {
                 listasTbody.innerHTML = ''; // Limpiar tabla
                 listas.forEach(lista => {
                     const row = document.createElement('tr');
-                    if((lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))){
-                    row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/listas/${lista.imagen}" class="imagenLsita" alt="Imagen de Lista"></td><td>${lista.nombre}</td><td><button onclick="verDetallesLista('${lista.nombre}')">Ver Detalles</button></td>`;
-                    listasTbody.appendChild(row);
-                    }else{
-                    row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/listas/defaultList.png" class="imagenLsita" alt="Imagen de Lista"></td><td>${lista.nombre}</td><td><button onclick="verDetallesLista('${lista.nombre}')">Ver Detalles</button></td>`;
-                    listasTbody.appendChild(row);
+                    if ((lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))) {
+                        row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/listas/${lista.imagen}" class="imagenLsita" alt="Imagen de Lista"></td><td>${lista.nombre}</td><td><button onclick="verDetallesLista('${lista.nombre}')">Ver Detalles</button></td>`;
+                        listasTbody.appendChild(row);
+                    } else {
+                        row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/listas/defaultList.png" class="imagenLsita" alt="Imagen de Lista"></td><td>${lista.nombre}</td><td><button onclick="verDetallesLista('${lista.nombre}')">Ver Detalles</button></td>`;
+                        listasTbody.appendChild(row);
                     }
                 });
                 document.getElementById('listas').style.display = 'block';
@@ -125,13 +125,13 @@ function cargarAlbumes() {
                 albumesTbody.innerHTML = ''; // Limpiar tabla
                 albumes.forEach(album => {
                     const row = document.createElement('tr');
-                    if((album.imagen.endsWith(".png") || album.imagen.endsWith(".jpg"))){
-                    row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/albumes/${album.imagen}" class="imagenAlbum" alt="Imagen de Album"></td><td>${album.nombre}</td><td><button onclick="verDetallesAlbum('${album.nombre}')">Ver Detalles</button></td>`;
-                    albumesTbody.appendChild(row);
-                }else{
-                    row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/albumes/defaultAlbum.png" class="imagenAlbum" alt="Imagen de Album"></td><td>${album.nombre}</td><td><button onclick="verDetallesAlbum('${album.nombre}')">Ver Detalles</button></td>`;
-                    albumesTbody.appendChild(row);
-                }
+                    if ((album.imagen.endsWith(".png") || album.imagen.endsWith(".jpg"))) {
+                        row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/albumes/${album.imagen}" class="imagenAlbum" alt="Imagen de Album"></td><td>${album.nombre}</td><td><button onclick="verDetallesAlbum('${album.nombre}')">Ver Detalles</button></td>`;
+                        albumesTbody.appendChild(row);
+                    } else {
+                        row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/albumes/defaultAlbum.png" class="imagenAlbum" alt="Imagen de Album"></td><td>${album.nombre}</td><td><button onclick="verDetallesAlbum('${album.nombre}')">Ver Detalles</button></td>`;
+                        albumesTbody.appendChild(row);
+                    }
                 });
                 document.getElementById('albumes').style.display = 'block';
             })
@@ -151,14 +151,14 @@ function cargarAlbumesFavoritos(nickname) {
                     albumesTbody.appendChild(row);
                 } else {
                     albumes.forEach(album => {
-                    const row = document.createElement('tr');
-                        if((album.imagen.endsWith(".png") || album.imagen.endsWith(".jpg"))){
-                        row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/albumes/${album.imagen}" class="imagenAlbum" alt="Imagen de Album"></td><td>${album.nombre}</td><td><button onclick="verDetallesAlbum('${album.nombre}')">Ver Detalles</button></td>`;
-                        albumesTbody.appendChild(row);
-                    }else{
-                     row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/albumes/defaultAlbum.png" class="imagenAlbum" alt="Imagen de Album"></td><td>${album.nombre}</td><td><button onclick="verDetallesAlbum('${album.nombre}')">Ver Detalles</button></td>`;
-                    albumesTbody.appendChild(row);
-                }
+                        const row = document.createElement('tr');
+                        if ((album.imagen.endsWith(".png") || album.imagen.endsWith(".jpg"))) {
+                            row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/albumes/${album.imagen}" class="imagenAlbum" alt="Imagen de Album"></td><td>${album.nombre}</td><td><button onclick="verDetallesAlbum('${album.nombre}')">Ver Detalles</button></td>`;
+                            albumesTbody.appendChild(row);
+                        } else {
+                            row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/albumes/defaultAlbum.png" class="imagenAlbum" alt="Imagen de Album"></td><td>${album.nombre}</td><td><button onclick="verDetallesAlbum('${album.nombre}')">Ver Detalles</button></td>`;
+                            albumesTbody.appendChild(row);
+                        }
                     });
                 }
             })
@@ -179,13 +179,13 @@ function cargarListasFavoritas(nickname) {
                 } else {
                     listas.forEach(lista => {
                         const row = document.createElement('tr');
-                        if((lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))){
-                        row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/listas/${lista.imagen}" class="imagenLsita" alt="Imagen de Lista"></td><td>${lista.nombre}</td><td><button onclick="verDetallesLista('${lista.nombre}')">Ver Detalles</button></td>`;
-                        listasTbody.appendChild(row);
-                    }else{
-                        row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/listas/defaultList.png" class="imagenLsita" alt="Imagen de Lista"></td><td>${lista.nombre}</td><td><button onclick="verDetallesLista('${lista.nombre}')">Ver Detalles</button></td>`;
-                    listasTbody.appendChild(row);
-                    }
+                        if ((lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))) {
+                            row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/listas/${lista.imagen}" class="imagenLsita" alt="Imagen de Lista"></td><td>${lista.nombre}</td><td><button onclick="verDetallesLista('${lista.nombre}')">Ver Detalles</button></td>`;
+                            listasTbody.appendChild(row);
+                        } else {
+                            row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/listas/defaultList.png" class="imagenLsita" alt="Imagen de Lista"></td><td>${lista.nombre}</td><td><button onclick="verDetallesLista('${lista.nombre}')">Ver Detalles</button></td>`;
+                            listasTbody.appendChild(row);
+                        }
                     });
                 }
             })
@@ -216,11 +216,11 @@ function cargarTemasFavoritos(nickname) {
 
 function verDetallesLista(lista) {
     var tipo = "0";
-    if(lista.toString().endsWith("-")){
+    if (lista.toString().endsWith("-")) {
         var tipo = "1";
         lista = lista.slice(0, -1);
         window.location.href = "ConsultarListaRep.jsp?listaName=" + lista + "tipo=" + tipo;
-    }else{
+    } else {
         var tipo = "2";
         window.location.href = "ConsultarListaRep.jsp?listaName=" + lista + "tipo=" + tipo;
     }
@@ -230,7 +230,20 @@ function verDetallesAlbum(album) {
     window.location.href = "ConsultarAlbum.jsp?album=" + album;
 }
 
+function checkVisitante() {
+    if (sessionNickname) {
+        // Usuario logueado
+        return true;
+    } else {
+        // Usuario no logueado
+        return false;
+    }
+}
+
 function checkUserType(nickname) {
+
+    console.log(sessionNickname);
+
     fetch(`LoginServlet?action=obtenerTipoUsuario2&nickname=${encodeURIComponent(userId)}`)
             .then(response => response.json())
             .then(data => {
@@ -261,16 +274,37 @@ function checkSuscripcion(nickname) {
                     document.getElementById('seguidosBtn').style.display = 'block';
                     document.getElementById('listasBtn').style.display = 'block';
                     document.getElementById('favoritosBtn').style.display = 'block';
+                    const logeado = checkVisitante();
+                    if (!logeado) {
+                        document.getElementById('seguidoresBtn').style.display = 'none';
+                        document.getElementById('seguidosBtn').style.display = 'none';
+                        document.getElementById('listasBtn').style.display = 'block';
+                        document.getElementById('favoritosBtn').style.display = 'none';
+                        document.getElementById('albumesBtn').style.display = 'none';
+                        document.getElementById('pCorreo').style.display = 'none';
+                        document.getElementById('pNya').style.display = 'none';
+                        document.getElementById('pFechaNacimiento').style.display = 'none';
+                    }
                 } else if (suscripcion === false) {
                     document.getElementById('seguidores').style.display = 'block';
                     document.getElementById('seguidos').style.display = 'none';
                     document.getElementById('listas').style.display = 'none';
                     document.getElementById('favoritos').style.display = 'none';
                     document.getElementById('albumes').style.display = 'none';
+                    const logeado = checkVisitante();
+                    if (!logeado) {
+                        document.getElementById('seguidoresBtn').style.display = 'none';
+                        document.getElementById('seguidosBtn').style.display = 'none';
+                        document.getElementById('listasBtn').style.display = 'block';
+                        document.getElementById('favoritosBtn').style.display = 'none';
+                        document.getElementById('albumesBtn').style.display = 'none';
+                        document.getElementById('pCorreo').style.display = 'none';
+                        document.getElementById('pNya').style.display = 'none';
+                        document.getElementById('pFechaNacimiento').style.display = 'none';
+                    }
                 } else {
                     console.warn('No se pudo determinar el estado de la suscripción.');
                 }
             })
             .catch(error => console.error('Error al obtener la suscripción:', error));
-
 }
