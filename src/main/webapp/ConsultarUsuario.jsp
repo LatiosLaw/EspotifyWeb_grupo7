@@ -121,6 +121,7 @@ unfo<!DOCTYPE html>
                                 <table>
                                     <thead>
                                         <tr>
+                                            <th>Perfil</th>
                                             <th>Nombre</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -137,6 +138,7 @@ unfo<!DOCTYPE html>
                                     <table>
                                         <thead>
                                             <tr>
+                                                <th>Perfil</th>
                                                 <th>Nombre de la Lista</th>
                                                 <th>Acciones</th>
                                             </tr>
@@ -150,6 +152,7 @@ unfo<!DOCTYPE html>
                                     <table>
                                         <thead>
                                             <tr>
+                                                <th>Perfil</th>
                                                 <th>Nombre del Álbum</th>
                                                 <th>Acciones</th>
                                             </tr>
@@ -178,6 +181,7 @@ unfo<!DOCTYPE html>
                                 <table>
                                     <thead>
                                         <tr>
+                                            <th>Perfil</th>
                                             <th>Nombre del Álbum</th>
                                             <th>Acciones</th>
                                         </tr>

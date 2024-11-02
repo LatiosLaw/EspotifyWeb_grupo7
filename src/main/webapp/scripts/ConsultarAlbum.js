@@ -37,17 +37,6 @@ function VamoAYoutube(boton) {
     }
 }
 
-document.getElementById('opciones').addEventListener('change', function () {
-    const selectedValue = this.value;
-
-    // Ejecutar diferentes funciones dependiendo de la opción seleccionada
-    if (selectedValue === 'genero') {
-        manejarGenero();
-    } else if (selectedValue === 'artista') {
-        manejarArtista();
-    }
-});
-
 // Boolean suscrito = (Boolean) session.getAttribute("suscrito");
 
 function obtenerValorSesion() {
@@ -156,7 +145,7 @@ async function SuccionarInformacion() {
                     ALBUMTEMA.value = album.nombre;
                     ANIOALBUM.value = album.anio;
                     CREADORALBUM.value = album.creador;
-                    if (album.imagen !== "" && album.imagen !== null && (album.imagen === "png" || album.imagen === "jpg")) {
+                    if ((album.imagen.toString().endsWith(".png") || album.imagen.toString().endsWith(".jpg"))) {
                         IMAGENALBUM.src = "imagenes/albumes/" + album.imagen;
                     } else {
                         IMAGENALBUM.src = "imagenes/albumes/defaultAlbum.png";
@@ -314,10 +303,10 @@ async function recargarListas() {
                     tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
                     data.forEach(tema => {
                         if (tema.link !== "null") {
-                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td>Fuck You Pobre</td></tr>`;
+                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td>Sin Subscripcion</td></tr>`;
                             tbody.innerHTML += row;
                         } else {
-                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td>Fuck You Pobre</td></tr>`;
+                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td>Sin Subscripcion</td></tr>`;
                             tbody.innerHTML += row;
                         }
                     });

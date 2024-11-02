@@ -58,6 +58,9 @@ public class ConsultarListaRepServlet extends HttpServlet {
             System.out.println("Nombre de la lista recibido: " + nombreLista);
             String tipo = request.getParameter("tipo");
             System.out.println("Tipo de la lista recibido: " + tipo);
+            if(tipo.equals("2")){
+                nombreLista = nombreLista.split("/")[0];
+            }
             if (nombreLista == null || nombreLista.isEmpty() || tipo == null || tipo.isEmpty()) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El nombre de la lista es requerido");
                 return;
@@ -70,6 +73,9 @@ public class ConsultarListaRepServlet extends HttpServlet {
             System.out.println("Nombre de la lista recibido: " + nombreLista);
             String tipo = request.getParameter("tipo");
             System.out.println("Tipo de la lista recibido: " + tipo);
+            if(tipo.equals("2")){
+                nombreLista = nombreLista.split("/")[0];
+            }
             StringBuilder jsonResponse = new StringBuilder("[");
             ControladorCliente controlCli = new ControladorCliente();
             Collection<String> listasCole = controlCli.obtenerListasFavCliente(nickname);
@@ -81,7 +87,6 @@ public class ConsultarListaRepServlet extends HttpServlet {
 
                 ControladorListaPorDefecto ctrl = new ControladorListaPorDefecto();
                 DataListaPorDefecto lista = ctrl.devolverInformacionChu(nombreLista);
-                
                 jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\",")
                         .append("\"imagen\":\"").append(lista.getFoto()).append("\",")
                         .append("\"tipo\":\"").append("1").append("\",")
@@ -159,6 +164,8 @@ public class ConsultarListaRepServlet extends HttpServlet {
         }
     }
 
+
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
