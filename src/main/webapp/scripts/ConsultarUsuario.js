@@ -96,8 +96,13 @@ function cargarListas() {
                 listasTbody.innerHTML = ''; // Limpiar tabla
                 listas.forEach(lista => {
                     const row = document.createElement('tr');
-                    row.innerHTML = `<td>${lista}</td><td><button onclick="verDetallesLista('${lista}')">Ver Detalles</button></td>`;
+                    if((lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))){
+                    row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/listas/${lista.imagen}" class="imagenLsita" alt="Imagen de Lista"></td><td>${lista.nombre}</td><td><button onclick="verDetallesLista('${lista.nombre}')">Ver Detalles</button></td>`;
                     listasTbody.appendChild(row);
+                    }else{
+                    row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/listas/defaultList.png" class="imagenLsita" alt="Imagen de Lista"></td><td>${lista.nombre}</td><td><button onclick="verDetallesLista('${lista.nombre}')">Ver Detalles</button></td>`;
+                    listasTbody.appendChild(row);
+                    }
                 });
                 document.getElementById('listas').style.display = 'block';
             })
@@ -120,8 +125,13 @@ function cargarAlbumes() {
                 albumesTbody.innerHTML = ''; // Limpiar tabla
                 albumes.forEach(album => {
                     const row = document.createElement('tr');
-                    row.innerHTML = `<td>${album}</td><td><button onclick="verDetallesAlbum('${album}')">Ver Detalles</button></td>`;
+                    if((album.imagen.endsWith(".png") || album.imagen.endsWith(".jpg"))){
+                    row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/albumes/${album.imagen}" class="imagenAlbum" alt="Imagen de Album"></td><td>${album.nombre}</td><td><button onclick="verDetallesAlbum('${album.nombre}')">Ver Detalles</button></td>`;
                     albumesTbody.appendChild(row);
+                }else{
+                    row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/albumes/defaultAlbum.png" class="imagenAlbum" alt="Imagen de Album"></td><td>${album.nombre}</td><td><button onclick="verDetallesAlbum('${album.nombre}')">Ver Detalles</button></td>`;
+                    albumesTbody.appendChild(row);
+                }
                 });
                 document.getElementById('albumes').style.display = 'block';
             })
@@ -141,9 +151,14 @@ function cargarAlbumesFavoritos(nickname) {
                     albumesTbody.appendChild(row);
                 } else {
                     albumes.forEach(album => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `<td>${album}</td><td><button onclick="verDetallesAlbum('${album}')">Ver Detalles</button></td>`;
+                    const row = document.createElement('tr');
+                        if((album.imagen.endsWith(".png") || album.imagen.endsWith(".jpg"))){
+                        row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/albumes/${album.imagen}" class="imagenAlbum" alt="Imagen de Album"></td><td>${album.nombre}</td><td><button onclick="verDetallesAlbum('${album.nombre}')">Ver Detalles</button></td>`;
                         albumesTbody.appendChild(row);
+                    }else{
+                     row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/albumes/defaultAlbum.png" class="imagenAlbum" alt="Imagen de Album"></td><td>${album.nombre}</td><td><button onclick="verDetallesAlbum('${album.nombre}')">Ver Detalles</button></td>`;
+                    albumesTbody.appendChild(row);
+                }
                     });
                 }
             })
@@ -164,8 +179,13 @@ function cargarListasFavoritas(nickname) {
                 } else {
                     listas.forEach(lista => {
                         const row = document.createElement('tr');
-                        row.innerHTML = `<td>${lista}</td><td><button onclick="verDetallesLista('${lista}')">Ver Detalles</button></td>`;
+                        if((lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))){
+                        row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/listas/${lista.imagen}" class="imagenLsita" alt="Imagen de Lista"></td><td>${lista.nombre}</td><td><button onclick="verDetallesLista('${lista.nombre}')">Ver Detalles</button></td>`;
                         listasTbody.appendChild(row);
+                    }else{
+                        row.innerHTML = `<td><img width="50px" height="50px" src="imagenes/listas/defaultList.png" class="imagenLsita" alt="Imagen de Lista"></td><td>${lista.nombre}</td><td><button onclick="verDetallesLista('${lista.nombre}')">Ver Detalles</button></td>`;
+                    listasTbody.appendChild(row);
+                    }
                     });
                 }
             })
@@ -198,13 +218,12 @@ function verDetallesLista(lista) {
     var tipo = "0";
     if(lista.toString().endsWith("-")){
         var tipo = "1";
+        lista = lista.slice(0, -1);
         window.location.href = "ConsultarListaRep.jsp?listaName=" + lista + "tipo=" + tipo;
     }else{
         var tipo = "2";
         window.location.href = "ConsultarListaRep.jsp?listaName=" + lista + "tipo=" + tipo;
     }
-    
-    // Implementar 
 }
 
 function verDetallesAlbum(album) {

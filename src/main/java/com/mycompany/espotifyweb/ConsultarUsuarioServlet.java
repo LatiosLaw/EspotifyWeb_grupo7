@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import logica.Album;
 import logica.ListaParticular;
+import logica.ListaPorDefecto;
 import logica.Usuario;
 import logica.controladores.ControladorCliente;
 import logica.dt.DT_IdTema;
@@ -154,15 +155,20 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
         Collection<ListaParticular> listas = daoLista.findListaPorCliente(nickname);
 
-        Collection<String> nombreListaParticular = new ArrayList<>();
+        StringBuilder jsonResponse = new StringBuilder("[");
+            for (ListaParticular lista : listas) {
 
-        for (ListaParticular lista : listas) {
-            nombreListaParticular.add(lista.getNombreLista()+"/"+lista.getNombreCliente());
-        }
+                jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()+"/"+lista.getNombreCliente()).append("\",")
+                        .append("\"imagen\":\"").append(lista.getFoto()).append("\"},");
+            }
 
-        String jsonListas = convertToJson(nombreListaParticular);
+            if (jsonResponse.length() > 1) {
+                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+            }
 
-        out.println(jsonListas);
+            jsonResponse.append("]");
+
+            out.print(jsonResponse.toString());
     }
 
     private void cargarAlbumes(HttpServletRequest request, PrintWriter out) {
@@ -178,15 +184,20 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
         Collection<Album> albumes = daoAlbum.findAllPorArtista(nickname);
 
-        Collection<String> nombreAlbum = new ArrayList<>();
+        StringBuilder jsonResponse = new StringBuilder("[");
+            for (Album album : albumes) {
 
-        for (Album album : albumes) {
-            nombreAlbum.add(album.getNombre());
-        }
+                jsonResponse.append("{\"nombre\":\"").append(album.getNombre()).append("\",")
+                        .append("\"imagen\":\"").append(album.getImagen()).append("\"},");
+            }
 
-        String jsonAlbumes = convertToJson(nombreAlbum);
+            if (jsonResponse.length() > 1) {
+                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+            }
 
-        out.println(jsonAlbumes);
+            jsonResponse.append("]");
+
+            out.print(jsonResponse.toString());
     }
 
     private void cargarFavoritos(HttpServletRequest request, PrintWriter out) {
@@ -223,22 +234,30 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
         DAO_Usuario daoUsuario = new DAO_Usuario();
 
-        Collection<String> listasD = daoUsuario.obtenerListasFavPorDefectoCliente(nickname);
+        Collection<ListaPorDefecto> listasD = daoUsuario.obtenerListasFavPorDefectoCliente2(nickname);
         Collection<ListaParticular> listasP = daoUsuario.obtenerListasParticularesFavCliente2(nickname);
+        
+        StringBuilder jsonResponse = new StringBuilder("[");
+        
+        for (ListaPorDefecto lista : listasD) {
 
-        Collection<String> listas = new ArrayList<>();
+                jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()+"-").append("\",")
+                        .append("\"imagen\":\"").append(lista.getFoto()).append("\"},");
+            }
+        
+            for (ListaParticular lista : listasP) {
+                String nombrelista = lista.getNombreLista()+"/"+lista.getNombreCliente();
+                jsonResponse.append("{\"nombre\":\"").append(nombrelista).append("\",")
+                        .append("\"imagen\":\"").append(lista.getFoto()).append("\"},");
+            }
 
-        for (String listad : listasD) {
-            listas.add(listad + "‎-");
-        }
+            if (jsonResponse.length() > 1) {
+                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+            }
 
-        for (ListaParticular listap : listasP) {
-            listas.add(listap.getNombreLista()+"/"+listap.getNombreCliente());
-        }
+            jsonResponse.append("]");
 
-        String jsonListas = convertToJson(listas);
-
-        out.println(jsonListas);
+            out.print(jsonResponse.toString());
     }
 
     private void cargarAlbumesFavoritos(HttpServletRequest request, PrintWriter out) {
@@ -252,11 +271,22 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
         DAO_Usuario daoUsuario = new DAO_Usuario();
 
-        Collection<String> albumes = daoUsuario.obtenerAlbumFavCliente(nickname);
+        Collection<Album> albumes = daoUsuario.obtenerAlbumFavCliente2(nickname);
 
-        String jsonAlbumes = convertToJson(albumes);
+        StringBuilder jsonResponse = new StringBuilder("[");
+            for (Album album : albumes) {
 
-        out.println(jsonAlbumes);
+                jsonResponse.append("{\"nombre\":\"").append(album.getNombre()).append("\",")
+                        .append("\"imagen\":\"").append(album.getImagen()).append("\"},");
+            }
+
+            if (jsonResponse.length() > 1) {
+                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+            }
+
+            jsonResponse.append("]");
+
+            out.print(jsonResponse.toString());
     }
 
     private void cargarTemasFavoritos(HttpServletRequest request, PrintWriter out) {

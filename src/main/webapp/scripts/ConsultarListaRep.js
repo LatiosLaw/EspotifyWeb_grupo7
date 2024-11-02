@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
-            const primerCampo = urlParams.get('listaName').split("tipo=")[0].split("&#8206;-")[0].split("/")[0];
+    const segundoCampo = urlParams.get('listaName').split("tipo=")[1];
+            const primerCampo = urlParams.get('listaName').split("tipo=")[0];
             console.log(primerCampo);
-            const segundoCampo = urlParams.get('listaName').split("tipo=")[1];
             console.log(segundoCampo);
     cargarTemas(primerCampo, segundoCampo);
     cargarInfo(primerCampo, segundoCampo);
