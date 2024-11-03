@@ -99,8 +99,8 @@
 
                 <div class="reproductor">
                     <div class="temaRep">
-                        <img src="imagenes/espotify/user.png" class="artIMG">
-                        <h3>Nombre Tema</h3>
+                        <img src="imagenes/espotify/user.png" class="artIMG" id="imagenReproductor">
+                        <h2 id="nombreTema">Nombre Tema</h2>
                     </div>
 
                     <div class="controlRep">

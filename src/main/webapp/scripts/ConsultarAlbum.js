@@ -177,6 +177,7 @@ async function SuccionarInformacion(tieneSuscripcion) {
     var GENEROSLIST = document.getElementById('generoslist');
     var LAIK = document.getElementById('favAlbumBtn');
     var NOLAIK = document.getElementById('sacarDeFavAlbumBtn');
+    var IMAGENREPRO = document.getElementById('imagenReproductor');
     fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverInformacionAlbum&albumName=' + encodeURIComponent(primerCampo))
             .then(response => response.json())
             .then(data => {
@@ -187,8 +188,10 @@ async function SuccionarInformacion(tieneSuscripcion) {
                     CREADORALBUM.value = album.creador;
                     if ((album.imagen.toString().endsWith(".png") || album.imagen.toString().endsWith(".jpg"))) {
                         IMAGENALBUM.src = "imagenes/albumes/" + album.imagen;
+                        IMAGENREPRO.src = "imagenes/albumes/" + album.imagen;
                     } else {
                         IMAGENALBUM.src = "imagenes/albumes/defaultAlbum.png";
+                        IMAGENREPRO.src = "imagenes/albumes/defaultAlbum.png";
                     }
                     if(album.fav === "fav"){
                         NOLAIK.style.display = 'block';
@@ -383,6 +386,23 @@ console.log(temas);
     return temas;
         }
         
+        function obtenerNombresTemas(){
+            const temasBody = document.getElementById("temasBody"); // Selecciona el cuerpo de la tabla
+    const filas = temasBody.getElementsByTagName("tr"); // Obtiene todas las filas en el cuerpo de la tabla
+    const temas = []; // Array para almacenar los valores de la columna
+    //temas.push('temas/DONMAI.mp3');
+    // Iterar sobre cada fila para obtener el valor de la columna "Archivo / Link"
+    for (let i = 0; i < filas.length; i++) {
+        const celdas = filas[i].getElementsByTagName("td"); // Obtiene todas las celdas de la fila
+        if (celdas.length > 0) {
+            const tema = celdas[0].innerText; // La celda de la columna "Archivo / Link" está en el índice 2
+            temas.push((tema)); // Agrega el archivo al array
+        }
+    }
+console.log(temas);
+    return temas;
+        }
+        
         function sacarAlbumAFav() {
             var NOMBREALBUM = document.getElementById('nombrealbum');
             
@@ -409,7 +429,9 @@ const audio = document.getElementById('miAudio');
                                 const totalTimeDisplay = document.getElementById('totalTime');
 
                                 let audioFiles;
+                                let temasNames;
                                 let currentAudioIndex = 0;
+                                let currentNombreIndex = 0;
 
                                 let previousVolume = 0.5; // Almacena el volumen anterior
                                 audio.volume = previousVolume; // Inicializa el volumen al cargar
@@ -467,6 +489,7 @@ const audio = document.getElementById('miAudio');
                                 
                                 function recargarTemas(){
                                     audioFiles = obtenerArchivosTemas();
+                                    temasNames = obtenerNombresTemas();
                                     OnlyLoadAudio();
                                 }
 
@@ -526,22 +549,26 @@ const audio = document.getElementById('miAudio');
 
                                 function prevAudio() {
                                     currentAudioIndex = (currentAudioIndex - 1 + audioFiles.length) % audioFiles.length;
+                                    currentNombreIndex = currentAudioIndex;
                                     loadAudio();
                                 }
 
                                 function nextAudio() {
                                     currentAudioIndex = (currentAudioIndex + 1) % audioFiles.length;
+                                    currentNombreIndex = currentAudioIndex;
                                     loadAudio();
                                 }
                                 
                                 function OnlyLoadAudio() {
                                     audioSource.src = audioFiles[currentAudioIndex];
                                     audio.load(); // Carga el nuevo archivo de audio
+                                    document.getElementById('nombreTema').innerText = temasNames[currentNombreIndex];
                                 }
 
                                 function loadAudio() {
                                     audioSource.src = audioFiles[currentAudioIndex];
                                     audio.load(); // Carga el nuevo archivo de audio
+                                    document.getElementById('nombreTema').innerText = temasNames[currentNombreIndex];
                                     audio.play(); // Reproduce el nuevo audio
                                     playBtn.style.display = 'none';
                                     pauseBtn.style.display = 'inline';

@@ -75,43 +75,6 @@
                     </div>
                 </div>
 
-                <div class="reproductor">
-                    <div class="temaRep">
-                        <img src="imagenes/espotify/user.png" class="artIMG">
-                        <h3>Nombre Tema</h3>
-                    </div>
-
-                    <div class="controlRep">
-                        <audio id="miAudio">
-                            <source id="audioSource" type="audio/mpeg">
-                            Tu navegador no soporta el elemento audio.
-                        </audio>
-
-                        <div class="tiempoRep">
-                            <div id="progressBar" onmousedown="startAdjustingProgressBar(event)">
-                                <div id="progress"></div>
-                            </div>
-                            <div class="tiempos">
-                                <span id="currentTime">0:00</span><span id="totalTime">0:00</span>
-                            </div>
-
-                            <div class="volumen">
-                                <button id="muteBtn" onclick="muteVolume()"><img src="imagenes/espotify/volume-on.png"></button>
-                                <button id="unmuteBtn" onclick="unmuteVolume()" style="display: none;"><img src="imagenes/espotify/volume-off.png"></button>
-                                <div id="volumeBar" onmousedown="startAdjustingVolume(event)">
-                                    <div id="volumeLevel"></div>
-                                </div>
-                            </div>
-
-                            <div class="btnsMedia">
-                                <button id="prevBtn" onclick="prevAudio()"><img src="imagenes/espotify/back-button.png"></button>
-                                <button id="pauseBtn" hidden><img src="imagenes/espotify/pause-button.png"></button>
-                                <button id="playBtn"><img src="imagenes/espotify/play-button.png"></button>
-                                <button id="nextBtn" onclick="nextAudio()"><img src="imagenes/espotify/next-button.png"></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <dialog id="winLogin"> <!-- Dialogo de inicio de sesion -->
