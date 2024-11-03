@@ -30,10 +30,10 @@
 
                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <% if (nickname != null) { %>
+                        <% if (nickname != null) {%>
                         <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
-                        <% } %>
-                        <img src="imagenes/espotify/user.png" class="userIMG"></a>                       
+                            <% }%>
+                            <img src="imagenes/espotify/user.png" class="userIMG"></a>                       
                     </div>
                     <ul class="listUser">
                         <li class="userName">
@@ -85,6 +85,7 @@
                                 </a>
                             </div>
                         </div>
+                        <% if (!"Artista".equals(userType)) { %>
                         <div>
                             <h2 class="contStart contStart2">Explora albumes que no conocias:</h2>
                             <div id="albumBody">
@@ -99,6 +100,9 @@
                                 </a>
                             </div>
                         </div>
+                        <% } %>
+
+                        <% if (!"Artista".equals(userType)) { %>
                         <div>
                             <h2 class="contStart contStart2">Disfruta listas de diversos generos:</h2>
                             <div id="listasBody">
@@ -113,6 +117,7 @@
                                 </a>
                             </div>
                         </div>
+                        <% }%>
                         <div>
                             <h2 class="contStart contStart2">Sigue a otros usuarios:</h2>
                             <div id="clientesBody">
@@ -221,6 +226,12 @@
                 </form>
             </dialog>
         </div> <!-- Fin Cuerpo -->
+
+        <script type="text/javascript">
+            const sessionNickname = "${sessionScope.nickname}";
+            const sessionUserType = "${sessionScope.userType}";
+            const sessionSuscrito = "${sessionScope.suscrito}";
+        </script>
 
         <script>
             function emitirBusqueda() {

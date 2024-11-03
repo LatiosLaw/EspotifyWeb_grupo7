@@ -1,33 +1,33 @@
 fetch('http://localhost:8080/EspotifyWeb/obtenerImagenesGeneros')
-    .then(response => response.json())
-    .then(imagenes => {
-        fetch('http://localhost:8080/EspotifyWeb/TodosLosGenerosServlet?action=devolverGeneros')
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('listaGenerosBody');
-                container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas listas
+        .then(response => response.json())
+        .then(imagenes => {
+            fetch('http://localhost:8080/EspotifyWeb/TodosLosGenerosServlet?action=devolverGeneros')
+                    .then(response => response.json())
+                    .then(data => {
+                        const container = document.getElementById('listaGenerosBody');
+                        container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas listas
 
-                data.forEach(genero => {
-                    // Seleccionar una imagen aleatoria de la lista obtenida del servlet
-                    const imagenAleatoria = imagenes[Math.floor(Math.random() * imagenes.length)];
-                    const imgPath = `imagenes/generos/${imagenAleatoria}`;
+                        data.forEach(genero => {
+                            // Seleccionar una imagen aleatoria de la lista obtenida del servlet
+                            const imagenAleatoria = imagenes[Math.floor(Math.random() * imagenes.length)];
+                            const imgPath = `imagenes/generos/${imagenAleatoria}`;
 
-                    const generoDiv = `
+                            const esArtista = sessionUserType === "Artista";
+
+                            const generoDiv = `
                         <div class="genero">
-            <a href="TodoLoDeUnGenero.jsp?search=${encodeURIComponent(genero.nombre)}">
-                            <img src="${imgPath}" alt="Imagen de genero" class="imagenGenero">
-            </a>
+                            ${esArtista ? '' : `<a href="TodoLoDeUnGenero.jsp?search=${encodeURIComponent(genero.nombre)}">`}
+                                <img src="${imgPath}" alt="Imagen de genero" class="imagenGenero">
+                            ${esArtista ? '' : '</a>'}
                             <div>
-            <a href="TodoLoDeUnGenero.jsp?search=${encodeURIComponent(genero.nombre)}">
-                                <p>${genero.nombre}</p>
-            </a>
+                                ${esArtista ? `<p>${genero.nombre}</p>` : `<a href="TodoLoDeUnGenero.jsp?search=${encodeURIComponent(genero.nombre)}"><p>${genero.nombre}</p></a>`}
                             </div>
                         </div>`;
 
-                    container.innerHTML += generoDiv;
-                });
-            })
-            .catch(error => console.error('Error al cargar generos:', error));
+                            container.innerHTML += generoDiv;
+                        });
+                    })
+                    .catch(error => console.error('Error al cargar generos:', error));
 
-    })
-    .catch(error => console.error('Error al obtener imágenes de generos:', error));
+        })
+        .catch(error => console.error('Error al obtener imágenes de generos:', error));
