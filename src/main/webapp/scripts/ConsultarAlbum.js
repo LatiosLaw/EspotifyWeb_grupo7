@@ -312,8 +312,15 @@ async function recargarListas() {
                                 const row = `<tr><td>${tema.nombre}</td>
                                 <td>${formatearTiempo(tema.duracion)}</td>
                                 <td>${tema.link}</td>
-                                <td><button onclick="VamoAYoutube(this)" class="btnsAlbum">Escuchar Tema</button><td>
-                                <button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')"class="btnsAlbum" >Agregar a Lista</button></td>
+<td>${tieneSuscripcion
+                    ? `<button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button>`
+                    : `<button disabled class="btnsAlbum">Descargar</button>`}
+                </td>
+                <td>
+                    <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsAlbum">
+                        Agregar a Lista
+                    </button>
+                </td>
                                  <td><button onclick="sacarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')" class="btnsAlbum">NoFav</button></td>
                                 </tr>`;
                                 tbody.innerHTML += row;
@@ -321,17 +328,43 @@ async function recargarListas() {
                                 const row = `<tr><td>${tema.nombre}</td>
                                 <td>${formatearTiempo(tema.duracion)}</td>
                                 <td>${tema.archivo}</td>
-                                <td><button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button></td>
+<td>${tieneSuscripcion
+                    ? `<button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button>`
+                    : `<button disabled class="btnsAlbum">Descargar</button>`}
+                </td>
+                <td>
+                    <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsAlbum">
+                        Agregar a Lista
+                    </button>
+                </td>
                                 <td><button onclick="sacarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')"class="btnsAlbum">NoFav</button></td>
                                 </tr>`;
                                 tbody.innerHTML += row;
                             }
                         }else{
                             if (tema.link !== "null") {
-                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)" class="btnsAlbum">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')" class="btnsAlbum">Agregar a Lista</button></td></td><td><button onclick="agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')" class="btnsAlbum">Fav</button></td></tr>`;
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td>${tieneSuscripcion
+                    ? `<button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button>`
+                    : `<button disabled class="btnsAlbum">Descargar</button>`}
+                </td>
+                <td>
+                    <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsAlbum">
+                        Agregar a Lista
+                    </button>
+                </td>
+        <td><button onclick="agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')" class="btnsAlbum">Fav</button></td></tr>`;
                                 tbody.innerHTML += row;
                             } else {
-                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button></td></td><td><button onclick="agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')" class="btnsAlbum">Fav</button></td></tr>`;
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td>${tieneSuscripcion
+                    ? `<button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button>`
+                    : `<button disabled class="btnsAlbum">Descargar</button>`}
+                </td>
+                <td>
+                    <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsAlbum">
+                        Agregar a Lista
+                    </button>
+                </td>
+        <td><button onclick="agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')" class="btnsAlbum">Fav</button></td></tr>`;
                                 tbody.innerHTML += row;
                             }
                         }
