@@ -30,7 +30,10 @@
 
                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <a href="ConsultarUsuario.jsp?usr=<%= nickname%>"><img src="imagenes/espotify/user.png" class="userIMG"></a>
+                        <% if (nickname != null) { %>
+                        <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
+                        <% } %>
+                        <img src="imagenes/espotify/user.png" class="userIMG"></a>                       
                     </div>
                     <ul class="listUser">
                         <li class="userName">
@@ -108,8 +111,8 @@
 
                 <div class="reproductor">
                     <div class="temaRep">
-                        <img src="imagenes/espotify/user.png" class="artIMG">
-                        <h3>Nombre Tema</h3>
+                        <img src="imagenes/espotify/user.png" class="artIMG" id="imagenReproductor">
+                        <h2 id="nombreTema">Nombre Tema</h2>
                     </div>
 
                     <div class="controlRep">
@@ -329,10 +332,14 @@
                 event.preventDefault();
             });
         </script>
+
         <script>
             function popup(texto) {
-               alert(texto);
+            alert(texto);
             }
         </script>
+
+
+        <script src="scripts/ImagenDeUsuario.js"></script>
     </body>
 </html>

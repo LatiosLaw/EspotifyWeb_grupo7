@@ -1,40 +1,43 @@
 fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarArtistas')
-.then(response => response.json())
-.then(data => {
-    const container = document.getElementById('artistasBody');
-    container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas listas
-    data.forEach(artista => {
-        const imagen = artista.imagen !== "null" && (artista.imagen.endsWith(".png") || artista.imagen.endsWith(".jpg")) 
-            ? `imagenes/usuarios/${artista.imagen}` 
-            : 'imagenes/usuarios/defaultUser.png';
-        
-        const artistaDiv = `
-            <div class="artista">
-                <a href="ConsultarUsuario.jsp?usr=${encodeURIComponent(artista.nombre)}">
-                    <img src="${imagen}" class="imagenUser" alt="Imagen del Usuario">
-                    <div>
-                        <p>${artista.nombre}</p>
-                    </div>
-                </a>
-            </div>`;
-        
-        container.innerHTML += artistaDiv;
-    });
-})
-.catch(error => console.error('Error al cargar usuarios:', error));
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('artistasBody');
+            container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas listas
+            data.forEach(artista => {
+                const imagen = artista.imagen !== "null" && (artista.imagen.endsWith(".png") || artista.imagen.endsWith(".jpg"))
+                        ? `imagenes/usuarios/${artista.imagen}`
+                        : 'imagenes/usuarios/defaultUser.png';
+
+                const esArtista = sessionUserType === "Artista";
+
+                const artistaDiv = `
+                <div class="artista">
+                    ${esArtista ? '' : `<a href="ConsultarUsuario.jsp?usr=${encodeURIComponent(artista.nombre)}">`}
+                        <img src="${imagen}" class="imagenUser" alt="Imagen del Usuario">
+                        <div>
+                            <p>${artista.nombre}</p>
+                        </div>
+                    ${esArtista ? '' : '</a>'}
+                </div>`;
+
+                container.innerHTML += artistaDiv;
+            });
+        })
+        .catch(error => console.error('Error al cargar usuarios:', error));
 
 
-fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarAlbumes')
-.then(response => response.json())
-.then(data => {
-    const container = document.getElementById('albumBody');
-    container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas listas
-    data.forEach(album => {
-        const imagen = album.imagen !== "null" && (album.imagen.endsWith(".png") || album.imagen.endsWith(".jpg")) 
-            ? `imagenes/albumes/${album.imagen}` 
-            : 'imagenes/albumes/defaultAlbum.png';
-        
-        const albumDiv = `
+if (sessionUserType !== "Artista") {
+    fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarAlbumes')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('albumBody');
+                container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas listas
+                data.forEach(album => {
+                    const imagen = album.imagen !== "null" && (album.imagen.endsWith(".png") || album.imagen.endsWith(".jpg"))
+                            ? `imagenes/albumes/${album.imagen}`
+                            : 'imagenes/albumes/defaultAlbum.png';
+
+                    const albumDiv = `
             <div class="album">
                 <a href="ConsultarAlbum.jsp?album=${encodeURIComponent(album.nombre)}">
                     <img src="${imagen}" class="imagenAlbum" alt="Imagen del Álbum">
@@ -43,24 +46,25 @@ fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarAlbume
                     </div>
                 </a>
             </div>`;
-        
-        container.innerHTML += albumDiv;
-    });
-})
-.catch(error => console.error('Error al cargar albumes:', error));
 
+                    container.innerHTML += albumDiv;
+                });
+            })
+            .catch(error => console.error('Error al cargar albumes:', error));
+}
 
-fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarListas')
-.then(response => response.json())
-.then(data => {
-    const container = document.getElementById('listasBody');
-    container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas listas
-    data.forEach(lista => {
-        const imagen = lista.imagen !== "null" && (lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg")) 
-            ? `imagenes/listas/${lista.imagen}` 
-            : 'imagenes/listas/defaultList.png';
-        
-        const listaDiv = `
+if (sessionUserType !== "Artista") {
+    fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarListas')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('listasBody');
+                container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas listas
+                data.forEach(lista => {
+                    const imagen = lista.imagen !== "null" && (lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))
+                            ? `imagenes/listas/${lista.imagen}`
+                            : 'imagenes/listas/defaultList.png';
+
+                    const listaDiv = `
             <div class="lista">
                 <a href="ConsultarListaRep.jsp?listaName=${encodeURIComponent(lista.nombre)}tipo=1">
                     <img src="${imagen}" class="imagenLista" alt="Imagen de la Lista">
@@ -69,34 +73,36 @@ fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarListas
                     </div>
                 </a>
             </div>`;
-        
-        container.innerHTML += listaDiv;
-    });
-})
-.catch(error => console.error('Error al cargar listas:', error));
 
+                    container.innerHTML += listaDiv;
+                });
+            })
+            .catch(error => console.error('Error al cargar listas:', error));
+}
 
 fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarClientes')
-.then(response => response.json())
-.then(data => {
-    const container = document.getElementById('clientesBody');
-    container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas listas
-    data.forEach(cliente => {
-        const imagen = cliente.imagen !== "null" && (cliente.imagen.endsWith(".png") || cliente.imagen.endsWith(".jpg")) 
-            ? `imagenes/usuarios/${cliente.imagen}` 
-            : 'imagenes/usuarios/defaultUser.png';
-        
-        const clienteDiv = `
-            <div class="cliente">
-                <a href="ConsultarUsuario.jsp?usr=${encodeURIComponent(cliente.nombre)}">
-                    <img src="${imagen}" class="imagenCliente" alt="Imagen del Cliente">
-                    <div>
-                        <p>${cliente.nombre}</p>
-                    </div>
-                </a>
-            </div>`;
-        
-        container.innerHTML += clienteDiv;
-    });
-})
-.catch(error => console.error('Error al cargar clientes:', error));
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('clientesBody');
+            container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas listas
+            data.forEach(cliente => {
+                const imagen = cliente.imagen !== "null" && (cliente.imagen.endsWith(".png") || cliente.imagen.endsWith(".jpg"))
+                        ? `imagenes/usuarios/${cliente.imagen}`
+                        : 'imagenes/usuarios/defaultUser.png';
+
+                const esArtista = sessionUserType === "Artista";
+
+                const clienteDiv = `
+                <div class="cliente">
+                    ${esArtista ? '' : `<a href="ConsultarUsuario.jsp?usr=${encodeURIComponent(cliente.nombre)}">`}
+                        <img src="${imagen}" class="imagenCliente" alt="Imagen del Cliente">
+                        <div>
+                            <p>${cliente.nombre}</p>
+                        </div>
+                    ${esArtista ? '' : '</a>'}
+                </div>`;
+
+                container.innerHTML += clienteDiv;
+            });
+        })
+        .catch(error => console.error('Error al cargar clientes:', error));

@@ -37,7 +37,8 @@ function toggleSection(sectionId, loadFunction) {
 
 function cargarPerfil() {
     console.log(sessionUserType);
-    if(sessionUserType !== "Artista" || (sessionNickname === userId)){
+    console.log(sessionNickname);
+        if(sessionUserType !== "Artista" || (sessionNickname === userId)){
         fetch(`ConsultarUsuarioServlet?action=cargarPerfil&nickname=${encodeURIComponent(userId)}`)
             .then(response => response.json())
             .then(data => {
@@ -58,7 +59,6 @@ function cargarPerfil() {
     } else {
         window.location.href = "index.jsp";
     }
-    
 }
 
 function cargarSeguidores() {

@@ -13,6 +13,10 @@
         <servlet-class>com.mycompany.espotifyweb.LoginServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ImagenDeUsuarioServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.ImagenDeUsuarioServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>PublicarListaServlet</servlet-name>
         <servlet-class>com.mycompany.espotifyweb.PublicarListaServlet</servlet-class>
     </servlet>
@@ -95,6 +99,10 @@
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ImagenDeUsuarioServlet</servlet-name>
+        <url-pattern>/ImagenDeUsuarioServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PublicarListaServlet</servlet-name>
