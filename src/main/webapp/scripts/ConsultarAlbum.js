@@ -96,7 +96,6 @@ async function SuccionarInformacion(tieneSuscripcion) {
     const primerCampo = urlParams.get('album');
     const resultado = await obtenerValorSesion();
 
-    if (resultado) {
         fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
                 .then(response => response.json())
                 .then(data => {
@@ -111,11 +110,11 @@ async function SuccionarInformacion(tieneSuscripcion) {
                                 <td>${formatearTiempo(tema.duracion)}</td>
                                 <td>${tema.link}</td>
                                 <td>${tieneSuscripcion
-                    ? `<a href="${urlDescarga}" target="_blank" class="btnsLista">Descargar</a>`
-                    : `<button disabled class="btnsLista">Descargar</button>`}
+                    ? `<button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button>`
+                    : `<button disabled class="btnsAlbum">Descargar</button>`}
                 </td>
                 <td>
-                    <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsLista">
+                    <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsAlbum">
                         Agregar a Lista
                     </button>
                 </td>
@@ -127,11 +126,11 @@ async function SuccionarInformacion(tieneSuscripcion) {
                                 <td>${formatearTiempo(tema.duracion)}</td>
                                 <td>${tema.archivo}</td>
                                 <td>${tieneSuscripcion
-                    ? `<a href="${urlDescarga}" target="_blank" class="btnsLista">Descargar</a>`
-                    : `<button disabled class="btnsLista">Descargar</button>`}
+                    ? `<button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button>`
+                    : `<button disabled class="btnsAlbum">Descargar</button>`}
                 </td>
                 <td>
-                    <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsLista">
+                    <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsAlbum">
                         Agregar a Lista
                     </button>
                 </td>
@@ -142,11 +141,11 @@ async function SuccionarInformacion(tieneSuscripcion) {
                         }else{
                             if (tema.link !== "null") {
                                 const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td>${tieneSuscripcion
-                    ? `<a href="${urlDescarga}" target="_blank" class="btnsLista">Descargar</a>`
-                    : `<button disabled class="btnsLista">Descargar</button>`}
+                    ? `<button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button>`
+                    : `<button disabled class="btnsAlbum">Descargar</button>`}
                 </td>
                 <td>
-                    <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsLista">
+                    <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsAlbum">
                         Agregar a Lista
                     </button>
                 </td>
@@ -154,11 +153,11 @@ async function SuccionarInformacion(tieneSuscripcion) {
                                 tbody.innerHTML += row;
                             } else {
                                 const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td>${tieneSuscripcion
-                    ? `<a href="${urlDescarga}" target="_blank" class="btnsLista">Descargar</a>`
-                    : `<button disabled class="btnsLista">Descargar</button>`}
+                    ? `<button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button>`
+                    : `<button disabled class="btnsAlbum">Descargar</button>`}
                 </td>
                 <td>
-                    <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsLista">
+                    <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsAlbum">
                         Agregar a Lista
                     </button>
                 </td>
@@ -169,24 +168,6 @@ async function SuccionarInformacion(tieneSuscripcion) {
                     });
                 })
                 .catch(error => console.error('Error al cargar temas del album:', error));
-    } else {
-        fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
-                .then(response => response.json())
-                .then(data => {
-                    const tbody = document.getElementById('temasBody');
-                    tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
-                    data.forEach(tema => {
-                        if (tema.link !== "null") {
-                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td>Sin Subscripcion</td></tr>`;
-                            tbody.innerHTML += row;
-                        } else {
-                            const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td>Sin Subscripcion</td></tr>`;
-                            tbody.innerHTML += row;
-                        }
-                    });
-                })
-                .catch(error => console.error('Error al cargar temas del album:', error));
-    }
 
     var NOMBREALBUM = document.getElementById('nombrealbum');
     var ALBUMTEMA = document.getElementById('albumTema');
