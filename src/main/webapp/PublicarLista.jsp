@@ -31,7 +31,10 @@
                 
                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><img src="imagenes/espotify/user.png" class="userIMG"></a>
+                        <% if (nickname != null) { %>
+                        <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
+                        <% } %>
+                        <img src="imagenes/espotify/user.png" class="userIMG"></a>                       
                     </div>
                     <ul class="listUser">
                         
