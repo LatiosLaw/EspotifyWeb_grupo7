@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="estilos/EstilosGenerales.css">
-    <link rel="stylesheet" href="estilos/PaginaInicio.css" />
-    <title>Espotify</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
+        <link rel="stylesheet" href="estilos/EstilosGenerales.css">
+        <link rel="stylesheet" href="estilos/PaginaInicio.css" />
+        <title>Espotify</title>
+    </head>
 
-<body>
-    <% String userType=(String) session.getAttribute("userType"); String nickname=(String)
-        session.getAttribute("nickname"); Boolean suscrito=(Boolean) session.getAttribute("suscrito"); %>
+    <body>
+        <% String userType = (String) session.getAttribute("userType");
+        String nickname = (String) session.getAttribute("nickname");
+        Boolean suscrito = (Boolean) session.getAttribute("suscrito"); %>
         <div class="cuerpo">
             <header class="encaPrin">
                 <div>
@@ -29,32 +30,31 @@
 
                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <% if (nickname !=null) {%>
-                            <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
-                                <img src="imagenes/espotify/user.png" class="userIMG"></a>
-                            <% } %>
-                                <img id="imagenUser" src="imagenes/usuarios/defaultUser.png" class="userIMG"></a>
+                        <% if (nickname != null) {%>
+                        <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
+                            <% }%>
+                            <img id="imagenUser" src="imagenes/usuarios/defaultUser.png" class="userIMG"></a>
                     </div>
                     <ul class="listUser">
                         <li class="userName">
                             <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
                                 <p class="name">
-                                    <%= nickname !=null ? nickname : "Visitante" %>
+                                    <%= nickname != null ? nickname : "Visitante"%>
                             </a></p>
                         </li>
-                        <% if (nickname==null) { %>
-                            <li>
-                                <p><button id="abrirFormLogin">Iniciar sesion</button></p>
-                            </li>
-                            <% } else {%>
-                                <li>
-                                    <p>Tipo: <%= userType !=null ? userType : "Desconocido" %>
-                                    </p>
-                                </li>
-                                <li>
-                                    <p><button id="logoutButton">Cerrar sesion</button></p>
-                                </li>
-                                <% } %>
+                        <% if (nickname == null) { %>
+                        <li>
+                            <p><button id="abrirFormLogin">Iniciar sesion</button></p>
+                        </li>
+                        <% } else {%>
+                        <li>
+                            <p>Tipo: <%= userType != null ? userType : "Desconocido"%>
+                            </p>
+                        </li>
+                        <li>
+                            <p><button id="logoutButton">Cerrar sesion</button></p>
+                        </li>
+                        <% } %>
                     </ul>
                 </div>
             </header>
@@ -65,17 +65,17 @@
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
                         <% if ("Cliente".equals(userType)) { %>
-                            <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
-                            <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
-                            <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
-                            <% if (suscrito) { %>
-                                <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
-                                <% } %>
-                                    <% } %>
+                        <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
+                        <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
+                        <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
+                        <% if (suscrito) { %>
+                        <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
+                        <% } %>
+                        <% } %>
 
-                                        <% if ("Artista".equals(userType)) { %>
-                                            <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
-                                            <% }%>
+                        <% if ("Artista".equals(userType)) { %>
+                        <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
+                        <% }%>
                     </div>
 
                     <div class="realDinamico">
@@ -96,52 +96,52 @@
                             </div>
                         </div>
                         <% if (!"Artista".equals(userType)) { %>
-                            <div>
-                                <h2 class="contStart contStart2">Explora albumes que no conocias:</h2>
-                                <div id="albumBody">
-                                    <!-- aca se carga la lista -->
-                                </div>
-                                <div class="verMas">
-                                    <a href="TodosLosAlbumes.jsp">
-                                        <div>
-                                            <p>Ver mas albumes</p>
-                                        </div>
-                                        <img class="verMasImg" src="imagenes/espotify/next-button.png" />
-                                    </a>
-                                </div>
+                        <div>
+                            <h2 class="contStart contStart2">Explora albumes que no conocias:</h2>
+                            <div id="albumBody">
+                                <!-- aca se carga la lista -->
                             </div>
-                            <% } %>
-
-                                <% if (!"Artista".equals(userType)) { %>
+                            <div class="verMas">
+                                <a href="TodosLosAlbumes.jsp">
                                     <div>
-                                        <h2 class="contStart contStart2">Disfruta listas de diversos generos:</h2>
-                                        <div id="listasBody">
-                                            <!-- aca se carga la lista -->
-                                        </div>
-                                        <div class="verMas">
-                                            <a href="TodasLasListasDefault.jsp">
-                                                <div>
-                                                    <p>Ver mas listas</p>
-                                                </div>
-                                                <img class="verMasImg" src="imagenes/espotify/next-button.png" />
-                                            </a>
-                                        </div>
+                                        <p>Ver mas albumes</p>
                                     </div>
-                                    <% }%>
-                                        <div>
-                                            <h2 class="contStart contStart2">Sigue a otros usuarios:</h2>
-                                            <div id="clientesBody">
-                                                <!-- aca se carga la lista -->
-                                            </div>
-                                            <div class="verMas">
-                                                <a href="TodosLosClientes.jsp">
-                                                    <div>
-                                                        <p>Ver mas usuarios</p>
-                                                    </div>
-                                                    <img class="verMasImg" src="imagenes/espotify/next-button.png" />
-                                                </a>
-                                            </div>
-                                        </div>
+                                    <img class="verMasImg" src="imagenes/espotify/next-button.png" />
+                                </a>
+                            </div>
+                        </div>
+                        <% } %>
+
+                        <% if (!"Artista".equals(userType)) { %>
+                        <div>
+                            <h2 class="contStart contStart2">Disfruta listas de diversos generos:</h2>
+                            <div id="listasBody">
+                                <!-- aca se carga la lista -->
+                            </div>
+                            <div class="verMas">
+                                <a href="TodasLasListasDefault.jsp">
+                                    <div>
+                                        <p>Ver mas listas</p>
+                                    </div>
+                                    <img class="verMasImg" src="imagenes/espotify/next-button.png" />
+                                </a>
+                            </div>
+                        </div>
+                        <% }%>
+                        <div>
+                            <h2 class="contStart contStart2">Sigue a otros usuarios:</h2>
+                            <div id="clientesBody">
+                                <!-- aca se carga la lista -->
+                            </div>
+                            <div class="verMas">
+                                <a href="TodosLosClientes.jsp">
+                                    <div>
+                                        <p>Ver mas usuarios</p>
+                                    </div>
+                                    <img class="verMasImg" src="imagenes/espotify/next-button.png" />
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -207,7 +207,7 @@
                     <div>
                         <label for="foto">Foto de Perfil (Opcional):</label>
                         <input type="file" id="foto" name="foto" accept="image/png, image/jpeg"
-                            style="border-style: none;">
+                               style="border-style: none;">
                     </div>
                     <div id="camposArtista" style="display: none;">
                         <div>
@@ -281,6 +281,6 @@
         </script>
 
         <script src="scripts/ImagenDeUsuario.js"></script>
-</body>
+    </body>
 
 </html>
