@@ -237,8 +237,8 @@ public class AltaDeAlbumServlet extends HttpServlet {
                             
         String outputFileName = nombreTema + ".mp3"; 
 
-       String outputDirectory = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/temas/%(title)s.%(ext)s";
-       // RUTA CURE : String outputDirectory = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/temas/%(title)s.%(ext)s";   
+       String outputDirectory = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/temas/"+outputFileName;
+       // RUTA CURE : String outputDirectory = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/temas/"+outputFileName;   
 
         String projectDir = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/scripts/";
        // RUTA CURE : String projectDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/scripts/"; 

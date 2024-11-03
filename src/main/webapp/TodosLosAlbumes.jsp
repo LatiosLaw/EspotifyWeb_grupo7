@@ -79,12 +79,11 @@
                     <div class="temaRep">
                         <img src="imagenes/espotify/user.png" class="artIMG">
                         <h3>Nombre Tema</h3>
-                        <h2>Nombre Artista</h2>
                     </div>
 
                     <div class="controlRep">
                         <audio id="miAudio">
-                            <source id="audioSource" src="temas/DONMAI.mp3" type="audio/mpeg">
+                            <source id="audioSource" type="audio/mpeg">
                             Tu navegador no soporta el elemento audio.
                         </audio>
 
