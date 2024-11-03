@@ -22,6 +22,12 @@ function formatearTiempo(segundos) {
     return minutos + ":" + segundosFormateados;
 }
 
+function DescargarTema(boton) {
+    const fila = boton.parentElement.parentElement;
+    const tercerCampo = fila.querySelector('td:nth-child(3)').innerText;
+    window.location.href = 'ConsultarAlbumServlet?action=Download&filename=' + encodeURIComponent(tercerCampo);
+}
+
 function cargarTemas(listaNombre, tipo) {
     const encodedNombre = encodeURIComponent(listaNombre);
     const encodedTipo = encodeURIComponent(tipo);
@@ -165,16 +171,29 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
                 <td>${tema.nombre}</td>
                 <td>${formatearTiempo(tema.duracion)}</td>
                 <td>${tema.identificador_archivo}</td>
-                <td>${tieneSuscripcion
-                    ? `<a href="${urlDescarga}" target="_blank" class="btnsLista">Descargar</a>`
-                    : `<button disabled class="btnsLista">Descargar</button>`}
+                <td>
+                <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
+                : `alert('Debes tener una suscripcion vigente para descargar temas.')`}" class="btnsLista">
+                Descargar
+                </button>
                 </td>
+                
+
                 <td>
                     <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsLista">
                         Agregar a Lista
                     </button>
                 </td>
-                <td> <button onclick="sacarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}', '${tema.album}')" class="btnsLista">NoFav</button></td>
+
+                 <td>
+                    <button onclick="${tieneSuscripcion ? `sacarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para eliminar temas de tus favoritos.')`}" class="btnsLista">
+                        NoFav
+                    </button>
+                </td>
+                
+             
+             
+             
              
             </tr>`;
             }else{
@@ -183,17 +202,28 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
                 <td>${tema.nombre}</td>
                 <td>${formatearTiempo(tema.duracion)}</td>
                 <td>${tema.identificador_archivo}</td>
-                <td>${tieneSuscripcion
-                    ? `<a href="${urlDescarga}" target="_blank" class="btnsLista">Descargar</a>`
-                    : `<button disabled class="btnsLista">Descargar</button>`}
+                <td>
+                <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
+                : `alert('Debes tener una suscripcion vigente para descargar temas.')`}" class="btnsLista">
+                Descargar
+                </button>
                 </td>
                 <td>
                     <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsLista">
                         Agregar a Lista
                     </button>
                 </td>
-                <td> <button onclick="agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}', '${"Ninguno"}', '${document.getElementById('albumTema').value}')" class="btnsLista">Fav</button></td>
-            </tr>`;
+                
+                 <td>
+                    <button onclick="${tieneSuscripcion ? `agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}', '${"Ninguno"}', '${document.getElementById('albumTema').value}')` : `alert('Debes tener una suscripcion vigente para agregar temas a tus favoritos.')`}" class="btnsLista">
+                        Fav
+                    </button>
+                </td>
+                
+
+
+
+             </tr>`;
             }
             
         });

@@ -228,3 +228,13 @@ public class SacarAlgoFavListaServlet extends HttpServlet {
     }// </editor-fold>
 
 }
+/*
+<td>
+                     <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
+                    : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsAlbum">
+                     Descargar
+                    </button>
+
+
+                    </td>
+*/

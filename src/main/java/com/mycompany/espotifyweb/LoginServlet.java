@@ -189,7 +189,7 @@ public class LoginServlet extends HttpServlet {
 
             ControladorSuscripcion controladorSus = new ControladorSuscripcion();
             Boolean suscrito = controladorSus.tieneSusValida(nickname);
-
+            System.out.println("Suscrito: " + suscrito);
             session = request.getSession();
 
             session.setAttribute("nickname", nickname);

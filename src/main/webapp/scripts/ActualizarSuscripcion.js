@@ -29,13 +29,23 @@ function cargarDatosSus() {
                             <td><button onclick="vigentear('${sus2.id}')">Vigentear</button></td>
                         `;
                         } else {
-                            susRow.innerHTML = `
+                            if(sus2.estado === 'Pendiente'){
+                                susRow.innerHTML = `
                             <td>${sus2.id}</td>
                             <td>${sus2.fecha}</td>
                             <td>${sus2.tipo}</td>
                             <td>${sus2.estado}</td>
-                            <td><button onclick="cancelar('${sus2.id}')">Cancelar</button></td>
+                            <td><button onclick="cancelar('${sus2.id}')">Cancelar</button>
                             `;
+                            }else{
+                                 susRow.innerHTML = `
+                            <td>${sus2.id}</td>
+                            <td>${sus2.fecha}</td>
+                            <td>${sus2.tipo}</td>
+                            <td>${sus2.estado}</td>
+                            <td>${"No."}</td>`;
+                            }
+                            
                         }
 
 

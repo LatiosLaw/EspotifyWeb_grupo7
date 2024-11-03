@@ -72,8 +72,15 @@
                         <h2 class="contStart">Informacion de la Lista</h2>
                         <img src="imagenes/listas/defaultList.png" id="imagenlista" alt="Imagen de la Lista">
                         <div class="camposLista">
+                            <%if (suscrito == true) { %>
                             <button onclick="llamarAgregarAlgoFav()" id="favListaBtn" style="display:none;">Fav</button>
                             <button onclick="llamarSacarAlgoFav()" id="sacarDeFavListaBtn" style="display:none;">NoFav</button>
+                             <% } else { %>
+                                <button onclick="popup('${"Necesita una Suscripcion para poder usar esta opcion"}')" id="favListaBtn" style="display:none;">Fav</button>
+                                <button onclick="popup('${"Necesita una Suscripcion para poder usar esta opcion"}')" id="sacarDeFavListaBtn" style="display:none;">NoFav</button>
+                             <% }%>
+                             
+                             
                             <input type="text" id="nombrelista" value="" readonly>
                             <input type="text" id="creadorgenerolista" value="" readonly>
                         </div>
@@ -269,12 +276,17 @@
                 // Redirigir a la URL con el par�metro de b�squeda
                 if (searchInput === "" || searchInput === null) {
                     alert("Por favor, ingrese un termino de busqueda.");
+                    
                 } else {
                     window.location.href = "BuscarCosas.jsp?search=" + searchInput;
                 }
             }
         </script>
-
+        <script>
+            function popup(texto) {
+               alert(texto);
+            }
+        </script>
 
         <script>
             function abrirDialogo(nombreTema, albumTema) {

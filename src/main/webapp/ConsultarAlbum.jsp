@@ -68,8 +68,17 @@
                     <div class="realDinamico">
                         <h2 class="contStart">Informacion del Album</h2>
                         <img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album">
+                        
+                        <%if (suscrito == true) { %>
+                        
                         <button onclick="agregarAlbumAFav()" id="favAlbumBtn" style="display:none;">Fav</button>
                         <button onclick="sacarAlbumAFav()" id="sacarDeFavAlbumBtn" style="display:none;">NoFav</button>
+                        
+                        <% } else { %>
+                                <button onclick="popup('${"Necesita una Suscripcion para poder usar esta opcion"}')" id="favAlbumBtn" style="display:none;">Fav</button>
+                                <button onclick="popup('${"Necesita una Suscripcion para poder usar esta opcion"}')" id="sacarDeFavAlbumBtn" style="display:none;">NoFav</button>
+                        <% }%>
+                        
                         <div class="camposAlbum">
                             <input type="text" id="nombrealbum" value="" readonly>
                             <input type="hidden" id="albumTema" name="albumTema" value="">
@@ -319,6 +328,11 @@
             document.addEventListener('dragstart', function (event) {
                 event.preventDefault();
             });
+        </script>
+        <script>
+            function popup(texto) {
+               alert(texto);
+            }
         </script>
     </body>
 </html>
