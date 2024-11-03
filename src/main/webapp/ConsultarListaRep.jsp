@@ -88,7 +88,7 @@
                                         <th colspan="3">Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="temasBody">
                                     <!-- Aca se carga la lista -->
                                 </tbody>
                             </table>
@@ -320,9 +320,6 @@
         <script src = "scripts/LoginSignupForm.js"></script>
 
         <script src = "scripts/AgregarTemaALista.js"></script>
-
-        <!-- Cosas del reproductor de musica -->
-        <script src="scripts/Reproductor.js"></script>
 
         <!-- Evitar que las imagenes sean arrastradas -->
         <script>

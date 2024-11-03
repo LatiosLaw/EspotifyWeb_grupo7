@@ -150,6 +150,7 @@ public class ConsultarListaRepServlet extends HttpServlet {
                 System.out.println("Tiene laik: " + tieneLaik);
                 System.out.println(tema.getArchivo());
                 jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
+                        .append("\"album\":\"").append(tema.getNomAlb()).append("\",")
                         .append("\"duracion\":\"").append(tema.getDuracion()).append("\",")
                         .append("\"archivo\":\"").append(tema.getArchivo()).append("\",")
                         .append("\"fav\":\"").append(tieneLaik).append("\",")

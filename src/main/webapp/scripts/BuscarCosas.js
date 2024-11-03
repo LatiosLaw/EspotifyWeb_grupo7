@@ -38,14 +38,13 @@ const urlParams = new URLSearchParams(window.location.search);
                     const imagen = lista.imagen !== "null" && (lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))
                         ? `imagenes/listas/${lista.imagen}`
                         : 'imagenes/listas/defaultList.png';
-                    
                     const listaUserDiv = `
                         <div class="listaUser">
-                 <a href="ConsultarListaRep.jsp?listaName=${encodeURIComponent(lista.nombre)}tipo=2">
+                 <a href="ConsultarListaRep.jsp?listaName=${encodeURIComponent(`${lista.nombre}/${lista.creador}`).replace(/%2F/g, '/')}tipo=2">
                             <img src="${imagen}" class="imagenUser alt="Imagen del Usuario">
                  </a>
                             <div>
-                 <a href="ConsultarListaRep.jsp?listaName=${encodeURIComponent(lista.nombre)}tipo=2">
+                 <a href="ConsultarListaRep.jsp?listaName=${encodeURIComponent(`${lista.nombre}/${lista.creador}`).replace(/%2F/g, '/')}tipo=2">
                                 <p>${lista.nombre}</p>
                  </a>
                             </div>
