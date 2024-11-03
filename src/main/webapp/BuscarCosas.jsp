@@ -234,5 +234,7 @@
                                 event.preventDefault();
                             });
         </script>
+        
+        <script src="scripts/ImagenDeUsuario.js"></script>
     </body>
 </html>

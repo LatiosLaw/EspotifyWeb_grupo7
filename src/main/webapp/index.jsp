@@ -33,7 +33,7 @@
                         <% if (nickname != null) { %>
                         <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
                         <% } %>
-                        <img src="imagenes/espotify/user.png" class="userIMG"></a>                       
+                        <img id="imagenUser" src="imagenes/usuarios/defaultUser.png" class="userIMG"></a>                       
                     </div>
                     <ul class="listUser">
                         <li class="userName">
@@ -257,5 +257,7 @@
                 event.preventDefault();
             });
         </script>
+        
+        <script src="scripts/ImagenDeUsuario.js"></script>
     </body>
 </html>
