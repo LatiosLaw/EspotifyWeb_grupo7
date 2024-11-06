@@ -1,7 +1,7 @@
-fetch('http://localhost:8080/EspotifyWeb/obtenerImagenesGeneros')
+fetch('http://192.168.1.146:8080/EspotifyWeb/obtenerImagenesGeneros')
         .then(response => response.json())
         .then(imagenes => {
-            fetch('http://localhost:8080/EspotifyWeb/TodosLosGenerosServlet?action=devolverGeneros')
+            fetch('TodosLosGenerosServlet?action=devolverGeneros')
                     .then(response => response.json())
                     .then(data => {
                         const container = document.getElementById('listaGenerosBody');

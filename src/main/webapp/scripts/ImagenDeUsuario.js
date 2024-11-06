@@ -1,4 +1,4 @@
-    fetch(`http://localhost:8080/EspotifyWeb/ImagenDeUsuarioServlet?action=cargarImagenUser`)
+    fetch(`http://192.168.1.146:8080/EspotifyWeb/ImagenDeUsuarioServlet?action=cargarImagenUser`)
         .then(response => response.json())
         .then(data => {
             

@@ -26,7 +26,7 @@ function enviarDatos(nombreLista, nombreTema) {
     console.log("Nombre Tema:", nombreTema);
     console.log("Album Tema:", albumTema);
 
-    fetch('http://localhost:8080/EspotifyWeb/AgregarTemaAListaServlet', {
+    fetch('http://192.168.1.146:8080/EspotifyWeb/AgregarTemaAListaServlet', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ function enviarDatos(nombreLista, nombreTema) {
 window.onload = loadListas;
 
 function loadListas() {
-    fetch('http://localhost:8080/EspotifyWeb/AgregarTemaAListaServlet?action=cargarListas')
+    fetch('http://192.168.1.146:8080/EspotifyWeb/AgregarTemaAListaServlet?action=cargarListas')
         .then(response => response.json())
         .then(data => {
             const tbody = document.getElementById('listasBody');

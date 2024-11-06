@@ -6,7 +6,7 @@ function PublicarLista(boton) {
 
     const params2 = new URLSearchParams({ primerCampo }).toString();
 
-    fetch('http://localhost:8080/EspotifyWeb/PublicarListaServlet', {
+    fetch('http://192.168.1.146:8080/EspotifyWeb/PublicarListaServlet', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -33,7 +33,7 @@ function PublicarLista(boton) {
 window.onload = loadListas;
 
 function loadListas() {
-    fetch('http://localhost:8080/EspotifyWeb/PublicarListaServlet')
+    fetch('http://192.168.1.146:8080/EspotifyWeb/PublicarListaServlet')
             .then(response => response.json())
             .then(data => {
                 const tbody = document.getElementById('listasBody');

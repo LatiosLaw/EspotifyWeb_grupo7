@@ -37,7 +37,9 @@
                     </div>
                     <ul class="listUser">
                         <li class="userName">
+                            <% if (nickname != null) {%>
                             <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
+                                <% }%>
                                 <p class="name">
                                     <%= nickname != null ? nickname : "Visitante"%>
                             </a></p>

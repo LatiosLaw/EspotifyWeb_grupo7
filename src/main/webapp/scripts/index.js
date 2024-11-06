@@ -1,4 +1,4 @@
-fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarArtistas')
+fetch('http://192.168.1.146:8080/EspotifyWeb/PaginaInicioServlet?action=buscarArtistas')
         .then(response => response.json())
         .then(data => {
             const container = document.getElementById('artistasBody');
@@ -27,7 +27,7 @@ fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarArtist
 
 
 if (sessionUserType !== "Artista") {
-    fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarAlbumes')
+    fetch('http://192.168.1.146:8080/EspotifyWeb/PaginaInicioServlet?action=buscarAlbumes')
             .then(response => response.json())
             .then(data => {
                 const container = document.getElementById('albumBody');
@@ -54,7 +54,7 @@ if (sessionUserType !== "Artista") {
 }
 
 if (sessionUserType !== "Artista") {
-    fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarListas')
+    fetch('http://192.168.1.146:8080/EspotifyWeb/PaginaInicioServlet?action=buscarListas')
             .then(response => response.json())
             .then(data => {
                 const container = document.getElementById('listasBody');
@@ -80,7 +80,7 @@ if (sessionUserType !== "Artista") {
             .catch(error => console.error('Error al cargar listas:', error));
 }
 
-fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarClientes')
+fetch('http://192.168.1.146:8080/EspotifyWeb/PaginaInicioServlet?action=buscarClientes')
         .then(response => response.json())
         .then(data => {
             const container = document.getElementById('clientesBody');

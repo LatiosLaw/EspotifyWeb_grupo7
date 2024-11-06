@@ -5,19 +5,19 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import com.google.gson.Gson;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Paths;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 import logica.Genero;
 import logica.controladores.ControladorAlbum;
 import logica.controladores.ControladorGenero;
@@ -139,8 +139,9 @@ public class AltaDeAlbumServlet extends HttpServlet {
                 // Obtén el nombre del archivo y su tipo de contenido
 
                 // COMENTAR ESTA RUTA Y COLOCAR LA SUYA PROPIA, RUTA DONDE GUARDAR LA FOTO DEL ALBUM /////////////////////////////////////////////////////// 
-                String targetDir = "C:\\Users\\Law\\Documents\\GitHub\\EspotifyWeb_grupo7\\src\\main\\webapp\\imagenes\\albumes\\"; // Ajusta esta ruta
-// RUTA CURE : String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/imagenes/albumes/";   
+             //   String targetDir = "C:\\Users\\Law\\Documents\\GitHub\\EspotifyWeb_grupo7\\src\\main\\webapp\\imagenes\\albumes\\"; // Ajusta esta ruta
+// RUTA CURE : 
+String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/imagenes/albumes/";   
                 // Crear el directorio si no existe
                 File uploadDir = new File(targetDir);
                 if (!uploadDir.exists()) {
@@ -204,8 +205,9 @@ public class AltaDeAlbumServlet extends HttpServlet {
                             String nombreArchivo = archivoMusica.getSubmittedFileName().toString();
 
                             // COMENTAR ESTA RUTA Y COLOCAR LA SUYA PROPIA, RUTA DONDE GUARDAR EL TEMAZO /////////////////////////////////////////////////////// 
-                            String targetDir = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/temas/";
-// RUTA CURE : String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/temas/";   
+                           // String targetDir = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/temas/";
+// RUTA CURE : 
+String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/temas/";   
                             // Extraer el nombre del archivo
                             String nombretemazo = Paths.get(archivoMusica.getSubmittedFileName()).getFileName().toString(); // Obtener solo el nombre
 
@@ -234,27 +236,60 @@ public class AltaDeAlbumServlet extends HttpServlet {
                             }
                             TemaPersistence.crearTemaCasiCompleto(nombreTema, nombreAlbum, duracionEnSegundos, null, nombreArchivo, ubicacionTema);
                         } else if (ti_tema.equals("direccionWeb")) {
-                            
+                        
         String outputFileName = nombreTema + ".mp3"; 
 
-       String outputDirectory = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/temas/"+outputFileName;
-       // RUTA CURE : String outputDirectory = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/temas/"+outputFileName;   
+       //String outputDirectory = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/temas/"+outputFileName;
+       // RUTA CURE : 
+       String outputDirectory = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/temas/"+outputFileName;   
 
-        String projectDir = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/scripts/";
-       // RUTA CURE : String projectDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/scripts/"; 
+       // String projectDir = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/scripts/";
+       // RUTA CURE : 
+       String projectDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/scripts/"; 
        
-        String executablePath = projectDir + "yt-dlp.exe";
-        // RUTA CURE String executablePath = projectDir + "yt-dlp";
+       // String executablePath = projectDir + "yt-dlp.exe";
+        // RUTA CURE 
+        String executablePath = projectDir + "yt-dlp";
 
         // Comando para descargar el video usando yt-dlp
-        String downloadCommand = executablePath + " -x --audio-format mp3 -o \"" + outputDirectory + "\" \"" + direccionWeb + "\"";
+        String downloadCommand = executablePath + " --default-search ytsearch -x --audio-format mp3 -o " + outputDirectory + " " + direccionWeb + "";
+
+        
+        System.out.println(nombreTema);
+                            System.out.println("outputFileName: "+outputFileName);
+                            System.out.println("outputDirectory: "+outputDirectory);
+                            System.out.println("projectDir: "+projectDir);
+                            System.out.println("executablePath: "+executablePath);
+                            System.out.println("downloadCommand: "+downloadCommand);
 
 try {
-
-    // Ejecutar comando de descarga
     Process downloadProcess = Runtime.getRuntime().exec(downloadCommand);
-    downloadProcess.waitFor();
+    
+    // Hilo para leer la salida estándar
+    new Thread(() -> {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(downloadProcess.getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }).start();
 
+    // Hilo para leer la salida de error
+    new Thread(() -> {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(downloadProcess.getErrorStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println("Error del yt: " + line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }).start();
+
+    downloadProcess.waitFor();
 } catch (Exception e) {
     e.printStackTrace();
     response.getWriter().println("Error al procesar el video: " + e.getMessage());

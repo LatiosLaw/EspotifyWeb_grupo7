@@ -29,22 +29,35 @@
                     <a class="btnBusqueda" onclick="emitirBusqueda()">Buscar</a>
                 </div>
 
-                <div class="userDiv">
+                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <% if (nickname != null) { %>
+                        <% if (nickname != null) {%>
                         <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
-                        <% } %>
-                        <img src="imagenes/espotify/user.png" class="userIMG"></a>                       
+                            <% }%>
+                            <img id="imagenUser" src="imagenes/usuarios/defaultUser.png" class="userIMG"></a>
                     </div>
                     <ul class="listUser">
-
-                        <li class="userName"><a href="ConsultarUsuario.jsp?usr=<%= nickname%>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p></li>
-                            <% if (nickname == null) { %>
-                        <li><p><button id="abrirFormLogin">Iniciar sesion</button></p></li>
-                                    <% } else {%>
-                        <li><p>Tipo: <%= userType != null ? userType : "Desconocido"%></p></li>
-                        <li><p><button id="logoutButton">Cerrar sesion</button></p></li>
-                                    <% } %>
+                        <li class="userName">
+                            <% if (nickname != null) {%>
+                            <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
+                                <% }%>
+                                <p class="name">
+                                    <%= nickname != null ? nickname : "Visitante"%>
+                            </a></p>
+                        </li>
+                        <% if (nickname == null) { %>
+                        <li>
+                            <p><button id="abrirFormLogin">Iniciar sesion</button></p>
+                        </li>
+                        <% } else {%>
+                        <li>
+                            <p>Tipo: <%= userType != null ? userType : "Desconocido"%>
+                            </p>
+                        </li>
+                        <li>
+                            <p><button id="logoutButton">Cerrar sesion</button></p>
+                        </li>
+                        <% } %>
                     </ul>
                 </div>
             </header>
@@ -75,7 +88,7 @@
                         <h2 class="contStart">Informacion de la Lista</h2>
                         <img src="imagenes/listas/defaultList.png" id="imagenlista" alt="Imagen de la Lista">
                         <div class="camposLista">
-                            <%if (suscrito == true) { %>
+                            <%if (nickname != null && suscrito == true) { %>
                             <button onclick="llamarAgregarAlgoFav()" id="favListaBtn" style="display:none;">Fav</button>
                             <button onclick="llamarSacarAlgoFav()" id="sacarDeFavListaBtn" style="display:none;">NoFav</button>
                              <% } else { %>
@@ -260,8 +273,8 @@
                         <input type="hidden" id='albumTema' name='albumTema' value="">
                     </div>
                     <div>
-                        <label for="nombreTema">Nombre del Tema:</label>
-                        <input type="text" id="nombreTema" name="nombreTema" required title="Ingresa el nombre de un tema" readonly> 
+                        <label style="display: none" for="nombreTema">Nombre del Tema:</label>
+                        <input style="display: none" type="text" id="nombreTema" name="nombreTema" required title="Ingresa el nombre de un tema" readonly> 
                     </div>
                     <div class="btnsAddTema">
                         <button type="submit">Agregar Tema a Lista</button>

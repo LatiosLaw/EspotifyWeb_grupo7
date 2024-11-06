@@ -5,7 +5,7 @@ function checkGenero() {
     const urlParams = new URLSearchParams(window.location.search);
     const buscarName = urlParams.get('search');
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=VerificarSiEsGenero&buscar=" + encodeURIComponent(buscarName), true);
+    xhr.open("GET", "http://192.168.1.146:8080/EspotifyWeb/BuscarCosasServlet?action=VerificarSiEsGenero&buscar=" + encodeURIComponent(buscarName), true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             let mensaje = xhr.responseText;
@@ -24,7 +24,7 @@ function buscarDatos() {
     var buscarName = urlParams.get('search');
     if (buscarName !== null && buscarName !== "") {
 
-        fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarListasU&buscar=' + encodeURIComponent(buscarName))
+        fetch('http://192.168.1.146:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarListasU&buscar=' + encodeURIComponent(buscarName))
                 .then(response => response.json())
                 .then(data => {
                     const container = document.getElementById('listaUsuarioBody');
@@ -50,7 +50,7 @@ function buscarDatos() {
                     });
                 }).catch(error => console.error('Error al cargar listas:', error));
 
-        fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarListasG&buscar=' + encodeURIComponent(buscarName))
+        fetch('http://192.168.1.146:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarListasG&buscar=' + encodeURIComponent(buscarName))
                 .then(response => response.json())
                 .then(data => {
                     const container = document.getElementById('listaGeneroBody');
@@ -76,7 +76,7 @@ function buscarDatos() {
                     });
                 }).catch(error => console.error('Error al cargar listas:', error));
 
-        fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarAlbumes&buscar=' + encodeURIComponent(buscarName))
+        fetch('http://192.168.1.146:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarAlbumes&buscar=' + encodeURIComponent(buscarName))
                 .then(response => response.json())
                 .then(data => {
                     const container = document.getElementById('albumBody');
@@ -103,7 +103,7 @@ function buscarDatos() {
                     });
                 }).catch(error => console.error('Error al cargar Álbumes:', error));
 
-        fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarTemas&buscar=' + encodeURIComponent(buscarName))
+        fetch('http://192.168.1.146:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarTemas&buscar=' + encodeURIComponent(buscarName))
                 .then(response => response.json())
                 .then(data => {
                     const container = document.getElementById('temasBody');
@@ -132,7 +132,7 @@ function cargarGeneroStuff() {
     var buscarName = urlParams.get('search');
     document.getElementById("todoDeUnGenero").style.display = "block";
 
-    fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarListasDelGeneroU&buscar=' + encodeURIComponent(buscarName))
+    fetch('http://192.168.1.146:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarListasDelGeneroU&buscar=' + encodeURIComponent(buscarName))
             .then(response => response.json())
             .then(data => {
                 const container = document.getElementById('listaGeneroGenBody');
@@ -159,7 +159,7 @@ function cargarGeneroStuff() {
             })
             .catch(error => console.error('Error al cargar listas:', error));
 
-    fetch('http://localhost:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarAlbumesDelGeneroU&buscar=' + encodeURIComponent(buscarName))
+    fetch('http://192.168.1.146:8080/EspotifyWeb/BuscarCosasServlet?action=MostrarAlbumesDelGeneroU&buscar=' + encodeURIComponent(buscarName))
             .then(response => response.json())
             .then(data => {
                 const container = document.getElementById('albumGenBody');

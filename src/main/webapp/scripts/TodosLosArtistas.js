@@ -1,4 +1,4 @@
-fetch('http://localhost:8080/EspotifyWeb/TodosLosArtistasServlet?action=devolverArtias')
+fetch('http://192.168.1.146:8080/EspotifyWeb/TodosLosArtistasServlet?action=devolverArtias')
         .then(response => response.json())
         .then(data => {
             const container = document.getElementById('artistasBody');

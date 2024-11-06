@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const formData = new FormData(this);
             const params = new URLSearchParams(formData).toString();
 
-            fetch('http://localhost:8080/EspotifyWeb/LoginServlet', {
+            fetch('http://192.168.1.146:8080/EspotifyWeb/LoginServlet', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

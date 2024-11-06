@@ -38,24 +38,24 @@ function toggleSection(sectionId, loadFunction) {
 function cargarPerfil() {
     console.log(sessionUserType);
     console.log(sessionNickname);
-        if(sessionUserType !== "Artista" || (sessionNickname === userId)){
+    if (sessionUserType !== "Artista" || (sessionNickname === userId)) {
         fetch(`ConsultarUsuarioServlet?action=cargarPerfil&nickname=${encodeURIComponent(userId)}`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('nickname').textContent = data.nickname;
-                document.getElementById('correo').textContent = data.correo;
-                document.getElementById('nombre').textContent = data.nombre;
-                document.getElementById('apellido').textContent = data.apellido;
-                document.getElementById('fechaNacimiento').textContent = data.fechaNacimiento;
-                if (data.imagen !== "null" && (data.imagen.endsWith(".png") || data.imagen.endsWith(".jpg"))) {
-                    document.getElementById('imagenPerfil').src = `imagenes/usuarios/${data.imagen}`;
-                } else {
-                    document.getElementById('imagenPerfil').src = 'imagenes/usuarios/defaultUser.png';
-                }
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('nickname').textContent = data.nickname;
+                    document.getElementById('correo').textContent = data.correo;
+                    document.getElementById('nombre').textContent = data.nombre;
+                    document.getElementById('apellido').textContent = data.apellido;
+                    document.getElementById('fechaNacimiento').textContent = data.fechaNacimiento;
+                    if (data.imagen !== "null" && (data.imagen.endsWith(".png") || data.imagen.endsWith(".jpg"))) {
+                        document.getElementById('imagenPerfil').src = `imagenes/usuarios/${data.imagen}`;
+                    } else {
+                        document.getElementById('imagenPerfil').src = 'imagenes/usuarios/defaultUser.png';
+                    }
 
-                checkUserType(data.nickname);
-            })
-            .catch(error => console.error('Error al cargar perfil:', error));
+                    checkUserType(data.nickname);
+                })
+                .catch(error => console.error('Error al cargar perfil:', error));
     } else {
         window.location.href = "index.jsp";
     }

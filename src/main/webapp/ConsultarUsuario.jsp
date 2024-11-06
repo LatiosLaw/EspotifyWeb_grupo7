@@ -30,23 +30,35 @@
                     <a class="btnBusqueda" onclick="emitirBusqueda()">Buscar</a>
                 </div>
 
-                <div class="userDiv">
+                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <% if (nickname != null) { %>
+                        <% if (nickname != null) {%>
                         <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
-                        <% } %>
-                        <img src="imagenes/espotify/user.png" class="userIMG"></a>                       
+                            <% }%>
+                            <img id="imagenUser" src="imagenes/usuarios/defaultUser.png" class="userIMG"></a>
                     </div>
                     <ul class="listUser">
                         <li class="userName">
-                            <a href="ConsultarUsuario.jsp?usr=<%= nickname%>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p>
+                            <% if (nickname != null) {%>
+                            <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
+                                <% }%>
+                                <p class="name">
+                                    <%= nickname != null ? nickname : "Visitante"%>
+                            </a></p>
                         </li>
                         <% if (nickname == null) { %>
-                        <li><p><button id="abrirFormLogin">Iniciar sesion</button></p></li>
-                                    <% } else {%>
-                        <li><p>Tipo: <%= userType != null ? userType : "Desconocido"%></p></li>
-                        <li><p><button id="logoutButton">Cerrar sesion</button></p></li>
-                                    <% } %>
+                        <li>
+                            <p><button id="abrirFormLogin">Iniciar sesion</button></p>
+                        </li>
+                        <% } else {%>
+                        <li>
+                            <p>Tipo: <%= userType != null ? userType : "Desconocido"%>
+                            </p>
+                        </li>
+                        <li>
+                            <p><button id="logoutButton">Cerrar sesion</button></p>
+                        </li>
+                        <% } %>
                     </ul>
                 </div>
             </header>
@@ -316,7 +328,7 @@
                 }
 
                 function verificarEstadoSeguimiento(nick) {
-                    fetch('http://localhost:8080/EspotifyWeb/SeguirUsuarioServlet?id=' + nick)
+                    fetch('http://192.168.1.146:8080/EspotifyWeb/SeguirUsuarioServlet?id=' + nick)
                             .then(response => response.json())
                             .then(data => {
                                 if (nick === sessionNickname) {
@@ -339,7 +351,7 @@
                 }
 
                 function seguirUsuario(nick) {
-                    fetch('http://localhost:8080/EspotifyWeb/SeguirUsuarioServlet', {
+                    fetch('http://192.168.1.146:8080/EspotifyWeb/SeguirUsuarioServlet', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -363,7 +375,7 @@
                 }
 
                 function dejarSeguirUsuario(nick) {
-                    fetch('http://localhost:8080/EspotifyWeb/DejarDeSeguirUsuarioServlet', {
+                    fetch('http://192.168.1.146:8080/EspotifyWeb/DejarDeSeguirUsuarioServlet', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

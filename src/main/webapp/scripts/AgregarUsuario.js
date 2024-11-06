@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 if (data.status === "success") {
                     alert(data.message); 
+                    setTimeout(() => location.reload(), 1000);
                 } else {
                     alert("Error: " + data.message);
                 }

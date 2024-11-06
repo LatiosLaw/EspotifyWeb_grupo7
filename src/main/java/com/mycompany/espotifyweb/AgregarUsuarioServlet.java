@@ -1,17 +1,17 @@
 package com.mycompany.espotifyweb;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.time.LocalDate;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import logica.Usuario;
 import logica.controladores.ControladorArtista;
 import logica.controladores.ControladorCliente;
@@ -43,6 +43,9 @@ public class AgregarUsuarioServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("\n-----Agregar Usuario Servlet-----");
         String action = request.getParameter("action");
+        response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+    	response.setHeader("Pragma", "no-cache");
+    	response.setDateHeader("Expires", 0);
 
         if ("verificarNickname".equals(action)) {
             String username = request.getParameter("Nickname");
@@ -146,9 +149,10 @@ public class AgregarUsuarioServlet extends HttpServlet {
             // Obtén el nombre del archivo y su tipo de contenido
 
             // COMENTAR ESTA RUTA Y COLOCAR LA SUYA PROPIA, RUTA DONDE GUARDAR LA FOTO DEL ALBUM /////////////////////////////////////////////////////// 
-            String targetDir = "C:\\Users\\Law\\Documents\\GitHub\\EspotifyWeb_grupo7\\src\\main\\webapp\\imagenes\\usuarios\\"; // Ajusta esta ruta
+          //  String targetDir = "C:\\Users\\Law\\Documents\\GitHub\\EspotifyWeb_grupo7\\src\\main\\webapp\\imagenes\\usuarios\\"; // Ajusta esta ruta
             //String targetDir = "D:\\Github Proyectos\\EspotifyWeb_grupo7\\src\\main\\webapp\\imagenes\\usuarios";
-// RUTA CURE : String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/imagenes/usuarios/";    
+// RUTA CURE : 
+String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/imagenes/usuarios/";    
             // Crear el directorio si no existe
             File uploadDir = new File(targetDir);
             if (!uploadDir.exists()) {

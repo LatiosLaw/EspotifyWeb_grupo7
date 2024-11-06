@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     checkSuscripcion();
     setTimeout(() => {
         recargarTemas();
-    }, 250);
+    }, 1000);
     
 });
 
@@ -50,7 +50,7 @@ function VamoAYoutube(boton) {
 
 function obtenerValorSesion() {
     try {
-        return fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverSubscripcion')
+        return fetch('http://192.168.1.146:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverSubscripcion')
                 .then(response => response.json())
                 .then(data => {
                     if (data.sus === "true") {
@@ -96,7 +96,7 @@ async function SuccionarInformacion(tieneSuscripcion) {
     const primerCampo = urlParams.get('album');
     const resultado = await obtenerValorSesion();
 
-        fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
+        fetch('http://192.168.1.146:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.getElementById('temasBody');
@@ -144,7 +144,7 @@ async function SuccionarInformacion(tieneSuscripcion) {
                                     </button>
                                 </td>
                                 <td>
-                                    <button onclick="${tieneSuscripcion ? `"sacarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para eliminar temas de tus favoritos.')`}" class="btnsAlbum">
+                                    <button onclick="${tieneSuscripcion ? `sacarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para eliminar temas de tus favoritos.')`}" class="btnsAlbum">
                                         NoFav
                                     </button>
                                 </td>
@@ -188,10 +188,10 @@ async function SuccionarInformacion(tieneSuscripcion) {
                     </button>
                 </td>
                 <td>
-                    <button onclick="${tieneSuscripcion ? `"agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para eliminar temas de tus favoritos.')`}" class="btnsAlbum">
+                    <button onclick="${tieneSuscripcion ? `agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para eliminar temas de tus favoritos.')`}" class="btnsAlbum">
                     Fav
                     </button>
-                </td>    
+                </td>   
         </tr>`;
                                 tbody.innerHTML += row;
                             }
@@ -209,7 +209,7 @@ async function SuccionarInformacion(tieneSuscripcion) {
     var LAIK = document.getElementById('favAlbumBtn');
     var NOLAIK = document.getElementById('sacarDeFavAlbumBtn');
     var IMAGENREPRO = document.getElementById('imagenReproductor');
-    fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverInformacionAlbum&albumName=' + encodeURIComponent(primerCampo))
+    fetch('http://192.168.1.146:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverInformacionAlbum&albumName=' + encodeURIComponent(primerCampo))
             .then(response => response.json())
             .then(data => {
                 data.forEach(album => {
@@ -255,7 +255,7 @@ function agregarAlgoFav(id, coso, album){
     var LAIK = document.getElementById('favAlbumBtn');
     var NOLAIK = document.getElementById('sacarDeFavAlbumBtn');
     event.preventDefault();
-    fetch('http://localhost:8080/EspotifyWeb/AgregarAlgoFavServlet', {
+    fetch('http://192.168.1.146:8080/EspotifyWeb/AgregarAlgoFavServlet', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -292,7 +292,7 @@ function sacarAlgoFav(id, coso, album){
     var LAIK = document.getElementById('favAlbumBtn');
     var NOLAIK = document.getElementById('sacarDeFavAlbumBtn');
     event.preventDefault();
-    fetch('http://localhost:8080/EspotifyWeb/SacarAlgoFavServlet', {
+    fetch('http://192.168.1.146:8080/EspotifyWeb/SacarAlgoFavServlet', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -330,7 +330,7 @@ async function recargarListas() {
     const resultado = await obtenerValorSesion();
 
     if (resultado) {
-        fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
+        fetch('http://192.168.1.146:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.getElementById('temasBody');
@@ -353,16 +353,17 @@ async function recargarListas() {
                                 <td>${formatearTiempo(tema.duracion)}</td>
                                 <td>${tema.archivo}</td>
                                 <td><button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button></td>
+                                <td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')"class="btnsAlbum" >Agregar a Lista</button></td>
                                 <td><button onclick="sacarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')"class="btnsAlbum">NoFav</button></td>
                                 </tr>`;
                                 tbody.innerHTML += row;
                             }
                         }else{
                             if (tema.link !== "null") {
-                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)" class="btnsAlbum">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')" class="btnsAlbum">Agregar a Lista</button></td></td><td><button onclick="agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')" class="btnsAlbum">Fav</button></td></tr>`;
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td><button onclick="VamoAYoutube(this)" class="btnsAlbum">Escuchar Tema</button><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')" class="btnsAlbum">Agregar a Lista</button></td><td><button onclick="agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')" class="btnsAlbum">Fav</button></td></tr>`;
                                 tbody.innerHTML += row;
                             } else {
-                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button></td></td><td><button onclick="agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')" class="btnsAlbum">Fav</button></td></tr>`;
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td><button onclick="DescargarTema(this)" class="btnsAlbum">Descargar</button></td></td><td><button onclick="abrirDialogo('${tema.nombre}', '${tema.album}')" class="btnsAlbum">Agregar a Lista</button></td><td><button onclick="agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}')" class="btnsAlbum">Fav</button></td></tr>`;
                                 tbody.innerHTML += row;
                             }
                         }
@@ -370,7 +371,7 @@ async function recargarListas() {
                 })
                 .catch(error => console.error('Error al cargar temas del album:', error));
     } else {
-        fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
+        fetch('http://192.168.1.146:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.getElementById('temasBody');

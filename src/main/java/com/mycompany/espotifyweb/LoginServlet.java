@@ -1,13 +1,13 @@
 package com.mycompany.espotifyweb;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import logica.Usuario;
 import logica.controladores.ControladorCliente;
 import logica.controladores.ControladorSuscripcion;
@@ -37,7 +37,8 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-
+        
+       
         if ("obtenerTipoUsuario".equals(action)) {
             try {
                 getUserType(request, response);
@@ -158,7 +159,7 @@ public class LoginServlet extends HttpServlet {
         String pass = request.getParameter("passLogin");
 
         DAO_Usuario persistence = new DAO_Usuario();
-        persistence.reconnect(); // Forzar reconexion a la bd
+        
 
         ControladorCliente controlador = new ControladorCliente();
         DataErrorBundle resultado = controlador.iniciarSesion(nickname, pass);
@@ -170,7 +171,8 @@ public class LoginServlet extends HttpServlet {
             }
 
             Usuario usuario = persistence.findUsuarioByNick(nickname);
-
+            
+            System.out.println("El tipo de usuario es: " + usuario.getDTYPE());
             String userType = null;
 
             if (usuario != null) {

@@ -1,4 +1,4 @@
-fetch('http://localhost:8080/EspotifyWeb/TodasLasListasDefaultServlet?action=devolverListas')
+fetch('http://192.168.1.146:8080/EspotifyWeb/TodasLasListasDefaultServlet?action=devolverListas')
     .then(response => response.json())
     .then(data => {
         const container = document.getElementById('listaListasBody');
