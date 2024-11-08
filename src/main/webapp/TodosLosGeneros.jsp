@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
-        <link rel="stylesheet" href="estilos/TodosLosGenerosAlbumesListas.css"/>
+        <link rel="stylesheet" href="estilos/TodosLosGenerosAlbumesListas.css">
+        <link rel="stylesheet" href="estilos/DistribucionSinRep.css">
         <title>Espotify</title>
     </head>
     <body>

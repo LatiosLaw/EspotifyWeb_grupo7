@@ -1,0 +1,46 @@
+/*Resolucion de telefono*/
+@media (max-width: 960px){
+    .dinamico{
+        bottom: 0;
+        max-width: 80vw;
+        min-width: 80vw;
+        min-height: 45vh;
+        max-height: 45vh;
+    }
+
+    .reproductor{
+        top: 0;
+        width: 80vw;
+        align-items: center;
+        display: flex;
+        padding-top: 20px;
+    }
+}
+
+/*Resolucion de pc*/
+@media (min-width: 960px){
+    .dinamico{
+        max-height: 100%;
+        min-height: 100%;
+        left: 5%;
+        max-width: 60%;
+        min-width: 60%;
+    }
+
+    .reproductor{
+        display: inline-block;
+        right: 0;
+        margin-right: 50px;
+        height: 550px;
+        padding-right: 40px;
+        padding-left: 40px;
+    }
+}
+
+@media (min-width: 1400px){
+    .dinamico{
+        left: 5%;
+        max-width: 70%;
+        min-width: 70%;
+    }
+}

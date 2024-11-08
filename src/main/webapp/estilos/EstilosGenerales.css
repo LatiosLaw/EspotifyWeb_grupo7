@@ -45,9 +45,6 @@ ul{
     position: relative;
     align-items: center;
     background-color: #562859;
-    border-bottom-width: 2px;
-    border-bottom-style: dashed;
-    border-color: black;
 }
 
 .EspotifyLogo{
@@ -191,7 +188,7 @@ ul{
 }
 
 .artIMG{
-    border-radius: 50px;
+    border-radius: 50%;
 }
 
 .temaRep h2{
@@ -258,10 +255,6 @@ ul{
     position: absolute;
     border-style: none;
     border-radius: 50%;
-}
-
-#muteBtn img, #unmuteBtn img{
-    width: 30px;
 }
 
 #winLogin, #winSignup{
@@ -435,21 +428,6 @@ ul{
         max-width: 16vw;
     }
 
-    .dinamico{
-        bottom: 0;
-        max-width: 80vw;
-        min-width: 80vw;
-        min-height: 45vh;
-        max-height: 45vh;
-    }
-
-    .reproductor{
-        top: 0;
-        width: 80vw;
-        align-items: center;
-        display: flex;
-    }
-
     .temaRep{
         display: inline-block;
         margin-left: 20px;
@@ -522,15 +500,15 @@ ul{
     }
 
     #prevBtn img, #nextBtn img{
-        width: 4.5vw;
+        width: 3vw;
     }
 
     #playBtn img, #pauseBtn img{
-        width: 6vw;
+        width: 4.5vw;
     }
 
     #muteBtn img, #unmuteBtn img{
-        width: 30px;
+        width: 20px;
     }
 
     #volumeBar{
@@ -570,24 +548,6 @@ ul{
 
     .userName p{
         max-width: 100px;
-    }
-
-    .dinamico{
-        display: inline-block;
-        max-height: 100%;
-        min-height: 100%;
-        left: 5%;
-        max-width: 60%;
-        min-width: 60%;
-    }
-
-    .reproductor{
-        display: inline-block;
-        right: 0;
-        margin-right: 50px;
-        height: 550px;
-        padding-right: 40px;
-        padding-left: 40px;
     }
 
     .temaRep{
@@ -654,19 +614,15 @@ ul{
         height: 10px;
     }
     
+    #muteBtn img, #unmuteBtn img{
+       width: 30px;
+    }
+    
     #tipoUsuario{
         margin-left: 3%; 
     }
     
     .btnsNav{
         font-size: 1vw;
-    }
-}
-
-@media (min-width: 1400px){
-    .dinamico{
-        left: 5%;
-        max-width: 70%;
-        min-width: 70%;
     }
 }

@@ -98,6 +98,10 @@
     margin-bottom: 10px;
 }
 
+#temasTable{
+    width: 90%;
+}
+
 #listasTable{
     width: 100%;
 }
@@ -192,19 +196,23 @@
     margin-top: 10px;
 }
 
-
-
-
-
 /*Resolucion de telefono*/
 @media (max-width: 960px){
-    #imagenlista{
-        width: 30vw;
-        heigth: 30vw;
+    #imagenalbum{
+        width: 35vw;
+        heigth: 35vw;
     }
     
     #nombrealbum, #creadoralbum{
         width: 80%;
+    }
+    
+    .contStart{
+        font-size: 3.5vw;
+    }
+    
+    #temasTable{
+        font-size: 1.1vw;
     }
 }
 
@@ -222,6 +230,14 @@
     #creadoralbum{
         width: 20%;
     }
+    
+    .contStart{
+        font-size: 2.5vw;
+    }
+    
+    #temasTable{
+        font-size: 1.3vw;
+    }
 }
 
 @media (min-width: 1400px){
@@ -236,5 +252,13 @@
     
     #creadoralbum{
         width: 20%;
+    }
+    
+    .contStart{
+        font-size: 1.5vw;
+    }
+    
+    #temasTable{
+        font-size: 1vw;
     }
 }

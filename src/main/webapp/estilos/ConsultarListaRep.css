@@ -45,6 +45,10 @@
     margin-top: 15px;
 }
 
+#tablaTemas{
+    width: 90%;
+}
+
 .btnsLista{
     width: 100%;
     border: 2px solid black;
@@ -191,6 +195,14 @@
     #nombrelista, #creadorgenerolista{
         width: 80%;
     }
+    
+    .contStart{
+        font-size: 3.5vw;
+    }
+    
+    #tablaTemas{
+        font-size: 1.1vw;
+    }
 }
 
 /*Resolucion de pc*/
@@ -207,6 +219,14 @@
     #creadorgenerolista{
         width: 20%;
     }
+    
+    .contStart{
+        font-size: 2.5vw;
+    }
+    
+    #tablaTemas{
+        font-size: 1.3vw;
+    }
 }
 
 @media (min-width: 1400px){
@@ -221,5 +241,13 @@
     
     #creadorgenerolista{
         width: 20%;
+    }
+    
+    .contStart{
+        font-size: 1.5vw;
+    }
+    
+    #tablaTemas{
+        font-size: 1vw;
     }
 }

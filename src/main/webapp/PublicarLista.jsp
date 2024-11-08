@@ -6,6 +6,7 @@
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
         <link rel="stylesheet" href="estilos/PublicarLista.css">
+        <link rel="stylesheet" href="estilos/DistribucionSinRep.css">
         <title>Espotify</title>
     </head>
     <body>

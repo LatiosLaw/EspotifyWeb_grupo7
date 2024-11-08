@@ -140,6 +140,7 @@ public class AltaDeAlbumServlet extends HttpServlet {
 
                 // COMENTAR ESTA RUTA Y COLOCAR LA SUYA PROPIA, RUTA DONDE GUARDAR LA FOTO DEL ALBUM /////////////////////////////////////////////////////// 
                 String targetDir = "C:\\Users\\Law\\Documents\\GitHub\\EspotifyWeb_grupo7\\src\\main\\webapp\\imagenes\\albumes\\"; // Ajusta esta ruta
+                //String targetDir = "D:\\Github Proyectos\\EspotifyWeb_grupo7\\src\\main\\webapp\\imagenes\\albumes\\";
 // RUTA CURE : String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/imagenes/albumes/";   
                 // Crear el directorio si no existe
                 File uploadDir = new File(targetDir);
@@ -205,6 +206,7 @@ public class AltaDeAlbumServlet extends HttpServlet {
 
                             // COMENTAR ESTA RUTA Y COLOCAR LA SUYA PROPIA, RUTA DONDE GUARDAR EL TEMAZO /////////////////////////////////////////////////////// 
                             String targetDir = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/temas/";
+                            //String targetDir = "D:/Github Proyectos/EspotifyWeb_grupo7/src/main/webapp/temas/";
 // RUTA CURE : String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/temas/";   
                             // Extraer el nombre del archivo
                             String nombretemazo = Paths.get(archivoMusica.getSubmittedFileName()).getFileName().toString(); // Obtener solo el nombre
@@ -238,10 +240,12 @@ public class AltaDeAlbumServlet extends HttpServlet {
         String outputFileName = nombreTema + ".mp3"; 
 
        String outputDirectory = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/temas/"+outputFileName;
+       //String outputDirectory = "D:/Github Proyectos/EspotifyWeb_grupo7/src/main/webapp/temas/"+outputFileName;
        // RUTA CURE : String outputDirectory = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/temas/"+outputFileName;   
 
         String projectDir = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/scripts/";
-       // RUTA CURE : String projectDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/scripts/"; 
+        //String projectDir = "D:/Github Proyectos/EspotifyWeb_grupo7/src/main/webapp/scripts/";
+        // RUTA CURE : String projectDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/scripts/"; 
        
         String executablePath = projectDir + "yt-dlp.exe";
         // RUTA CURE String executablePath = projectDir + "yt-dlp";
