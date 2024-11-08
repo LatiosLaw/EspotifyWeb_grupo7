@@ -31,14 +31,26 @@
                 
                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <% if (nickname != null) { %>
+                        <% if (nickname != null) {%>
                         <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
-                        <% } %>
-                        <img src="imagenes/espotify/user.png" class="userIMG"></a>                       
+                            <% }%>
+                            <img id="imagenUser" src="imagenes/usuarios/defaultUser.png" class="userIMG">
+                        <% if (nickname != null) {%>
+                        </a>
+                            <% }%>
                     </div>
                     <ul class="listUser">
-                        
-                        <li class="userName"><a href="ConsultarUsuario.jsp?usr=<%= nickname %>"><p class="name"><%= nickname != null ? nickname : "Visitante"%></a></p></li>
+                        <li class="userName">
+                            <% if (nickname != null) {%>
+                            <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
+                            <% }%>
+                                <p class="name">
+                                    <%= nickname != null ? nickname : "Visitante"%>
+                                </p>
+                            <% if (nickname != null) {%>
+                            </a>
+                            <% }%>
+                        </li>
                             <% if (nickname == null) { %>
                         <li><p><button id="abrirFormLogin">Iniciar sesion</button></p></li>
                                     <% } else { %>

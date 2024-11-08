@@ -33,14 +33,22 @@
                         <% if (nickname != null) {%>
                         <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
                             <% }%>
-                            <img id="imagenUser" src="imagenes/usuarios/defaultUser.png" class="userIMG"></a>
+                            <img id="imagenUser" src="imagenes/usuarios/defaultUser.png" class="userIMG">
+                        <% if (nickname != null) {%>
+                        </a>
+                            <% }%>
                     </div>
                     <ul class="listUser">
                         <li class="userName">
+                            <% if (nickname != null) {%>
                             <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
+                            <% }%>
                                 <p class="name">
                                     <%= nickname != null ? nickname : "Visitante"%>
-                            </a></p>
+                                </p>
+                            <% if (nickname != null) {%>
+                            </a>
+                            <% }%>
                         </li>
                         <% if (nickname == null) { %>
                         <li>
