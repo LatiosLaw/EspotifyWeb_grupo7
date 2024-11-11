@@ -162,7 +162,12 @@ document.getElementById('generos').addEventListener('change', agregarGenero);
 document.getElementById('albumForm').onsubmit = function (event) {
     event.preventDefault();
 
+    // Mostrar el dialogo de carga
+    const dialog = document.getElementById('loadingDialog');
+    dialog.showModal();  // Mostrar el diálogo (bloquea la UI)
+
     if (!validarFormulario()) {
+        dialog.close();  // Cerrar el diálogo si la validación falla
         return;
     }
 
@@ -172,25 +177,40 @@ document.getElementById('albumForm').onsubmit = function (event) {
         method: 'POST',
         body: formData
     })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    alert(data.message);
-                    this.reset(); // Resetea el formulario
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert(data.message);
+            dialog.innerHTML = '<p>' + data.message + '</p>';  // Mensaje de éxito
 
-                    document.getElementById('selectedGenerosContainer').innerHTML = '';
-                    document.getElementById('generosSeleccionados').value = '';
+            // Reseteamos el formulario
+            this.reset();
 
-                    const temasContainer = document.getElementById('temasContainer');
-                    while (temasContainer.firstChild) {
-                        temasContainer.removeChild(temasContainer.firstChild);
-                    }
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("Ocurrio un error en el registro.");
-            });
+            // Limpiamos los géneros seleccionados
+            document.getElementById('selectedGenerosContainer').innerHTML = '';
+            document.getElementById('generosSeleccionados').value = '';
+
+            // Limpiamos los temas
+            const temasContainer = document.getElementById('temasContainer');
+            while (temasContainer.firstChild) {
+                temasContainer.removeChild(temasContainer.firstChild);
+            }
+        } else {
+            alert('Error: ' + data.message);
+            dialog.innerHTML = '<p>Error: ' + data.message + '</p>';
+        }
+        dialog.innerHTML += '<button class="btnCloseDialog" onclick="closeDialog()">Cerrar</button>'; // Botón de cerrar
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("Ocurrio un error en el registro.");
+        dialog.innerHTML = '<p>Ocurrió un error en la comunicación con el servidor.</p>';
+        dialog.innerHTML += '<button onclick="closeDialog()">Cerrar</button>';
+    });
 };
+
+// Función para cerrar el diálogo
+function closeDialog() {
+    const dialog = document.getElementById('loadingDialog');
+    dialog.close();
+}
