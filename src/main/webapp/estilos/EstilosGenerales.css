@@ -172,6 +172,7 @@ ul{
 
 .realDinamico{
     display: grid;
+    overflow-x: auto;
 }
 
 .reproductor{

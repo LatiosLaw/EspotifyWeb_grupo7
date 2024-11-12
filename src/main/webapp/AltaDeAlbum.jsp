@@ -222,7 +222,7 @@
             <!-- Dialogo de Carga -->
             <dialog id="loadingDialog">
                 <div id="dialogContent">
-                    <p>Enviando datos, por favor espera...</p>
+                    <p>Cargando, por favor espera...</p>
                     <div class="spinner"></div> <!-- Puedes agregar un spinner de carga aquí -->
                 </div>
             </dialog>

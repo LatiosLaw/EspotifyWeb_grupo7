@@ -204,8 +204,8 @@ document.getElementById('albumForm').onsubmit = function (event) {
     .catch(error => {
         console.error('Error:', error);
         alert("Ocurrio un error en el registro.");
-        dialog.innerHTML = '<p>Ocurrió un error en la comunicación con el servidor.</p>';
-        dialog.innerHTML += '<button onclick="closeDialog()">Cerrar</button>';
+        dialog.innerHTML = '<p>Ocurrio un error en la comunicacion con el servidor.</p>';
+        dialog.innerHTML += '<button class="btnCloseDialog" onclick="closeDialog()">Cerrar</button>';
     });
 };
 
