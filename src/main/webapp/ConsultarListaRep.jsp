@@ -6,7 +6,20 @@
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
         <link rel="stylesheet" href="estilos/ConsultarListaRep.css">
-        <link rel="stylesheet" href="estilos/DistribucionConRep.css">
+        <%
+            String userAgent = request.getHeader("User-Agent").toLowerCase();
+            boolean isMobile = userAgent.contains("mobi") || userAgent.contains("android") || userAgent.contains("iphone");
+            
+            if (isMobile) {
+        %>
+        <link rel="stylesheet" href="estilos/DistribucionSinRep.css">
+        <%
+            } else {
+        %>
+        <link rel="stylesheet" href="estilos/DistribucionConRep.css"/>
+        <%
+            }
+        %>
         <title>Espotify</title>
     </head>
     <body>
@@ -120,7 +133,7 @@
                     </div>
 
                 </div>
-
+                    <% if (!isMobile) { %>
                 <div class="reproductor">
                     <div class="temaRep">
                         <img src="imagenes/espotify/user.png" class="artIMG" id="imagenReproductor">
@@ -160,6 +173,7 @@
                         </div>
                     </div>
                 </div>
+                    <% }%>
             </div>
 
             <dialog id="winLogin"> <!-- Di?logo de inicio de sesi?n -->
