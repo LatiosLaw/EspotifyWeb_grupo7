@@ -10,14 +10,12 @@
         <title>Espotify</title>
     </head>
     <body>
-        <%
-            String userType = (String) session.getAttribute("userType");
-            String nickname = (String) session.getAttribute("nickname");
-            Boolean suscrito = (Boolean) session.getAttribute("suscrito");
-            
-            String userAgent = request.getHeader("User-Agent").toLowerCase();
-            boolean isMobile = userAgent.contains("mobi") || userAgent.contains("android") || userAgent.contains("iphone");
-        %>
+        <% String userType = (String) session.getAttribute("userType");
+        String nickname = (String) session.getAttribute("nickname");
+        Boolean suscrito = (Boolean) session.getAttribute("suscrito");
+        
+        String userAgent = request.getHeader("User-Agent").toLowerCase();
+        boolean isMobile = userAgent.contains("mobi") || userAgent.contains("android") || userAgent.contains("iphone"); %>
         <div class="cuerpo">
             <header class="encaPrin">
                 <div>
@@ -68,26 +66,26 @@
 
             <div class="mainCon">
                 <div class="dinamico">
-                    <% if (!isMobile) { %>
                     <div class="btnsNav">
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
-                        <% if ("Cliente".equals(userType)) { %>
-                        <% if (suscrito == true) { %>
+                        <% if (!isMobile) { %>
+                            <% if ("Cliente".equals(userType)) { %>
+                                <% if (suscrito == true) { %>
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
-                        <% } %>
+                                <% } %>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
-                        <% if (suscrito) { %>
+                                <% if (suscrito) { %>
                         <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
-                        <% } %>
-                        <% } %>
+                                <% } %>
+                            <% } %>
 
-                        <% if ("Artista".equals(userType)) { %>
-                        <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
+                            <% if ("Artista".equals(userType)) { %>
+                            <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
+                            <% }%>
                         <% }%>
                     </div>
-                    <% }%>
 
                     <div class="realDinamico">
 
@@ -263,5 +261,13 @@
         </script>
         
         <script src="scripts/ImagenDeUsuario.js"></script>
+        
+        <% if (isMobile && nickname == null) { %>
+        <script>
+            // Reemplaza la página actual en el historial del navegador con MobileLogin.jsp, lo que significa que el usuario no podrá volver a la página anterior usando el botón "Atrás" del navegador
+            window.location.replace('MobileLogin.jsp');
+        </script>
+        <% }%>
+        
     </body>
 </html>
