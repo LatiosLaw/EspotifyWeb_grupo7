@@ -14,7 +14,10 @@
     <body>
         <% String userType = (String) session.getAttribute("userType");
         String nickname = (String) session.getAttribute("nickname");
-        Boolean suscrito = (Boolean) session.getAttribute("suscrito"); %>
+        Boolean suscrito = (Boolean) session.getAttribute("suscrito");
+        
+        String userAgent = request.getHeader("User-Agent").toLowerCase();
+        boolean isMobile = userAgent.contains("mobi") || userAgent.contains("android") || userAgent.contains("iphone"); %>
         <div class="cuerpo">
             <header class="encaPrin">
                 <div>
@@ -31,24 +34,26 @@
 
                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <% if (nickname != null) {%>
+                        <% if (nickname != null && !isMobile) {%>
                         <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
-                            <% }%>
                             <img id="imagenUser" src="imagenes/usuarios/defaultUser.png" class="userIMG">
-                        <% if (nickname != null) {%>
                         </a>
-                            <% }%>
+                        <% } else {%>
+                        <img id="imagenUser" src="imagenes/usuarios/defaultUser.png" class="userIMG">
+                        <% }%>
                     </div>
                     <ul class="listUser">
                         <li class="userName">
-                            <% if (nickname != null) {%>
+                            <% if (nickname != null && !isMobile) {%>
                             <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
-                            <% }%>
                                 <p class="name">
                                     <%= nickname != null ? nickname : "Visitante"%>
                                 </p>
-                            <% if (nickname != null) {%>
                             </a>
+                            <% } else {%>
+                            <p class="name">
+                                <%= nickname != null ? nickname : "Visitante"%>
+                            </p>
                             <% }%>
                         </li>
                         <% if (nickname == null) { %>
@@ -70,6 +75,8 @@
 
             <div class="mainCon">
                 <div class="dinamico">
+                    
+                    <% if (!isMobile) { %>
                     <div class="btnsNav">
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
@@ -88,7 +95,8 @@
                         <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
                         <% }%>
                     </div>
-
+                    <% }%>
+                    
                     <div class="realDinamico">
                         <h1 class="inicioIndex">Inicio</h1>
 

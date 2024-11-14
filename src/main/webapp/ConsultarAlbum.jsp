@@ -44,24 +44,26 @@
 
                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <% if (nickname != null) {%>
+                            <% if (nickname != null && !isMobile) {%>
                         <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
-                            <% }%>
                             <img id="imagenUser" src="imagenes/usuarios/defaultUser.png" class="userIMG">
-                        <% if (nickname != null) {%>
                         </a>
+                            <% } else {%>
+                        <img id="imagenUser" src="imagenes/usuarios/defaultUser.png" class="userIMG">
                             <% }%>
                     </div>
                     <ul class="listUser">
                         <li class="userName">
-                            <% if (nickname != null) {%>
+                            <% if (nickname != null && !isMobile) {%>
                             <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
-                            <% }%>
                                 <p class="name">
                                     <%= nickname != null ? nickname : "Visitante"%>
                                 </p>
-                            <% if (nickname != null) {%>
                             </a>
+                            <% } else {%>
+                            <p class="name">
+                                <%= nickname != null ? nickname : "Visitante"%>
+                            </p>
                             <% }%>
                         </li>
                         <% if (nickname == null) { %>
@@ -76,14 +78,17 @@
 
             <div class="mainCon">
                 <div class="dinamico">
+                    <% if (!isMobile) { %>
                     <div class="btnsNav">
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
                         <% if ("Cliente".equals(userType)) { %>
+                        <% if (suscrito == true) { %>
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
+                        <% } %>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
-                        <% if (suscrito) { %>       
+                        <% if (suscrito) { %>
                         <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
                         <% } %>
                         <% } %>
@@ -92,6 +97,7 @@
                         <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
                         <% }%>
                     </div>
+                    <% }%>
 
                     <div class="realDinamico">
                         <h2 class="contStart">Informacion del Album</h2>
