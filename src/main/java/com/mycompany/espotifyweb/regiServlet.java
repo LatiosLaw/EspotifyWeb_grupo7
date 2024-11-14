@@ -116,7 +116,7 @@ public class regiServlet extends HttpServlet {
        
             
         ControladorCliente controlCli = new ControladorCliente();
-        DataCliente cliente = controlCli.agregarRegistro(nickname,os,navegador,hoy);
+        controlCli.agregarRegistro(nickname,os,navegador,hoy);
            
           out.println("{\"success\": true}");
           out.flush();   
