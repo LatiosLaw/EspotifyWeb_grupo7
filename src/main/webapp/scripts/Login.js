@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert(message);
                 if (message === "Visitante logeado exitosamente.") {
                     regitroMomento();
-                    setTimeout(() => location.reload(), 1000);
+                    setTimeout(() => window.location.replace('index.jsp'), 1000);
                 }
             })
             .catch(error => {
