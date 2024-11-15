@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 alert(message);
                 if (message === "Visitante logeado exitosamente.") {
-                    regitroMomento();
+                    registrarRegistroRegistroso();
                     setTimeout(() => window.location.replace('index.jsp'), 1000);
                 }
             })
@@ -47,11 +47,42 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-function regitroMomento(){
+
+
+function registrarRegistroRegistroso(){
+    
+        sacarip();
+    
+}
+
+function sacarip(){
+    var ip;
+    fetch("https://api.ipify.org?format=json")
+                .then(response => response.json())
+                .then(data => {
+                    // Display the IP address on the screen
+                    ip = data.ip;
+                    
+                    regitroMomento(ip);
+                    
+                    
+                  //  alert(ip);
+                })
+                .catch(error => {
+                    console.error("Error fetching IP address:", error);
+                    ip = "none";
+                    
+                    regitroMomento(ip);
+                    
+                });
+
+}
+
+function regitroMomento(ip){
     //que ta' usando
                var os = "nose";
                var nave = "quien sabe";
-               
+               var ip ;
                 if (navigator.userAgent.indexOf("Win") !== -1) os =  
                 "Windows"; 
                 if (navigator.userAgent.indexOf("Mac") !== -1) os =  
@@ -69,12 +100,20 @@ function regitroMomento(){
                   "FireFox"; 
     //fin que ta´usando
     
+     
+    
+    
+    
+    
+    
+    
+    
     fetch('http://localhost:8080/EspotifyWeb/regiServlet', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: JSON.stringify({os: os, nave: nave})
+                body: JSON.stringify({os: os, nave: nave, ip: ip})
             })
                     .then(response => {
                         console.log("Respuesta del servidor:", response); // Para depuración

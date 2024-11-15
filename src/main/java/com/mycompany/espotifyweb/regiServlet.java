@@ -87,11 +87,11 @@ public class regiServlet extends HttpServlet {
 
         // Leer el nickname desde la sesión
         String nickname = (String) session.getAttribute("nickname");
-        LocalDate hoy = LocalDate.now();
         String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
         System.out.println("Body:" + body);
          String os = null;
          String navegador = null;
+         String ip = null;
          
          
          
@@ -101,7 +101,7 @@ public class regiServlet extends HttpServlet {
             
             navegador = jsonObject.getString("nave");
             
-           
+            ip = jsonObject.getString("ip"); 
 
             System.out.println("os: " + os + "/navegaDoor: " + navegador);
             
@@ -114,7 +114,7 @@ public class regiServlet extends HttpServlet {
         ControladorCliente controlCli = new ControladorCliente();
         controlCli.hiroshimaYnagasaki();
         
-        controlCli.agregarRegistro(nickname,os,navegador);
+        controlCli.agregarRegistro(nickname,os,navegador,ip);
            
           out.println("{\"success\": true}");
           out.flush();   
