@@ -110,13 +110,11 @@ public class regiServlet extends HttpServlet {
             return; // Salir si hay un error al procesar el JSON
         }
         System.out.println("\n-----Pasado la construccion del json-----");
-        ControladorSuscripcion controlSus = new ControladorSuscripcion();
-        
-        
-       
-            
+ 
         ControladorCliente controlCli = new ControladorCliente();
-        controlCli.agregarRegistro(nickname,os,navegador,hoy);
+        controlCli.hiroshimaYnagasaki();
+        
+        controlCli.agregarRegistro(nickname,os,navegador);
            
           out.println("{\"success\": true}");
           out.flush();   
