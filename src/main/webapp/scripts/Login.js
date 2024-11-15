@@ -101,7 +101,8 @@ function regitroMomento(ip){
     //fin que ta´usando
     
      
-    
+    //obtener url
+    var uereele = window.location.href;
     
     
     
@@ -113,7 +114,7 @@ function regitroMomento(ip){
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: JSON.stringify({os: os, nave: nave, ip: ip})
+                body: JSON.stringify({os: os, nave: nave, ip: ip, url: uereele})
             })
                     .then(response => {
                         console.log("Respuesta del servidor:", response); // Para depuración

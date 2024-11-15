@@ -89,10 +89,10 @@ public class regiServlet extends HttpServlet {
         String nickname = (String) session.getAttribute("nickname");
         String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
         System.out.println("Body:" + body);
-         String os = null;
-         String navegador = null;
-         String ip = null;
-         
+        String os = null;
+        String navegador = null;
+        String ip = null;
+        String url = null;
          
          
         try {
@@ -102,7 +102,9 @@ public class regiServlet extends HttpServlet {
             navegador = jsonObject.getString("nave");
             
             ip = jsonObject.getString("ip"); 
-
+            
+            url = jsonObject.getString("url"); 
+            
             System.out.println("os: " + os + "/navegaDoor: " + navegador);
             
         } catch (JSONException e) {
@@ -114,7 +116,7 @@ public class regiServlet extends HttpServlet {
         ControladorCliente controlCli = new ControladorCliente();
         controlCli.hiroshimaYnagasaki();
         
-        controlCli.agregarRegistro(nickname,os,navegador,ip);
+        controlCli.agregarRegistro(nickname,os,navegador,ip,url);
            
           out.println("{\"success\": true}");
           out.flush();   
