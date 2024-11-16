@@ -71,7 +71,9 @@
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
                         <% if ("Cliente".equals(userType)) { %>
+                        <% if (suscrito == true) { %>
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
+                        <% } %>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
                             <% if (suscrito) { %>       
@@ -86,43 +88,43 @@
                     
                     <div class="realDinamico">
                         <div class="containerAltaAlbum">
-                        <h1>Alta de Album</h1>
-                        <c:if test="${not empty errorMessage}">
-                            <p id="errorMessage" style="color: red;">${errorMessage}</p>
-                        </c:if>
-                        <form id="albumForm" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
-                            <input type="hidden" id='Valido' name='Valido' value="true">  
-                            <label for="nombreAlbum">Nombre del Album:</label>
-                            <input type="text" id="nombreAlbum" name="nombreAlbum" onkeyup="checkAlbum()" required title="Ingresa el nombre del album"><br>
-                            <span id="albumExistsMessage" style="color: red;"></span>
+                            <h1>Alta de Album</h1>
+                            <c:if test="${not empty errorMessage}">
+                                <p id="errorMessage" style="color: red;">${errorMessage}</p>
+                            </c:if>
+                            <form id="albumForm" method="post" onsubmit="return validarFormulario()" enctype="multipart/form-data">
+                                <input type="hidden" id='Valido' name='Valido' value="true">  
+                                <label for="nombreAlbum">Nombre del Album:</label>
+                                <input type="text" id="nombreAlbum" name="nombreAlbum" onkeyup="checkAlbum()" required title="Ingresa el nombre del album"><br>
+                                <span id="albumExistsMessage" style="color: red;"></span>
 
-                            <label for="anioCreacion">Año de Creacion:</label>
-                            <input type="number" id="anioCreacion" name="anioCreacion" min="1900" max="2100" required title="Ingresa el año de creacion"><br>
+                                <label for="anioCreacion">Año de Creacion:</label>
+                                <input type="number" id="anioCreacion" name="anioCreacion" min="1900" max="2100" required title="Ingresa el año de creacion"><br>
 
-                            <label for="generos">Generos:</label>
-                            <select id="generos" name="generos">
-                                <option value="">Seleccione un genero</option>
-                                <!-- se llenan con AJAX -->
-                            </select><br>
+                                <label for="generos">Generos:</label>
+                                <select id="generos" name="generos">
+                                    <option value="">Seleccione un genero</option>
+                                    <!-- se llenan con AJAX -->
+                                </select><br>
 
-                            <label>Generos Seleccionados:</label>
-                            <div id="selectedGenerosContainer"></div>
+                                <label>Generos Seleccionados:</label>
+                                <div id="selectedGenerosContainer"></div>
 
-                            <!-- Campo oculto para enviar los géneros seleccionados -->
-                            <input type="hidden" id="generosSeleccionados" name="generosSeleccionados">
+                                <!-- Campo oculto para enviar los géneros seleccionados -->
+                                <input type="hidden" id="generosSeleccionados" name="generosSeleccionados">
 
-                            <label for="imagenAlbum">Imagen del Album (opcional):</label>
-                            <input type="file" id="imagenAlbum" name="imagenAlbum" accept="image/png, image/jpeg">
+                                <label for="imagenAlbum">Imagen del Album (opcional):</label>
+                                <input type="file" id="imagenAlbum" name="imagenAlbum" accept="image/png, image/jpeg">
 
-                            <h2>Temas del Album</h2>
-                            <div id="temasContainer">
-                            </div>
+                                <h2>Temas del Album</h2>
+                                <div id="temasContainer"></div>
 
-                            <button type="button" onclick="agregarTemaMP3()">Agregar Tema - Archivo MP3</button><br>
-                            <button type="button" onclick="agregarTemaWeb()">Agregar Tema - Direccion URL</button><br>
+                                <button type="button" onclick="agregarTemaMP3()">Agregar Tema - Archivo MP3</button><br>
+                                <button type="button" onclick="agregarTemaWeb()">Agregar Tema - Direccion URL</button><br>
 
-                            <input type="submit" value="Registrar Album">
-                        </form>
+                                <input type="submit" value="Registrar Album">
+                            </form>
+
                         </div>
                     </div>
                     
@@ -217,6 +219,14 @@
                         <button type="button" onclick="submitForm()">Agregar Usuario</button>
                     </div>
                 </form>
+            </dialog>
+                        
+            <!-- Dialogo de Carga -->
+            <dialog id="loadingDialog">
+                <div id="dialogContent">
+                    <p>Cargando, por favor espera...</p>
+                    <div class="spinner"></div> <!-- Puedes agregar un spinner de carga aquí -->
+                </div>
             </dialog>
         </div> <!-- Fin Cuerpo -->
         

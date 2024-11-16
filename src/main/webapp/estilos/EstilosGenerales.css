@@ -98,6 +98,7 @@ ul{
     height: 65px;
     margin-right: 20px;
     border-radius: 50px;
+    border: 2px solid black;
 }
 
 .userName{
@@ -172,6 +173,7 @@ ul{
 
 .realDinamico{
     display: grid;
+    overflow-x: auto;
 }
 
 .reproductor{
@@ -189,6 +191,7 @@ ul{
 
 .artIMG{
     border-radius: 50%;
+    border: 3px solid black;
 }
 
 .temaRep h2{

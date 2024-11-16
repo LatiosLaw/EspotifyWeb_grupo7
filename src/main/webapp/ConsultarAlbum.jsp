@@ -6,7 +6,20 @@
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
         <link rel="stylesheet" href="estilos/ConsultarAlbum.css">
-        <link rel="stylesheet" href="estilos/DistribucionConRep.css">
+        <%
+            String userAgent = request.getHeader("User-Agent").toLowerCase();
+            boolean isMobile = userAgent.contains("mobi") || userAgent.contains("android") || userAgent.contains("iphone");
+            
+            if (isMobile) {
+        %>
+        <link rel="stylesheet" href="estilos/DistribucionSinRep.css">
+        <%
+            } else {
+        %>
+        <link rel="stylesheet" href="estilos/DistribucionConRep.css"/>
+        <%
+            }
+        %>
         <title>Espotify</title>
     </head>
     <body>
@@ -31,24 +44,26 @@
 
                 <div class="userDiv">
                     <div class="divUserIMG">
-                        <% if (nickname != null) {%>
+                            <% if (nickname != null && !isMobile) {%>
                         <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
-                            <% }%>
                             <img id="imagenUser" src="imagenes/usuarios/defaultUser.png" class="userIMG">
-                        <% if (nickname != null) {%>
                         </a>
+                            <% } else {%>
+                        <img id="imagenUser" src="imagenes/usuarios/defaultUser.png" class="userIMG">
                             <% }%>
                     </div>
                     <ul class="listUser">
                         <li class="userName">
-                            <% if (nickname != null) {%>
+                            <% if (nickname != null && !isMobile) {%>
                             <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
-                            <% }%>
                                 <p class="name">
                                     <%= nickname != null ? nickname : "Visitante"%>
                                 </p>
-                            <% if (nickname != null) {%>
                             </a>
+                            <% } else {%>
+                            <p class="name">
+                                <%= nickname != null ? nickname : "Visitante"%>
+                            </p>
                             <% }%>
                         </li>
                         <% if (nickname == null) { %>
@@ -66,17 +81,21 @@
                     <div class="btnsNav">
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
-                        <% if ("Cliente".equals(userType)) { %>
+                        <% if (!isMobile) { %>
+                            <% if ("Cliente".equals(userType)) { %>
+                                <% if (suscrito == true) { %>
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
+                                <% } %>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
-                        <% if (suscrito) { %>       
+                                <% if (suscrito) { %>
                         <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
-                        <% } %>
-                        <% } %>
+                                <% } %>
+                            <% } %>
 
-                        <% if ("Artista".equals(userType)) { %>
-                        <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
+                            <% if ("Artista".equals(userType)) { %>
+                            <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
+                            <% }%>
                         <% }%>
                     </div>
 
@@ -120,7 +139,7 @@
                         </div>
                     </div>
                 </div>
-
+                    <% if (!isMobile) { %>
                 <div class="reproductor">
                     <div class="temaRep">
                         <img src="imagenes/espotify/user.png" class="artIMG" id="imagenReproductor">
@@ -128,6 +147,7 @@
                     </div>
 
                     <div class="controlRep">
+
                         <audio id="miAudio">
                             <source id="audioSource" type="audio/mpeg">
                             Tu navegador no soporta el elemento audio.
@@ -155,9 +175,11 @@
                                 <button id="playBtn"><img src="imagenes/espotify/play-button.png"></button>
                                 <button id="nextBtn" onclick="nextAudio()"><img src="imagenes/espotify/next-button.png"></button>
                             </div>
+
                         </div>
                     </div>
                 </div>
+                    <% }%>
             </div>
 
             <dialog id="winLogin"> <!-- Dialogo de inicio de sesion -->
@@ -351,7 +373,14 @@
             }
         </script>
 
-
         <script src="scripts/ImagenDeUsuario.js"></script>
+        
+        <% if (isMobile && nickname == null) { %>
+        <script>
+            // Reemplaza la página actual en el historial del navegador con MobileLogin.jsp, lo que significa que el usuario no podrá volver a la página anterior usando el botón "Atrás" del navegador
+            window.location.replace('MobileLogin.jsp');
+        </script>
+        <% }%>
+        
     </body>
 </html>
