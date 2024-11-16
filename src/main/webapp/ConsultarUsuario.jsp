@@ -96,6 +96,8 @@
                             <p id = "pFechaNacimiento"><strong>Fecha de Nacimiento:</strong> <span id="fechaNacimiento"></span></p>
                             <img id="imagenPerfil" alt="Imagen de perfil">
                         </div>
+                            
+                            <div id="eliminarPerfil" style="display: none;"><button id="eliminarArte" style="display: none;" onclick="confirmarEliminacion()">Eliminar Cuenta</button></div>
 
                         <div class="btnsPerfil">
                             <button id="seguidoresBtn" style="display:none;">Seguidores</button>

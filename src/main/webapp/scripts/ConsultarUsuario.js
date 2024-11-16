@@ -3,6 +3,7 @@ const userId = urlParams.get('usr');
 
 document.addEventListener('DOMContentLoaded', function () {
     cargarPerfil();
+    verificarParaEliminar();
 
     document.getElementById('seguidoresBtn').addEventListener('click', function () {
         toggleSection('seguidores', cargarSeguidores);
@@ -37,7 +38,7 @@ function toggleSection(sectionId, loadFunction) {
 
 function cargarPerfil() {
     console.log(sessionUserType);
-    console.log(sessionNickname);
+    console.log(sessionNickname);sessionUserType
         if(sessionUserType !== "Artista" || (sessionNickname === userId)){
         fetch(`ConsultarUsuarioServlet?action=cargarPerfil&nickname=${encodeURIComponent(userId)}`)
             .then(response => response.json())
@@ -58,6 +59,54 @@ function cargarPerfil() {
             .catch(error => console.error('Error al cargar perfil:', error));
     } else {
         window.location.href = "index.jsp";
+    }
+}
+
+function confirmarEliminacion() {
+  // Mostramos el cuadro de confirmación
+  var confirmar = confirm("Estas seguro de que quieres eliminar tu perfil?");
+  
+  // Si el usuario confirma, ejecutamos el código de eliminación
+  if (confirmar) {
+      fetch('http://localhost:8080/EspotifyWeb/CerrarSesionServlet', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const message = data.success ? data.message : "Error al cerrar sesion.";
+                alert(message);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const errorMessage = "Error al intentar cerrar sesion.";
+                alert(errorMessage);
+            });
+
+            setTimeout(() => location.href = 'index.jsp', 1000);
+    // ANDRES ACA METE EL CODIGO PARA ELIMINAR ARTISTA CON TUS COSAS MAGICAS
+    // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    alert("Perfil eliminado con exito");
+  } else {
+    alert("La eliminación ha sido cancelada");
+  }
+}
+
+function verificarParaEliminar() {
+    console.log(sessionUserType);
+    console.log(sessionNickname);
+    const eliminararti = document.getElementById('eliminarPerfil');
+    const eliminarboton = document.getElementById('eliminarArte');
+        if(sessionUserType === "Artista" || (sessionNickname === userId)){
+        eliminararti.style.display = 'block';   // Hacemos visible el div
+  eliminarboton.style.display = 'inline-block'; // Hacemos visible el botón
     }
 }
 
