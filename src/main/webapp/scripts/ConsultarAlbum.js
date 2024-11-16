@@ -594,6 +594,18 @@ const audio = document.getElementById('miAudio');
                                     audioSource.src = audioFiles[currentAudioIndex];
                                     audio.load(); // Carga el nuevo archivo de audio
                                     document.getElementById('nombreTema').innerText = temasNames[currentNombreIndex];
+                                    
+                                    let nombretema = temasNames[currentNombreIndex];
+                                    
+                                     try {
+                                         const urlParams = new URLSearchParams(window.location.search);
+                                        const primerCampo = urlParams.get('album');
+                                        return fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=incrementarReproduccion&nombreAlbum=' + encodeURIComponent(primerCampo)+"&nombreTema="+ encodeURIComponent(nombretema));
+                                    } catch (error) {
+                                        console.log("Revento Afuera Servlet");
+                                        // Captura el error y lo muestra en la consola o en la página
+                                        return false;
+                                    }
                                 }
 
                                 function loadAudio() {
@@ -603,6 +615,18 @@ const audio = document.getElementById('miAudio');
                                     audio.play(); // Reproduce el nuevo audio
                                     playBtn.style.display = 'none';
                                     pauseBtn.style.display = 'inline';
+                                    
+                                    let nombretema = temasNames[currentNombreIndex];
+                                    
+                                     try {
+                                         const urlParams = new URLSearchParams(window.location.search);
+                                        const primerCampo = urlParams.get('album');
+                                        return fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=incrementarReproduccion&nombreAlbum=' + encodeURIComponent(primerCampo)+"&nombreTema="+ encodeURIComponent(nombretema));
+                                    } catch (error) {
+                                        console.log("Revento Afuera Servlet");
+                                        // Captura el error y lo muestra en la consola o en la página
+                                        return false;
+                                    }
                                 }
 
                                 function formatTime(seconds) {

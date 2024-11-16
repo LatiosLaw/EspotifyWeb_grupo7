@@ -127,6 +127,7 @@
                                     <tr>
                                         <th>Tema</th>
                                         <th>Duracion</th>
+                                        <th>Album</th>
                                         <th>Archivo</th>
                                         <th colspan="3">Acciones</th>
                                     </tr>

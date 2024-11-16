@@ -12,12 +12,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import logica.controladores.ControladorAdicionalTema;
 import logica.controladores.ControladorAlbum;
 import logica.controladores.ControladorArtista;
 import logica.controladores.ControladorCliente;
 import logica.controladores.ControladorGenero;
 import logica.controladores.ControladorListaParticular;
 import logica.controladores.ControladorTema;
+import logica.controladores.IControladorAdicionalTema;
 import logica.dt.DataAlbum;
 import logica.dt.DataArtista;
 import logica.dt.DataGenero;
@@ -272,6 +274,14 @@ public class ConsultarAlbumServlet extends HttpServlet {
                     response.getWriter().write("{\"sus\": \"false\"}");
                 }
             }
+        }else if("incrementarReproduccion".equals(action)){
+            // Obtener todas las listas de reproducción del cliente
+                IControladorAdicionalTema persistence = new ControladorAdicionalTema();
+                String nombreTema = request.getParameter("nombreTema");
+                System.out.println(nombreTema);
+                String albumName = request.getParameter("nombreAlbum");
+                System.out.println(albumName);
+                persistence.incrementarInfoReproduccion(nombreTema, albumName);
         }
         System.out.println("\n-----End Consultar Album Servlet GET-----");
     }

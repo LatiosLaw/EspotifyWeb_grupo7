@@ -24,7 +24,7 @@ function formatearTiempo(segundos) {
 
 function DescargarTema(boton) {
     const fila = boton.parentElement.parentElement;
-    const tercerCampo = fila.querySelector('td:nth-child(3)').innerText;
+    const tercerCampo = fila.querySelector('td:nth-child(4)').innerText;
     window.location.href = 'ConsultarAlbumServlet?action=Download&filename=' + encodeURIComponent(tercerCampo);
 }
 
@@ -175,6 +175,7 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
             <tr>
                 <td>${tema.nombre}</td>
                 <td>${formatearTiempo(tema.duracion)}</td>
+                <td>${tema.album}</td>
                 <td>${tema.identificador_archivo}</td>
                 <td>
                 <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
@@ -206,6 +207,7 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
             <tr>
                 <td>${tema.nombre}</td>
                 <td>${formatearTiempo(tema.duracion)}</td>
+                <td>${tema.album}</td>
                 <td>${tema.identificador_archivo}</td>
                 <td>
                 <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
@@ -348,7 +350,7 @@ function obtenerArchivosTemas(){
     for (let i = 0; i < filas.length; i++) {
         const celdas = filas[i].getElementsByTagName("td"); // Obtiene todas las celdas de la fila
         if (celdas.length > 0) {
-            const tema = celdas[2].innerText; // La celda de la columna "Archivo / Link" está en el índice 2
+            const tema = celdas[3].innerText; // La celda de la columna "Archivo / Link" está en el índice 2
             temas.push(('temas/'+tema)); // Agrega el archivo al array
         }
     }
@@ -366,6 +368,23 @@ console.log(temas);
         const celdas = filas[i].getElementsByTagName("td"); // Obtiene todas las celdas de la fila
         if (celdas.length > 0) {
             const tema = celdas[0].innerText; // La celda de la columna "Archivo / Link" está en el índice 2
+            temas.push((tema)); // Agrega el archivo al array
+        }
+    }
+console.log(temas);
+    return temas;
+        }
+        
+        function obtenerNombresAlbumes(){
+            const temasBody = document.getElementById("temasBody"); // Selecciona el cuerpo de la tabla
+    const filas = temasBody.getElementsByTagName("tr"); // Obtiene todas las filas en el cuerpo de la tabla
+    const temas = []; // Array para almacenar los valores de la columna
+    //temas.push('temas/DONMAI.mp3');
+    // Iterar sobre cada fila para obtener el valor de la columna "Archivo / Link"
+    for (let i = 0; i < filas.length; i++) {
+        const celdas = filas[i].getElementsByTagName("td"); // Obtiene todas las celdas de la fila
+        if (celdas.length > 0) {
+            const tema = celdas[2].innerText; // La celda de la columna "Archivo / Link" está en el índice 2
             temas.push((tema)); // Agrega el archivo al array
         }
     }
@@ -400,6 +419,7 @@ const audio = document.getElementById('miAudio');
 
                                 let audioFiles;
                                 let temasNames;
+                                let albumsNames;
                                 let currentAudioIndex = 0;
                                 let currentNombreIndex = 0;
 
@@ -460,6 +480,7 @@ const audio = document.getElementById('miAudio');
                                 function recargarTemas(){
                                     audioFiles = obtenerArchivosTemas();
                                     temasNames = obtenerNombresTemas();
+                                    albumsNames = obtenerNombresAlbumes();
                                     OnlyLoadAudio();
                                 }
 
@@ -533,6 +554,17 @@ const audio = document.getElementById('miAudio');
                                     audioSource.src = audioFiles[currentAudioIndex];
                                     audio.load(); // Carga el nuevo archivo de audio
                                     document.getElementById('nombreTema').innerText = temasNames[currentNombreIndex];
+                                    
+                                    let nombretema = temasNames[currentNombreIndex];
+                                    
+                                     try {
+                                        let primerCampo = albumsNames[currentNombreIndex].toString();
+                                        return fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=incrementarReproduccion&nombreAlbum=' + encodeURIComponent(primerCampo)+"&nombreTema="+ encodeURIComponent(nombretema));
+                                    } catch (error) {
+                                        console.log("Revento Afuera Servlet");
+                                        // Captura el error y lo muestra en la consola o en la página
+                                        return false;
+                                    }
                                 }
 
                                 function loadAudio() {
@@ -542,6 +574,17 @@ const audio = document.getElementById('miAudio');
                                     audio.play(); // Reproduce el nuevo audio
                                     playBtn.style.display = 'none';
                                     pauseBtn.style.display = 'inline';
+                                    
+                                    let nombretema = temasNames[currentNombreIndex];
+                                    
+                                     try {
+                                        let primerCampo = albumsNames[currentNombreIndex].toString();
+                                        return fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=incrementarReproduccion&nombreAlbum=' + encodeURIComponent(primerCampo)+"&nombreTema="+ encodeURIComponent(nombretema));
+                                    } catch (error) {
+                                        console.log("Revento Afuera Servlet");
+                                        // Captura el error y lo muestra en la consola o en la página
+                                        return false;
+                                    }
                                 }
 
                                 function formatTime(seconds) {
