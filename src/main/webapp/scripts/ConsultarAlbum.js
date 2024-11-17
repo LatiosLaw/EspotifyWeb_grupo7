@@ -31,8 +31,10 @@ function esUrlValida(url) {
 
 function DescargarTema(boton) {
     const fila = boton.parentElement.parentElement;
-    const tercerCampo = fila.querySelector('td:nth-child(3)').innerText;
-    window.location.href = 'ConsultarAlbumServlet?action=Download&filename=' + encodeURIComponent(tercerCampo);
+    const descarga = fila.querySelector('td:nth-child(3)').innerText;
+    const nombrealbum = fila.querySelector('td:nth-child(4)').innerText;
+    const nombretema = fila.querySelector('td:nth-child(1)').innerText;
+    window.location.href = 'ConsultarAlbumServlet?action=Download&filename=' + encodeURIComponent(descarga) + '&nombreTema='+ encodeURIComponent(nombretema)+ '&nombreAlbum='+ encodeURIComponent(nombrealbum);
 }
 
 function VamoAYoutube(boton) {
@@ -109,6 +111,7 @@ async function SuccionarInformacion(tieneSuscripcion) {
                                 const row = `<tr><td>${tema.nombre}</td>
                                 <td>${formatearTiempo(tema.duracion)}</td>
                                 <td>${tema.link}</td>
+                                <td>${tema.album}</td>
                                 <td>
                                 <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
                                 : `alert(''Debes tener una suscripcion vigente para descargar temas.')`}" class="btnsAlbum">
@@ -132,6 +135,7 @@ async function SuccionarInformacion(tieneSuscripcion) {
                                 const row = `<tr><td>${tema.nombre}</td>
                                 <td>${formatearTiempo(tema.duracion)}</td>
                                 <td>${tema.archivo}</td>
+                    <td>${tema.album}</td>
                                 <td>
                                 <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
                                 : `alert('Debes tener una suscripcion vigente para descargar temas.')`}" class="btnsAlbum">
@@ -153,7 +157,7 @@ async function SuccionarInformacion(tieneSuscripcion) {
                             }
                         }else{
                             if (tema.link !== "null") {
-                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td>
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td>${tema.album}</td>
                 <td>
                     <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
                     : `alert('Debes tener una suscripcion vigente para descargar temas.')`}" class="btnsAlbum">
@@ -174,7 +178,7 @@ async function SuccionarInformacion(tieneSuscripcion) {
                                          
                     tbody.innerHTML += row;
                             } else {
-                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td>
+                                const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td>${tema.album}</td>
                 <td>
                     <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
                     : `alert('Debes tener una suscripcion vigente para descargar temas.')`}" class="btnsAlbum">

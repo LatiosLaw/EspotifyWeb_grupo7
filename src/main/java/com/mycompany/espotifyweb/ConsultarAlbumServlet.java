@@ -237,6 +237,11 @@ public class ConsultarAlbumServlet extends HttpServlet {
         } else if ("Download".equals(action)) {
             String TARGET_DIR = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/temas/";
             String fileName = request.getParameter("filename");
+            String nombreTema = request.getParameter("nombreTema");
+            String nombreAlbum = request.getParameter("nombreAlbum");
+            
+            IControladorAdicionalTema registro = new ControladorAdicionalTema();
+            registro.incrementarInfoDescarga(nombreTema, nombreAlbum);
             File file = new File(TARGET_DIR + fileName);
 
             // Verifica si el archivo existe
@@ -258,6 +263,7 @@ public class ConsultarAlbumServlet extends HttpServlet {
                     out.write(buffer, 0, bytesRead);
                 }
             }
+                
         } else if ("devolverSubscripcion".equals(action)) {
             if (session.getAttribute("suscrito") == null) {
                 response.getWriter().write("{\"sus\": false}");

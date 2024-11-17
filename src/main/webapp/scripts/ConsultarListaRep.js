@@ -24,8 +24,10 @@ function formatearTiempo(segundos) {
 
 function DescargarTema(boton) {
     const fila = boton.parentElement.parentElement;
-    const tercerCampo = fila.querySelector('td:nth-child(4)').innerText;
-    window.location.href = 'ConsultarAlbumServlet?action=Download&filename=' + encodeURIComponent(tercerCampo);
+    const descarga = fila.querySelector('td:nth-child(4)').innerText;
+    const nombrealbum = fila.querySelector('td:nth-child(3)').innerText;
+    const nombretema = fila.querySelector('td:nth-child(1)').innerText;
+    window.location.href = 'ConsultarAlbumServlet?action=Download&filename=' + encodeURIComponent(descarga) + '&nombreTema='+ encodeURIComponent(nombretema)+ '&nombreAlbum='+ encodeURIComponent(nombrealbum);
 }
 
 function cargarTemas(listaNombre, tipo) {

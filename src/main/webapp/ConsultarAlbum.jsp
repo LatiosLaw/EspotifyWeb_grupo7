@@ -129,6 +129,7 @@
                                         <th>Nombre del Tema</th>
                                         <th>Duracion</th>
                                         <th>Archivo / Link</th>
+                                        <th>Album</th>
                                         <th colspan="3">Acciones</th>
                                     </tr>
                                 </thead>

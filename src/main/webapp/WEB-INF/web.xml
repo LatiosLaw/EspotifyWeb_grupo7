@@ -21,6 +21,10 @@
         <servlet-class>com.mycompany.espotifyweb.PublicarListaServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>RecomendacionesServlet</servlet-name>
+        <servlet-class>com.mycompany.espotifyweb.RecomendacionesServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>CerrarSesionServlet</servlet-name>
         <servlet-class>com.mycompany.espotifyweb.CerrarSesionServlet</servlet-class>
     </servlet>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>ImagenDeUsuarioServlet</servlet-name>
         <url-pattern>/ImagenDeUsuarioServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecomendacionesServlet</servlet-name>
+        <url-pattern>/RecomendacionesServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PublicarListaServlet</servlet-name>
