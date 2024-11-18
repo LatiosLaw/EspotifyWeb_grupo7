@@ -143,24 +143,27 @@ ul{
 
 .btnsNav{
     display: flex;
-    justify-content: space-between; /* o space-around según tu necesidad */
     width: 100%; /* o el ancho que desees */
     border-bottom: 2px solid black;
     background-color: #80007a;
+    overflow-x: auto;
 }
     
 .btnsNav a{
     flex: 1; /* Cada boton ocupa el mismo espacio */
     border-style: solid;
-    border-width: 0px 2px 2px 0px;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
+    border-width: 0px 3px 3px 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
     text-align: center;
     padding: 5px 5px 5px 5px;
     align-items: center;
     background-color: #b63ebe;
     margin-bottom: 5px;
+    margin-right: 3px;
+    margin-left: 3px;
     transition: background-color 0.15s;
+    box-shadow: 3px 3px black;
 }
 
 .btnsNav a:hover{
@@ -523,7 +526,8 @@ ul{
     }
     
     .btnsNav{
-        font-size: 1.5vw;
+        font-size: 2.5vw;
+        justify-content: left;
     }
 }
 

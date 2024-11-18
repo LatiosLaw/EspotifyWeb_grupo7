@@ -175,6 +175,7 @@
     width: 150px;
     justify-self: center;
     margin-top: 10px;
+    box-shadow: 3px 3px black;
 }
 
 #favListaBtn:hover, #sacarDeFavListaBtn:hover{

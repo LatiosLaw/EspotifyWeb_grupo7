@@ -194,6 +194,15 @@
     width: 150px;
     justify-self: center;
     margin-top: 10px;
+    box-shadow: 3px 3px black;
+}
+
+#favAlbumBtn:hover, #sacarDeFavAlbumBtn:hover{
+    background-color: #cf48d7;
+}
+
+#favAlbumBtn:active, #sacarDeFavAlbumBtn:active{
+    background-color: #99339f;
 }
 
 /*Resolucion de telefono*/

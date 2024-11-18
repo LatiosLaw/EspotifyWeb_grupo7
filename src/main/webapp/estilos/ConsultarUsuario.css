@@ -94,6 +94,10 @@
     overflow-y: auto;
 }
 
+#seguidores, #seguidos, #listas, #albumes, .listFavs, .albFavs, .temFavs{
+    overflow-x: auto;
+}
+
 table, table thead, table thead tr, table thead tr th, table tbody, table tbody tr, table tbody tr td{
     border: 2px solid black;
     border-collapse: collapse;

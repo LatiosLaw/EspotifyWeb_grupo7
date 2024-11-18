@@ -81,6 +81,7 @@
                     <div class="btnsNav">
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
+                        <a href="Recomendaciones.jsp">Lo Mejor de Lo Mejor</a>
                         <% if (!isMobile) { %>
                             <% if ("Cliente".equals(userType)) { %>
                                 <% if (suscrito == true) { %>
