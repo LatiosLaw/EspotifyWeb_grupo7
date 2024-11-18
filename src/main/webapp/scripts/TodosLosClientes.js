@@ -9,15 +9,16 @@ fetch('http://localhost:8080/EspotifyWeb/TodosLosClientesServlet?action=devolver
                         : 'imagenes/usuarios/defaultUser.png';
 
                 const esArtista = sessionUserType === "Artista";
+                const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
 
                 const clienteDiv = `
                 <div class="cliente">
-                    ${esArtista ? '' : `<a href="ConsultarUsuario.jsp?usr=${encodeURIComponent(cliente.nombre)}">`}
+                    ${esArtista || isMobile ? '' : `<a href="ConsultarUsuario.jsp?usr=${encodeURIComponent(cliente.nombre)}">`}
                         <img src="${imagen}" class="imagenUser" alt="Imagen del Usuario">
                         <div>
                             <p>${cliente.nombre}</p>
                         </div>
-                    ${esArtista ? '' : '</a>'}
+                    ${esArtista || isMobile ? '' : '</a>'}
                 </div>`;
 
                 container.innerHTML += clienteDiv;

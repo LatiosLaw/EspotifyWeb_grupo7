@@ -9,7 +9,9 @@ fetch('http://localhost:8080/EspotifyWeb/TodosLosAlbumesServlet?action=devolverA
             const imagen = album.imagen !== "" && album.imagen !== null && (album.imagen.endsWith('.png') || album.imagen.endsWith('.jpg'))
                 ? `imagenes/albumes/${album.imagen}`
                 : 'imagenes/albumes/defaultAlbum.png';
-
+                
+            const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+            
             const albumDiv = `
                 <div class="album">
         <a href="ConsultarAlbum.jsp?album=${encodeURIComponent(album.nombre)}">
@@ -19,7 +21,7 @@ fetch('http://localhost:8080/EspotifyWeb/TodosLosAlbumesServlet?action=devolverA
         <a href="ConsultarAlbum.jsp?album=${encodeURIComponent(album.nombre)}">
                         <p>${album.nombre}</p>
         </a>
-                        <p><a href="ConsultarUsuario.jsp?usr=${album.creador}">${album.creador}</a></p>
+                        ${isMobile ? `<p>${album.creador}</p>` : `<a href="ConsultarUsuario.jsp?usr=${album.creador}"><p>${album.creador}</p></a>`}
                     </div>
                 </div>`;
 

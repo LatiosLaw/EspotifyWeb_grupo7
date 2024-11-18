@@ -101,7 +101,7 @@
                             <!-- aca se carga la lista -->
                         </div>
 
-                        <h2 class="contStart">Listas de Albumes Encontradas:</h2>
+                        <h2 class="contStart">Albumes Encontrados:</h2>
                         <div id="albumBody">
                             <!-- aca se carga la lista -->
                         </div>
@@ -119,7 +119,7 @@
                                 <!-- aca se carga la lista -->
                             </div>
                             
-                            <h3 class="contStart2">Lista de Albumes Encontrados:</h3>
+                            <h3 class="contStart2">Albumes del Genero Encontrados:</h3>
                             <div id="albumGenBody">
                                 <!-- aca se carga la lista -->
                             </div>

@@ -9,15 +9,16 @@ fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarArtist
                         : 'imagenes/usuarios/defaultUser.png';
 
                 const esArtista = sessionUserType === "Artista";
+                const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
 
                 const artistaDiv = `
                 <div class="artista">
-                    ${esArtista ? '' : `<a href="ConsultarUsuario.jsp?usr=${encodeURIComponent(artista.nombre)}">`}
+                    ${esArtista || isMobile ? '' : `<a href="ConsultarUsuario.jsp?usr=${encodeURIComponent(artista.nombre)}">`}
                         <img src="${imagen}" class="imagenUser" alt="Imagen del Usuario">
                         <div>
                             <p>${artista.nombre}</p>
                         </div>
-                    ${esArtista ? '' : '</a>'}
+                    ${esArtista || isMobile ? '' : '</a>'}
                 </div>`;
 
                 container.innerHTML += artistaDiv;
@@ -91,15 +92,16 @@ fetch('http://localhost:8080/EspotifyWeb/PaginaInicioServlet?action=buscarClient
                         : 'imagenes/usuarios/defaultUser.png';
 
                 const esArtista = sessionUserType === "Artista";
+                const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
 
                 const clienteDiv = `
                 <div class="cliente">
-                    ${esArtista ? '' : `<a href="ConsultarUsuario.jsp?usr=${encodeURIComponent(cliente.nombre)}">`}
+                    ${esArtista || isMobile ? '' : `<a href="ConsultarUsuario.jsp?usr=${encodeURIComponent(cliente.nombre)}">`}
                         <img src="${imagen}" class="imagenCliente" alt="Imagen del Cliente">
                         <div>
                             <p>${cliente.nombre}</p>
                         </div>
-                    ${esArtista ? '' : '</a>'}
+                    ${esArtista || isMobile ? '' : '</a>'}
                 </div>`;
 
                 container.innerHTML += clienteDiv;

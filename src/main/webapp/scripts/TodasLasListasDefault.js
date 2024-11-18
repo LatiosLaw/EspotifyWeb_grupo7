@@ -10,12 +10,18 @@ fetch('http://localhost:8080/EspotifyWeb/TodasLasListasDefaultServlet?action=dev
                 ? `imagenes/listas/${lista.imagen}`
                 : 'imagenes/listas/defaultList.png';
 
+            const esArtista = sessionUserType === "Artista";
+            
             const listaDiv = `
                 <div class="lista">
-                    <img src="${imagen}" alt="Imagen de lista" class="imagenLista">
+                    <a href="ConsultarListaRep.jsp?listaName=${encodeURIComponent(lista.nombre)}tipo=1">
+                        <img src="${imagen}" alt="Imagen de lista" class="imagenLista">
+                    </a>
                     <div>
-                        <p>${lista.nombre}</p>
-                        <p>${lista.genero}</p>
+                        <a href="ConsultarListaRep.jsp?listaName=${encodeURIComponent(lista.nombre)}tipo=1">
+                            <p>${lista.nombre}</p>
+                        </a>
+                        ${esArtista ? `<p>${lista.genero}</p>` : `<a href="TodoLoDeUnGenero.jsp?search=${encodeURIComponent(lista.genero)}"><p>${lista.genero}</p></a>`}
                     </div>
                 </div>`;
 

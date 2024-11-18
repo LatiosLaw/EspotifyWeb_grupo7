@@ -89,7 +89,7 @@
 
                     <div class="realDinamico">
 
-                        <h1 class="contStart">Todos nuestros Listas de Generos</h1>
+                        <h1 class="contStart">Todas nuestras Listas de Generos</h1>
                         <div id="listaListasBody">
                             <!-- aca se carga la lista -->
                         </div>
