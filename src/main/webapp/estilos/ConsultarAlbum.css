@@ -59,7 +59,7 @@
 
 .contTablaTemas{
     display: flex;
-    justify-content: center;
+    overflow-x: auto;
 }
 
 #agregarTemaListaForm div{
@@ -213,6 +213,12 @@
     
     #temasTable{
         font-size: 2vw;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    
+    .contTablaTemas{
+        justify-content: left;
     }
 }
 
@@ -238,6 +244,10 @@
     #temasTable{
         font-size: 1.3vw;
     }
+    
+    .contTablaTemas{
+        justify-content: center;
+    }
 }
 
 @media (min-width: 1400px){
@@ -260,5 +270,9 @@
     
     #temasTable{
         font-size: 1vw;
+    }
+    
+    .contTablaTemas{
+        justify-content: center;
     }
 }

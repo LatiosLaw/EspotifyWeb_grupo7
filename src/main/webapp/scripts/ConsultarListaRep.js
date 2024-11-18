@@ -1,3 +1,5 @@
+const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+
 document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
     const segundoCampo = urlParams.get('listaName').split("tipo=")[1];
@@ -186,12 +188,11 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
                 </button>
                 </td>
                 
-
-                <td>
+                ${isMobile ? '' : `<td>
                     <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsLista">
                         Agregar a Lista
                     </button>
-                </td>
+                </td>`}
 
                  <td>
                     <button onclick="${tieneSuscripcion ? `sacarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para eliminar temas de tus favoritos.')`}" class="btnsLista">
@@ -217,11 +218,11 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
                 Descargar
                 </button>
                 </td>
-                <td>
+                ${isMobile ? '' : `<td>
                     <button onclick="${tieneSuscripcion ? `abrirDialogo('${tema.nombre}', '${tema.album}')` : `alert('Debes tener una suscripcion vigente para agregar temas a una lista.')`}" class="btnsLista">
                         Agregar a Lista
                     </button>
-                </td>
+                </td>`}
                 
                  <td>
                     <button onclick="${tieneSuscripcion ? `agregarAlgoFav('${tema.nombre}', '${"Tema"}', '${tema.album}', '${"Ninguno"}', '${document.getElementById('albumTema').value}')` : `alert('Debes tener una suscripcion vigente para agregar temas a tus favoritos.')`}" class="btnsLista">
