@@ -55,7 +55,9 @@ function cargarInfo(listaNombre, tipo){
     var NOMBRELISTA = document.getElementById('nombrelista');
     var CREADORGENERO = document.getElementById('creadorgenerolista');
     var IMAGENLISTA = document.getElementById('imagenlista');
-    var IMAGENREPRO = document.getElementById('imagenReproductor');
+    if(!isMobile){
+        var IMAGENREPRO = document.getElementById('imagenReproductor');
+    }
     var LAIK = document.getElementById('favListaBtn');
     var NOLAIK = document.getElementById('sacarDeFavListaBtn');
     
@@ -70,15 +72,15 @@ if(tipo==="1"){
 
                             NOMBRELISTA.value=lista.nombre;
                     CREADORGENERO.value=lista.adicional;
- 
-                    if((lista.imagen.toString().endsWith(".png") || lista.imagen.toString().endsWith(".jpg"))){
-                       IMAGENLISTA.src="imagenes/listas/" + lista.imagen.toString(); 
-                       IMAGENREPRO.src="imagenes/listas/" + lista.imagen.toString(); 
-                    }else{
-                        IMAGENLISTA.src="imagenes/listas/defaultList.png";
-                        IMAGENREPRO.src="imagenes/listas/defaultList.png";
+                    if(!isMobile){
+                        if((lista.imagen.toString().endsWith(".png") || lista.imagen.toString().endsWith(".jpg"))){
+                           IMAGENLISTA.src="imagenes/listas/" + lista.imagen.toString(); 
+                           IMAGENREPRO.src="imagenes/listas/" + lista.imagen.toString(); 
+                        }else{
+                            IMAGENLISTA.src="imagenes/listas/defaultList.png";
+                            IMAGENREPRO.src="imagenes/listas/defaultList.png";
+                        }
                     }
-                    
                     if(lista.fav === "fav"){
                         NOLAIK.style.display = 'block';
                         LAIK.style.display = 'none';

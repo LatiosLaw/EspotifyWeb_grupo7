@@ -215,7 +215,9 @@ async function SuccionarInformacion(tieneSuscripcion) {
     var GENEROSLIST = document.getElementById('generoslist');
     var LAIK = document.getElementById('favAlbumBtn');
     var NOLAIK = document.getElementById('sacarDeFavAlbumBtn');
-    var IMAGENREPRO = document.getElementById('imagenReproductor');
+    if(!isMobile){
+        var IMAGENREPRO = document.getElementById('imagenReproductor');
+    }
     fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverInformacionAlbum&albumName=' + encodeURIComponent(primerCampo))
             .then(response => response.json())
             .then(data => {
@@ -224,12 +226,14 @@ async function SuccionarInformacion(tieneSuscripcion) {
                     ALBUMTEMA.value = album.nombre;
                     ANIOALBUM.value = album.anio;
                     CREADORALBUM.value = album.creador;
-                    if ((album.imagen.toString().endsWith(".png") || album.imagen.toString().endsWith(".jpg"))) {
-                        IMAGENALBUM.src = "imagenes/albumes/" + album.imagen;
-                        IMAGENREPRO.src = "imagenes/albumes/" + album.imagen;
-                    } else {
-                        IMAGENALBUM.src = "imagenes/albumes/defaultAlbum.png";
-                        IMAGENREPRO.src = "imagenes/albumes/defaultAlbum.png";
+                    if(!isMobile){
+                        if ((album.imagen.toString().endsWith(".png") || album.imagen.toString().endsWith(".jpg"))) {
+                            IMAGENALBUM.src = "imagenes/albumes/" + album.imagen;
+                            IMAGENREPRO.src = "imagenes/albumes/" + album.imagen;
+                        } else {
+                            IMAGENALBUM.src = "imagenes/albumes/defaultAlbum.png";
+                            IMAGENREPRO.src = "imagenes/albumes/defaultAlbum.png";
+                        }
                     }
                     if(album.fav === "fav"){
                         NOLAIK.style.display = 'block';
@@ -251,7 +255,7 @@ async function SuccionarInformacion(tieneSuscripcion) {
                         li.textContent = genero.nombre;        // Asignar el nombre del género al li
                         GENEROSLIST.appendChild(li);           // Añadir el li a la lista
                     });
-
+                    
                 });
             })
             .catch(error => console.error('Error al datos del album:', error));
