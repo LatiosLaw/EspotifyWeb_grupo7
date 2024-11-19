@@ -98,10 +98,10 @@
                             <p id = "pNya" class="nya"><strong>Nombre y Apellido:</strong> <span id="nombre"></span> <span id="apellido"></span></p>
                             <p id = "pFechaNacimiento"><strong>Fecha de Nacimiento:</strong> <span id="fechaNacimiento"></span></p>
                             <img id="imagenPerfil" alt="Imagen de perfil">
+                            <% if ("Artista".equals(userType)) { %>
+                            <div id="eliminarPerfil" style="display: none;"><button id="eliminarArte" class="eliminarArte" style="display: none;" onclick="confirmarEliminacion()">Eliminar Cuenta</button></div>
+                            <% }%>
                         </div>
-                            
-                            <div id="eliminarPerfil" style="display: none;"><button id="eliminarArte" style="display: none;" onclick="confirmarEliminacion()">Eliminar Cuenta</button></div>
-
                         <div class="btnsPerfil">
                             <button id="seguidoresBtn" style="display:none;">Seguidores</button>
                             <button id="seguidosBtn" style="display:none;">Seguidos</button>

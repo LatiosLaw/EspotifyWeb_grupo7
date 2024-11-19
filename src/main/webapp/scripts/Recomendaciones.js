@@ -1,28 +1,61 @@
-fetch('http://localhost:8080/EspotifyWeb/TodosLosGenerosServlet?action=devolverTemazos')
-                    .then(response => response.json())
-                    .then(data => {
-                        const container = document.getElementById('listaGenerosBody');
-                        container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas listas
+document.addEventListener("DOMContentLoaded", () => {
+fetch("http://localhost:8080/EspotifyWeb/RecomendacionesServlet?action=devolverTemazos")
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        return response.json(); // Convertir la respuesta a JSON
+    })
+    .then(data => {
+        const container = document.getElementById('listaTopTemasBody');
+        container.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas filas
 
-                        data.forEach(tema => {
-                            // Seleccionar una imagen aleatoria de la lista obtenida del servlet
-                            const imgPath = `imagenes/albumes/DefaultAlbum.png`;
+        // Iterar sobre los temas y generar filas de tabla
+        valor=1;
+        data.forEach((tema, index) => {
+            const row = `
+                <tr>
+                    <td>${valor}</td>
+                    <td>${tema.identificador.nombre_tema}</td>
+                    <td>${tema.identificador.nombre_album}</td>
+                    <td>${tema.reproducciones}</td>
+                    <td>
+                        <button class="btn-ver-mas" data-index="${index}">...</button>
+                    </td>
+                </tr>`;
+            container.innerHTML += row;
+            valor = valor +1;
+        });
 
-                            const esArtista = sessionUserType === "Artista";
+        // Asignar eventos a los botones "ver más"
+        document.querySelectorAll('.btn-ver-mas').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const index = event.target.getAttribute('data-index');
+                const tema = data[index];
+                mostrarInformacionAdicional(tema);
+            });
+        });
+    })
+    .catch(error => console.error("Error al cargar los temas:", error));
+    
+    // Función para mostrar información adicional
+function mostrarInformacionAdicional(tema) {
+    const dialog = document.getElementById('detalleDialog');
+    document.getElementById('dialogTitulo').textContent = tema.identificador.nombre_tema;
+    document.getElementById('dialogAlbum').textContent = tema.identificador.nombre_album;
+    document.getElementById('dialogReproducciones').textContent = tema.reproducciones;
+    document.getElementById('dialogDescargas').textContent = tema.descargas;
+    document.getElementById('dialogFavoritos').textContent = tema.favoritos;
+    document.getElementById('dialogListas').textContent = tema.agregado_a_lista;
 
-                            const generoDiv = `
-                        <div class="genero">
-                            ${esArtista ? '' : `<a href="nada.jsp?search=${encodeURIComponent(tema.nombre)}">`}
-                                <img src="${imgPath}" alt="Imagen de genero" class="imagenGenero">
-                            ${esArtista ? '' : '</a>'}
-                            <div>
-                                ${esArtista ? `<p>${tema.nombre}</p>` : `<a href="nada.jsp?search=${encodeURIComponent(tema.nombre)}"><p>${tema.nombre}</p></a>`}
-                            </div>
-                        </div>`;
+    // Mostrar el diálogo
+    dialog.showModal();
 
-                            container.innerHTML += generoDiv;
-                        });
-                    })
-                    .catch(error => console.error('Error al cargar generos:', error));
+    // Cerrar el diálogo cuando se haga clic en el botón "Cerrar"
+    document.getElementById('cerrarDialog').addEventListener('click', () => {
+        dialog.close();
+    });
+}
 
-        
+});
+

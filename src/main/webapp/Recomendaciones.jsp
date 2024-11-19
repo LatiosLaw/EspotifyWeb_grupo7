@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
-        <link rel="stylesheet" href="estilos/TodosLosGenerosAlbumesListas.css">
+        <link rel="stylesheet" href="estilos/Recomendaciones.css">
         <link rel="stylesheet" href="estilos/DistribucionSinRep.css">
         <title>Espotify</title>
     </head>
@@ -91,9 +91,34 @@
                     <div class="realDinamico">
 
                         <h1 class="contStart">Nuestros Mejores Temas</h1>
-                        <div id="listaTopTemasBody">
-                            <!-- aca se carga la lista -->
+                        <div class="containerTemazos">
+                        <table id="TemazosTable">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Nombre del Tema</th>
+                                    <th>Nombre del Album</th>
+                                    <th>Reproducciones</th>
+                                    <th>Mas Informacion</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listaTopTemasBody">
+                                <!-- aca se carga la lista -->
+                            </tbody>
+                        </table>
                         </div>
+                        
+                        <dialog id="detalleDialog" class="detalleDialog">
+                           <div id="dialogContent">
+                               <p class="Info"><strong>Tema:</strong> <span id="dialogTitulo"></span></p>
+                               <p class="Info"><strong>Album:</strong> <span id="dialogAlbum"></span></p>
+                               <p class="Info"><strong>Reproducciones:</strong> <span id="dialogReproducciones"></span></p>
+                               <p class="Info"><strong>Descargas:</strong> <span id="dialogDescargas"></span></p>
+                               <p class="Info"><strong>Favoritos:</strong> <span id="dialogFavoritos"></span></p>
+                               <p class="Info"><strong>Listas:</strong> <span id="dialogListas"></span></p>
+                               <button id="cerrarDialog" class="btn-info">Cerrar</button>
+                           </div>
+                       </dialog>
 
                     </div>
                 </div>
@@ -221,9 +246,6 @@
 
         <!-- Formulario de login y signup -->
         <script src = "scripts/LoginSignupForm.js"></script>
- 
-        <!-- Cosas del reproductor de musica -->
-        <script src="scripts/Reproductor.js"></script>
 
         <!-- Evitar que las imagenes sean arrastradas -->
         <script>

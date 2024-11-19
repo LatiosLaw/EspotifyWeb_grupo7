@@ -1,5 +1,6 @@
 package com.mycompany.espotifyweb;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
@@ -8,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import logica.Genero;
-import persistencia.DAO_Genero;
+import logica.Registro_tema;
+import persistencia.DAO_RegistroTema;
 
 public class RecomendacionesServlet extends HttpServlet {
 
@@ -32,7 +33,7 @@ public class RecomendacionesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("\n-----Start Todos Los Generos Servlet GET-----");
+        System.out.println("\n-----Recomendaciones GET-----");
         String action = request.getParameter("action");
         
         response.setContentType("application/json;charset=UTF-8");
@@ -45,35 +46,31 @@ public class RecomendacionesServlet extends HttpServlet {
         
         if ("devolverTemazos".equals(action)) {
             try (PrintWriter out = response.getWriter()) {
-            // Obtener todas las listas de reproducción del cliente
-            DAO_Genero persistence = new DAO_Genero();
-            Collection<Genero> generos = persistence.findAll();
+        DAO_RegistroTema persistence = new DAO_RegistroTema();
+        Collection<Registro_tema> temas = persistence.buscarLos100MasPopulares();
 
-            StringBuilder jsonResponse = new StringBuilder("[");
-            for (Genero genero : generos) {
+        // Usa Gson para convertir la colección a JSON
+        Gson gson = new Gson();
+        String json = gson.toJson(temas);
 
-                jsonResponse.append("{\"nombre\":\"").append(genero.getNombre()).append("\"},");
-            }
+        // Establece el contenido de la respuesta
+        response.setContentType("application/json;charset=UTF-8");
+        out.print(json);
 
-            if (jsonResponse.length() > 1) {
-                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-            }
-
-            jsonResponse.append("]");
-
-            out.print(jsonResponse.toString());
-        } catch (Exception e) {
-            e.printStackTrace(); // Para depuración
+        // Log para verificar el JSON generado
+        System.out.println("JSON generado: " + json);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
         }
-        }
-        System.out.println("\n-----End Todos Los Generos Servlet GET-----");
+        System.out.println("\n-----Recomendaciones GET-----");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       System.out.println("\n-----Start Todos Los Generos Servlet POST-----");
+       System.out.println("\n-----Recomendaciones POST-----");
 
-        System.out.println("\n-----End Todos Los Generos Servlet POST-----");
+        System.out.println("\n-----Recomendaciones POST-----");
     }
 
 }
