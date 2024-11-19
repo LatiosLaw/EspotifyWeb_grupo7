@@ -139,7 +139,7 @@ public class AltaDeListaServlet extends HttpServlet {
 
                 list.setFoto(fileName);
 
-                Cliente cliente_lista = (Cliente) persistenceUsr.findUsuarioByNick(list.getCreadorNickname().getNickname());
+                Cliente cliente_lista = (Cliente) persistenceUsr.findUsuarioByNick(list.getCreador().getNickname());
 
                 DAO_ListaReproduccion persistenceList = new DAO_ListaReproduccion();
 

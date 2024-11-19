@@ -88,10 +88,10 @@ public class ActualizarSusServlet extends HttpServlet {
             for (int i = 0; i < cole.size(); i++) {
                 DataSus data = cole.toArray(new DataSus[0])[i];
                 
-                jsonResponse.append("{\"id\": \"").append(escapeJson(String.valueOf(String.valueOf(data.getid()))))
+                jsonResponse.append("{\"id\": \"").append(escapeJson(String.valueOf(String.valueOf(data.getId()))))
                         .append("\", \"nick\": \"").append(escapeJson(data.getUserNick()))
-                        .append("\", \"fecha\": \"").append(escapeJson(String.valueOf(data.getFecha())))
-                        .append("\", \"tipo\": \"").append(escapeJson(data.getTipo()))
+                        .append("\", \"fecha\": \"").append(escapeJson(String.valueOf(data.getUltiFechaHabi())))
+                        .append("\", \"tipo\": \"").append(escapeJson(data.getTipoSus()))
                         .append("\", \"estado\": \"").append(escapeJson(data.getEstado()))
                         .append("\"}");
                 if (i < cole.size() - 1) {
