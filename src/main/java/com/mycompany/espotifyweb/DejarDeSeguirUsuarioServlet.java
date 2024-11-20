@@ -1,19 +1,21 @@
 package com.mycompany.espotifyweb;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import logica.Usuario;
-import logica.controladores.ControladorCliente;
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
 import org.eclipse.persistence.exceptions.JSONException;
 import org.json.JSONObject;
-import persistencia.DAO_Usuario;
+import servicios.IPublicador;
 
 @WebServlet(name = "DejarDeSeguirUsuarioServlet", urlPatterns = {"/DejarDeSeguirUsuarioServlet"})
 public class DejarDeSeguirUsuarioServlet extends HttpServlet {
@@ -63,11 +65,20 @@ public class DejarDeSeguirUsuarioServlet extends HttpServlet {
             return;
         }
 
-        DAO_Usuario daoUsuario = new DAO_Usuario();
-        Collection<Usuario> usuariosSeguidos;
+        // URL del WSDL
+        URL url = new URL("http://localhost:9128/publicador?wsdl");
+        QName qname = new QName("http://servicios/", "PublicadorService");
+
+        // Crear el servicio
+        Service servicio = Service.create(url, qname);
+        IPublicador publicador = servicio.getPort(IPublicador.class);
+
+        Collection<String> usuariosSeguidos, usuariosProcesados;
 
         try {
-            usuariosSeguidos = daoUsuario.obtenerSeguidosDeUsuarioObjetos(nickname);
+            usuariosSeguidos = publicador.obtenerSeguidosDe(nickname);
+            // Procesar los usuarios seguidos para quedarnos solo con el username y el tipo
+            usuariosProcesados = obtenerUsuariosSinTipo(usuariosSeguidos);
         } catch (Exception e) {
             out.println("{\"success\": false, \"error\": \"Error al obtener usuarios: " + e.getMessage() + "\"}");
             return; // Salir si hay un error al obtener usuarios
@@ -79,12 +90,20 @@ public class DejarDeSeguirUsuarioServlet extends HttpServlet {
 
         if (usuariosSeguidos != null && !usuariosSeguidos.isEmpty()) {
             for (int i = 0; i < usuariosSeguidos.size(); i++) {
-                Usuario usuario = usuariosSeguidos.toArray(new Usuario[0])[i];
-                String tipo = usuario.getDTYPE();
-                jsonResponse
-                        .append("{\"nickname\": \"").append(escapeJson(usuario.getNickname()))
-                        .append("\", \"tipo\": \"").append(escapeJson(tipo))
-                        .append("\"}");
+                String usuario = usuariosSeguidos.toArray(new String[0])[i];
+
+                // Separar nickname y tipo
+                int slashIndex = usuario.indexOf('/');
+                if (slashIndex != -1) {
+                    String nicknameSeguido = usuario.substring(0, slashIndex); // Obtener el nickname
+                    String tipo = usuario.substring(slashIndex + 1); // Obtener el tipo (después del '/')
+
+                    // Construir la parte del JSON
+                    jsonResponse
+                            .append("{\"nickname\": \"").append(escapeJson(nicknameSeguido))
+                            .append("\", \"tipo\": \"").append(escapeJson(tipo))
+                            .append("\"}");
+                }
                 if (i < usuariosSeguidos.size() - 1) {
                     jsonResponse.append(",");
                 }
@@ -98,7 +117,26 @@ public class DejarDeSeguirUsuarioServlet extends HttpServlet {
         out.print(jsonResponse.toString());
         out.flush();
 
-        System.out.println("\n-----End Seguir Usuario Servlet GET-----");
+        System.out.println("\n-----End Dejar De Seguir Usuario Servlet GET-----");
+    }
+
+    private Collection<String> obtenerUsuariosSinTipo(Collection<String> usuariosSeguidos) {
+        Collection<String> usuariosProcesados = new ArrayList<>();
+
+        for (String usuario : usuariosSeguidos) {
+            // Buscar el índice del primer '/'
+            int slashIndex = usuario.indexOf('/');
+
+            if (slashIndex != -1) {
+                // Si se encuentra '/', extraer solo la parte antes del '/'
+                usuariosProcesados.add(usuario.substring(0, slashIndex));
+            } else {
+                // Si no se encuentra '/', agregar el nombre completo
+                usuariosProcesados.add(usuario);
+            }
+        }
+
+        return usuariosProcesados;
     }
 
     @Override
@@ -124,7 +162,7 @@ public class DejarDeSeguirUsuarioServlet extends HttpServlet {
             out.println("{\"success\": false, \"error\": \"No posees una suscripcion vigente.\"}");
             return;
         }
-        
+
         // Obtener el nickname del usuario a dejar de seguir desde el cuerpo de la solicitud
         String body = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
         System.out.println("Cuerpo de la solicitud: " + body);
@@ -141,11 +179,18 @@ public class DejarDeSeguirUsuarioServlet extends HttpServlet {
             return; // Salir si hay un error al procesar el JSON
         }
 
-        ControladorCliente controladorCliente = new ControladorCliente();
+        // URL del WSDL
+        URL url = new URL("http://localhost:9128/publicador?wsdl");
+        QName qname = new QName("http://servicios/", "PublicadorService");
+
+        // Crear el servicio
+        Service servicio = Service.create(url, qname);
+        IPublicador publicador = servicio.getPort(IPublicador.class);
+
         System.out.println("Llamando a dejarDeSeguirUsuarioWeb con " + nickname + " y " + nickToFollow);
 
         // Llama al método para dejar de seguir al usuario
-        boolean success = controladorCliente.dejarDeSeguirUsuarioWeb(nickname, nickToFollow);
+        boolean success = publicador.dejarDeSeguirUsuario(nickname, nickToFollow);
 
         // Construir respuesta JSON
         if (success) {

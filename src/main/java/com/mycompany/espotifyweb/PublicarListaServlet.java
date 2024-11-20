@@ -1,17 +1,19 @@
 package com.mycompany.espotifyweb;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.util.Collection;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import logica.ListaParticular;
-import logica.controladores.ControladorListaParticular;
-import persistencia.DAO_ListaReproduccion;
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+import servicios.DataListaParticular;
+import servicios.IPublicador;
 
 @WebServlet(name = "PublicarListaServlet", urlPatterns = {"/PublicarListaServlet"})
 
@@ -34,8 +36,7 @@ public class PublicarListaServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         System.out.println("\n----------Publicar Lista Servlet GET----------");
 
@@ -54,14 +55,19 @@ public class PublicarListaServlet extends HttpServlet {
                 return;
             }
 
-            // Obtener todas las listas de reproducción del cliente
-            DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
-            Collection<ListaParticular> listasReproduccion = persistence.findListaPorCliente(nickname);
+            URL url = new URL("http://localhost:9128/publicador?wsdl");
+            QName qname = new QName("http://servicios/", "PublicadorService");
+
+            // Crear el servicio
+            Service servicio = Service.create(url, qname);
+            IPublicador publicador = servicio.getPort(IPublicador.class);
+
+            Collection<DataListaParticular> listasReproduccion = publicador.retornarListasParticularesDeCliente(nickname);
 
             StringBuilder jsonResponse = new StringBuilder("[");
-            for (ListaParticular lista : listasReproduccion) {
-                jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\",")
-                        .append("\"visibilidad\":").append(lista.getVisibilidad()).append("},");
+            for (DataListaParticular lista : listasReproduccion) {
+                jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\",")
+                        .append("\"visibilidad\":").append(lista.isVisibilidad()).append("},");
             }
 
             if (jsonResponse.length() > 1) {
@@ -97,10 +103,15 @@ public class PublicarListaServlet extends HttpServlet {
             out.print("{\"success\": false, \"errorCode\": \"No se encontró el nickname.\"}");
             return;
         }
+        
+        URL url = new URL("http://localhost:9128/publicador?wsdl");
+        QName qname = new QName("http://servicios/", "PublicadorService");
 
-        ControladorListaParticular lp = new ControladorListaParticular();
+        // Crear el servicio
+        Service servicio = Service.create(url, qname);
+        IPublicador publicador = servicio.getPort(IPublicador.class);
 
-        boolean success = lp.publicarLista(nicknameCliente, listaNombre); // Llama a tu método para publicar la lista
+        boolean success = publicador.publicarLista(nicknameCliente, listaNombre); // Llama a tu método para publicar la lista
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();

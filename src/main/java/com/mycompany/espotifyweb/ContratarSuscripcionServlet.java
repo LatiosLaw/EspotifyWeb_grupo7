@@ -1,16 +1,17 @@
 package com.mycompany.espotifyweb;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import logica.controladores.ControladorSuscripcion;
-import logica.dt.DataErrorBundle;
+import java.net.URL;
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+import servicios.DataErrorBundle;
+import servicios.IPublicador;
 
 public class ContratarSuscripcionServlet extends HttpServlet {
 
@@ -31,8 +32,7 @@ public class ContratarSuscripcionServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -54,26 +54,27 @@ public class ContratarSuscripcionServlet extends HttpServlet {
         String nickname = (String) session.getAttribute("nickname");
 
         switch (tipoSuscripcion) {
-            case "Semanal":
-                monto = "5";
-                break;
-            case "Mensual":
-                monto = "15";
-                break;
-            case "Anual":
-                monto = "150";
-                break;
-            default:
-                break;
+            case "Semanal" -> monto = "5";
+            case "Mensual" -> monto = "15";
+            case "Anual" -> monto = "150";
+            default -> {
+            }
         }
 
         DataErrorBundle resultado = null;
 
         if (!tipoSuscripcion.isEmpty()) {
-            LocalDate fechaActual = LocalDate.now();
+            
+            URL url = new URL("http://localhost:9128/publicador?wsdl");
+            QName qname = new QName("http://servicios/", "PublicadorService");
 
-            ControladorSuscripcion sus = new ControladorSuscripcion();
-            resultado = sus.agregarSus(nickname, "Pendiente", fechaActual, tipoSuscripcion);
+            // Crear el servicio
+            Service servicio = Service.create(url, qname);
+            IPublicador publicador = servicio.getPort(IPublicador.class);
+            
+            
+            
+            resultado = publicador.agregarSuscripcion(nickname, "Pendiente", tipoSuscripcion);
 
         } else {
             try (PrintWriter out = response.getWriter()) {
@@ -87,13 +88,9 @@ public class ContratarSuscripcionServlet extends HttpServlet {
 
         PrintWriter out = response.getWriter();
 
-        if (resultado != null && resultado.getValor()) {
+        if (resultado != null && resultado.isValor()) {
             out.print("{\"success\": true}");
-            // Guardar la suscripcion como cookie
-            Cookie userCookie = new Cookie("suscrito", "true");
-            userCookie.setMaxAge(60 * 60 * 24); // Duración de la cookie (Un día)
-            userCookie.setPath("/"); // Hace que la cookie sea accesible para toda la web
-            response.addCookie(userCookie);
+            session.setAttribute("suscrito", true);
         } else {
             out.println("{\"success\": false, \"errorCode\": " + (resultado != null ? resultado.getNumero() : "desconocido") + "}");
         }
