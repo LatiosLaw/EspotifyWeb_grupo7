@@ -28,6 +28,21 @@
                 </div>
 
                 <div class="busqueda">
+                    <% if(isMobile) { %>
+                    <div class="menu-icon" id="menu-icon">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                    </div>
+                    <div class="menu" id="menu">
+                        <ul>
+                            <li><a href="TodosLosGeneros.jsp">Generos</a></li>
+                            <li><a href="TodosLosArtistas.jsp">Artistas</a></li>
+                            <li><a href="Recomendaciones.jsp">Lo Mejor de Lo Mejor</a></li>
+                            <li><button id="logoutButton"><a>Cerrar sesion</a></button></li>
+                        </ul>
+                    </div>
+                    <% }%>
                     <input id="searchInput" type="text" placeholder="Tema, Album, Lista" class="barraBusqueda">
                     <a class="btnBusqueda" onclick="emitirBusqueda()">Buscar</a>
                 </div>
@@ -65,9 +80,11 @@
                             <p>Tipo: <%= userType != null ? userType : "Desconocido"%>
                             </p>
                         </li>
+                            <% if (!isMobile) { %>
                         <li>
                             <p><button id="logoutButton">Cerrar sesion</button></p>
                         </li>
+                            <% } %>
                         <% } %>
                     </ul>
                 </div>
@@ -75,12 +92,11 @@
 
             <div class="mainCon">
                 <div class="dinamico">
-                    
+                    <% if (!isMobile) { %>
                     <div class="btnsNav">
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
                         <a href="Recomendaciones.jsp">Lo Mejor de Lo Mejor</a>
-                        <% if (!isMobile) { %>
                             <% if ("Cliente".equals(userType)) { %>
                                 <% if (suscrito == true) { %>
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
@@ -95,9 +111,8 @@
                             <% if ("Artista".equals(userType)) { %>
                             <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
                             <% }%>
-                        <% }%>
                     </div>
-                    
+                    <% }%>
                     <div class="realDinamico">
                         <h1 class="inicioIndex">Inicio</h1>
 
@@ -303,9 +318,24 @@
         <script src="scripts/ImagenDeUsuario.js"></script>
         
         <% if (isMobile && nickname == null) { %>
+        <!-- Formulario de login forzado para usuario movil -->
         <script>
             // Reemplaza la página actual en el historial del navegador con MobileLogin.jsp, lo que significa que el usuario no podrá volver a la página anterior usando el botón "Atrás" del navegador
             window.location.replace('MobileLogin.jsp');
+        </script>
+        <% }%>
+        
+        <% if (isMobile) { %>
+        <!-- Boton hamburguesa -->
+        <script>
+            const menuIcon = document.getElementById("menu-icon");
+            const menu = document.getElementById("menu");
+
+            // Añadimos un evento de clic al icono del menú
+            menuIcon.addEventListener("click", () => {
+                menu.classList.toggle("show");  // Mostramos o escondemos el menú
+                menuIcon.classList.toggle("active");  // Animamos el icono de hamburguesa
+            });
         </script>
         <% }%>
         
