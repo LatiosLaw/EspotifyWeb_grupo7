@@ -56,6 +56,13 @@
             <artifactId>jaxb-runtime</artifactId>
             <version>3.0.1</version>
         </dependency>
+        
+        <!-- Loco???????????????????? -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
 
         <!-- Logging / Registros avanzados en consola (Comentable) -->
         <dependency>
