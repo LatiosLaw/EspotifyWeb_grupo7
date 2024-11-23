@@ -53,7 +53,7 @@ function VamoAYoutube(boton) {
 
 function obtenerValorSesion() {
     try {
-        return fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverSubscripcion')
+        return fetch('ConsultarAlbumServlet?action=devolverSubscripcion')
                 .then(response => response.json())
                 .then(data => {
                     if (data.sus === "true") {
@@ -99,7 +99,7 @@ async function SuccionarInformacion(tieneSuscripcion) {
     const primerCampo = urlParams.get('album');
     const resultado = await obtenerValorSesion();
 
-        fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
+        fetch('ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.getElementById('temasBody');
@@ -107,7 +107,7 @@ async function SuccionarInformacion(tieneSuscripcion) {
                     let registros = [];
                     data.forEach((tema, index) => {
                     
-                   fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverInformacionTema&nombreAlbum=' + encodeURIComponent(tema.album)+"&nombreTema="+ encodeURIComponent(tema.nombre))
+                   fetch('ConsultarAlbumServlet?action=devolverInformacionTema&nombreAlbum=' + encodeURIComponent(tema.album)+"&nombreTema="+ encodeURIComponent(tema.nombre))
                 .then(response => response.json())
                 .then(data => {
                        registros[index] = data;
@@ -245,7 +245,7 @@ async function SuccionarInformacion(tieneSuscripcion) {
     if(!isMobile){
         var IMAGENREPRO = document.getElementById('imagenReproductor');
     }
-    fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverInformacionAlbum&albumName=' + encodeURIComponent(primerCampo))
+    fetch('ConsultarAlbumServlet?action=devolverInformacionAlbum&albumName=' + encodeURIComponent(primerCampo))
             .then(response => response.json())
             .then(data => {
                 data.forEach(album => {
@@ -311,7 +311,7 @@ function agregarAlgoFav(id, coso, album){
     var LAIK = document.getElementById('favAlbumBtn');
     var NOLAIK = document.getElementById('sacarDeFavAlbumBtn');
     event.preventDefault();
-    fetch('http://localhost:8080/EspotifyWeb/AgregarAlgoFavServlet', {
+    fetch('AgregarAlgoFavServlet', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -348,7 +348,7 @@ function sacarAlgoFav(id, coso, album){
     var LAIK = document.getElementById('favAlbumBtn');
     var NOLAIK = document.getElementById('sacarDeFavAlbumBtn');
     event.preventDefault();
-    fetch('http://localhost:8080/EspotifyWeb/SacarAlgoFavServlet', {
+    fetch('SacarAlgoFavServlet', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -386,7 +386,7 @@ async function recargarListas() {
     const resultado = await obtenerValorSesion();
 
     if (resultado) {
-        fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
+        fetch('ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.getElementById('temasBody');
@@ -426,7 +426,7 @@ async function recargarListas() {
                 })
                 .catch(error => console.error('Error al cargar temas del album:', error));
     } else {
-        fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
+        fetch('ConsultarAlbumServlet?action=devolverTemasAlbum&albumName=' + encodeURIComponent(primerCampo))
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.getElementById('temasBody');
@@ -656,7 +656,7 @@ const audio = document.getElementById('miAudio');
                                      try {
                                          const urlParams = new URLSearchParams(window.location.search);
                                         const primerCampo = urlParams.get('album');
-                                        return fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=incrementarReproduccion&nombreAlbum=' + encodeURIComponent(primerCampo)+"&nombreTema="+ encodeURIComponent(nombretema));
+                                        return fetch('ConsultarAlbumServlet?action=incrementarReproduccion&nombreAlbum=' + encodeURIComponent(primerCampo)+"&nombreTema="+ encodeURIComponent(nombretema));
                                     } catch (error) {
                                         console.log("Revento Afuera Servlet");
                                         // Captura el error y lo muestra en la consola o en la página
@@ -677,7 +677,7 @@ const audio = document.getElementById('miAudio');
                                      try {
                                          const urlParams = new URLSearchParams(window.location.search);
                                         const primerCampo = urlParams.get('album');
-                                        return fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=incrementarReproduccion&nombreAlbum=' + encodeURIComponent(primerCampo)+"&nombreTema="+ encodeURIComponent(nombretema));
+                                        return fetch('ConsultarAlbumServlet?action=incrementarReproduccion&nombreAlbum=' + encodeURIComponent(primerCampo)+"&nombreTema="+ encodeURIComponent(nombretema));
                                     } catch (error) {
                                         console.log("Revento Afuera Servlet");
                                         // Captura el error y lo muestra en la consola o en la página

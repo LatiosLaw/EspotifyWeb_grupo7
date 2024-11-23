@@ -65,7 +65,7 @@ function cargarInfo(listaNombre, tipo){
     
     
 if(tipo==="1"){
-    fetch('http://localhost:8080/EspotifyWeb/ConsultarListaRepServlet?action=devolverInformacionLista&listaNombre=' + encodeURIComponent(listaNombre) + '&tipo=' + encodeURIComponent(tipo))
+    fetch('ConsultarListaRepServlet?action=devolverInformacionLista&listaNombre=' + encodeURIComponent(listaNombre) + '&tipo=' + encodeURIComponent(tipo))
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(lista => {
@@ -98,7 +98,7 @@ if(tipo==="1"){
     const urlParams = new URLSearchParams(window.location.search);
     const tercerCampo = urlParams.get('listaName').split("tipo=")[0].split("&#8206;-")[0].split("/")[1];
     console.log(tercerCampo);
-    fetch('http://localhost:8080/EspotifyWeb/ConsultarListaRepServlet?action=devolverInformacionLista&listaNombre=' + encodeURIComponent(listaNombre) + '&tipo=' + encodeURIComponent(tipo)+ '&usuario=' + encodeURIComponent(tercerCampo))
+    fetch('ConsultarListaRepServlet?action=devolverInformacionLista&listaNombre=' + encodeURIComponent(listaNombre) + '&tipo=' + encodeURIComponent(tipo)+ '&usuario=' + encodeURIComponent(tercerCampo))
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(lista => {
@@ -172,7 +172,7 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
     } else {
         temas.forEach((tema, index) => {
             
-            fetch('http://localhost:8080/EspotifyWeb/ConsultarListaRepServlet?action=devolverInformacionTema&nombreAlbum=' + encodeURIComponent(tema.album)+"&nombreTema="+ encodeURIComponent(tema.nombre))
+            fetch('ConsultarListaRepServlet?action=devolverInformacionTema&nombreAlbum=' + encodeURIComponent(tema.album)+"&nombreTema="+ encodeURIComponent(tema.nombre))
                 .then(response => response.json())
                 .then(data => {
                        registros[index] = data;
@@ -288,7 +288,7 @@ function agregarAlgoFav(id, coso, creador, tipoLista){
     var LAIK = document.getElementById('favListaBtn');
     var NOLAIK = document.getElementById('sacarDeFavListaBtn');
     event.preventDefault();
-    fetch('http://localhost:8080/EspotifyWeb/AgregarAlgoFavListaServlet', {
+    fetch('AgregarAlgoFavListaServlet', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -326,7 +326,7 @@ function sacarAlgoFav(id, coso, creadorAlbum, tipoLista){
     var LAIK = document.getElementById('favListaBtn');
     var NOLAIK = document.getElementById('sacarDeFavListaBtn');
     event.preventDefault();
-    fetch('http://localhost:8080/EspotifyWeb/SacarAlgoFavListaServlet', {
+    fetch('SacarAlgoFavListaServlet', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -604,7 +604,7 @@ const audio = document.getElementById('miAudio');
                                     
                                      try {
                                         let primerCampo = albumsNames[currentNombreIndex].toString();
-                                        return fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=incrementarReproduccion&nombreAlbum=' + encodeURIComponent(primerCampo)+"&nombreTema="+ encodeURIComponent(nombretema));
+                                        return fetch('ConsultarAlbumServlet?action=incrementarReproduccion&nombreAlbum=' + encodeURIComponent(primerCampo)+"&nombreTema="+ encodeURIComponent(nombretema));
                                     } catch (error) {
                                         console.log("Revento Afuera Servlet");
                                         // Captura el error y lo muestra en la consola o en la página
@@ -624,7 +624,7 @@ const audio = document.getElementById('miAudio');
                                     
                                      try {
                                         let primerCampo = albumsNames[currentNombreIndex].toString();
-                                        return fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=incrementarReproduccion&nombreAlbum=' + encodeURIComponent(primerCampo)+"&nombreTema="+ encodeURIComponent(nombretema));
+                                        return fetch('ConsultarAlbumServlet?action=incrementarReproduccion&nombreAlbum=' + encodeURIComponent(primerCampo)+"&nombreTema="+ encodeURIComponent(nombretema));
                                     } catch (error) {
                                         console.log("Revento Afuera Servlet");
                                         // Captura el error y lo muestra en la consola o en la página

@@ -6,7 +6,7 @@ document.getElementById('contratarSuscripcionForm').addEventListener('submit', f
 
             console.log("Enviando datos:", params); // Para depuración
 
-            fetch('http://localhost:8080/EspotifyWeb/ContratarSuscripcionServlet', {
+            fetch('ContratarSuscripcionServlet', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

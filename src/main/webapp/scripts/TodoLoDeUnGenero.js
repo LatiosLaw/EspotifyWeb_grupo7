@@ -6,7 +6,7 @@ var Genero = "0";
                   const urlParams = new URLSearchParams(window.location.search);
                        var buscarName = urlParams.get('search');
 
-            fetch('http://localhost:8080/EspotifyWeb/TodoLoDeUnGeneroServlet?action=MostrarListasDelGeneroU&buscar=' + encodeURIComponent(buscarName))
+            fetch('TodoLoDeUnGeneroServlet?action=MostrarListasDelGeneroU&buscar=' + encodeURIComponent(buscarName))
                 .then(response => response.json())
                 .then(data => {
                     const container = document.getElementById('listaGeneroGenBody');
@@ -37,7 +37,7 @@ var Genero = "0";
             .catch(error => console.error('Error al cargar listas:', error));
 
 
-    fetch('http://localhost:8080/EspotifyWeb/TodoLoDeUnGeneroServlet?action=MostrarAlbumesDelGeneroU&buscar=' + encodeURIComponent(buscarName))
+    fetch('TodoLoDeUnGeneroServlet?action=MostrarAlbumesDelGeneroU&buscar=' + encodeURIComponent(buscarName))
         .then(response => response.json())
         .then(data => {
             const container = document.getElementById('albumGenBody');

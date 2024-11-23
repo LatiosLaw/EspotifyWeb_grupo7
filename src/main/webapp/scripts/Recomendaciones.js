@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-fetch("http://localhost:8080/EspotifyWeb/RecomendacionesServlet?action=devolverTemazos")
+fetch("RecomendacionesServlet?action=devolverTemazos")
     .then(response => {
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);

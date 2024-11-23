@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Manejo del botón de cerrar sesión
     if (logoutButton) {
         logoutButton.addEventListener('click', function () {
-            fetch('http://localhost:8080/EspotifyWeb/CerrarSesionServlet', {
+            fetch('CerrarSesionServlet', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

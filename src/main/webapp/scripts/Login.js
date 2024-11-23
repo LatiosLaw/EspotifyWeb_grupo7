@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const formData = new FormData(this);
             const params = new URLSearchParams(formData).toString();
 
-            fetch('http://localhost:8080/EspotifyWeb/LoginServlet', {
+            fetch('LoginServlet', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -109,7 +109,7 @@ function regitroMomento(ip){
     
     
     
-    fetch('http://localhost:8080/EspotifyWeb/regiServlet', {
+    fetch('regiServlet', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

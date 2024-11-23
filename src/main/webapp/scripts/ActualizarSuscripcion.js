@@ -1,5 +1,5 @@
 function cargarDatosSus() {
-    fetch('http://localhost:8080/EspotifyWeb/ActualizarSusServlet', {
+    fetch('ActualizarSusServlet', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -64,7 +64,7 @@ function cargarDatosSus() {
 
 function cancelar(id) {
     event.preventDefault();
-    fetch('http://localhost:8080/EspotifyWeb/ActualizarSusServlet', {
+    fetch('ActualizarSusServlet', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -89,7 +89,7 @@ function cancelar(id) {
 
 function vigentear(id) {
     event.preventDefault();
-    fetch('http://localhost:8080/EspotifyWeb/ActualizarSusServlet', {
+    fetch('ActualizarSusServlet', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

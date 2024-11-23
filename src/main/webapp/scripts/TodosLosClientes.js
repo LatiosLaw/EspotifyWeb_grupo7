@@ -1,4 +1,4 @@
-fetch('http://localhost:8080/EspotifyWeb/TodosLosClientesServlet?action=devolverClientes')
+fetch('TodosLosClientesServlet?action=devolverClientes')
         .then(response => response.json())
         .then(data => {
             const container = document.getElementById('clientesBody');

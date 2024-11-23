@@ -1,4 +1,4 @@
-fetch('http://localhost:8080/EspotifyWeb/TodosLosAlbumesServlet?action=devolverAlbumes')
+fetch('TodosLosAlbumesServlet?action=devolverAlbumes')
     .then(response => response.json())
     .then(data => {
         const container = document.getElementById('listaAlbumesBody');

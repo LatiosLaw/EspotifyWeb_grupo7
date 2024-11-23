@@ -68,7 +68,7 @@ function confirmarEliminacion() {
   
   // Si el usuario confirma, ejecutamos el código de eliminación
   if (confirmar) {
-      fetch('http://localhost:8080/EspotifyWeb/CerrarSesionServlet', {
+      fetch('CerrarSesionServlet', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
