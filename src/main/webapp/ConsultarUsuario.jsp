@@ -333,7 +333,7 @@
                 }
 
                 function verificarEstadoSeguimiento(nick) {
-                    fetch('http://localhost:8080/EspotifyWeb/SeguirUsuarioServlet?id=' + nick)
+                    fetch('SeguirUsuarioServlet?id=' + nick)
                             .then(response => response.json())
                             .then(data => {
                                 if (nick === sessionNickname) {
@@ -356,7 +356,7 @@
                 }
 
                 function seguirUsuario(nick) {
-                    fetch('http://localhost:8080/EspotifyWeb/SeguirUsuarioServlet', {
+                    fetch('SeguirUsuarioServlet', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -380,7 +380,7 @@
                 }
 
                 function dejarSeguirUsuario(nick) {
-                    fetch('http://localhost:8080/EspotifyWeb/DejarDeSeguirUsuarioServlet', {
+                    fetch('DejarDeSeguirUsuarioServlet', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
