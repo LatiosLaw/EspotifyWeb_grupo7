@@ -104,15 +104,24 @@ async function SuccionarInformacion(tieneSuscripcion) {
                 .then(data => {
                     const tbody = document.getElementById('temasBody');
                     tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
-                    data.forEach(tema => {
-
+                    let registros = [];
+                    data.forEach((tema, index) => {
                     
+                   fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverInformacionTema&nombreAlbum=' + encodeURIComponent(tema.album)+"&nombreTema="+ encodeURIComponent(tema.nombre))
+                .then(response => response.json())
+                .then(data => {
+                       registros[index] = data;
+                });
+                
                        if(tema.fav === "fav"/*El usuario ya le puso laik*/){
                             if (tema.link !== "null") {
                                 const row = `<tr><td>${tema.nombre}</td>
                                 <td>${formatearTiempo(tema.duracion)}</td>
                                 <td>${tema.link}</td>
                                 <td>${tema.album}</td>
+                    <td>
+                        <button class="btn-ver-mas" data-index="${index}">...</button>
+                    </td>
                                 <td>
                                 <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
                                 : `alert(''Debes tener una suscripcion vigente para descargar temas.')`}" class="btnsAlbum">
@@ -137,6 +146,9 @@ async function SuccionarInformacion(tieneSuscripcion) {
                                 <td>${formatearTiempo(tema.duracion)}</td>
                                 <td>${tema.archivo}</td>
                     <td>${tema.album}</td>
+                    <td>
+                        <button class="btn-ver-mas" data-index="${index}">...</button>
+                    </td>
                                 <td>
                                 <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
                                 : `alert('Debes tener una suscripcion vigente para descargar temas.')`}" class="btnsAlbum">
@@ -160,6 +172,9 @@ async function SuccionarInformacion(tieneSuscripcion) {
                         }else{
                             if (tema.link !== "null") {
                                 const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.link}</td><td>${tema.album}</td>
+                                <td>
+                        <button class="btn-ver-mas" data-index="${index}">...</button>
+                    </td>
                 <td>
                     <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
                     : `alert('Debes tener una suscripcion vigente para descargar temas.')`}" class="btnsAlbum">
@@ -182,6 +197,9 @@ async function SuccionarInformacion(tieneSuscripcion) {
                     tbody.innerHTML += row;
                             } else {
                                 const row = `<tr><td>${tema.nombre}</td><td>${formatearTiempo(tema.duracion)}</td><td>${tema.archivo}</td><td>${tema.album}</td>
+                                <td>
+                        <button class="btn-ver-mas" data-index="${index}">...</button>
+                    </td>
                 <td>
                     <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
                     : `alert('Debes tener una suscripcion vigente para descargar temas.')`}" class="btnsAlbum">
@@ -203,6 +221,15 @@ async function SuccionarInformacion(tieneSuscripcion) {
                                 tbody.innerHTML += row;
                             }
                         }
+                        
+                        document.querySelectorAll('.btn-ver-mas').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const index = event.target.getAttribute('data-index');
+                const infotem = registros[index];
+                mostrarInformacionAdicional(infotem);
+            });
+        });
+        
                     });
                 })
                 .catch(error => console.error('Error al cargar temas del album:', error));
@@ -260,6 +287,24 @@ async function SuccionarInformacion(tieneSuscripcion) {
             })
             .catch(error => console.error('Error al datos del album:', error));
 
+}
+
+function mostrarInformacionAdicional(infotem) {
+    const dialog = document.getElementById('detalleDialog');
+    document.getElementById('dialogTitulo').textContent = infotem.identificador.nombre_tema;
+    document.getElementById('dialogAlbum').textContent = infotem.identificador.nombre_album;
+    document.getElementById('dialogReproducciones').textContent = infotem.reproducciones;
+    document.getElementById('dialogDescargas').textContent = infotem.descargas;
+    document.getElementById('dialogFavoritos').textContent = infotem.favoritos;
+    document.getElementById('dialogListas').textContent = infotem.agregado_a_lista;
+
+    // Mostrar el diálogo
+    dialog.showModal();
+
+    // Cerrar el diálogo cuando se haga clic en el botón "Cerrar"
+    document.getElementById('cerrarDialog').addEventListener('click', () => {
+        dialog.close();
+    });
 }
 
 function agregarAlgoFav(id, coso, album){

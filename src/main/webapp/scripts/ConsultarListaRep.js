@@ -166,11 +166,18 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
     const tbody = document.querySelector('#tablaTemas tbody');
     tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos resultados
 
-     
+     let registros = [];
     if (temas.length === 0) {
         tbody.innerHTML = '<tr><td colspan="3">No hay temas disponibles.</td></tr>'; // Aumentar a 3 columnas
     } else {
-        temas.forEach(tema => {
+        temas.forEach((tema, index) => {
+            
+            fetch('http://localhost:8080/EspotifyWeb/ConsultarListaRepServlet?action=devolverInformacionTema&nombreAlbum=' + encodeURIComponent(tema.album)+"&nombreTema="+ encodeURIComponent(tema.nombre))
+                .then(response => response.json())
+                .then(data => {
+                       registros[index] = data;
+                });
+                
             const urlDescarga = ensureUrlProtocol(tema.identificador_archivo.trim());
 
             console.log('URL de descarga:', urlDescarga);
@@ -183,6 +190,9 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
                 <td>${formatearTiempo(tema.duracion)}</td>
                 <td>${tema.album}</td>
                 <td>${tema.identificador_archivo}</td>
+                <td>
+                        <button class="btn-ver-mas" data-index="${index}">...</button>
+                    </td>
                 <td>
                 <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
                 : `alert('Debes tener una suscripcion vigente para descargar temas.')`}" class="btnsLista">
@@ -215,6 +225,9 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
                 <td>${tema.album}</td>
                 <td>${tema.identificador_archivo}</td>
                 <td>
+                        <button class="btn-ver-mas" data-index="${index}">...</button>
+                    </td>
+                <td>
                 <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
                 : `alert('Debes tener una suscripcion vigente para descargar temas.')`}" class="btnsLista">
                 Descargar
@@ -238,10 +251,37 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
              </tr>`;
             }
             
+            document.querySelectorAll('.btn-ver-mas').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const index = event.target.getAttribute('data-index');
+                const infotem = registros[index];
+                mostrarInformacionAdicional(infotem);
+            });
+        });
+            
         });
     }
 
     document.getElementById('tablaTemas').style.display = 'table';
+}
+
+
+function mostrarInformacionAdicional(infotem) {
+    const dialog = document.getElementById('detalleDialog');
+    document.getElementById('dialogTitulo').textContent = infotem.identificador.nombre_tema;
+    document.getElementById('dialogAlbum').textContent = infotem.identificador.nombre_album;
+    document.getElementById('dialogReproducciones').textContent = infotem.reproducciones;
+    document.getElementById('dialogDescargas').textContent = infotem.descargas;
+    document.getElementById('dialogFavoritos').textContent = infotem.favoritos;
+    document.getElementById('dialogListas').textContent = infotem.agregado_a_lista;
+
+    // Mostrar el diálogo
+    dialog.showModal();
+
+    // Cerrar el diálogo cuando se haga clic en el botón "Cerrar"
+    document.getElementById('cerrarDialog').addEventListener('click', () => {
+        dialog.close();
+    });
 }
 
 function agregarAlgoFav(id, coso, creador, tipoLista){    

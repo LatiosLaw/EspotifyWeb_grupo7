@@ -1,5 +1,6 @@
 package com.mycompany.espotifyweb;
 
+import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import logica.Registro_tema;
 import logica.controladores.ControladorAdicionalTema;
 import logica.controladores.ControladorAlbum;
 import logica.controladores.ControladorArtista;
@@ -288,6 +290,30 @@ public class ConsultarAlbumServlet extends HttpServlet {
                 String albumName = request.getParameter("nombreAlbum");
                 System.out.println(albumName);
                 persistence.incrementarInfoReproduccion(nombreTema, albumName);
+        }else if("devolverInformacionTema".equals(action)){
+            IControladorAdicionalTema registros = new ControladorAdicionalTema();
+            String nombreTema = request.getParameter("nombreTema");
+            System.out.println(nombreTema);
+            String albumName = request.getParameter("nombreAlbum");
+            System.out.println(albumName);
+            Registro_tema info = registros.devolverRegistroTema(nombreTema, albumName);
+            
+            try (PrintWriter out = response.getWriter()) {
+                
+                // Usa Gson para convertir la colección a JSON
+            Gson gson = new Gson();
+            String json = gson.toJson(info);
+
+            // Establece el contenido de la respuesta
+            response.setContentType("application/json;charset=UTF-8");
+            out.print(json);
+
+            // Log para verificar el JSON generado
+            System.out.println("JSON generado: " + json);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
         System.out.println("\n-----End Consultar Album Servlet GET-----");
     }
