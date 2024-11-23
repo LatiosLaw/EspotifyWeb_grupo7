@@ -32,6 +32,24 @@ function DescargarTema(boton) {
     window.location.href = 'ConsultarAlbumServlet?action=Download&filename=' + encodeURIComponent(descarga) + '&nombreTema='+ encodeURIComponent(nombretema)+ '&nombreAlbum='+ encodeURIComponent(nombrealbum);
 }
 
+function mostrarInformacionAdicional(tema) {
+    const dialog = document.getElementById('detalleDialog');
+    document.getElementById('dialogTitulo').textContent = tema.identificador.nombre_tema;
+    document.getElementById('dialogAlbum').textContent = tema.identificador.nombre_album;
+    document.getElementById('dialogReproducciones').textContent = tema.reproducciones;
+    document.getElementById('dialogDescargas').textContent = tema.descargas;
+    document.getElementById('dialogFavoritos').textContent = tema.favoritos;
+    document.getElementById('dialogListas').textContent = tema.agregado_a_lista;
+
+    // Mostrar el diálogo
+    dialog.showModal();
+
+    // Cerrar el diálogo cuando se haga clic en el botón "Cerrar"
+    document.getElementById('cerrarDialog').addEventListener('click', () => {
+        dialog.close();
+    });
+}
+
 function cargarTemas(listaNombre, tipo) {
     const encodedNombre = encodeURIComponent(listaNombre);
     const encodedTipo = encodeURIComponent(tipo);
@@ -166,11 +184,20 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
     const tbody = document.querySelector('#tablaTemas tbody');
     tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos resultados
 
-     
+     let registros = [];
     if (temas.length === 0) {
         tbody.innerHTML = '<tr><td colspan="3">No hay temas disponibles.</td></tr>'; // Aumentar a 3 columnas
     } else {
-        temas.forEach(tema => {
+        temas.forEach(tema, index => {
+            
+            fetch('http://localhost:8080/EspotifyWeb/ConsultarListaRepServlet?action=devolverInformacionTema&nombreAlbum=' + encodeURIComponent(tema.album)+"&nombreTema="+ encodeURIComponent(tema.nombre))
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(info_tem => {
+                       registros.push(info_tem);
+                    });
+                });
+                
             const urlDescarga = ensureUrlProtocol(tema.identificador_archivo.trim());
 
             console.log('URL de descarga:', urlDescarga);
@@ -183,6 +210,9 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
                 <td>${formatearTiempo(tema.duracion)}</td>
                 <td>${tema.album}</td>
                 <td>${tema.identificador_archivo}</td>
+                <td>
+                        <button class="btn-ver-mas" data-index="${index}">...</button>
+                    </td>
                 <td>
                 <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
                 : `alert('Debes tener una suscripcion vigente para descargar temas.')`}" class="btnsLista">
@@ -215,6 +245,9 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
                 <td>${tema.album}</td>
                 <td>${tema.identificador_archivo}</td>
                 <td>
+                        <button class="btn-ver-mas" data-index="${index}">...</button>
+                    </td>
+                <td>
                 <button onclick="${tieneSuscripcion ? `DescargarTema(this)` 
                 : `alert('Debes tener una suscripcion vigente para descargar temas.')`}" class="btnsLista">
                 Descargar
@@ -237,6 +270,14 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
 
              </tr>`;
             }
+            
+            document.querySelectorAll('.btn-ver-mas').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const index = event.target.getAttribute('data-index');
+                const tema = registros[index];
+                mostrarInformacionAdicional(tema);
+            });
+        });
             
         });
     }

@@ -17,7 +17,7 @@ fetch("http://localhost:8080/EspotifyWeb/RecomendacionesServlet?action=devolverT
                 <tr>
                     <td>${valor}</td>
                     <td>${tema.identificador.nombre_tema}</td>
-                    <td>${tema.identificador.nombre_album}</td>
+                    <td><a href="ConsultarAlbum.jsp?album=${encodeURIComponent(tema.identificador.nombre_album)}">${tema.identificador.nombre_album}</a></td>
                     <td>${tema.reproducciones}</td>
                     <td>
                         <button class="btn-ver-mas" data-index="${index}">...</button>
