@@ -32,24 +32,6 @@ function DescargarTema(boton) {
     window.location.href = 'ConsultarAlbumServlet?action=Download&filename=' + encodeURIComponent(descarga) + '&nombreTema='+ encodeURIComponent(nombretema)+ '&nombreAlbum='+ encodeURIComponent(nombrealbum);
 }
 
-function mostrarInformacionAdicional(tema) {
-    const dialog = document.getElementById('detalleDialog');
-    document.getElementById('dialogTitulo').textContent = tema.identificador.nombre_tema;
-    document.getElementById('dialogAlbum').textContent = tema.identificador.nombre_album;
-    document.getElementById('dialogReproducciones').textContent = tema.reproducciones;
-    document.getElementById('dialogDescargas').textContent = tema.descargas;
-    document.getElementById('dialogFavoritos').textContent = tema.favoritos;
-    document.getElementById('dialogListas').textContent = tema.agregado_a_lista;
-
-    // Mostrar el diálogo
-    dialog.showModal();
-
-    // Cerrar el diálogo cuando se haga clic en el botón "Cerrar"
-    document.getElementById('cerrarDialog').addEventListener('click', () => {
-        dialog.close();
-    });
-}
-
 function cargarTemas(listaNombre, tipo) {
     const encodedNombre = encodeURIComponent(listaNombre);
     const encodedTipo = encodeURIComponent(tipo);
@@ -188,14 +170,12 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
     if (temas.length === 0) {
         tbody.innerHTML = '<tr><td colspan="3">No hay temas disponibles.</td></tr>'; // Aumentar a 3 columnas
     } else {
-        temas.forEach(tema, index => {
+        temas.forEach((tema, index) => {
             
             fetch('http://localhost:8080/EspotifyWeb/ConsultarListaRepServlet?action=devolverInformacionTema&nombreAlbum=' + encodeURIComponent(tema.album)+"&nombreTema="+ encodeURIComponent(tema.nombre))
                 .then(response => response.json())
                 .then(data => {
-                    data.forEach(info_tem => {
-                       registros.push(info_tem);
-                    });
+                       registros[index] = data;
                 });
                 
             const urlDescarga = ensureUrlProtocol(tema.identificador_archivo.trim());
@@ -274,8 +254,8 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
             document.querySelectorAll('.btn-ver-mas').forEach(button => {
             button.addEventListener('click', (event) => {
                 const index = event.target.getAttribute('data-index');
-                const tema = registros[index];
-                mostrarInformacionAdicional(tema);
+                const infotem = registros[index];
+                mostrarInformacionAdicional(infotem);
             });
         });
             
@@ -283,6 +263,25 @@ function llenarTablaTemas(temas, tieneSuscripcion) {
     }
 
     document.getElementById('tablaTemas').style.display = 'table';
+}
+
+
+function mostrarInformacionAdicional(infotem) {
+    const dialog = document.getElementById('detalleDialog');
+    document.getElementById('dialogTitulo').textContent = infotem.identificador.nombre_tema;
+    document.getElementById('dialogAlbum').textContent = infotem.identificador.nombre_album;
+    document.getElementById('dialogReproducciones').textContent = infotem.reproducciones;
+    document.getElementById('dialogDescargas').textContent = infotem.descargas;
+    document.getElementById('dialogFavoritos').textContent = infotem.favoritos;
+    document.getElementById('dialogListas').textContent = infotem.agregado_a_lista;
+
+    // Mostrar el diálogo
+    dialog.showModal();
+
+    // Cerrar el diálogo cuando se haga clic en el botón "Cerrar"
+    document.getElementById('cerrarDialog').addEventListener('click', () => {
+        dialog.close();
+    });
 }
 
 function agregarAlgoFav(id, coso, creador, tipoLista){    
