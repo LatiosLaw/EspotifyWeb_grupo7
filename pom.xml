@@ -19,11 +19,6 @@
 
     <dependencies>
         <!-- Servidor Central (Hay que removerlo una vez traducido todo-->
-        <dependency>
-            <groupId>com.grupo7</groupId>
-            <artifactId>espotify</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
         
         <!-- Jakarta EE API -->
         <dependency>
@@ -63,6 +58,13 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.3.1</version>
         </dependency>
+        
+        <!-- POSIBLEMENTE BORRAR ESTA DEPENDENCIA EN LINUX -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.4</version>
+        </dependency>
 
         <!-- Logging / Registros avanzados en consola (Comentable) -->
         <dependency>
@@ -82,7 +84,11 @@
             <artifactId>gson</artifactId>
             <version>2.11.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.grupo7</groupId>
+            <artifactId>espotify</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
