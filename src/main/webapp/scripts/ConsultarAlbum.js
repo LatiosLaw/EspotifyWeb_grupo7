@@ -51,24 +51,6 @@ function VamoAYoutube(boton) {
 
 // Boolean suscrito = (Boolean) session.getAttribute("suscrito");
 
-function mostrarInformacionAdicional(tema) {
-    const dialog = document.getElementById('detalleDialog');
-    document.getElementById('dialogTitulo').textContent = tema.identificador.nombre_tema;
-    document.getElementById('dialogAlbum').textContent = tema.identificador.nombre_album;
-    document.getElementById('dialogReproducciones').textContent = tema.reproducciones;
-    document.getElementById('dialogDescargas').textContent = tema.descargas;
-    document.getElementById('dialogFavoritos').textContent = tema.favoritos;
-    document.getElementById('dialogListas').textContent = tema.agregado_a_lista;
-
-    // Mostrar el diálogo
-    dialog.showModal();
-
-    // Cerrar el diálogo cuando se haga clic en el botón "Cerrar"
-    document.getElementById('cerrarDialog').addEventListener('click', () => {
-        dialog.close();
-    });
-}
-
 function obtenerValorSesion() {
     try {
         return fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverSubscripcion')
@@ -123,14 +105,12 @@ async function SuccionarInformacion(tieneSuscripcion) {
                     const tbody = document.getElementById('temasBody');
                     tbody.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas listas
                     let registros = [];
-                    data.forEach(tema, index => {
+                    data.forEach((tema, index) => {
                     
-                    fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverInformacionTema&nombreAlbum=' + encodeURIComponent(tema.album)+"&nombreTema="+ encodeURIComponent(tema.nombre))
+                   fetch('http://localhost:8080/EspotifyWeb/ConsultarAlbumServlet?action=devolverInformacionTema&nombreAlbum=' + encodeURIComponent(tema.album)+"&nombreTema="+ encodeURIComponent(tema.nombre))
                 .then(response => response.json())
                 .then(data => {
-                    data.forEach(info_tem => {
-                       registros.push(info_tem);
-                    });
+                       registros[index] = data;
                 });
                 
                        if(tema.fav === "fav"/*El usuario ya le puso laik*/){
@@ -245,8 +225,8 @@ async function SuccionarInformacion(tieneSuscripcion) {
                         document.querySelectorAll('.btn-ver-mas').forEach(button => {
             button.addEventListener('click', (event) => {
                 const index = event.target.getAttribute('data-index');
-                const tema = registros[index];
-                mostrarInformacionAdicional(tema);
+                const infotem = registros[index];
+                mostrarInformacionAdicional(infotem);
             });
         });
         
@@ -307,6 +287,24 @@ async function SuccionarInformacion(tieneSuscripcion) {
             })
             .catch(error => console.error('Error al datos del album:', error));
 
+}
+
+function mostrarInformacionAdicional(infotem) {
+    const dialog = document.getElementById('detalleDialog');
+    document.getElementById('dialogTitulo').textContent = infotem.identificador.nombre_tema;
+    document.getElementById('dialogAlbum').textContent = infotem.identificador.nombre_album;
+    document.getElementById('dialogReproducciones').textContent = infotem.reproducciones;
+    document.getElementById('dialogDescargas').textContent = infotem.descargas;
+    document.getElementById('dialogFavoritos').textContent = infotem.favoritos;
+    document.getElementById('dialogListas').textContent = infotem.agregado_a_lista;
+
+    // Mostrar el diálogo
+    dialog.showModal();
+
+    // Cerrar el diálogo cuando se haga clic en el botón "Cerrar"
+    document.getElementById('cerrarDialog').addEventListener('click', () => {
+        dialog.close();
+    });
 }
 
 function agregarAlgoFav(id, coso, album){
