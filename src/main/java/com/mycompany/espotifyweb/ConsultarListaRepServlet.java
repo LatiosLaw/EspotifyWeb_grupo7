@@ -128,7 +128,7 @@ public class ConsultarListaRepServlet extends HttpServlet {
             System.out.println(albumName);
             Registro_tema info = registros.devolverRegistroTema(nombreTema, albumName);
             
-            try (PrintWriter out = response.getWriter()) {
+            try (PrintWriter out2 = response.getWriter()) {
                 
                 // Usa Gson para convertir la colección a JSON
             Gson gson = new Gson();
