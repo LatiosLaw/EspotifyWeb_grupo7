@@ -19,6 +19,41 @@
     text-align: center;
 }
 
+.btn-ver-mas{
+    width: 50%;
+    border: 2px solid black;
+    background-color: #b63ebe;
+    transition: background-color 0.15s;
+    padding: 5px 10px;
+}
+
+.btn-ver-mas:hover{
+    background-color: #cf48d7;
+}
+
+.btn-ver-mas:action{
+    background-color: #99339f;
+}
+
+.detalleDialog{
+    background-color: #a241b6;
+    position: absolute; /* Usamos posición absoluta */
+    top: 50%;
+    left: 50%; /* Coloca el contenedor en el 50% desde la izquierda */
+    transform: translate(-50%, -50%); /* Mueve el contenedor hacia arriba y hacia la izquierda por la mitad de su tamaño */
+    padding: 10px;
+    text-align: center;
+}
+
+.detalleDialog:backdrop{
+    background-color: rgba(0, 0, 0, 0.44);
+}
+
+.Info{
+    border-bottom: 2px solid #0f0f0f;
+    padding: 10px;
+}
+
 #creadorgenerolista{
     margin-bottom: 15px;
 }

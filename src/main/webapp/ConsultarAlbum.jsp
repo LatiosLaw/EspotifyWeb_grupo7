@@ -156,6 +156,7 @@
                                         <th>Duracion</th>
                                         <th>Archivo / Link</th>
                                         <th>Album</th>
+                                        <th>Detalles</th>
                                         <th colspan="3">Acciones</th>
                                     </tr>
                                 </thead>
@@ -207,6 +208,19 @@
                     </div>
                 </div>
                     <% }%>
+                    
+                    <dialog id="detalleDialog" class="detalleDialog">
+                           <div id="dialogContent">
+                               <p class="Info"><strong>Tema:</strong> <span id="dialogTitulo"></span></p>
+                               <p class="Info"><strong>Album:</strong> <span id="dialogAlbum"></span></p>
+                               <p class="Info"><strong>Reproducciones:</strong> <span id="dialogReproducciones"></span></p>
+                               <p class="Info"><strong>Descargas:</strong> <span id="dialogDescargas"></span></p>
+                               <p class="Info"><strong>Favoritos:</strong> <span id="dialogFavoritos"></span></p>
+                               <p class="Info"><strong>Listas:</strong> <span id="dialogListas"></span></p>
+                               <button id="cerrarDialog" class="btn-info">Cerrar</button>
+                           </div>
+                       </dialog>
+                    
             </div>
 
             <dialog id="winLogin"> <!-- Dialogo de inicio de sesion -->
