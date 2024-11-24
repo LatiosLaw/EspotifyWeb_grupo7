@@ -8,60 +8,63 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.net.URL;
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
 import logica.Album;
 import logica.ListaParticular;
 import logica.ListaPorDefecto;
-import logica.Usuario;
 import logica.controladores.ControladorCliente;
 import logica.dt.DT_IdTema;
 import persistencia.DAO_Album;
 import persistencia.DAO_ListaReproduccion;
 import persistencia.DAO_Usuario;
+import servicios.DataUsuario;
+import servicios.IPublicador;
 
 public class ConsultarUsuarioServlet extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    private URL url;
+    private QName qname;
+    private Service servicio;
+    private IPublicador publicador;
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String action = request.getParameter("action");
 
+        url = new URL("http://localhost:9128/publicador?wsdl");
+        qname = new QName("http://servicios/", "PublicadorService");
+        servicio = Service.create(url, qname);
+        publicador = servicio.getPort(IPublicador.class);
+
         switch (action) {
-            case "cargarPerfil":
+            case "cargarPerfil" ->
                 cargarPerfil(request, out);
-                break;
-            case "cargarSeguidores":
+            case "cargarSeguidores" ->
                 cargarSeguidores(request, out);
-                break;
-            case "cargarSeguidos":
+            case "cargarSeguidos" ->
                 cargarSeguidos(request, out);
-                break;
-            case "cargarListas":
+            case "cargarListas" ->
                 cargarListas(request, out);
-                break;
-            case "cargarAlbumes":
+            case "cargarAlbumes" ->
                 cargarAlbumes(request, out);
-                break;
-            case "cargarFavoritos":
+            case "cargarFavoritos" ->
                 cargarFavoritos(request, out);
-                break;
-            case "cargarListasFavoritas":
+            case "cargarListasFavoritas" ->
                 cargarListasFavoritas(request, out);
-                break;
-            case "cargarAlbumesFavoritos":
+            case "cargarAlbumesFavoritos" ->
                 cargarAlbumesFavoritos(request, out);
-                break;
-            case "cargarTemasFavoritos":
+            case "cargarTemasFavoritos" ->
                 cargarTemasFavoritos(request, out);
-                break;
-            default:
+            default ->
                 out.println("{\"error\": \"Acción no válida\"}");
-                break;
         }
     }
 
@@ -69,19 +72,18 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
         String nickname = request.getParameter("nickname");
 
-        DAO_Usuario daoUser = new DAO_Usuario();
-        Usuario user = daoUser.findUsuarioByNick(nickname);
+        DataUsuario user = publicador.retornarUsuario(nickname);
 
         if (user != null) {
             String jsonPerfil = String.format(
                     "{\"nickname\": \"%s\", \"correo\": \"%s\", \"nombre\": \"%s\", \"apellido\": \"%s\", \"fechaNacimiento\": \"%s\", \"imagen\": \"%s\", \"esArtista\": %b}",
                     user.getNickname(),
-                    user.getEmail(),
+                    user.getCorreo(),
                     user.getNombre(),
                     user.getApellido(),
-                    user.getNacimiento(),
+                    user.getFechaNac(),
                     user.getFoto() != null ? user.getFoto() : "imagenes/usuarios/defaultUser.png",
-                    user.getDTYPE()
+                    user.getDtype()
             );
             out.println(jsonPerfil);
         } else {
@@ -126,7 +128,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
     private void cargarSeguidos(HttpServletRequest request, PrintWriter out) {
 
-       String nickname = request.getParameter("nickname");
+        String nickname = request.getParameter("nickname");
 
         if (nickname == null) {
             out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
@@ -144,7 +146,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
     private void cargarListas(HttpServletRequest request, PrintWriter out) {
 
-       String nickname = request.getParameter("nickname");
+        String nickname = request.getParameter("nickname");
 
         if (nickname == null) {
             out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
@@ -156,24 +158,24 @@ public class ConsultarUsuarioServlet extends HttpServlet {
         Collection<ListaParticular> listas = daoLista.findListaPorCliente(nickname);
 
         StringBuilder jsonResponse = new StringBuilder("[");
-            for (ListaParticular lista : listas) {
+        for (ListaParticular lista : listas) {
 
-                jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()+"/"+lista.getNombreCliente()).append("\",")
-                        .append("\"imagen\":\"").append(lista.getFoto()).append("\"},");
-            }
+            jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista() + "/" + lista.getNombreCliente()).append("\",")
+                    .append("\"imagen\":\"").append(lista.getFoto()).append("\"},");
+        }
 
-            if (jsonResponse.length() > 1) {
-                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-            }
+        if (jsonResponse.length() > 1) {
+            jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+        }
 
-            jsonResponse.append("]");
+        jsonResponse.append("]");
 
-            out.print(jsonResponse.toString());
+        out.print(jsonResponse.toString());
     }
 
     private void cargarAlbumes(HttpServletRequest request, PrintWriter out) {
 
-       String nickname = request.getParameter("nickname");
+        String nickname = request.getParameter("nickname");
 
         if (nickname == null) {
             out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
@@ -185,24 +187,24 @@ public class ConsultarUsuarioServlet extends HttpServlet {
         Collection<Album> albumes = daoAlbum.findAllPorArtista(nickname);
 
         StringBuilder jsonResponse = new StringBuilder("[");
-            for (Album album : albumes) {
+        for (Album album : albumes) {
 
-                jsonResponse.append("{\"nombre\":\"").append(album.getNombre()).append("\",")
-                        .append("\"imagen\":\"").append(album.getImagen()).append("\"},");
-            }
+            jsonResponse.append("{\"nombre\":\"").append(album.getNombre()).append("\",")
+                    .append("\"imagen\":\"").append(album.getImagen()).append("\"},");
+        }
 
-            if (jsonResponse.length() > 1) {
-                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-            }
+        if (jsonResponse.length() > 1) {
+            jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+        }
 
-            jsonResponse.append("]");
+        jsonResponse.append("]");
 
-            out.print(jsonResponse.toString());
+        out.print(jsonResponse.toString());
     }
 
     private void cargarFavoritos(HttpServletRequest request, PrintWriter out) {
 
-       String nickname = request.getParameter("nickname");
+        String nickname = request.getParameter("nickname");
 
         if (nickname == null) {
             out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
@@ -225,7 +227,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
     }
 
     private void cargarListasFavoritas(HttpServletRequest request, PrintWriter out) {
-       String nickname = request.getParameter("nickname");
+        String nickname = request.getParameter("nickname");
 
         if (nickname == null) {
             out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
@@ -236,33 +238,33 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
         Collection<ListaPorDefecto> listasD = daoUsuario.obtenerListasFavPorDefectoCliente2(nickname);
         Collection<ListaParticular> listasP = daoUsuario.obtenerListasParticularesFavCliente2(nickname);
-        
+
         StringBuilder jsonResponse = new StringBuilder("[");
-        
+
         for (ListaPorDefecto lista : listasD) {
 
-                jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()+"-").append("\",")
-                        .append("\"imagen\":\"").append(lista.getFoto()).append("\"},");
-            }
-        
-            for (ListaParticular lista : listasP) {
-                String nombrelista = lista.getNombreLista()+"/"+lista.getNombreCliente();
-                jsonResponse.append("{\"nombre\":\"").append(nombrelista).append("\",")
-                        .append("\"imagen\":\"").append(lista.getFoto()).append("\"},");
-            }
+            jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista() + "-").append("\",")
+                    .append("\"imagen\":\"").append(lista.getFoto()).append("\"},");
+        }
 
-            if (jsonResponse.length() > 1) {
-                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-            }
+        for (ListaParticular lista : listasP) {
+            String nombrelista = lista.getNombreLista() + "/" + lista.getNombreCliente();
+            jsonResponse.append("{\"nombre\":\"").append(nombrelista).append("\",")
+                    .append("\"imagen\":\"").append(lista.getFoto()).append("\"},");
+        }
 
-            jsonResponse.append("]");
+        if (jsonResponse.length() > 1) {
+            jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+        }
 
-            out.print(jsonResponse.toString());
+        jsonResponse.append("]");
+
+        out.print(jsonResponse.toString());
     }
 
     private void cargarAlbumesFavoritos(HttpServletRequest request, PrintWriter out) {
 
-       String nickname = request.getParameter("nickname");
+        String nickname = request.getParameter("nickname");
 
         if (nickname == null) {
             out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");
@@ -274,23 +276,23 @@ public class ConsultarUsuarioServlet extends HttpServlet {
         Collection<Album> albumes = daoUsuario.obtenerAlbumFavCliente2(nickname);
 
         StringBuilder jsonResponse = new StringBuilder("[");
-            for (Album album : albumes) {
+        for (Album album : albumes) {
 
-                jsonResponse.append("{\"nombre\":\"").append(album.getNombre()).append("\",")
-                        .append("\"imagen\":\"").append(album.getImagen()).append("\"},");
-            }
+            jsonResponse.append("{\"nombre\":\"").append(album.getNombre()).append("\",")
+                    .append("\"imagen\":\"").append(album.getImagen()).append("\"},");
+        }
 
-            if (jsonResponse.length() > 1) {
-                jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-            }
+        if (jsonResponse.length() > 1) {
+            jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+        }
 
-            jsonResponse.append("]");
+        jsonResponse.append("]");
 
-            out.print(jsonResponse.toString());
+        out.print(jsonResponse.toString());
     }
 
     private void cargarTemasFavoritos(HttpServletRequest request, PrintWriter out) {
-       String nickname = request.getParameter("nickname");
+        String nickname = request.getParameter("nickname");
 
         if (nickname == null) {
             out.println("{\"error\": \"Nickname no encontrado en la sesión\"}");

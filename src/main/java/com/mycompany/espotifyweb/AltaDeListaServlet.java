@@ -12,45 +12,30 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import logica.Cliente;
-import logica.ListaParticular;
-import logica.ListaReproduccion;
-import logica.controladores.ControladorCliente;
-import logica.controladores.ControladorListaParticular;
-import logica.dt.DataListaParticular;
-import persistencia.DAO_ListaReproduccion;
-import persistencia.DAO_Usuario;
+import java.net.URL;
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+import servicios.DataListaParticular;
+import servicios.DataListaReproduccion;
+import servicios.IPublicador;
 
 @MultipartConfig
 
 public class AltaDeListaServlet extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AltaDeListaServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AltaDeListaServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
 
         HttpSession session = request.getSession();
         String nickname = (String) session.getAttribute("nickname");
-
         String listaName = request.getParameter("listaName");
-        ListaReproduccion lista = persistence.findListaReproduccionPorNombre(listaName, nickname);
+
+        URL url = new URL("http://localhost:9128/publicador?wsdl");
+        QName qname = new QName("http://servicios/", "PublicadorService");
+        Service servicio = Service.create(url, qname);
+        IPublicador publicador = servicio.getPort(IPublicador.class);
+
+        DataListaReproduccion lista = publicador.retornarDataListaParticular(listaName, nickname);
 
         if (lista != null) {
             response.getWriter().write("exists");
@@ -61,7 +46,7 @@ public class AltaDeListaServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
@@ -76,7 +61,12 @@ public class AltaDeListaServlet extends HttpServlet {
             Part filePart = request.getPart("imagenLista");
             String fileName;
 
-            if (filePart == null || !(filePart.getSubmittedFileName().toString().endsWith("png") || filePart.getSubmittedFileName().toString().endsWith("jpg"))) {
+            URL url = new URL("http://localhost:9128/publicador?wsdl");
+            QName qname = new QName("http://servicios/", "PublicadorService");
+            Service servicio = Service.create(url, qname);
+            IPublicador publicador = servicio.getPort(IPublicador.class);
+
+            if (filePart == null || !(filePart.getSubmittedFileName().endsWith("png") || filePart.getSubmittedFileName().endsWith("jpg"))) {
                 // No se seleccionó ningún archivo
                 fileName = "default";
             } else {
@@ -88,13 +78,13 @@ public class AltaDeListaServlet extends HttpServlet {
             ///// COMENTAR DE ACA PARA ABAJO ASI NO SE LES ROMPA AL RESTO ////////////////////////////////////////////
             /////////////////////////////////////////////////////////////////////////////////////////////////////
             // Verifica que el archivo no sea nulo
-            if (fileName != "default") {
+            if (!"default".equals(fileName)) {
                 // Obtén el nombre del archivo y su tipo de contenido
 
                 // COMENTAR ESTA RUTA Y COLOCAR LA SUYA PROPIA, RUTA DONDE GUARDAR LA FOTO DEL ALBUM /////////////////////////////////////////////////////// 
-            //    String targetDir = "C:\\Users\\Law\\Documents\\GitHub\\EspotifyWeb_grupo7\\src\\main\\webapp\\imagenes\\listas\\"; // Ajusta esta ruta
+                //    String targetDir = "C:\\Users\\Law\\Documents\\GitHub\\EspotifyWeb_grupo7\\src\\main\\webapp\\imagenes\\listas\\"; // Ajusta esta ruta
 // RUTA CURE : 
-String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/imagenes/listas/";   
+                String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/imagenes/listas/";
                 // Crear el directorio si no existe
                 File uploadDir = new File(targetDir);
                 if (!uploadDir.exists()) {
@@ -117,34 +107,19 @@ String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/mai
                 fileName = "default";
             }
 
-            /////////////////////////////////////////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-            /////////////////////////////////////////////////////////////////////////////////////////////////////
-            ControladorListaParticular listControl = new ControladorListaParticular();
+            DataListaParticular dataErrorTrucho;
 
-            ControladorCliente usrControl = new ControladorCliente();
-
-            DAO_Usuario persistenceUsr = new DAO_Usuario();
-
-            DAO_ListaReproduccion persistenceLista = new DAO_ListaReproduccion();
-
-            ListaParticular dataErrorTrucho = new ListaParticular();
-
-            dataErrorTrucho = persistenceLista.findListaPorNicks(nickname, nombreLista);
+            dataErrorTrucho = publicador.retornarDataListaParticular(nombreLista, nickname);
 
             if (dataErrorTrucho == null) {
 
-                listControl.crearLista(nombreLista, usrControl.consultarPerfilCliente(nickname));
+                publicador.crearListaParticular(nombreLista, publicador.retornarCliente(nickname));
 
-                DataListaParticular list = listControl.retornarlista(nombreLista, nickname);
+                DataListaParticular list = publicador.retornarDataListaParticular(nombreLista, nickname);
 
                 list.setFoto(fileName);
 
-                Cliente cliente_lista = (Cliente) persistenceUsr.findUsuarioByNick(list.getCreador().getNickname());
-
-                DAO_ListaReproduccion persistenceList = new DAO_ListaReproduccion();
-
-                persistenceList.update(new ListaParticular(list.getNombre(), list.getVisibilidad(), cliente_lista, list.getFoto()));
+                publicador.actualizarListaParticular(list);
 
                 out.print("{\"status\": \"success\", \"message\": \"Lista creada exitosamente.\"}");
             } else {

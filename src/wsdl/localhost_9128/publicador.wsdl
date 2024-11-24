@@ -14,6 +14,10 @@
 
   <xs:element name="actualizarGeneroResponse" type="tns:actualizarGeneroResponse"/>
 
+  <xs:element name="actualizarListaParticular" type="tns:actualizarListaParticular"/>
+
+  <xs:element name="actualizarListaParticularResponse" type="tns:actualizarListaParticularResponse"/>
+
   <xs:element name="actualizarSuscripcion" type="tns:actualizarSuscripcion"/>
 
   <xs:element name="actualizarSuscripcionResponse" type="tns:actualizarSuscripcionResponse"/>
@@ -42,6 +46,10 @@
 
   <xs:element name="agregarListaEnFavResponse" type="tns:agregarListaEnFavResponse"/>
 
+  <xs:element name="agregarRegistro" type="tns:agregarRegistro"/>
+
+  <xs:element name="agregarRegistroResponse" type="tns:agregarRegistroResponse"/>
+
   <xs:element name="agregarSuscripcion" type="tns:agregarSuscripcion"/>
 
   <xs:element name="agregarSuscripcionResponse" type="tns:agregarSuscripcionResponse"/>
@@ -62,6 +70,10 @@
 
   <xs:element name="checkNicknameAvailabilityResponse" type="tns:checkNicknameAvailabilityResponse"/>
 
+  <xs:element name="checkSiEsGenero" type="tns:checkSiEsGenero"/>
+
+  <xs:element name="checkSiEsGeneroResponse" type="tns:checkSiEsGeneroResponse"/>
+
   <xs:element name="checkUCorreoAvailability" type="tns:checkUCorreoAvailability"/>
 
   <xs:element name="checkUCorreoAvailabilityResponse" type="tns:checkUCorreoAvailabilityResponse"/>
@@ -78,11 +90,17 @@
 
   <xs:element name="corroborarTemaEnFavResponse" type="tns:corroborarTemaEnFavResponse"/>
 
+  <xs:element name="crearListaParticular" type="tns:crearListaParticular"/>
+
+  <xs:element name="crearListaParticularResponse" type="tns:crearListaParticularResponse"/>
+
   <xs:element name="crearTemaCasiCompleto" type="tns:crearTemaCasiCompleto"/>
 
   <xs:element name="crearTemaCasiCompletoResponse" type="tns:crearTemaCasiCompletoResponse"/>
 
   <xs:element name="dataErrorBundle" type="tns:dataErrorBundle"/>
+
+  <xs:element name="dataUsuario" type="tns:dataUsuario"/>
 
   <xs:element name="dejarDeSeguirUsuario" type="tns:dejarDeSeguirUsuario"/>
 
@@ -111,6 +129,10 @@
   <xs:element name="getTipoUsuario" type="tns:getTipoUsuario"/>
 
   <xs:element name="getTipoUsuarioResponse" type="tns:getTipoUsuarioResponse"/>
+
+  <xs:element name="hiroshimaYNagasaki" type="tns:hiroshimaYNagasaki"/>
+
+  <xs:element name="hiroshimaYNagasakiResponse" type="tns:hiroshimaYNagasakiResponse"/>
 
   <xs:element name="iniciarSesion" type="tns:iniciarSesion"/>
 
@@ -228,16 +250,59 @@
 
   <xs:element name="seguirUsuarioResponse" type="tns:seguirUsuarioResponse"/>
 
-  <xs:complexType name="obtenerTemasDeAlbumes">
+  <xs:complexType name="actualizarListaParticular">
     <xs:sequence>
-      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg0" type="tns:dataListaParticular"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="obtenerTemasDeAlbumesResponse">
+  <xs:complexType name="dataListaParticular">
+    <xs:complexContent>
+      <xs:extension base="tns:dataListaReproduccion">
+        <xs:sequence>
+          <xs:element name="visibilidad" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="dataListaReproduccion">
     <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:dataTema"/>
+      <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+      <xs:element minOccurs="0" name="foto" type="xs:string"/>
+      <xs:element minOccurs="0" name="creador" type="tns:dataCliente"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="temas" type="tns:dataTema"/>
     </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="dataCliente">
+    <xs:complexContent>
+      <xs:extension base="tns:dataUsuario">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="seguidos" type="tns:dataUsuario"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="temasFavoritos" type="tns:dataTema"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="albumesFavoritos" type="tns:dataAlbum"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="listasFavoritas" type="tns:dataListaReproduccion"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="dataUsuario">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dtype" type="xs:string"/>
+      <xs:element minOccurs="0" name="apellido" type="xs:string"/>
+      <xs:element minOccurs="0" name="contra" type="xs:string"/>
+      <xs:element minOccurs="0" name="correo" type="xs:string"/>
+      <xs:element minOccurs="0" name="fechaNac" type="tns:localDate"/>
+      <xs:element minOccurs="0" name="foto" type="xs:string"/>
+      <xs:element minOccurs="0" name="nickname" type="xs:string"/>
+      <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType final="extension restriction" name="localDate">
+    <xs:sequence/>
   </xs:complexType>
 
   <xs:complexType name="dataTema">
@@ -274,21 +339,25 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="dataUsuario">
+  <xs:complexType name="dataGenero">
     <xs:sequence>
-      <xs:element minOccurs="0" name="apellido" type="xs:string"/>
-      <xs:element minOccurs="0" name="contra" type="xs:string"/>
-      <xs:element minOccurs="0" name="correo" type="xs:string"/>
-      <xs:element minOccurs="0" name="fechaNac" type="xs:string"/>
-      <xs:element minOccurs="0" name="foto" type="xs:string"/>
-      <xs:element minOccurs="0" name="nickname" type="xs:string"/>
       <xs:element minOccurs="0" name="nombre" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="dataGenero">
+  <xs:complexType name="actualizarListaParticularResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerTemasDeAlbumes">
     <xs:sequence>
-      <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerTemasDeAlbumesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:dataTema"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -314,28 +383,6 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="dataListaReproduccion">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="nombre" type="xs:string"/>
-      <xs:element minOccurs="0" name="foto" type="xs:string"/>
-      <xs:element minOccurs="0" name="creador" type="tns:dataCliente"/>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="temas" type="tns:dataTema"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="dataCliente">
-    <xs:complexContent>
-      <xs:extension base="tns:dataUsuario">
-        <xs:sequence>
-          <xs:element maxOccurs="unbounded" minOccurs="0" name="seguidos" type="tns:dataUsuario"/>
-          <xs:element maxOccurs="unbounded" minOccurs="0" name="temasFavoritos" type="tns:dataTema"/>
-          <xs:element maxOccurs="unbounded" minOccurs="0" name="albumesFavoritos" type="tns:dataAlbum"/>
-          <xs:element maxOccurs="unbounded" minOccurs="0" name="listasFavoritas" type="tns:dataListaReproduccion"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
   <xs:complexType name="retornarListasParticularesDeCliente">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="xs:string"/>
@@ -346,16 +393,6 @@
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:dataListaParticular"/>
     </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="dataListaParticular">
-    <xs:complexContent>
-      <xs:extension base="tns:dataListaReproduccion">
-        <xs:sequence>
-          <xs:element name="visibilidad" type="xs:boolean"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
   </xs:complexType>
 
   <xs:complexType name="publicarLista">
@@ -531,6 +568,18 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="checkSiEsGenero">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="checkSiEsGeneroResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="agregarSuscripcion">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="xs:string"/>
@@ -632,6 +681,14 @@
       <xs:element minOccurs="0" name="ultiFechaHabi" type="xs:string"/>
       <xs:element minOccurs="0" name="tipoSus" type="xs:string"/>
     </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="hiroshimaYNagasaki">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="hiroshimaYNagasakiResponse">
+    <xs:sequence/>
   </xs:complexType>
 
   <xs:complexType name="obtenerDataSuscripcionPorID">
@@ -837,6 +894,20 @@
     <xs:sequence/>
   </xs:complexType>
 
+  <xs:complexType name="agregarRegistro">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg3" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg4" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="agregarRegistroResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
   <xs:complexType name="obtenerNombreAlbumesFavCliente">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="xs:string"/>
@@ -1003,8 +1074,23 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="crearListaParticular">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="tns:dataCliente"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="crearListaParticularResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
 </xs:schema>
   </wsdl:types>
+  <wsdl:message name="actualizarListaParticular">
+    <wsdl:part element="tns:actualizarListaParticular" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="obtenerTemasDeAlbumes">
     <wsdl:part element="tns:obtenerTemasDeAlbumes" name="parameters">
     </wsdl:part>
@@ -1075,6 +1161,10 @@
   </wsdl:message>
   <wsdl:message name="agregarTemaALista">
     <wsdl:part element="tns:agregarTemaALista" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkSiEsGenero">
+    <wsdl:part element="tns:checkSiEsGenero" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="corroborarTemaEnFav">
@@ -1165,8 +1255,16 @@
     <wsdl:part element="tns:actualizarSuscripcionResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="checkSiEsGeneroResponse">
+    <wsdl:part element="tns:checkSiEsGeneroResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="devolverInformacionListaRepro">
     <wsdl:part element="tns:devolverInformacionListaRepro" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="agregarRegistro">
+    <wsdl:part element="tns:agregarRegistro" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="obtenerSeguidoresDeResponse">
@@ -1219,6 +1317,14 @@
   </wsdl:message>
   <wsdl:message name="obtenerDataAlbumesResponse">
     <wsdl:part element="tns:obtenerDataAlbumesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="actualizarListaParticularResponse">
+    <wsdl:part element="tns:actualizarListaParticularResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="hiroshimaYNagasakiResponse">
+    <wsdl:part element="tns:hiroshimaYNagasakiResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="agregarClienteResponse">
@@ -1309,6 +1415,10 @@
     <wsdl:part element="tns:agregarSuscripcionResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="agregarRegistroResponse">
+    <wsdl:part element="tns:agregarRegistroResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="actualizarGeneroResponse">
     <wsdl:part element="tns:actualizarGeneroResponse" name="parameters">
     </wsdl:part>
@@ -1343,6 +1453,14 @@
   </wsdl:message>
   <wsdl:message name="obtenerDataListaPorDefectoResponse">
     <wsdl:part element="tns:obtenerDataListaPorDefectoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="crearListaParticularResponse">
+    <wsdl:part element="tns:crearListaParticularResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="hiroshimaYNagasaki">
+    <wsdl:part element="tns:hiroshimaYNagasaki" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="obtenerDataSuscripcionPorID">
@@ -1437,7 +1555,17 @@
     <wsdl:part element="tns:agregarArtista" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="crearListaParticular">
+    <wsdl:part element="tns:crearListaParticular" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="IPublicador">
+    <wsdl:operation name="actualizarListaParticular">
+      <wsdl:input message="tns:actualizarListaParticular" name="actualizarListaParticular">
+    </wsdl:input>
+      <wsdl:output message="tns:actualizarListaParticularResponse" name="actualizarListaParticularResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="obtenerTemasDeAlbumes">
       <wsdl:input message="tns:obtenerTemasDeAlbumes" name="obtenerTemasDeAlbumes">
     </wsdl:input>
@@ -1540,6 +1668,12 @@
       <wsdl:output message="tns:retornarClienteResponse" name="retornarClienteResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="checkSiEsGenero">
+      <wsdl:input message="tns:checkSiEsGenero" name="checkSiEsGenero">
+    </wsdl:input>
+      <wsdl:output message="tns:checkSiEsGeneroResponse" name="checkSiEsGeneroResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="agregarSuscripcion">
       <wsdl:input message="tns:agregarSuscripcion" name="agregarSuscripcion">
     </wsdl:input>
@@ -1580,6 +1714,12 @@
       <wsdl:input message="tns:obtenerDataSuscripciones" name="obtenerDataSuscripciones">
     </wsdl:input>
       <wsdl:output message="tns:obtenerDataSuscripcionesResponse" name="obtenerDataSuscripcionesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="hiroshimaYNagasaki">
+      <wsdl:input message="tns:hiroshimaYNagasaki" name="hiroshimaYNagasaki">
+    </wsdl:input>
+      <wsdl:output message="tns:hiroshimaYNagasakiResponse" name="hiroshimaYNagasakiResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="obtenerDataSuscripcionPorID">
@@ -1684,6 +1824,12 @@
       <wsdl:output message="tns:agregarTemaEnFavResponse" name="agregarTemaEnFavResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="agregarRegistro">
+      <wsdl:input message="tns:agregarRegistro" name="agregarRegistro">
+    </wsdl:input>
+      <wsdl:output message="tns:agregarRegistroResponse" name="agregarRegistroResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="obtenerNombreAlbumesFavCliente">
       <wsdl:input message="tns:obtenerNombreAlbumesFavCliente" name="obtenerNombreAlbumesFavCliente">
     </wsdl:input>
@@ -1762,9 +1908,24 @@
       <wsdl:output message="tns:obtenerDataAlbumesResponse" name="obtenerDataAlbumesResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="crearListaParticular">
+      <wsdl:input message="tns:crearListaParticular" name="crearListaParticular">
+    </wsdl:input>
+      <wsdl:output message="tns:crearListaParticularResponse" name="crearListaParticularResponse">
+    </wsdl:output>
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="PublicadorServiceSoapBinding" type="tns:IPublicador">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="actualizarListaParticular">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="actualizarListaParticular">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="actualizarListaParticularResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="obtenerTemasDeAlbumes">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="obtenerTemasDeAlbumes">
@@ -1819,21 +1980,21 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="obtenerTemasDeListas">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="obtenerTemasDeListas">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="obtenerTemasDeListasResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="dejarDeSeguirUsuario">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="dejarDeSeguirUsuario">
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="dejarDeSeguirUsuarioResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerTemasDeListas">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="obtenerTemasDeListas">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtenerTemasDeListasResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -1882,21 +2043,21 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="agregarListaEnFav">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="agregarListaEnFav">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="agregarListaEnFavResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="seguirUsuario">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="seguirUsuario">
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="seguirUsuarioResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="agregarListaEnFav">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="agregarListaEnFav">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="agregarListaEnFavResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -1915,6 +2076,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="retornarClienteResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkSiEsGenero">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="checkSiEsGenero">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="checkSiEsGeneroResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -1978,6 +2148,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="obtenerDataSuscripcionesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="hiroshimaYNagasaki">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="hiroshimaYNagasaki">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="hiroshimaYNagasakiResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -2134,6 +2313,15 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="agregarRegistro">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="agregarRegistro">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="agregarRegistroResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="obtenerNombreAlbumesFavCliente">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="obtenerNombreAlbumesFavCliente">
@@ -2248,6 +2436,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="obtenerDataAlbumesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="crearListaParticular">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="crearListaParticular">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="crearListaParticularResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

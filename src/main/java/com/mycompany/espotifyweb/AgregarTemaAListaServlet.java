@@ -3,41 +3,25 @@ package com.mycompany.espotifyweb;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collection;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import logica.Album;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.net.URL;
+import java.util.List;
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
 import logica.ListaParticular;
-import logica.ListaPorDefecto;
-import logica.controladores.ControladorListaParticular;
 import logica.controladores.ControladorTema;
-import logica.dt.DataTema;
+import servicios.DataTema;
 import logica.tema;
-import persistencia.DAO_Album;
 import persistencia.DAO_ListaReproduccion;
 import persistencia.DAO_Tema;
+import servicios.DataListaParticular;
+import servicios.IPublicador;
 
 public class AgregarTemaAListaServlet extends HttpServlet {
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AgregarTemaAListaServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AgregarTemaAListaServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,175 +35,40 @@ public class AgregarTemaAListaServlet extends HttpServlet {
         // Leer el nickname desde la sesión
         String nickname = (String) session.getAttribute("nickname");
 
-        if ("cargarListas".equals(action)) {
+        URL url = new URL("http://localhost:9128/publicador?wsdl");
+        QName qname = new QName("http://servicios/", "PublicadorService");
+        Service servicio = Service.create(url, qname);
+        IPublicador publicador = servicio.getPort(IPublicador.class);
 
-            try (PrintWriter out = response.getWriter()) {
-                // Comprobar si se obtuvo el nickname
-                if (nickname == null) {
-                    out.print("{\"error\": \"No se encontró el nickname.\"}");
-                    return;
+        if (null != action) {
+            switch (action) {
+                case "cargarListas" -> {
+                    try (PrintWriter out = response.getWriter()) {
+                        if (nickname == null) {
+                            out.print("{\"error\": \"No se encontró el nickname.\"}");
+                            return;
+                        }
+
+                        List<DataListaParticular> listas = publicador.retornarListasParticularesDeCliente(nickname);
+
+                        StringBuilder jsonResponse = new StringBuilder("[");
+                        for (DataListaParticular lista : listas) {
+                            jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\"},");
+                        }
+
+                        if (jsonResponse.length() > 1) {
+                            jsonResponse.deleteCharAt(jsonResponse.length() - 1);
+                        }
+
+                        jsonResponse.append("]");
+
+                        out.print(jsonResponse.toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-                // Obtener todas las listas de reproducción del cliente
-                DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
-                Collection<ListaParticular> listasReproduccion = persistence.findListaPorCliente(nickname);
-
-                StringBuilder jsonResponse = new StringBuilder("[");
-                for (ListaParticular lista : listasReproduccion) {
-                    jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\"},");
+                default -> {
                 }
-
-                if (jsonResponse.length() > 1) {
-                    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-                }
-
-                jsonResponse.append("]");
-
-                out.print(jsonResponse.toString());
-            } catch (Exception e) {
-                e.printStackTrace(); // Para depuración
-            }
-        } else if ("cargarListasParticular".equals(action)) {
-
-            try (PrintWriter out = response.getWriter()) {
-                // Obtener todas las listas de reproducción del cliente
-                DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
-                Collection<ListaParticular> listasReproduccion = persistence.findAllListasParticularesPublicas();
-
-                StringBuilder jsonResponse = new StringBuilder("[");
-                for (ListaParticular lista : listasReproduccion) {
-
-                    jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\",")
-                            .append("\"nombrecreador\":\"").append(lista.getCliente().getNickname()).append("\"},");
-                }
-
-                if (jsonResponse.length() > 1) {
-                    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-                }
-
-                jsonResponse.append("]");
-
-                out.print(jsonResponse.toString());
-            } catch (Exception e) {
-                e.printStackTrace(); // Para depuración
-            }
-        } else if ("cargarListasDefault".equals(action)) {
-
-            try (PrintWriter out = response.getWriter()) {
-                // Obtener todas las listas de reproducción del cliente
-                DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
-                Collection<ListaPorDefecto> listasReproduccion = persistence.devolverListasPorDefecto();
-
-                StringBuilder jsonResponse = new StringBuilder("[");
-                for (ListaPorDefecto lista : listasReproduccion) {
-
-                    jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\",")
-                            .append("\"genero\":\"").append(lista.getGenero().getNombre()).append("\"},");
-                }
-
-                if (jsonResponse.length() > 1) {
-                    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-                }
-
-                jsonResponse.append("]");
-
-                out.print(jsonResponse.toString());
-            } catch (Exception e) {
-                e.printStackTrace(); // Para depuración
-            }
-        } else if ("cargarAlbumes".equals(action)) {
-            try (PrintWriter out = response.getWriter()) {
-                // Obtener todas las listas de reproducción del cliente
-                DAO_Album persistence = new DAO_Album();
-                Collection<Album> albumes = persistence.findAll();
-
-                StringBuilder jsonResponse = new StringBuilder("[");
-                for (Album album : albumes) {
-
-                    jsonResponse.append("{\"nombre\":\"").append(album.getNombre()).append("\",")
-                            .append("\"nombrecreador\":\"").append(album.getCreador().getNickname()).append("\"},");
-                }
-
-                if (jsonResponse.length() > 1) {
-                    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-                }
-
-                jsonResponse.append("]");
-
-                out.print(jsonResponse.toString());
-            } catch (Exception e) {
-                e.printStackTrace(); // Para depuración
-            }
-        } else if ("buscarTemasListaParticular".equals(action)) {
-            String nombreLista = request.getParameter("listaName");
-            try (PrintWriter out = response.getWriter()) {
-                // Obtener todas las listas de reproducción del cliente
-                ControladorTema ctrlTema = new ControladorTema();
-                Collection<DataTema> temas = ctrlTema.retornarTemasDeLaLista(nombreLista, 2);
-
-                StringBuilder jsonResponse = new StringBuilder("[");
-                for (DataTema tema : temas) {
-
-                    jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
-                            .append("\"album\":\"").append(tema.getNomAlb()).append("\"},");
-                }
-
-                if (jsonResponse.length() > 1) {
-                    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-                }
-
-                jsonResponse.append("]");
-
-                out.print(jsonResponse.toString());
-            } catch (Exception e) {
-                e.printStackTrace(); // Para depuración
-            }
-        } else if ("buscarTemasListaDefecto".equals(action)) {
-            String nombreLista = request.getParameter("listaName");
-            try (PrintWriter out = response.getWriter()) {
-                // Obtener todas las listas de reproducción del cliente
-                ControladorTema ctrlTema = new ControladorTema();
-                Collection<DataTema> temas = ctrlTema.retornarTemasDeLaLista(nombreLista, 1);
-
-                StringBuilder jsonResponse = new StringBuilder("[");
-                for (DataTema tema : temas) {
-
-                    jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
-                            .append("\"album\":\"").append(tema.getNomAlb()).append("\"},");
-                }
-
-                if (jsonResponse.length() > 1) {
-                    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-                }
-
-                jsonResponse.append("]");
-
-                out.print(jsonResponse.toString());
-            } catch (Exception e) {
-                e.printStackTrace(); // Para depuración
-            }
-        } else if ("buscarTemasAlbum".equals(action)) {
-            String nombreAlbum = request.getParameter("albumName");
-            try (PrintWriter out = response.getWriter()) {
-                // Obtener todas las listas de reproducción del cliente
-                ControladorTema ctrlTema = new ControladorTema();
-                Collection<DataTema> temas = ctrlTema.retornarTemasDeAlbum(nombreAlbum);
-
-                StringBuilder jsonResponse = new StringBuilder("[");
-                for (DataTema tema : temas) {
-
-                    jsonResponse.append("{\"nombre\":\"").append(tema.getNickname()).append("\",")
-                            .append("\"album\":\"").append(tema.getNomAlb()).append("\"},");
-                }
-
-                if (jsonResponse.length() > 1) {
-                    jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
-                }
-
-                jsonResponse.append("]");
-
-                out.print(jsonResponse.toString());
-            } catch (Exception e) {
-                e.printStackTrace(); // Para depuración
             }
         }
         System.out.println("\n-----End Agregar Tema a Lista Servlet GET-----");
@@ -234,6 +83,11 @@ public class AgregarTemaAListaServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         String nickname = (String) session.getAttribute("nickname");
+
+        URL url = new URL("http://localhost:9128/publicador?wsdl");
+        QName qname = new QName("http://servicios/", "PublicadorService");
+        Service servicio = Service.create(url, qname);
+        IPublicador publicador = servicio.getPort(IPublicador.class);
 
         // Leer el cuerpo de la solicitud
         StringBuilder jsonBuffer = new StringBuilder();
@@ -256,14 +110,12 @@ public class AgregarTemaAListaServlet extends HttpServlet {
         System.out.println(nombreLista);
         System.out.println(nombreTema);
 
-        ControladorListaParticular ctrlLista = new ControladorListaParticular();
-        ControladorTema ctrlTema = new ControladorTema();
-        DAO_Tema persistence = new DAO_Tema();
-
-        tema teMartin = persistence.find(nombreTema, albumTema);
+        DataTema teMartin = publicador.retornarTema(nombreTema, albumTema);
 
         if (teMartin != null) {
+
             DAO_ListaReproduccion listPersistence = new DAO_ListaReproduccion();
+
             ListaParticular listaExistente = listPersistence.findListaPorNicks(nickname, nombreLista);
 
             boolean temaYaExiste = false;
@@ -277,8 +129,8 @@ public class AgregarTemaAListaServlet extends HttpServlet {
             if (temaYaExiste) {
                 out.print("{\"status\": \"error\", \"message\": \"Este tema ya pertenece a tu lista.\"}");
             } else {
-                DataTema temazo = ctrlTema.retornarTema(nombreTema, albumTema);
-                ctrlLista.agregarTema(nickname, nombreLista, temazo);
+                DataTema temazo = publicador.retornarTema(nombreTema, albumTema);
+                publicador.agregarTemaALista(nickname, nombreLista, temazo);
                 out.print("{\"status\": \"success\", \"message\": \"Tema agregado exitosamente.\"}");
             }
 

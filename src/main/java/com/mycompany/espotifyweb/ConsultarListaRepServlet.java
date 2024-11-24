@@ -4,11 +4,11 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import logica.Registro_tema;
 import logica.controladores.ControladorAdicionalTema;
 import logica.controladores.ControladorCliente;
@@ -126,7 +126,8 @@ public class ConsultarListaRepServlet extends HttpServlet {
             System.out.println(nombreTema);
             String albumName = request.getParameter("nombreAlbum");
             System.out.println(albumName);
-            Registro_tema info = registros.devolverRegistroTema(nombreTema, albumName);
+         //   Registro_tema info = registros.devolverRegistroTema(nombreTema, albumName);
+            Registro_tema info = null;
             
             try (PrintWriter out2 = response.getWriter()) {
                 
