@@ -15,14 +15,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-import logica.Album;
-import logica.ListaParticular;
-import logica.ListaPorDefecto;
-import logica.controladores.ControladorCliente;
-import logica.dt.DT_IdTema;
-import persistencia.DAO_Album;
-import persistencia.DAO_ListaReproduccion;
-import persistencia.DAO_Usuario;
+import servicios.DtIdTema;
+import servicios.DataAlbum;
+import servicios.DataListaParticular;
+import servicios.DataListaPorDefecto;
 import servicios.DataUsuario;
 import servicios.IPublicador;
 
@@ -100,9 +96,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
             return;
         }
 
-        ControladorCliente controladorC = new ControladorCliente();
-
-        Collection<String> nombreSeguidores = controladorC.obtenerSeguidoresUsuario(nickname);
+        Collection<String> nombreSeguidores = publicador.obtenerSeguidoresDeUsuario(nickname);
 
         String jsonSeguidores = convertToJson(nombreSeguidores);
 
@@ -135,9 +129,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
             return;
         }
 
-        ControladorCliente controladorC = new ControladorCliente();
-
-        Collection<String> nombreSeguidos = controladorC.obtenerSeguidosUsuario(nickname);
+        Collection<String> nombreSeguidos = publicador.obtenerSeguidosDeUsuario(nickname);
 
         String jsonSeguidos = convertToJson(nombreSeguidos);
 
@@ -153,14 +145,12 @@ public class ConsultarUsuarioServlet extends HttpServlet {
             return;
         }
 
-        DAO_ListaReproduccion daoLista = new DAO_ListaReproduccion();
-
-        Collection<ListaParticular> listas = daoLista.findListaPorCliente(nickname);
+        Collection<DataListaParticular> listas = publicador.obtenerDataListasDeClientes(nickname);
 
         StringBuilder jsonResponse = new StringBuilder("[");
-        for (ListaParticular lista : listas) {
+        for (DataListaParticular lista : listas) {
 
-            jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista() + "/" + lista.getNombreCliente()).append("\",")
+            jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("/").append(lista.getCreador().getNickname()).append("\",")
                     .append("\"imagen\":\"").append(lista.getFoto()).append("\"},");
         }
 
@@ -182,12 +172,10 @@ public class ConsultarUsuarioServlet extends HttpServlet {
             return;
         }
 
-        DAO_Album daoAlbum = new DAO_Album();
-
-        Collection<Album> albumes = daoAlbum.findAllPorArtista(nickname);
+        Collection<DataAlbum> albumes = publicador.obtenerDataAlbumesDeArtista(nickname);
 
         StringBuilder jsonResponse = new StringBuilder("[");
-        for (Album album : albumes) {
+        for (DataAlbum album : albumes) {
 
             jsonResponse.append("{\"nombre\":\"").append(album.getNombre()).append("\",")
                     .append("\"imagen\":\"").append(album.getImagen()).append("\"},");
@@ -211,13 +199,11 @@ public class ConsultarUsuarioServlet extends HttpServlet {
             return;
         }
 
-        DAO_Album daoAlbum = new DAO_Album();
-
-        Collection<Album> albumes = daoAlbum.findAllPorArtista(nickname);
+        Collection<DataAlbum> albumes = publicador.obtenerDataAlbumesFavoritos(nickname);
 
         Collection<String> nombreAlbum = new ArrayList<>();
 
-        for (Album album : albumes) {
+        for (DataAlbum album : albumes) {
             nombreAlbum.add(album.getNombre());
         }
 
@@ -234,21 +220,19 @@ public class ConsultarUsuarioServlet extends HttpServlet {
             return;
         }
 
-        DAO_Usuario daoUsuario = new DAO_Usuario();
-
-        Collection<ListaPorDefecto> listasD = daoUsuario.obtenerListasFavPorDefectoCliente2(nickname);
-        Collection<ListaParticular> listasP = daoUsuario.obtenerListasParticularesFavCliente2(nickname);
+        Collection<DataListaPorDefecto> listasD = publicador.obtenerDataListasPorDefectoFavoritas(nickname);
+        Collection<DataListaParticular> listasP = publicador.obtenerDataListasParticularesFavoritas(nickname);
 
         StringBuilder jsonResponse = new StringBuilder("[");
 
-        for (ListaPorDefecto lista : listasD) {
+        for (DataListaPorDefecto lista : listasD) {
 
-            jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista() + "-").append("\",")
+            jsonResponse.append("{\"nombre\":\"").append(lista.getNombre() + "-").append("\",")
                     .append("\"imagen\":\"").append(lista.getFoto()).append("\"},");
         }
 
-        for (ListaParticular lista : listasP) {
-            String nombrelista = lista.getNombreLista() + "/" + lista.getNombreCliente();
+        for (DataListaParticular lista : listasP) {
+            String nombrelista = lista.getNombre() + "/" + lista.getCreador().getNickname();
             jsonResponse.append("{\"nombre\":\"").append(nombrelista).append("\",")
                     .append("\"imagen\":\"").append(lista.getFoto()).append("\"},");
         }
@@ -271,12 +255,10 @@ public class ConsultarUsuarioServlet extends HttpServlet {
             return;
         }
 
-        DAO_Usuario daoUsuario = new DAO_Usuario();
-
-        Collection<Album> albumes = daoUsuario.obtenerAlbumFavCliente2(nickname);
+        Collection<DataAlbum> albumes = publicador.obtenerDataAlbumesFavoritos(nickname);
 
         StringBuilder jsonResponse = new StringBuilder("[");
-        for (Album album : albumes) {
+        for (DataAlbum album : albumes) {
 
             jsonResponse.append("{\"nombre\":\"").append(album.getNombre()).append("\",")
                     .append("\"imagen\":\"").append(album.getImagen()).append("\"},");
@@ -299,20 +281,17 @@ public class ConsultarUsuarioServlet extends HttpServlet {
             return;
         }
 
-        DAO_Usuario daoUsuario = new DAO_Usuario();
-        Collection<DT_IdTema> temas = daoUsuario.obtenerTemaFavCliente(nickname);
+        List<DtIdTema> temas = publicador.obtenerDataIdTemasFavoritos(nickname);
 
-        // Crear una lista para almacenar los temas como JSON
         List<Map<String, String>> temasJson = new ArrayList<>();
 
-        for (DT_IdTema tema : temas) {
+        for (DtIdTema tema : temas) {
             Map<String, String> temaMap = new HashMap<>();
             temaMap.put("nombreTema", tema.getNombreTema());
             temaMap.put("nombreAlbumTema", tema.getNombreAlbumTema());
             temasJson.add(temaMap);
         }
 
-        // Convertir la lista de mapas a JSON
         String jsonTemas = new Gson().toJson(temasJson);
 
         out.println(jsonTemas);
