@@ -3,7 +3,6 @@ const userId = urlParams.get('usr');
 
 document.addEventListener('DOMContentLoaded', function () {
     cargarPerfil();
-    verificarParaEliminar();
 
     document.getElementById('seguidoresBtn').addEventListener('click', function () {
         toggleSection('seguidores', cargarSeguidores);
@@ -24,6 +23,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('albumesBtn').addEventListener('click', function () {
         toggleSection('albumes', cargarAlbumes);
     });
+    
+    verificarParaEliminar();
 });
 
 function toggleSection(sectionId, loadFunction) {
