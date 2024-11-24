@@ -110,6 +110,10 @@
 
   <xs:element name="devolverInformacionListaReproResponse" type="tns:devolverInformacionListaReproResponse"/>
 
+  <xs:element name="devolverRegistroTema" type="tns:devolverRegistroTema"/>
+
+  <xs:element name="devolverRegistroTemaResponse" type="tns:devolverRegistroTemaResponse"/>
+
   <xs:element name="eliminarAlbumDeFav" type="tns:eliminarAlbumDeFav"/>
 
   <xs:element name="eliminarAlbumDeFavResponse" type="tns:eliminarAlbumDeFavResponse"/>
@@ -182,6 +186,10 @@
 
   <xs:element name="obtenerGenerosResponse" type="tns:obtenerGenerosResponse"/>
 
+  <xs:element name="obtenerLos100MasPopulares" type="tns:obtenerLos100MasPopulares"/>
+
+  <xs:element name="obtenerLos100MasPopularesResponse" type="tns:obtenerLos100MasPopularesResponse"/>
+
   <xs:element name="obtenerNombreAlbumesFavCliente" type="tns:obtenerNombreAlbumesFavCliente"/>
 
   <xs:element name="obtenerNombreAlbumesFavClienteResponse" type="tns:obtenerNombreAlbumesFavClienteResponse"/>
@@ -250,6 +258,36 @@
 
   <xs:element name="seguirUsuarioResponse" type="tns:seguirUsuarioResponse"/>
 
+  <xs:complexType name="devolverRegistroTema">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="devolverRegistroTemaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:registroTema"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="registroTema">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="descarga" type="xs:int"/>
+      <xs:element minOccurs="0" name="favoritos" type="xs:int"/>
+      <xs:element minOccurs="0" name="identificador" type="tns:dtIdTema"/>
+      <xs:element minOccurs="0" name="listas" type="xs:int"/>
+      <xs:element minOccurs="0" name="repro" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="dtIdTema">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="nombreAlbumTema" type="xs:string"/>
+      <xs:element minOccurs="0" name="nombreTema" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="actualizarListaParticular">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="tns:dataListaParticular"/>
@@ -294,15 +332,11 @@
       <xs:element minOccurs="0" name="apellido" type="xs:string"/>
       <xs:element minOccurs="0" name="contra" type="xs:string"/>
       <xs:element minOccurs="0" name="correo" type="xs:string"/>
-      <xs:element minOccurs="0" name="fechaNac" type="tns:localDate"/>
+      <xs:element minOccurs="0" name="fechaNac" type="xs:string"/>
       <xs:element minOccurs="0" name="foto" type="xs:string"/>
       <xs:element minOccurs="0" name="nickname" type="xs:string"/>
       <xs:element minOccurs="0" name="nombre" type="xs:string"/>
     </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType final="extension restriction" name="localDate">
-    <xs:sequence/>
   </xs:complexType>
 
   <xs:complexType name="dataTema">
@@ -432,6 +466,16 @@
   <xs:complexType name="obtenerNombreTemasFavClienteResponse">
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerLos100MasPopulares">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerLos100MasPopularesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:registroTema"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1087,6 +1131,10 @@
 
 </xs:schema>
   </wsdl:types>
+  <wsdl:message name="devolverRegistroTema">
+    <wsdl:part element="tns:devolverRegistroTema" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="actualizarListaParticular">
     <wsdl:part element="tns:actualizarListaParticular" name="parameters">
     </wsdl:part>
@@ -1129,6 +1177,10 @@
   </wsdl:message>
   <wsdl:message name="dejarDeSeguirUsuario">
     <wsdl:part element="tns:dejarDeSeguirUsuario" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="devolverRegistroTemaResponse">
+    <wsdl:part element="tns:devolverRegistroTemaResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="eliminarListaDeFav">
@@ -1251,6 +1303,10 @@
     <wsdl:part element="tns:checkUCorreoAvailabilityResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="obtenerLos100MasPopularesResponse">
+    <wsdl:part element="tns:obtenerLos100MasPopularesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="actualizarSuscripcionResponse">
     <wsdl:part element="tns:actualizarSuscripcionResponse" name="parameters">
     </wsdl:part>
@@ -1353,6 +1409,10 @@
   </wsdl:message>
   <wsdl:message name="crearTemaCasiCompleto">
     <wsdl:part element="tns:crearTemaCasiCompleto" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerLos100MasPopulares">
+    <wsdl:part element="tns:obtenerLos100MasPopulares" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="agregarListaEnFavResponse">
@@ -1560,6 +1620,12 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="IPublicador">
+    <wsdl:operation name="devolverRegistroTema">
+      <wsdl:input message="tns:devolverRegistroTema" name="devolverRegistroTema">
+    </wsdl:input>
+      <wsdl:output message="tns:devolverRegistroTemaResponse" name="devolverRegistroTemaResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="actualizarListaParticular">
       <wsdl:input message="tns:actualizarListaParticular" name="actualizarListaParticular">
     </wsdl:input>
@@ -1600,6 +1666,12 @@
       <wsdl:input message="tns:obtenerNombreTemasFavCliente" name="obtenerNombreTemasFavCliente">
     </wsdl:input>
       <wsdl:output message="tns:obtenerNombreTemasFavClienteResponse" name="obtenerNombreTemasFavClienteResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerLos100MasPopulares">
+      <wsdl:input message="tns:obtenerLos100MasPopulares" name="obtenerLos100MasPopulares">
+    </wsdl:input>
+      <wsdl:output message="tns:obtenerLos100MasPopularesResponse" name="obtenerLos100MasPopularesResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="dejarDeSeguirUsuario">
@@ -1917,6 +1989,15 @@
   </wsdl:portType>
   <wsdl:binding name="PublicadorServiceSoapBinding" type="tns:IPublicador">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="devolverRegistroTema">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="devolverRegistroTema">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="devolverRegistroTemaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="actualizarListaParticular">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="actualizarListaParticular">
@@ -1977,6 +2058,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="obtenerNombreTemasFavClienteResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerLos100MasPopulares">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="obtenerLos100MasPopulares">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtenerLos100MasPopularesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

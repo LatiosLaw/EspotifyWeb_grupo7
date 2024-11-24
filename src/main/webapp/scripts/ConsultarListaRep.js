@@ -51,90 +51,84 @@ function cargarTemas(listaNombre, tipo) {
             .catch(error => console.error('Error al cargar temas:', error));
 }
 
-function cargarInfo(listaNombre, tipo){
+function cargarInfo(listaNombre, tipo) {
     var NOMBRELISTA = document.getElementById('nombrelista');
     var CREADORGENERO = document.getElementById('creadorgenerolista');
     var IMAGENLISTA = document.getElementById('imagenlista');
-    if(!isMobile){
+    if (!isMobile) {
         var IMAGENREPRO = document.getElementById('imagenReproductor');
     }
     var LAIK = document.getElementById('favListaBtn');
     var NOLAIK = document.getElementById('sacarDeFavListaBtn');
-    
-    
-    
-    
-if(tipo==="1"){
-    fetch('ConsultarListaRepServlet?action=devolverInformacionLista&listaNombre=' + encodeURIComponent(listaNombre) + '&tipo=' + encodeURIComponent(tipo))
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(lista => {
 
-                            NOMBRELISTA.value=lista.nombre;
-                    CREADORGENERO.value=lista.adicional;
-                    if(!isMobile){
-                        if((lista.imagen.toString().endsWith(".png") || lista.imagen.toString().endsWith(".jpg"))){
-                           IMAGENLISTA.src="imagenes/listas/" + lista.imagen.toString(); 
-                           IMAGENREPRO.src="imagenes/listas/" + lista.imagen.toString(); 
-                        }else{
-                            IMAGENLISTA.src="imagenes/listas/defaultList.png";
-                            IMAGENREPRO.src="imagenes/listas/defaultList.png";
+    if (tipo === "1") {
+        fetch('ConsultarListaRepServlet?action=devolverInformacionLista&listaNombre=' + encodeURIComponent(listaNombre) + '&tipo=' + encodeURIComponent(tipo))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.length > 0) {
+                    const lista = data[0];
+                    NOMBRELISTA.value = lista.nombre;
+                    CREADORGENERO.value = lista.adicional;
+
+                    if (!isMobile) {
+                        if (lista.imagen && (lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))) {
+                            IMAGENLISTA.src = "imagenes/listas/" + lista.imagen;
+                            IMAGENREPRO.src = "imagenes/listas/" + lista.imagen;
+                        } else {
+                            IMAGENLISTA.src = "imagenes/listas/defaultList.png";
+                            IMAGENREPRO.src = "imagenes/listas/defaultList.png";
                         }
                     }
-                    if(lista.fav === "fav"){
+
+                    if (lista.fav === "fav") {
                         NOLAIK.style.display = 'block';
                         LAIK.style.display = 'none';
-                       
-                    }else{
+                    } else {
                         LAIK.style.display = 'block';
                         NOLAIK.style.display = 'none';
-                       
+                    }
+                } else {
+                    console.error("No se encontraron datos válidos");
+                }
+            })
+            .catch(error => console.error('Error al cargar datos de la lista:', error));
+    } else {
+        const urlParams = new URLSearchParams(window.location.search);
+        const tercerCampo = urlParams.get('listaName').split("tipo=")[0].split("&#8206;-")[0].split("/")[1];
+        console.log(tercerCampo);
+        fetch('ConsultarListaRepServlet?action=devolverInformacionLista&listaNombre=' + encodeURIComponent(listaNombre) + '&tipo=' + encodeURIComponent(tipo) + '&usuario=' + encodeURIComponent(tercerCampo))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.length > 0) {
+                    const lista = data[0];
+                    NOMBRELISTA.value = lista.nombre;
+                    CREADORGENERO.value = lista.adicional;
+
+                    if (lista.imagen && (lista.imagen.endsWith(".png") || lista.imagen.endsWith(".jpg"))) {
+                        IMAGENLISTA.src = "imagenes/listas/" + lista.imagen;
+                        IMAGENREPRO.src = "imagenes/listas/" + lista.imagen;
+                    } else {
+                        IMAGENLISTA.src = "imagenes/listas/defaultList.png";
+                        IMAGENREPRO.src = "imagenes/listas/defaultList.png";
                     }
 
-                        });
-                    })
-                    .catch(error => console.error('Error al datos de la lista:', error));
-}else{
-    const urlParams = new URLSearchParams(window.location.search);
-    const tercerCampo = urlParams.get('listaName').split("tipo=")[0].split("&#8206;-")[0].split("/")[1];
-    console.log(tercerCampo);
-    fetch('ConsultarListaRepServlet?action=devolverInformacionLista&listaNombre=' + encodeURIComponent(listaNombre) + '&tipo=' + encodeURIComponent(tipo)+ '&usuario=' + encodeURIComponent(tercerCampo))
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(lista => {
-                            NOMBRELISTA.value=lista.nombre;
-                    if(data.tipo==="1"){
-                        // Si es un por defecto, link a todo lo de un genero
-                        CREADORGENERO.value=lista.adicional;
-                    }else{
-                        // Si es un particular, link al perfil del creador
-                        CREADORGENERO.value=lista.adicional;
-                    }
-                    
-                    if((lista.imagen.toString().endsWith(".png") || lista.imagen.toString().endsWith(".jpg"))){
-                       IMAGENLISTA.src="imagenes/listas/" + lista.imagen.toString(); 
-                       IMAGENREPRO.src="imagenes/listas/" + lista.imagen.toString(); 
-                    }else{
-                        IMAGENLISTA.src="imagenes/listas/defaultList.png";
-                        IMAGENREPRO.src="imagenes/listas/defaultList.png";
-                    }
-                    
-                     if(lista.fav === "fav"){
+                    if (lista.fav === "fav") {
                         NOLAIK.style.display = 'block';
                         LAIK.style.display = 'none';
-                          
-                    }else{
+                    } else {
                         LAIK.style.display = 'block';
                         NOLAIK.style.display = 'none';
-                         
                     }
-                    
-                        });
-                    })
-                    .catch(error => console.error('Error al cargar datos de la lista:', error));
+                } else {
+                    console.error("No se encontraron datos válidos");
+                }
+            })
+            .catch(error => console.error('Error al cargar datos de la lista:', error));
+    }
 }
 
-}
 
 function checkSuscripcion(temas) {
     fetch('LoginServlet?action=obtenerSuscripcion')
