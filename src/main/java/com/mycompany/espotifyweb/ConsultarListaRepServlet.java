@@ -79,14 +79,18 @@ public class ConsultarListaRepServlet extends HttpServlet {
 
                     if (tipo.equals("1")) {
                         // Para listas por defecto
-                        String tieneLaik = nickname != null ? publicador.corroborarListaEnFav(nombreLista, "Por Defecto", listasCole) : "noLaik"; // Cambia a "no" si no está logueado
+                        String tieneLaik = nickname != null ? publicador.corroborarListaEnFav(nombreLista, "Por Defecto", listasCole) : "noLaik";
 
                         DataListaPorDefecto lista = publicador.retornarDataListaPorDefecto2(nombreLista);
-                        jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\",")
-                                .append("\"imagen\":\"").append(lista.getFoto()).append("\",")
-                                .append("\"tipo\":\"").append("1").append("\",")
-                                .append("\"fav\":\"").append(tieneLaik).append("\",");
-                        jsonResponse.append("\"adicional\":\"").append(lista.getGenero().getNombre()).append("\"},");
+                        if (lista != null) {
+                            jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\",")
+                                    .append("\"imagen\":\"").append(lista.getFoto()).append("\",")
+                                    .append("\"tipo\":\"").append("1").append("\",")
+                                    .append("\"fav\":\"").append(tieneLaik).append("\",")
+                                    .append("\"adicional\":\"").append(lista.getGenero().getNombre()).append("\"},");
+                        } else {
+                            System.out.println("No se encontró la lista por defecto: " + nombreLista);
+                        }
 
                     } else {
                         // Para listas particulares
@@ -95,12 +99,16 @@ public class ConsultarListaRepServlet extends HttpServlet {
                             usuario = "visitante"; // Manejo para visitantes
                         }
                         String tieneLaik = publicador.corroborarListaEnFav(nombreLista, usuario, listasCole);
-                        DataListaParticular lista = publicador.retornarDataListaParticular(nombreLista, usuario);
-                        jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\",")
-                                .append("\"imagen\":\"").append(lista.getFoto()).append("\",")
-                                .append("\"tipo\":\"").append("2").append("\",")
-                                .append("\"fav\":\"").append(tieneLaik).append("\",");
-                        jsonResponse.append("\"adicional\":\"").append(lista.getCreador().getNickname()).append("\"},");
+                        DataListaParticular lista = publicador.retornarDataListaParticular(nombreLista, nickname); // Usar nickname aquí
+                        if (lista != null) {
+                            jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\",")
+                                    .append("\"imagen\":\"").append(lista.getFoto()).append("\",")
+                                    .append("\"tipo\":\"").append("2").append("\",")
+                                    .append("\"fav\":\"").append(tieneLaik).append("\",")
+                                    .append("\"adicional\":\"").append(lista.getCreador().getNickname()).append("\"},");
+                        } else {
+                            System.out.println("No se encontró la lista particular: " + nombreLista);
+                        }
                     }
 
                     jsonResponse.deleteCharAt(jsonResponse.length() - 1);
