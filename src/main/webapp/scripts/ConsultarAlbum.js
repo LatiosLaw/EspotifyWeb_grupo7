@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     checkSuscripcion();
     setTimeout(() => {
         recargarTemas();
-    }, 250);
+    }, 1000);
     
 });
 

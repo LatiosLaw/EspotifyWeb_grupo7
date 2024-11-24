@@ -315,11 +315,11 @@
                     <thead>
                         <tr>
                             <th>Nombre de la Lista</th>
-                            <th class="action">Acci�n</th>
+                            <th class="action">Accion</th>
                         </tr>
                     </thead>
                     <tbody id="listasBody">
-                        <!-- Aqu� se carga la lista -->
+                        <!-- Aqui se carga la lista -->
                     </tbody>
                 </table>
 
@@ -329,7 +329,7 @@
                         <input type="text" id="nombreLista" name="nombreLista" required title="Ingresa el nombre de una lista" readonly>
                         <input type="hidden" id='albumTema' name='albumTema' value="">
                     </div>
-                    <div>
+                    <div style="display: none;">
                         <label for="nombreTema">Nombre del Tema:</label>
                         <input type="text" id="nombreTema" name="nombreTema" required title="Ingresa el nombre de un tema" readonly> 
                     </div>
