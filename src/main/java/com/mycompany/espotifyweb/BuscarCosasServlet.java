@@ -12,15 +12,10 @@ import java.net.URL;
 import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-import logica.Album;
-import logica.ListaParticular;
-import logica.ListaPorDefecto;
 import servicios.DataAlbum;
 import servicios.DataListaPorDefecto;
-import logica.tema;
-import persistencia.DAO_Album;
-import persistencia.DAO_ListaReproduccion;
-import persistencia.DAO_Tema;
+import servicios.DataListaParticular;
+import servicios.DataTema;
 import servicios.IPublicador;
 
 @MultipartConfig
@@ -43,15 +38,13 @@ public class BuscarCosasServlet extends HttpServlet {
                 case "MostrarListasU" -> {
                     try (PrintWriter out = response.getWriter()) {
 
-                        DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
-                        
-                        Collection<ListaParticular> listasReproduccion = persistence.findAllListasParticularesPublicasParecidasA(busqueda);
+                        Collection<DataListaParticular> listasReproduccion = publicador.obtenerDataListaParticularPorParecido(busqueda);
 
                         StringBuilder jsonResponse = new StringBuilder("[");
-                        for (ListaParticular lista : listasReproduccion) {
+                        for (DataListaParticular lista : listasReproduccion) {
 
-                            jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\",")
-                                    .append("\"creador\":\"").append(lista.getCliente().getNickname()).append("\",")
+                            jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\",")
+                                    .append("\"creador\":\"").append(lista.getCreador().getNickname()).append("\",")
                                     .append("\"imagen\":\"").append(lista.getFoto())
                                     .append("\"},");
                         }
@@ -70,13 +63,11 @@ public class BuscarCosasServlet extends HttpServlet {
                 case "MostrarListasG" -> {
                     try (PrintWriter out = response.getWriter()) {
 
-                        DAO_ListaReproduccion persistence = new DAO_ListaReproduccion();
-                        
-                        Collection<ListaPorDefecto> listasReproduccion = persistence.devolverListasPorDefectoParecidasA(busqueda);
+                        Collection<DataListaPorDefecto> listasReproduccion = publicador.obtenerDataListaPorDefectoPorParecido(busqueda);
 
                         StringBuilder jsonResponse = new StringBuilder("[");
-                        for (ListaPorDefecto lista : listasReproduccion) {
-                            jsonResponse.append("{\"nombre\":\"").append(lista.getNombreLista()).append("\",")
+                        for (DataListaPorDefecto lista : listasReproduccion) {
+                            jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("\",")
                                     .append("\"genero\":\"").append(lista.getGenero().getNombre()).append("\",")
                                     .append("\"imagen\":\"").append(lista.getFoto())
                                     .append("\"},");
@@ -96,15 +87,13 @@ public class BuscarCosasServlet extends HttpServlet {
                 case "MostrarAlbumes" -> {
                     try (PrintWriter out = response.getWriter()) {
 
-                        DAO_Album persistence = new DAO_Album();
-                        
-                        Collection<Album> albumes = persistence.findAllPorParecido(busqueda);
+                        Collection<DataAlbum> albumes = publicador.obtenerDataAlbumPorParecido(busqueda);
 
                         StringBuilder jsonResponse = new StringBuilder("[");
-                        for (Album album : albumes) {
+                        for (DataAlbum album : albumes) {
                             jsonResponse.append("{\"nombre\":\"").append(album.getNombre()).append("\",")
                                     .append("\"artista\":\"").append(album.getCreador().getNickname()).append("\",")
-                                    .append("\"anio\":\"").append(album.getanioCreacion()).append("\",")
+                                    .append("\"anio\":\"").append(album.getAnioCreacion()).append("\",")
                                     .append("\"imagen\":\"").append(album.getImagen())
                                     .append("\"},");
                         }
@@ -123,12 +112,10 @@ public class BuscarCosasServlet extends HttpServlet {
                 case "MostrarTemas" -> {
                     try (PrintWriter out = response.getWriter()) {
 
-                        DAO_Tema persistence = new DAO_Tema();
-                        
-                        Collection<tema> temas = persistence.findAllPorParecido(busqueda);
+                        Collection<DataTema> temas = publicador.obtenerDataTemaPorParecido(busqueda);
 
                         StringBuilder jsonResponse = new StringBuilder("[");
-                        for (tema temazo : temas) {
+                        for (DataTema temazo : temas) {
                             jsonResponse.append("{\"nombre\":\"").append(temazo.getNickname()).append("\",")
                                     .append("\"album\":\"").append(temazo.getAlbum().getNombre()).append("\",")
                                     .append("\"artista\":\"").append(temazo.getAlbum().getCreador().getNickname())
@@ -148,7 +135,7 @@ public class BuscarCosasServlet extends HttpServlet {
                 }
                 case "VerificarSiEsGenero" -> {
                     boolean Existe = publicador.checkSiEsGenero(busqueda);
-                    
+
                     response.setContentType("text/plain");
                     try (PrintWriter out = response.getWriter()) {
                         if (Existe) {
@@ -211,7 +198,6 @@ public class BuscarCosasServlet extends HttpServlet {
                 }
             }
         }
-
     }
 
 }

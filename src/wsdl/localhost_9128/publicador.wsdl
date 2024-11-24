@@ -118,6 +118,10 @@
 
   <xs:element name="eliminarAlbumDeFavResponse" type="tns:eliminarAlbumDeFavResponse"/>
 
+  <xs:element name="eliminarArtista" type="tns:eliminarArtista"/>
+
+  <xs:element name="eliminarArtistaResponse" type="tns:eliminarArtistaResponse"/>
+
   <xs:element name="eliminarListaDeFav" type="tns:eliminarListaDeFav"/>
 
   <xs:element name="eliminarListaDeFavResponse" type="tns:eliminarListaDeFavResponse"/>
@@ -144,6 +148,10 @@
 
   <xs:element name="obtenerDataAlbum" type="tns:obtenerDataAlbum"/>
 
+  <xs:element name="obtenerDataAlbumPorParecido" type="tns:obtenerDataAlbumPorParecido"/>
+
+  <xs:element name="obtenerDataAlbumPorParecidoResponse" type="tns:obtenerDataAlbumPorParecidoResponse"/>
+
   <xs:element name="obtenerDataAlbumResponse" type="tns:obtenerDataAlbumResponse"/>
 
   <xs:element name="obtenerDataAlbumes" type="tns:obtenerDataAlbumes"/>
@@ -166,7 +174,15 @@
 
   <xs:element name="obtenerDataListaParticualaresPublicasResponse" type="tns:obtenerDataListaParticualaresPublicasResponse"/>
 
+  <xs:element name="obtenerDataListaParticularPorParecido" type="tns:obtenerDataListaParticularPorParecido"/>
+
+  <xs:element name="obtenerDataListaParticularPorParecidoResponse" type="tns:obtenerDataListaParticularPorParecidoResponse"/>
+
   <xs:element name="obtenerDataListaPorDefecto" type="tns:obtenerDataListaPorDefecto"/>
+
+  <xs:element name="obtenerDataListaPorDefectoPorParecido" type="tns:obtenerDataListaPorDefectoPorParecido"/>
+
+  <xs:element name="obtenerDataListaPorDefectoPorParecidoResponse" type="tns:obtenerDataListaPorDefectoPorParecidoResponse"/>
 
   <xs:element name="obtenerDataListaPorDefectoResponse" type="tns:obtenerDataListaPorDefectoResponse"/>
 
@@ -181,6 +197,10 @@
   <xs:element name="obtenerDataSuscripciones" type="tns:obtenerDataSuscripciones"/>
 
   <xs:element name="obtenerDataSuscripcionesResponse" type="tns:obtenerDataSuscripcionesResponse"/>
+
+  <xs:element name="obtenerDataTemaPorParecido" type="tns:obtenerDataTemaPorParecido"/>
+
+  <xs:element name="obtenerDataTemaPorParecidoResponse" type="tns:obtenerDataTemaPorParecidoResponse"/>
 
   <xs:element name="obtenerGeneros" type="tns:obtenerGeneros"/>
 
@@ -417,6 +437,18 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="obtenerDataListaPorDefectoPorParecido">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerDataListaPorDefectoPorParecidoResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:dataListaPorDefecto"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="retornarListasParticularesDeCliente">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="xs:string"/>
@@ -645,6 +677,16 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="eliminarArtista">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="eliminarArtistaResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
   <xs:complexType name="retornarTema">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="xs:string"/>
@@ -702,6 +744,18 @@
   <xs:complexType name="getSuscripcionResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerDataTemaPorParecido">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerDataTemaPorParecidoResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:dataTema"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -964,6 +1018,18 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="obtenerDataAlbumPorParecido">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerDataAlbumPorParecidoResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:dataAlbum"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="corroborarListaEnFav">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="xs:string"/>
@@ -1027,6 +1093,18 @@
   <xs:complexType name="retornarDataListaParticularResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="tns:dataListaParticular"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerDataListaParticularPorParecido">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerDataListaParticularPorParecidoResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:dataListaParticular"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1235,6 +1313,10 @@
     <wsdl:part element="tns:obtenerTemasDeListasResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="obtenerDataTemaPorParecido">
+    <wsdl:part element="tns:obtenerDataTemaPorParecido" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="obtenerDataAlbumesPorGeneroResponse">
     <wsdl:part element="tns:obtenerDataAlbumesPorGeneroResponse" name="parameters">
     </wsdl:part>
@@ -1327,6 +1409,10 @@
     <wsdl:part element="tns:obtenerSeguidoresDeResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="obtenerDataAlbumPorParecido">
+    <wsdl:part element="tns:obtenerDataAlbumPorParecido" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="corroborarTemaEnFavResponse">
     <wsdl:part element="tns:corroborarTemaEnFavResponse" name="parameters">
     </wsdl:part>
@@ -1363,6 +1449,10 @@
     <wsdl:part element="tns:checkAlbumAvailability" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="obtenerDataTemaPorParecidoResponse">
+    <wsdl:part element="tns:obtenerDataTemaPorParecidoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="checkUCorreoAvailability">
     <wsdl:part element="tns:checkUCorreoAvailability" name="parameters">
     </wsdl:part>
@@ -1397,6 +1487,14 @@
   </wsdl:message>
   <wsdl:message name="obtenerDataArtistasResponse">
     <wsdl:part element="tns:obtenerDataArtistasResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerDataListaPorDefectoPorParecido">
+    <wsdl:part element="tns:obtenerDataListaPorDefectoPorParecido" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerDataListaPorDefectoPorParecidoResponse">
+    <wsdl:part element="tns:obtenerDataListaPorDefectoPorParecidoResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="retornarListasParticularesDeCliente">
@@ -1475,6 +1573,14 @@
     <wsdl:part element="tns:agregarSuscripcionResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="eliminarArtista">
+    <wsdl:part element="tns:eliminarArtista" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerDataListaParticularPorParecidoResponse">
+    <wsdl:part element="tns:obtenerDataListaParticularPorParecidoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="agregarRegistroResponse">
     <wsdl:part element="tns:agregarRegistroResponse" name="parameters">
     </wsdl:part>
@@ -1535,6 +1641,10 @@
     <wsdl:part element="tns:retornarTema2" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="eliminarArtistaResponse">
+    <wsdl:part element="tns:eliminarArtistaResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="devolverInformacionListaReproResponse">
     <wsdl:part element="tns:devolverInformacionListaReproResponse" name="parameters">
     </wsdl:part>
@@ -1587,12 +1697,20 @@
     <wsdl:part element="tns:obtenerNombreAlbumesFavCliente" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="obtenerDataAlbumPorParecidoResponse">
+    <wsdl:part element="tns:obtenerDataAlbumPorParecidoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="obtenerDataListaPorDefecto">
     <wsdl:part element="tns:obtenerDataListaPorDefecto" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="retornarAlbumesDelGeneroResponse">
     <wsdl:part element="tns:retornarAlbumesDelGeneroResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerDataListaParticularPorParecido">
+    <wsdl:part element="tns:obtenerDataListaParticularPorParecido" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="checkNicknameAvailability">
@@ -1642,6 +1760,12 @@
       <wsdl:input message="tns:obtenerDataListasPorGenero" name="obtenerDataListasPorGenero">
     </wsdl:input>
       <wsdl:output message="tns:obtenerDataListasPorGeneroResponse" name="obtenerDataListasPorGeneroResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerDataListaPorDefectoPorParecido">
+      <wsdl:input message="tns:obtenerDataListaPorDefectoPorParecido" name="obtenerDataListaPorDefectoPorParecido">
+    </wsdl:input>
+      <wsdl:output message="tns:obtenerDataListaPorDefectoPorParecidoResponse" name="obtenerDataListaPorDefectoPorParecidoResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="retornarListasParticularesDeCliente">
@@ -1752,6 +1876,12 @@
       <wsdl:output message="tns:agregarSuscripcionResponse" name="agregarSuscripcionResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="eliminarArtista">
+      <wsdl:input message="tns:eliminarArtista" name="eliminarArtista">
+    </wsdl:input>
+      <wsdl:output message="tns:eliminarArtistaResponse" name="eliminarArtistaResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="retornarTema">
       <wsdl:input message="tns:retornarTema" name="retornarTema">
     </wsdl:input>
@@ -1780,6 +1910,12 @@
       <wsdl:input message="tns:getSuscripcion" name="getSuscripcion">
     </wsdl:input>
       <wsdl:output message="tns:getSuscripcionResponse" name="getSuscripcionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerDataTemaPorParecido">
+      <wsdl:input message="tns:obtenerDataTemaPorParecido" name="obtenerDataTemaPorParecido">
+    </wsdl:input>
+      <wsdl:output message="tns:obtenerDataTemaPorParecidoResponse" name="obtenerDataTemaPorParecidoResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="obtenerDataSuscripciones">
@@ -1908,6 +2044,12 @@
       <wsdl:output message="tns:obtenerNombreAlbumesFavClienteResponse" name="obtenerNombreAlbumesFavClienteResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="obtenerDataAlbumPorParecido">
+      <wsdl:input message="tns:obtenerDataAlbumPorParecido" name="obtenerDataAlbumPorParecido">
+    </wsdl:input>
+      <wsdl:output message="tns:obtenerDataAlbumPorParecidoResponse" name="obtenerDataAlbumPorParecidoResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="corroborarListaEnFav">
       <wsdl:input message="tns:corroborarListaEnFav" name="corroborarListaEnFav">
     </wsdl:input>
@@ -1936,6 +2078,12 @@
       <wsdl:input message="tns:retornarDataListaParticular" name="retornarDataListaParticular">
     </wsdl:input>
       <wsdl:output message="tns:retornarDataListaParticularResponse" name="retornarDataListaParticularResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerDataListaParticularPorParecido">
+      <wsdl:input message="tns:obtenerDataListaParticularPorParecido" name="obtenerDataListaParticularPorParecido">
+    </wsdl:input>
+      <wsdl:output message="tns:obtenerDataListaParticularPorParecidoResponse" name="obtenerDataListaParticularPorParecidoResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="checkNicknameAvailability">
@@ -2022,6 +2170,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="obtenerDataListasPorGeneroResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerDataListaPorDefectoPorParecido">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="obtenerDataListaPorDefectoPorParecido">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtenerDataListaPorDefectoPorParecidoResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -2187,6 +2344,15 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="eliminarArtista">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="eliminarArtista">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="eliminarArtistaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="retornarTema">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="retornarTema">
@@ -2229,6 +2395,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getSuscripcionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerDataTemaPorParecido">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="obtenerDataTemaPorParecido">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtenerDataTemaPorParecidoResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -2421,6 +2596,15 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="obtenerDataAlbumPorParecido">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="obtenerDataAlbumPorParecido">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtenerDataAlbumPorParecidoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="corroborarListaEnFav">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="corroborarListaEnFav">
@@ -2463,6 +2647,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="retornarDataListaParticularResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerDataListaParticularPorParecido">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="obtenerDataListaParticularPorParecido">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtenerDataListaParticularPorParecidoResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
