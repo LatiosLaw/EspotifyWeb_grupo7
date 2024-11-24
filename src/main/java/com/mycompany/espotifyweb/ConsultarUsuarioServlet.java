@@ -155,7 +155,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
         }
 
         if (jsonResponse.length() > 1) {
-            jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+            jsonResponse.deleteCharAt(jsonResponse.length() - 1);
         }
 
         jsonResponse.append("]");
@@ -182,7 +182,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
         }
 
         if (jsonResponse.length() > 1) {
-            jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+            jsonResponse.deleteCharAt(jsonResponse.length() - 1);
         }
 
         jsonResponse.append("]");
@@ -227,7 +227,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
 
         for (DataListaPorDefecto lista : listasD) {
 
-            jsonResponse.append("{\"nombre\":\"").append(lista.getNombre() + "-").append("\",")
+            jsonResponse.append("{\"nombre\":\"").append(lista.getNombre()).append("-").append("\",")
                     .append("\"imagen\":\"").append(lista.getFoto()).append("\"},");
         }
 
@@ -238,7 +238,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
         }
 
         if (jsonResponse.length() > 1) {
-            jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+            jsonResponse.deleteCharAt(jsonResponse.length() - 1);
         }
 
         jsonResponse.append("]");
@@ -265,7 +265,7 @@ public class ConsultarUsuarioServlet extends HttpServlet {
         }
 
         if (jsonResponse.length() > 1) {
-            jsonResponse.deleteCharAt(jsonResponse.length() - 1); // Eliminar la última coma
+            jsonResponse.deleteCharAt(jsonResponse.length() - 1);
         }
 
         jsonResponse.append("]");
