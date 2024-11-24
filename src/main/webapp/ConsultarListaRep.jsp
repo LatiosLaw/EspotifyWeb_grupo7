@@ -129,7 +129,7 @@
                         <h2 class="contStart">Informacion de la Lista</h2>
                         <img src="imagenes/listas/defaultList.png" id="imagenlista" alt="Imagen de la Lista">
                         <div class="camposLista">
-                            <%if (suscrito == true) { %>
+                            <%if (nickname != null && suscrito == true) { %>
                             <button onclick="llamarAgregarAlgoFav()" id="favListaBtn" style="display:none;">Fav</button>
                             <button onclick="llamarSacarAlgoFav()" id="sacarDeFavListaBtn" style="display:none;">NoFav</button>
                              <% } else { %>

@@ -129,7 +129,7 @@
                         <h2 class="contStart">Informacion del Album</h2>
                         <img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album">
                         
-                        <%if (suscrito == true) { %>
+                        <%if (nickname != null && suscrito == true) { %>
                         
                         <button onclick="agregarAlbumAFav()" id="favAlbumBtn" style="display:none;">Fav</button>
                         <button onclick="sacarAlbumAFav()" id="sacarDeFavAlbumBtn" style="display:none;">NoFav</button>
