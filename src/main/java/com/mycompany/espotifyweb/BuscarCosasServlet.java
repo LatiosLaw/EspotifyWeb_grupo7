@@ -158,7 +158,6 @@ public class BuscarCosasServlet extends HttpServlet {
                         }
                     }
                 }
-
                 case "MostrarListasDelGeneroU" -> {
                     try (PrintWriter out = response.getWriter()) {
                         List<DataListaPorDefecto> listasReproduccion = publicador.obtenerDataListasPorGenero(busqueda);
