@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-import org.eclipse.persistence.exceptions.JSONException;
+import org.json.JSONException;
 import org.json.JSONObject;
 import servicios.IPublicador;
 

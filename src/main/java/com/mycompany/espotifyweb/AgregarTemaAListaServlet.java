@@ -12,12 +12,7 @@ import java.net.URL;
 import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-import logica.ListaParticular;
-import logica.controladores.ControladorTema;
 import servicios.DataTema;
-import logica.tema;
-import persistencia.DAO_ListaReproduccion;
-import persistencia.DAO_Tema;
 import servicios.DataListaParticular;
 import servicios.IPublicador;
 
@@ -29,10 +24,7 @@ public class AgregarTemaAListaServlet extends HttpServlet {
 
         response.setContentType("application/json;charset=UTF-8");
 
-        // Obtener la sesión
         HttpSession session = request.getSession();
-
-        // Leer el nickname desde la sesión
         String nickname = (String) session.getAttribute("nickname");
 
         URL url = new URL("http://localhost:9128/publicador?wsdl");
@@ -114,12 +106,10 @@ public class AgregarTemaAListaServlet extends HttpServlet {
 
         if (teMartin != null) {
 
-            DAO_ListaReproduccion listPersistence = new DAO_ListaReproduccion();
-
-            ListaParticular listaExistente = listPersistence.findListaPorNicks(nickname, nombreLista);
+            DataListaParticular listaExistente = publicador.retornarDataListaParticular(nombreLista, nickname);
 
             boolean temaYaExiste = false;
-            for (tema t : listaExistente.getTemas()) {
+            for (DataTema t : listaExistente.getTemas()) {
                 if (t.getNickname().equals(teMartin.getNickname())) {
                     temaYaExiste = true;
                     break;

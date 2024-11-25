@@ -15,7 +15,7 @@ import javax.xml.ws.Service;
 import servicios.DataAlbum;
 import servicios.DataCliente;
 import servicios.DataTema;
-import org.eclipse.persistence.exceptions.JSONException;
+import org.json.JSONException;
 import org.json.JSONObject;
 import servicios.IPublicador;
 

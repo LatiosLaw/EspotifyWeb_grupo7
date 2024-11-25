@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-import org.eclipse.persistence.exceptions.JSONException;
+import org.json.JSONException;
 import org.json.JSONObject;
 import servicios.IPublicador;
 
