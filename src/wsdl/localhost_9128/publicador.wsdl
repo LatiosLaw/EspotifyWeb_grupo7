@@ -142,6 +142,14 @@
 
   <xs:element name="hiroshimaYNagasakiResponse" type="tns:hiroshimaYNagasakiResponse"/>
 
+  <xs:element name="incrementarInfoDescarga" type="tns:incrementarInfoDescarga"/>
+
+  <xs:element name="incrementarInfoDescargaResponse" type="tns:incrementarInfoDescargaResponse"/>
+
+  <xs:element name="incrementarInfoReproduccion" type="tns:incrementarInfoReproduccion"/>
+
+  <xs:element name="incrementarInfoReproduccionResponse" type="tns:incrementarInfoReproduccionResponse"/>
+
   <xs:element name="iniciarSesion" type="tns:iniciarSesion"/>
 
   <xs:element name="iniciarSesionResponse" type="tns:iniciarSesionResponse"/>
@@ -447,6 +455,17 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="incrementarInfoReproduccion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="incrementarInfoReproduccionResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
   <xs:complexType name="obtenerDataListasPorGenero">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="xs:string"/>
@@ -531,6 +550,17 @@
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
     </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="incrementarInfoDescarga">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="incrementarInfoDescargaResponse">
+    <xs:sequence/>
   </xs:complexType>
 
   <xs:complexType name="obtenerLos100MasPopulares">
@@ -1385,6 +1415,10 @@
     <wsdl:part element="tns:publicarLista" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="incrementarInfoDescargaResponse">
+    <wsdl:part element="tns:incrementarInfoDescargaResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="obtenerNombreTemasFavCliente">
     <wsdl:part element="tns:obtenerNombreTemasFavCliente" name="parameters">
     </wsdl:part>
@@ -1641,6 +1675,10 @@
     <wsdl:part element="tns:agregarClienteResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="incrementarInfoReproduccion">
+    <wsdl:part element="tns:incrementarInfoReproduccion" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="obtenerNombreAlbumesFavClienteResponse">
     <wsdl:part element="tns:obtenerNombreAlbumesFavClienteResponse" name="parameters">
     </wsdl:part>
@@ -1675,6 +1713,10 @@
   </wsdl:message>
   <wsdl:message name="crearTemaCasiCompleto">
     <wsdl:part element="tns:crearTemaCasiCompleto" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="incrementarInfoDescarga">
+    <wsdl:part element="tns:incrementarInfoDescarga" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="obtenerLos100MasPopulares">
@@ -1905,6 +1947,10 @@
     <wsdl:part element="tns:obtenerDataListaParticularPorParecido" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="incrementarInfoReproduccionResponse">
+    <wsdl:part element="tns:incrementarInfoReproduccionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="checkNicknameAvailability">
     <wsdl:part element="tns:checkNicknameAvailability" name="parameters">
     </wsdl:part>
@@ -1948,6 +1994,12 @@
       <wsdl:output message="tns:obtenerTemasDeAlbumesResponse" name="obtenerTemasDeAlbumesResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="incrementarInfoReproduccion">
+      <wsdl:input message="tns:incrementarInfoReproduccion" name="incrementarInfoReproduccion">
+    </wsdl:input>
+      <wsdl:output message="tns:incrementarInfoReproduccionResponse" name="incrementarInfoReproduccionResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="obtenerDataListasPorGenero">
       <wsdl:input message="tns:obtenerDataListasPorGenero" name="obtenerDataListasPorGenero">
     </wsdl:input>
@@ -1982,6 +2034,12 @@
       <wsdl:input message="tns:obtenerNombreTemasFavCliente" name="obtenerNombreTemasFavCliente">
     </wsdl:input>
       <wsdl:output message="tns:obtenerNombreTemasFavClienteResponse" name="obtenerNombreTemasFavClienteResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="incrementarInfoDescarga">
+      <wsdl:input message="tns:incrementarInfoDescarga" name="incrementarInfoDescarga">
+    </wsdl:input>
+      <wsdl:output message="tns:incrementarInfoDescargaResponse" name="incrementarInfoDescargaResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="obtenerLos100MasPopulares">
@@ -2404,6 +2462,15 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="incrementarInfoReproduccion">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="incrementarInfoReproduccion">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="incrementarInfoReproduccionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="obtenerDataListasPorGenero">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="obtenerDataListasPorGenero">
@@ -2455,6 +2522,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="obtenerNombreTemasFavClienteResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="incrementarInfoDescarga">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="incrementarInfoDescarga">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="incrementarInfoDescargaResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

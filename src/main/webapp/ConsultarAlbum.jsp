@@ -9,12 +9,12 @@
         <%
             String userAgent = request.getHeader("User-Agent").toLowerCase();
             boolean isMobile = userAgent.contains("mobi") || userAgent.contains("android") || userAgent.contains("iphone");
-            
+
             if (isMobile) {
         %>
         <link rel="stylesheet" href="estilos/DistribucionSinRep.css">
         <%
-            } else {
+        } else {
         %>
         <link rel="stylesheet" href="estilos/DistribucionConRep.css"/>
         <%
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="busqueda">
-                    <% if(isMobile) { %>
+                    <% if (isMobile) { %>
                     <div class="menu-icon" id="menu-icon">
                         <div class="bar"></div>
                         <div class="bar"></div>
@@ -90,11 +90,11 @@
                             <p>Tipo: <%= userType != null ? userType : "Desconocido"%>
                             </p>
                         </li>
-                            <% if (!isMobile) { %>
+                        <% if (!isMobile) { %>
                         <li>
                             <p><button id="logoutButton">Cerrar sesion</button></p>
                         </li>
-                            <% } %>
+                        <% } %>
                         <% } %>
                     </ul>
                 </div>
@@ -107,38 +107,38 @@
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
                         <a href="Recomendaciones.jsp">Lo Mejor de Lo Mejor</a>
-                            <% if ("Cliente".equals(userType)) { %>
-                                <% if (suscrito == true) { %>
+                        <% if ("Cliente".equals(userType)) { %>
+                        <% if (suscrito == true) { %>
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
-                                <% } %>
+                        <% } %>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
-                                <% if (suscrito) { %>
+                        <% if (suscrito) { %>
                         <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
-                                <% } %>
-                            <% } %>
+                        <% } %>
+                        <% } %>
 
-                            <% if ("Artista".equals(userType)) { %>
-                            <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
-                            <% }%>
+                        <% if ("Artista".equals(userType)) { %>
+                        <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
+                        <% }%>
                     </div>
                     <% }%>
 
                     <div class="realDinamico">
-                        
+
                         <h2 class="contStart">Informacion del Album</h2>
                         <img src="imagenes/albumes/defaultAlbum.png" id="imagenalbum" alt="Imagen del Album">
-                        
+
                         <%if (nickname != null && suscrito == true) { %>
-                        
+
                         <button onclick="agregarAlbumAFav()" id="favAlbumBtn" style="display:none;">Fav</button>
                         <button onclick="sacarAlbumAFav()" id="sacarDeFavAlbumBtn" style="display:none;">NoFav</button>
-                        
+
                         <% } else { %>
-                                <button onclick="popup('${"Necesita una Suscripcion para poder usar esta opcion"}')" id="favAlbumBtn" style="display:none;">Fav</button>
-                                <button onclick="popup('${"Necesita una Suscripcion para poder usar esta opcion"}')" id="sacarDeFavAlbumBtn" style="display:none;">NoFav</button>
+                        <button onclick="popup('${"Necesita una Suscripcion para poder usar esta opcion"}')" id="favAlbumBtn" style="display:none;">Fav</button>
+                        <button onclick="popup('${"Necesita una Suscripcion para poder usar esta opcion"}')" id="sacarDeFavAlbumBtn" style="display:none;">NoFav</button>
                         <% }%>
-                        
+
                         <div class="camposAlbum">
                             <input type="text" id="nombrealbum" value="" readonly>
                             <input type="hidden" id="albumTema" name="albumTema" value="">
@@ -167,7 +167,7 @@
                         </div>
                     </div>
                 </div>
-                    <% if (!isMobile) { %>
+                <% if (!isMobile) { %>
                 <div class="reproductor">
                     <div class="temaRep">
                         <img src="imagenes/espotify/user.png" class="artIMG" id="imagenReproductor">
@@ -207,20 +207,20 @@
                         </div>
                     </div>
                 </div>
-                    <% }%>
-                    
-                    <dialog id="detalleDialog" class="detalleDialog">
-                           <div id="dialogContent">
-                               <p class="Info"><strong>Tema:</strong> <span id="dialogTitulo"></span></p>
-                               <p class="Info"><strong>Album:</strong> <span id="dialogAlbum"></span></p>
-                               <p class="Info"><strong>Reproducciones:</strong> <span id="dialogReproducciones"></span></p>
-                               <p class="Info"><strong>Descargas:</strong> <span id="dialogDescargas"></span></p>
-                               <p class="Info"><strong>Favoritos:</strong> <span id="dialogFavoritos"></span></p>
-                               <p class="Info"><strong>Listas:</strong> <span id="dialogListas"></span></p>
-                               <button id="cerrarDialog" class="btn-info">Cerrar</button>
-                           </div>
-                       </dialog>
-                    
+                <% }%>
+
+                <dialog id="detalleDialog" class="detalleDialog">
+                    <div id="dialogContent">
+                        <p class="Info"><strong>Tema:</strong> <span id="dialogTitulo"></span></p>
+                        <p class="Info"><strong>Album:</strong> <span id="dialogAlbum"></span></p>
+                        <p class="Info"><strong>Reproducciones:</strong> <span id="dialogReproducciones"></span></p>
+                        <p class="Info"><strong>Descargas:</strong> <span id="dialogDescargas"></span></p>
+                        <p class="Info"><strong>Favoritos:</strong> <span id="dialogFavoritos"></span></p>
+                        <p class="Info"><strong>Listas:</strong> <span id="dialogListas"></span></p>
+                        <button id="cerrarDialog" class="btn-info">Cerrar</button>
+                    </div>
+                </dialog>
+
             </div>
 
             <dialog id="winLogin"> <!-- Dialogo de inicio de sesion -->
@@ -344,7 +344,7 @@
                         <button onclick="cerrarDialogo()" type="reset">Cerrar</button>
                     </div>
                 </form>
-                
+
             </dialog>
 
         </div> <!-- Fin Cuerpo -->
@@ -379,11 +379,17 @@
 
                 return true;
             }
-            
-            
-            
-            
-            
+
+
+
+
+
+        </script>
+
+        <script type="text/javascript">
+            const sessionNickname = "${sessionScope.nickname}";
+            const sessionUserType = "${sessionScope.userType}";
+            const sessionSuscrito = "${sessionScope.suscrito}";
         </script>
 
         <!-- Consultar album -->
@@ -398,7 +404,7 @@
 
         <!-- Formulario de login y signup -->
         <script src = "scripts/LoginSignupForm.js"></script>
-        
+
         <script src = "scripts/AgregarTemaALista.js"></script>
 
         <!-- Evitar que las imagenes sean arrastradas -->
@@ -410,19 +416,19 @@
 
         <script>
             function popup(texto) {
-            alert(texto);
+                alert(texto);
             }
         </script>
 
         <script src="scripts/ImagenDeUsuario.js"></script>
-        
+
         <% if (isMobile && nickname == null) { %>
         <script>
             // Reemplaza la página actual en el historial del navegador con MobileLogin.jsp, lo que significa que el usuario no podrá volver a la página anterior usando el botón "Atrás" del navegador
             window.location.replace('MobileLogin.jsp');
         </script>
         <% }%>
-        
+
         <% if (isMobile) { %>
         <!-- Boton hamburguesa -->
         <script>
@@ -436,6 +442,6 @@
             });
         </script>
         <% }%>
-        
+
     </body>
 </html>

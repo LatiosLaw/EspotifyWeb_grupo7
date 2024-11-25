@@ -16,7 +16,7 @@
             Boolean suscrito = (Boolean) session.getAttribute("suscrito");
         %>
         <div class="cuerpo">
-            
+
             <header class="encaPrin">
                 <div>
                     <a href="index.jsp" class="EspotifyLogo">
@@ -24,38 +24,38 @@
                         <h1>Espotify</h1>
                     </a>
                 </div>
-                
+
                 <div class="busqueda">
                     <input id="searchInput" type="text" placeholder="Tema, Album, Lista" class="barraBusqueda">
                     <a class="btnBusqueda" onclick="emitirBusqueda()">Buscar</a>
                 </div>
-                
+
                 <div class="userDiv">
                     <div class="divUserIMG">
                         <% if (nickname != null) {%>
                         <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
                             <% }%>
                             <img id="imagenUser" src="imagenes/usuarios/defaultUser.png" class="userIMG">
-                        <% if (nickname != null) {%>
+                            <% if (nickname != null) {%>
                         </a>
-                            <% }%>
+                        <% }%>
                     </div>
                     <ul class="listUser">
 
                         <li class="userName">
                             <% if (nickname != null) {%>
                             <a href="ConsultarUsuario.jsp?usr=<%= nickname%>">
-                            <% }%>
+                                <% }%>
                                 <p class="name">
                                     <%= nickname != null ? nickname : "Visitante"%>
                                 </p>
-                            <% if (nickname != null) {%>
+                                <% if (nickname != null) {%>
                             </a>
                             <% }%>
                         </li>
-                            <% if (nickname == null) { %>
+                        <% if (nickname == null) { %>
                         <li><p><button id="abrirFormLogin">Iniciar sesion</button></p></li>
-                                    <% } else { %>
+                                    <% } else {%>
                         <li><p>Tipo: <%= userType != null ? userType : "Desconocido"%></p></li>
                         <li><p><button id="logoutButton">Cerrar sesion</button></p></li>
                                     <% } %>
@@ -64,9 +64,9 @@
             </header>
 
             <div class="mainCon">
-                
+
                 <div class="dinamico">
-                    
+
                     <div class="btnsNav">
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
@@ -77,40 +77,40 @@
                         <% } %>
                         <a id="contratarSuscripcionLink" href="ContratarSuscripcion.jsp">Contratar Suscripcion</a>
                         <a id="actualizarSusLink" href="ActualizarSuscripcion.jsp">Actualizar Suscripcion</a>
-                            <% if (suscrito) { %>       
-                            <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
-                            <% } %>
+                        <% if (suscrito) { %>       
+                        <a id="crearListaLink" href="AltaDeLista.jsp">Crear Lista</a>
+                        <% } %>
                         <% } %>
 
                         <% if ("Artista".equals(userType)) { %>
                         <a id="altaDeAlbumLink" href="AltaDeAlbum.jsp">Alta de Album</a>
                         <% }%>
                     </div>
-                    
+
                     <div class="realDinamico">
                         <div class="containerActualizarSus"> 
-                        <h1>Actualizar Suscripcion</h1>
-        
-                        <form id = "actualiSus">
-                           <table>
-                           <thead>
-                               <tr>
-                                   <th>Id</th>
-                                   <th>Ultima Fecha de Actualizacion</th>
-                                   <th>Tipo</th>
-                                   <th>Estado</th>
-                                   <th>Accion</th>
-                               </tr>
-                           </thead>
-                           <tbody id="susiLista"></tbody>
-                           </table>
-                        </form>
+                            <h1>Actualizar Suscripcion</h1>
+
+                            <form id = "actualiSus">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Ultima Fecha de Actualizacion</th>
+                                            <th>Tipo</th>
+                                            <th>Estado</th>
+                                            <th>Accion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="susiLista"></tbody>
+                                </table>
+                            </form>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
-                    
+
             <dialog id="winLogin"> <!-- Di?logo de inicio de sesi?n -->
                 <button id="cerrarFormLogin">Cerrar</button>
                 <div class="tituloFormLogin">
@@ -132,16 +132,16 @@
                 </form>
                 <div id="resultado"></div> <!-- Mensajes de resultado -->
             </dialog>
-                    
+
             <dialog id="winSignup"> <!-- Di?logo de registro de usuario -->
                 <button id="cerrarFormSignup">Cerrar</button>
                 <div class="tituloFormSignup">
                     <h2>Registro de Usuario</h2>
                 </div>
                 <form id="altaUsuarioForm" method="post" enctype="multipart/form-data">
-                        <c:if test="${not empty errorMessage}">
-                    <p id="errorMessage" style="color: red;">${errorMessage}</p>
-                        </c:if>
+                    <c:if test="${not empty errorMessage}">
+                        <p id="errorMessage" style="color: red;">${errorMessage}</p>
+                    </c:if>
                     <div>
                         <input type="hidden" id='Valido' name='Valido' value="true">  
                         <label for="tipoUsuario">Tipo de Usuario:</label>
@@ -201,39 +201,45 @@
                 </form>
             </dialog>
         </div> <!-- Fin Cuerpo -->
-        
-        <script>
-    function emitirBusqueda() {
-        const searchInput = document.getElementById('searchInput').value;
 
-        // Redirigir a la URL con el parámetro de búsqueda
-        if(searchInput==="" || searchInput===null){
-        alert("Por favor, ingrese un termino de busqueda.");
-        }else{
-        window.location.href = "BuscarCosas.jsp?search=" + searchInput;
-        }
-    }
-</script>
+        <script>
+            function emitirBusqueda() {
+                const searchInput = document.getElementById('searchInput').value;
+
+                // Redirigir a la URL con el parámetro de búsqueda
+                if (searchInput === "" || searchInput === null) {
+                    alert("Por favor, ingrese un termino de busqueda.");
+                } else {
+                    window.location.href = "BuscarCosas.jsp?search=" + searchInput;
+                }
+            }
+        </script>
+
+        <script type="text/javascript">
+    const sessionNickname = "${sessionScope.nickname}";
+    const sessionUserType = "${sessionScope.userType}";
+    const sessionSuscrito = "${sessionScope.suscrito}";
+        </script>
         <!-- Actualizar suscripcion -->
         <script src="scripts/ActualizarSuscripcion.js"></script>
-        
+
         <!-- Script registro de usuario -->
         <script src = "scripts/AgregarUsuario.js"></script>
-        
+
         <!-- Script inicio y cierre de sesion -->
         <script src="scripts/Login.js"></script>
         <script src="scripts/Logout.js"></script>
 
         <!-- Formulario de login y signup -->
         <script src = "scripts/LoginSignupForm.js"></script>
-        
+
         <!-- Evitar que las imagenes sean arrastradas -->
         <script>
-            document.addEventListener('dragstart', function(event) {
-                event.preventDefault();
-            });
+    document.addEventListener('dragstart', function (event) {
+        event.preventDefault();
+    });
         </script>
-        
+
         <script src="scripts/ImagenDeUsuario.js"></script>
     </body>
 </html>

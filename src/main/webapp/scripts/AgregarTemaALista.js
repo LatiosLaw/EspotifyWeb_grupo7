@@ -60,6 +60,11 @@ function enviarDatos(nombreLista, nombreTema) {
 window.onload = loadListas;
 
 function loadListas() {
+    if (!sessionNickname || sessionNickname.trim() === "") {
+        console.log('El nombre de la sesión está vacío. No se llamará al servlet.');
+        return;
+    }
+
     fetch('AgregarTemaAListaServlet?action=cargarListas')
         .then(response => response.json())
         .then(data => {

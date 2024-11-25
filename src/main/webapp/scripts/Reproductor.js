@@ -1,149 +1,156 @@
+// Obtiene los elementos del DOM
 const audio = document.getElementById('miAudio');
-                                const audioSource = document.getElementById('audioSource');
-                                const playBtn = document.getElementById('playBtn');
-                                const pauseBtn = document.getElementById('pauseBtn');
-                                const muteBtn = document.getElementById('muteBtn');
-                                const unmuteBtn = document.getElementById('unmuteBtn');
-                                const progressBar = document.getElementById('progressBar');
-                                const progress = document.getElementById('progress');
-                                const volumeBar = document.getElementById('volumeBar');
-                                const volumeLevel = document.getElementById('volumeLevel');
-                                const prevBtn = document.getElementById('prevBtn');
-                                const nextBtn = document.getElementById('nextBtn');
-                                const currentTimeDisplay = document.getElementById('currentTime');
-                                const totalTimeDisplay = document.getElementById('totalTime');
+const audioSource = document.getElementById('audioSource');
+const playBtn = document.getElementById('playBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+const muteBtn = document.getElementById('muteBtn');
+const unmuteBtn = document.getElementById('unmuteBtn');
+const progressBar = document.getElementById('progressBar');
+const progress = document.getElementById('progress');
+const volumeBar = document.getElementById('volumeBar');
+const volumeLevel = document.getElementById('volumeLevel');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const currentTimeDisplay = document.getElementById('currentTime');
+const totalTimeDisplay = document.getElementById('totalTime');
 
-                                const audioFiles = ['temas/DONMAI.mp3', 'temas/audio1.mp3', 'temas/audio2.mp3', 'temas/audio3.mp3']; //Necesita conocer la lista de los audios para que funcionen los botones de back y next, y para que se reproduzca el siguiente audio al terminar de ser reproducido el actual
-                                let currentAudioIndex = 0;
+// Lista de archivos de audio
+const audioFiles = ['temas/DONMAI.mp3', 'temas/audio1.mp3', 'temas/audio2.mp3', 'temas/audio3.mp3'];
+let currentAudioIndex = 0;
+let previousVolume = 0.5; // Almacena el volumen anterior
 
-                                let previousVolume = 0.5; // Almacena el volumen anterior
-                                audio.volume = previousVolume; // Inicializa el volumen al cargar
-                                
-                                let wasPaused; // Variable para almacenar si el audio estaba pausado
+// Verificamos si el elemento de audio está presente
+if (audio) {
+    audio.volume = previousVolume; // Inicializa el volumen al cargar
 
-                                // Evento para reproducir el siguiente audio al finalizar
-                                audio.addEventListener('ended', nextAudio);
+    let wasPaused; // Variable para almacenar si el audio estaba pausado
 
-                                // Actualiza el tiempo total y el tiempo actual
-                                audio.addEventListener('loadedmetadata', () => {
-                                    totalTimeDisplay.textContent = formatTime(audio.duration);
-                                });
+    // Evento para reproducir el siguiente audio al finalizar
+    audio.addEventListener('ended', nextAudio);
 
-                                audio.addEventListener('timeupdate', () => {
-                                    const percentage = (audio.currentTime / audio.duration) * 100;
-                                    progress.style.width = percentage + '%';
-                                    currentTimeDisplay.textContent = formatTime(audio.currentTime);
-                                });
+    // Actualiza el tiempo total y el tiempo actual
+    audio.addEventListener('loadedmetadata', () => {
+        totalTimeDisplay.textContent = formatTime(audio.duration);
+    });
 
-                                audio.addEventListener('ended', () => {
-                                    progress.style.width = '0%'; // Resetea la barra de progreso
-                                });
+    audio.addEventListener('timeupdate', () => {
+        const percentage = (audio.currentTime / audio.duration) * 100;
+        progress.style.width = percentage + '%';
+        currentTimeDisplay.textContent = formatTime(audio.currentTime);
+    });
 
-                                playBtn.addEventListener('click', () => {
-                                    audio.play();
-                                    playBtn.style.display = 'none';
-                                    pauseBtn.style.display = 'inline';
-                                });
+    audio.addEventListener('ended', () => {
+        progress.style.width = '0%'; // Resetea la barra de progreso
+    });
 
-                                pauseBtn.addEventListener('click', () => {
-                                    audio.pause();
-                                    playBtn.style.display = 'inline';
-                                    pauseBtn.style.display = 'none';
-                                });
+    playBtn.addEventListener('click', () => {
+        audio.play();
+        playBtn.style.display = 'none';
+        pauseBtn.style.display = 'inline';
+    });
 
-                                function setProgress(event) {
-                                    const totalWidth = progressBar.offsetWidth;
-                                    const clickX = event.offsetX;
+    pauseBtn.addEventListener('click', () => {
+        audio.pause();
+        playBtn.style.display = 'inline';
+        pauseBtn.style.display = 'none';
+    });
 
-                                    // Verifica que el clic esté dentro de los límites de la barra de progreso
-                                    if (clickX >= 0 && clickX <= totalWidth) {
-                                        const newTime = (clickX / totalWidth) * audio.duration;
-                                        audio.currentTime = newTime;
-                                    }
-                                }
+    function setProgress(event) {
+        const totalWidth = progressBar.offsetWidth;
+        const clickX = event.offsetX;
 
-                                function startAdjustingProgressBar(event) {
-                                    wasPaused = audio.paused; // Guarda el estado del audio
-                                    audio.pause();
-                                    setProgress(event); // Ajusta el progreso al hacer clic
-                                    document.addEventListener('mousemove', setProgress); // Ajusta el progreso mientras se mueve el ratón
-                                    document.addEventListener('mouseup', stopAdjustingProgressBar); // Detiene el ajuste al soltar el botón
-                                }
+        // Verifica que el clic esté dentro de los límites de la barra de progreso
+        if (clickX >= 0 && clickX <= totalWidth) {
+            const newTime = (clickX / totalWidth) * audio.duration;
+            audio.currentTime = newTime;
+        }
+    }
 
-                                function stopAdjustingProgressBar() {
-                                    document.removeEventListener('mousemove', setProgress); // Detiene el ajuste de progreso
-                                    document.removeEventListener('mouseup', stopAdjustingProgressBar); // Detiene el evento de soltar
+    function startAdjustingProgressBar(event) {
+        wasPaused = audio.paused; // Guarda el estado del audio
+        audio.pause();
+        setProgress(event); // Ajusta el progreso al hacer clic
+        document.addEventListener('mousemove', setProgress); // Ajusta el progreso mientras se mueve el ratón
+        document.addEventListener('mouseup', stopAdjustingProgressBar); // Detiene el ajuste al soltar el botón
+    }
 
-                                    // Restablece el estado del audio
-                                    if (wasPaused) {
-                                        playBtn.style.display = 'inline';
-                                        pauseBtn.style.display = 'none';
-                                        audio.pause();
-                                    } else {
-                                        playBtn.style.display = 'none';
-                                        pauseBtn.style.display = 'inline';
-                                        audio.play();
-                                    }
-                                }
+    function stopAdjustingProgressBar() {
+        document.removeEventListener('mousemove', setProgress);
+        document.removeEventListener('mouseup', stopAdjustingProgressBar);
 
-                                function setVolume(event) {
-                                    const totalWidth = volumeBar.offsetWidth;
-                                    const clickX = event.offsetX;
-                                    const newVolume = clickX / totalWidth;
-                                    
-                                    if (clickX >= 0 && clickX <= totalWidth) {
-                                        audio.volume = Math.max(0, Math.min(1, newVolume)); // Asegura que el volumen esté entre 0 y 1
-                                        previousVolume = audio.volume; // Actualiza el volumen anterior
-                                        volumeLevel.style.width = (newVolume * 100) + '%'; // Actualiza la barra de volumen
-                                    }
-                                }
+        // Restablece el estado del audio
+        if (wasPaused) {
+            playBtn.style.display = 'inline';
+            pauseBtn.style.display = 'none';
+            audio.pause();
+        } else {
+            playBtn.style.display = 'none';
+            pauseBtn.style.display = 'inline';
+            audio.play();
+        }
+    }
 
-                                function startAdjustingVolume(event) {
-                                    setVolume(event); // Ajusta el volumen al hacer clic
-                                    document.addEventListener('mousemove', setVolume); // Ajusta el volumen mientras se mueve el ratón
-                                    document.addEventListener('mouseup', stopAdjustingVolume); // Detiene el ajuste al soltar el botón
-                                }
+    function setVolume(event) {
+        const totalWidth = volumeBar.offsetWidth;
+        const clickX = event.offsetX;
+        const newVolume = clickX / totalWidth;
 
-                                function stopAdjustingVolume() {
-                                    document.removeEventListener('mousemove', setVolume); // Detiene el ajuste de volumen
-                                    document.removeEventListener('mouseup', stopAdjustingVolume); // Detiene el evento de soltar
-                                }
+        if (clickX >= 0 && clickX <= totalWidth) {
+            audio.volume = Math.max(0, Math.min(1, newVolume)); // Asegura que el volumen esté entre 0 y 1
+            previousVolume = audio.volume; // Actualiza el volumen anterior
+            volumeLevel.style.width = (newVolume * 100) + '%'; // Actualiza la barra de volumen
+        }
+    }
 
-                                function muteVolume() {
-                                    previousVolume = audio.volume; // Guarda el volumen actual
-                                    audio.volume = 0; // Silencia el audio
-                                    volumeLevel.style.width = '0%'; // Actualiza la barra de volumen
-                                    muteBtn.style.display = 'none'; // Oculta el botón de silenciar
-                                    unmuteBtn.style.display = 'inline'; // Muestra el botón de restaurar volumen
-                                }
+    function startAdjustingVolume(event) {
+        setVolume(event); // Ajusta el volumen al hacer clic
+        document.addEventListener('mousemove', setVolume); // Ajusta el volumen mientras se mueve el ratón
+        document.addEventListener('mouseup', stopAdjustingVolume); // Detiene el ajuste al soltar el botón
+    }
 
-                                function unmuteVolume() {
-                                    audio.volume = previousVolume; // Restaura el volumen anterior
-                                    volumeLevel.style.width = (previousVolume * 100) + '%'; // Actualiza la barra de volumen
-                                    unmuteBtn.style.display = 'none'; // Oculta el botón de restaurar volumen
-                                    muteBtn.style.display = 'inline'; // Muestra el botón de silenciar
-                                }
+    function stopAdjustingVolume() {
+        document.removeEventListener('mousemove', setVolume);
+        document.removeEventListener('mouseup', stopAdjustingVolume);
+    }
 
-                                function prevAudio() {
-                                    currentAudioIndex = (currentAudioIndex - 1 + audioFiles.length) % audioFiles.length;
-                                    loadAudio();
-                                }
+    function muteVolume() {
+        previousVolume = audio.volume; // Guarda el volumen actual
+        audio.volume = 0; // Silencia el audio
+        volumeLevel.style.width = '0%'; // Actualiza la barra de volumen
+        muteBtn.style.display = 'none'; // Oculta el botón de silenciar
+        unmuteBtn.style.display = 'inline'; // Muestra el botón de restaurar volumen
+    }
 
-                                function nextAudio() {
-                                    currentAudioIndex = (currentAudioIndex + 1) % audioFiles.length;
-                                    loadAudio();
-                                }
+    function unmuteVolume() {
+        audio.volume = previousVolume; // Restaura el volumen anterior
+        volumeLevel.style.width = (previousVolume * 100) + '%'; // Actualiza la barra de volumen
+        unmuteBtn.style.display = 'none'; // Oculta el botón de restaurar volumen
+        muteBtn.style.display = 'inline'; // Muestra el botón de silenciar
+    }
 
-                                function loadAudio() {
-                                    audioSource.src = audioFiles[currentAudioIndex];
-                                    audio.load(); // Carga el nuevo archivo de audio
-                                    audio.play(); // Reproduce el nuevo audio
-                                    playBtn.style.display = 'none';
-                                    pauseBtn.style.display = 'inline';
-                                }
+    function prevAudio() {
+        currentAudioIndex = (currentAudioIndex - 1 + audioFiles.length) % audioFiles.length;
+        loadAudio();
+    }
 
-                                function formatTime(seconds) {
-                                    const minutes = Math.floor(seconds / 60);
-                                    const secs = Math.floor(seconds % 60);
-                                    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-                                }
+    function nextAudio() {
+        currentAudioIndex = (currentAudioIndex + 1) % audioFiles.length;
+        loadAudio();
+    }
+
+    function loadAudio() {
+        audioSource.src = audioFiles[currentAudioIndex];
+        audio.load(); // Carga el nuevo archivo de audio
+        audio.play(); // Reproduce el nuevo audio
+        playBtn.style.display = 'none';
+        pauseBtn.style.display = 'inline';
+    }
+
+    function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+} else {
+    console.log("El reproductor no está disponible en esta página.");
+}

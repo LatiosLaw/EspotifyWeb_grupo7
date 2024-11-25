@@ -391,6 +391,13 @@
                 return true;
             }
         </script>
+        
+        <script type="text/javascript">
+            const sessionNickname = "${sessionScope.nickname}";
+            const sessionUserType = "${sessionScope.userType}";
+            const sessionSuscrito = "${sessionScope.suscrito}";
+        </script>
+        
         <!-- Consultar listas de reproduccion -->
         <script src="scripts/ConsultarListaRep.js"></script>
 
