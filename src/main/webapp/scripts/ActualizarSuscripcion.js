@@ -101,6 +101,7 @@ function vigentear(id) {
                 if (data.success) {
                     alert('Se hizo vigente la la Suscripcion de manera exitosa.');
                     cargarDatosSus(); // Recargar la lista de usuarios
+                    mailMomento(id);
                 } else {
                     alert('Error al hacer vigente la suscrpcion: ' + (data.error || 'Error desconocido'));
                 }
@@ -111,6 +112,24 @@ function vigentear(id) {
             });
 
 }
+function mailMomento(idSus) {
+    event.preventDefault();
+    fetch('MailMomemtoServlet', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({idSus: idSus})
+    })
+            .then(response => response.json())
+            .then(data => {
+               
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                
+            });
 
+}
 
 window.onload = cargarDatosSus;

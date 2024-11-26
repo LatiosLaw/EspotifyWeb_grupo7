@@ -236,7 +236,8 @@ public class ConsultarAlbumServlet extends HttpServlet {
 
                 case "Download" -> {
 
-                    String TARGET_DIR = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/temas/";
+                    //String TARGET_DIR = "C:/Users/Law/Documents/GitHub/EspotifyWeb_grupo7/src/main/webapp/temas/";
+                    String TARGET_DIR = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7-integracion/src/main/webapp/temas/";
                     String fileName = request.getParameter("filename");
                     String nombreTema = request.getParameter("nombreTema");
                     String nombreAlbum = request.getParameter("nombreAlbum");

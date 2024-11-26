@@ -84,7 +84,7 @@ public class AltaDeListaServlet extends HttpServlet {
                 // COMENTAR ESTA RUTA Y COLOCAR LA SUYA PROPIA, RUTA DONDE GUARDAR LA FOTO DEL ALBUM /////////////////////////////////////////////////////// 
                 //    String targetDir = "C:\\Users\\Law\\Documents\\GitHub\\EspotifyWeb_grupo7\\src\\main\\webapp\\imagenes\\listas\\"; // Ajusta esta ruta
 // RUTA CURE : 
-                String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/imagenes/listas/";
+                String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7-integracion/src/main/webapp/imagenes/listas/";
                 // Crear el directorio si no existe
                 File uploadDir = new File(targetDir);
                 if (!uploadDir.exists()) {

@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="imagenes/espotify/spotify-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="estilos/EstilosGenerales.css">
-        <link rel="stylesheet" href="estilos/BuscarCosas.css">
+        <link rel="stylesheet" href="estilos/TodosLosUsuariosFama.css">
         <link rel="stylesheet" href="estilos/DistribucionSinRep.css">
         <title>Espotify</title>
     </head>
@@ -115,18 +115,12 @@
 
                     <div class="realDinamico">
 
-                            <h2 class="contStart">Todo lo del Genero:</h2>
-                            
-                            <h3 class="contStart2">Listas del Genero Encontradas:</h3>
-                            <div id="listaGeneroGenBody">
-                                <!-- aca se carga la lista -->
-                            </div>
-                            
-                            <h3 class="contStart2">Lista de Albumes Encontrados:</h3>
-                            <div id="albumGenBody">
-                                <!-- aca se carga la lista -->
-                            </div>
-                        
+                        <h1 class="contStart">Usuarios mas populares</h1>
+
+                        <div id="famaBody">
+                            <!-- aca se carga la lista -->
+                        </div>
+
                     </div>
                 </div>
 
@@ -143,7 +137,7 @@
                         <input type="text" id="nicknameLogin" name="nicknameLogin" required>
                     </div>
                     <div>
-                        <label for="passLogin">Contraseña:</label>
+                        <label for="passLogin">Contrase?a:</label>
                         <input type="password" id="passLogin" name="passLogin" required>
                     </div>
                     <div class="btnsFormLogin">
@@ -159,7 +153,7 @@
                 <div class="tituloFormSignup">
                     <h2>Registro de Usuario</h2>
                 </div>
-                <form id="altaUsuarioForm" method="post" action="AgregarUsuarioServlet" enctype="multipart/form-data">
+                <form id="altaUsuarioForm" method="post" enctype="multipart/form-data">
                     <c:if test="${not empty errorMessage}">
                         <p id="errorMessage" style="color: red;">${errorMessage}</p>
                     </c:if>
@@ -205,11 +199,11 @@
                         </div>
                     </div>
                     <div>
-                        <label for="pass">Contraseña:</label>
+                        <label for="pass">Contrase?a:</label>
                         <input type="password" id="pass" name="pass" required>
                     </div>
                     <div>
-                        <label for="confirmPass">Confirmar Contraseña:</label>
+                        <label for="confirmPass">Confirmar Contrase?a:</label>
                         <input type="password" id="confirmPass" name="confirmPass" required>
                     </div>
                     <div>
@@ -217,7 +211,7 @@
                         <input type="date" id="fechaNac" name="fechaNac" required>
                     </div>
                     <div class="btnsFormSignup">
-                        <button type="submit">Agregar Usuario</button>
+                        <button type="button" onclick="submitForm()">Agregar Usuario</button>
                     </div>
                 </form>
             </dialog>
@@ -242,7 +236,7 @@
     }
 </script>
         <!-- Buscar cosas -->
-        <script src="scripts/TodoLoDeUnGenero.js"></script>
+        <script src="scripts/TodosLosUsuariosFama.js"></script>
 
         <!-- Script registro de usuario -->
         <script src="scripts/AgregarUsuario.js"></script>

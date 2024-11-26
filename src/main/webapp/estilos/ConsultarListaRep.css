@@ -45,7 +45,7 @@
     text-align: center;
 }
 
-.detalleDialog:backdrop{
+.detalleDialog::backdrop{
     background-color: rgba(0, 0, 0, 0.44);
 }
 
@@ -67,7 +67,7 @@
     padding: 10px;
 }
 
-#dialogoAgregarTema:backdrop{
+#dialogoAgregarTema::backdrop{
     background-color: rgba(0, 0, 0, 0.44);
 }
 
@@ -218,6 +218,24 @@
 }
 
 #favListaBtn:active, #sacarDeFavListaBtn:active{
+    background-color: #99339f;
+}
+
+
+.btn-info{
+    border: 2px solid black;
+    border-radius: 3px;
+    padding: 3px 8px;
+    margin-top: 5px;
+    background-color: #b63ebe;
+    transition: background-color 0.15s;
+}
+
+.btn-info:hover{
+    background-color: #cf48d7;
+}
+
+.btn-info:active{
     background-color: #99339f;
 }
 

@@ -39,6 +39,7 @@
                             <li><a href="TodosLosGeneros.jsp">Generos</a></li>
                             <li><a href="TodosLosArtistas.jsp">Artistas</a></li>
                             <li><a href="Recomendaciones.jsp">Lo Mejor de Lo Mejor</a></li>
+                         
                             <li><button id="logoutButton"><a>Cerrar sesion</a></button></li>
                         </ul>
                     </div>
@@ -97,6 +98,7 @@
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
                         <a href="Recomendaciones.jsp">Lo Mejor de Lo Mejor</a>
+                        <a href="TodosLosUsuariosFama.jsp">Ranking de Usuarios</a>
                             <% if ("Cliente".equals(userType)) { %>
                                 <% if (suscrito == true) { %>
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>

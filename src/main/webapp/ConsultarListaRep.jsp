@@ -107,6 +107,7 @@
                         <a href="TodosLosGeneros.jsp">Generos</a>
                         <a href="TodosLosArtistas.jsp">Artistas</a>
                         <a href="Recomendaciones.jsp">Lo Mejor de Lo Mejor</a>
+                        <a href="TodosLosUsuariosFama.jsp">Ranking de Usuarios</a>
                             <% if ("Cliente".equals(userType)) { %>
                                 <% if (suscrito == true) { %>
                         <a id="publicarListaLink" href="PublicarLista.jsp">Publicar Lista</a>
@@ -165,7 +166,7 @@
                     <% if (!isMobile) { %>
                 <div class="reproductor">
                     <div class="temaRep">
-                        <img src="imagenes/espotify/user.png" class="artIMG" id="imagenReproductor">
+                        <img src="imagenes/listas/defaultList.png" class="artIMG" id="imagenReproductor">
                         <h2 id="nombreTema">Nombre Tema</h2>
                     </div>
 

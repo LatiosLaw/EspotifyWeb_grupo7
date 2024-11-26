@@ -1,0 +1,81 @@
+.contStart{
+    background-color: #9e55bc;
+    padding: 10px 0 10px 5%;
+    border-bottom: 2px solid black;
+}
+
+#famaBody{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.artista{
+    margin: 10px;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 3px;
+    background-color: #a241b6;
+}
+
+.imagenUser, .artista div{
+    width: 15vw;
+    border-radius: 3px;
+}
+
+.imagenUser{
+    border: 2px solid black;
+    height: 15vw;
+    margin-top: 3px;
+}
+
+.artista div{
+    margin-bottom: 5px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.artista div p{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*Resolucion de telefono*/
+@media (max-width: 960px){
+    .contStart{
+        font-size: 3.5vw;
+    }
+    
+    .artista div p{
+        font-size: 2.5vw;
+    }
+    
+    .verMasImg{
+        width: 3.5vw;
+        height: 3.5vw;
+    }
+}
+
+/*Resolucion de pc*/
+@media (min-width: 960px) and (max-width: 1400px){
+
+    .contStart{
+        font-size: 2.5vw;
+    }
+    
+    .artista div p{
+        font-size: 1.5vw;
+    }
+}
+
+@media (min-width: 1400px){
+    .contStart{
+        font-size: 1.5vw;
+    }
+    
+    .artista div p{
+        font-size: 1vw;
+    }
+}
+

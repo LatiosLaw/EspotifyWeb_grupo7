@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     cargarInfo(primerCampo, segundoCampo);
     setTimeout(() => {
         recargarTemas();
-    }, 1000);
+    }, 2000);
 });
 
 function formatearTiempo(segundos) {

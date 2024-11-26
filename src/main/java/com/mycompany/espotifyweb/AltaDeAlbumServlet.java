@@ -32,13 +32,14 @@ import servicios.IPublicador;
 
 public class AltaDeAlbumServlet extends HttpServlet {
 
-    private static final String ALBUM_IMAGES_DIR = "/home/nico/Escritorio/EspotifyWeb_grupo7-segundaEntrega/src/main/webapp/imagenes/albumes";
-    private static final String MUSIC_FILES_DIR = "/home/nico/Escritorio/EspotifyWeb_grupo7-segundaEntrega/src/main/webapp/temas/";
-    private static final String YTDLP_PATH = "/home/nico/Escritorio/EspotifyWeb_grupo7/src/main/webapp/scripts/yt-dlp";
+    // private static final String ALBUM_IMAGES_DIR = "/home/nico/Escritorio/EspotifyWeb_grupo7-segundaEntrega/src/main/webapp/imagenes/albumes";
+    // private static final String MUSIC_FILES_DIR = "/home/nico/Escritorio/EspotifyWeb_grupo7-segundaEntrega/src/main/webapp/temas/";
+    // private static final String YTDLP_PATH = "/home/nico/Escritorio/EspotifyWeb_grupo7/src/main/webapp/scripts/yt-dlp";
     
-  // Cure //  private static final String ALBUM_IMAGES_DIR = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/imagenes/albumes/";
- // Cure //  private static final String MUSIC_FILES_DIR = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/temas/";
- // Cure //   private static final String YTDLP_PATH = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/scripts/";
+  // Cure
+    private static final String ALBUM_IMAGES_DIR = "/home/tecnologo/Escritorio/grupo7-integracion/EspotifyWeb_grupo7/src/main/webapp/imagenes/albumes/";
+    private static final String MUSIC_FILES_DIR = "/home/tecnologo/Escritorio/grupo7-integracion/EspotifyWeb_grupo7/src/main/webapp/temas/";
+    private static final String YTDLP_PATH = "/home/tecnologo/Escritorio/grupo7-integracion/EspotifyWeb_grupo7/src/main/webapp/scripts/";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
