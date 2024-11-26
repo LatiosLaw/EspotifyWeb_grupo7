@@ -32,7 +32,7 @@ public class TodosLosUusariosFama extends HttpServlet {
             try (PrintWriter out = response.getWriter()) {
                 
                 List<DataArtista> artistasList = publicador.obtenerDataArtistas();
-
+                // Llamar a la funcion de listar por fama
                 StringBuilder jsonResponse = new StringBuilder("[");
                 for (DataArtista artista : artistasList) {
 
