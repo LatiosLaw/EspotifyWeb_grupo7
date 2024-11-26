@@ -59,6 +59,8 @@ public class ConsultarUsuarioServlet extends HttpServlet {
                 cargarAlbumesFavoritos(request, out);
             case "cargarTemasFavoritos" ->
                 cargarTemasFavoritos(request, out);
+            case "eliminarUsuario" ->
+                eliminarUsuario(request, out);
             default ->
                 out.println("{\"error\": \"Acción no válida\"}");
         }
@@ -305,5 +307,11 @@ public class ConsultarUsuarioServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
+    }
+
+    public void eliminarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String nickname = request.getParameter("nickname");
+
+        publicador.eliminarArtista(nickname);
     }
 }
