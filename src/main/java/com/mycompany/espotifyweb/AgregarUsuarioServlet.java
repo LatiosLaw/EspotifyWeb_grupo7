@@ -134,8 +134,10 @@ public class AgregarUsuarioServlet extends HttpServlet {
             //  String targetDir = "C:\\Users\\Law\\Documents\\GitHub\\EspotifyWeb_grupo7\\src\\main\\webapp\\imagenes\\usuarios\\"; // Ajusta esta ruta
             //String targetDir = "D:\\Github Proyectos\\EspotifyWeb_grupo7\\src\\main\\webapp\\imagenes\\usuarios";
 // RUTA CURE : 
-            String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7/src/main/webapp/imagenes/usuarios/";
-            // Crear el directorio si no existe
+            String targetDir = "/home/tecnologo/Escritorio/grupo7/EspotifyWeb_grupo7-integracion/src/main/webapp/imagenes/usuarios/";
+                                              //Escritorio/grupo7/EspotifyWeb_grupo7-integracion/src/main/webapp/imagenes/usuarios
+            
+// Crear el directorio si no existe
             File uploadDir = new File(targetDir);
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
@@ -161,7 +163,7 @@ public class AgregarUsuarioServlet extends HttpServlet {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////
         // Lógica para agregar usuario
-        DataErrorBundle result = null;
+        DataErrorBundle result = new DataErrorBundle();
 
         if ("cliente".equals(tipoUsuario)) {
             result = publicador.agregarCliente(nickname, nombre, apellido, pass, mail, fileName, fechaNac);
