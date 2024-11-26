@@ -154,6 +154,10 @@
 
   <xs:element name="iniciarSesionResponse" type="tns:iniciarSesionResponse"/>
 
+  <xs:element name="listarUsuariosPorFama" type="tns:listarUsuariosPorFama"/>
+
+  <xs:element name="listarUsuariosPorFamaResponse" type="tns:listarUsuariosPorFamaResponse"/>
+
   <xs:element name="obtenerDataAlbum" type="tns:obtenerDataAlbum"/>
 
   <xs:element name="obtenerDataAlbumPorParecido" type="tns:obtenerDataAlbumPorParecido"/>
@@ -1354,6 +1358,16 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="listarUsuariosPorFama">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="listarUsuariosPorFamaResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:dataUsuario"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="crearListaParticular">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="xs:string"/>
@@ -1663,6 +1677,10 @@
     <wsdl:part element="tns:obtenerDataAlbumesResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="listarUsuariosPorFama">
+    <wsdl:part element="tns:listarUsuariosPorFama" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="actualizarListaParticularResponse">
     <wsdl:part element="tns:actualizarListaParticularResponse" name="parameters">
     </wsdl:part>
@@ -1853,6 +1871,10 @@
   </wsdl:message>
   <wsdl:message name="agregarCliente">
     <wsdl:part element="tns:agregarCliente" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="listarUsuariosPorFamaResponse">
+    <wsdl:part element="tns:listarUsuariosPorFamaResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="retornarTema2">
@@ -2424,6 +2446,12 @@
       <wsdl:input message="tns:obtenerDataAlbumes" name="obtenerDataAlbumes">
     </wsdl:input>
       <wsdl:output message="tns:obtenerDataAlbumesResponse" name="obtenerDataAlbumesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="listarUsuariosPorFama">
+      <wsdl:input message="tns:listarUsuariosPorFama" name="listarUsuariosPorFama">
+    </wsdl:input>
+      <wsdl:output message="tns:listarUsuariosPorFamaResponse" name="listarUsuariosPorFamaResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="crearListaParticular">
@@ -3107,6 +3135,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="obtenerDataAlbumesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="listarUsuariosPorFama">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="listarUsuariosPorFama">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="listarUsuariosPorFamaResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

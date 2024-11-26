@@ -11,6 +11,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import servicios.DataArtista;
+import servicios.DataUsuario;
 import servicios.IPublicador;
 
 public class TodosLosArtistasServlet extends HttpServlet {
@@ -51,8 +52,35 @@ public class TodosLosArtistasServlet extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }else 
+        if ("devolverFama".equals(action)) {
+            try (PrintWriter out = response.getWriter()) {
+                
+                List<DataUsuario> List = publicador.listarUsuariosPorFama();
+                
+                
+                // Llamar a la funcion de listar por fama
+                StringBuilder jsonResponse = new StringBuilder("[");
+                for (DataUsuario usr : List) {
+
+                    jsonResponse.append("{\"nombre\":\"").append(usr.getNickname()).append("\",")
+                            .append("\"imagen\":\"").append(usr.getFoto())
+                            .append("\"},");
+                }
+
+                if (jsonResponse.length() > 1) {
+                    jsonResponse.deleteCharAt(jsonResponse.length() - 1);
+                }
+
+                jsonResponse.append("]");
+
+                out.print(jsonResponse.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }    
+            
+        
         System.out.println("\n-----End Todos Los Artistas Servlet GET-----");
     }
-
+    }
 }
