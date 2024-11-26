@@ -2,6 +2,7 @@ package com.mycompany.espotifyweb;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -179,6 +180,9 @@ public class AgregarUsuarioServlet extends HttpServlet {
 
         if (result != null) {
             if (result.isValor()) {
+                Cookie cookieTipoUsuario = new Cookie("tipoUsuario", tipoUsuario);
+                cookieTipoUsuario.setMaxAge(60 * 60 * 24);
+                response.addCookie(cookieTipoUsuario);
                 out.print("{\"status\": \"success\", \"message\": \"Usuario agregado exitosamente.\"}");
             } else {
                 out.print("{\"status\": \"error\", \"message\": \"" + result.getNumero() + "\"}"); // Mensaje de error específico

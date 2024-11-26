@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -177,62 +178,94 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("\n---------Login Servlet----------");
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    System.out.println("\n---------Login Servlet----------");
+    response.setContentType("application/json");
+    PrintWriter out = response.getWriter();
 
-        // Obtener los parámetros del formulario
-        String nickname = request.getParameter("nicknameLogin");
-        String pass = request.getParameter("passLogin");
+    // Obtener los parámetros del formulario
+    String nickname = request.getParameter("nicknameLogin");
+    String pass = request.getParameter("passLogin");
 
-        DataErrorBundle resultado;
+    DataErrorBundle resultado;
 
-        try {
-            // URL del WSDL
-            URL url = new URL("http://localhost:9128/publicador?wsdl");
-            QName qname = new QName("http://servicios/", "PublicadorService");
+    try {
+        // URL del WSDL
+        URL url = new URL("http://localhost:9128/publicador?wsdl");
+        QName qname = new QName("http://servicios/", "PublicadorService");
 
-            // Crear el servicio
-            Service servicio = Service.create(url, qname);
-            IPublicador publicador = servicio.getPort(IPublicador.class);
+        // Crear el servicio
+        Service servicio = Service.create(url, qname);
+        IPublicador publicador = servicio.getPort(IPublicador.class);
 
-            // Llamada al método de login del servicio SOAP
-            resultado = publicador.iniciarSesion(nickname, pass);
+        // Llamada al método de login del servicio SOAP
+        resultado = publicador.iniciarSesion(nickname, pass);
 
-            if (resultado.isValor()) {
-                // Invalidate previous session if exists
-                HttpSession session = request.getSession(false);
-                if (session != null) {
-                    session.invalidate();
-                }
-
-                String userType = publicador.getTipoUsuario(nickname);
-                System.out.println("Servlet: El tipo de usuario es: " + userType);
-
-                if (userType == null) {
-                    out.print("{\"success\": false, \"errorCode\": 404, \"message\": \"Usuario no encontrado\"}");
-                } else {
-                    Boolean suscrito = publicador.getSuscripcion(nickname);
-
-                    // Crear nueva sesión
-                    session = request.getSession();
-                    session.setAttribute("nickname", nickname);
-                    session.setAttribute("userType", userType);
-                    session.setAttribute("suscrito", suscrito);
-
-                    // Respuesta exitosa
-                    out.print("{\"success\": true, \"userType\": \"" + userType + "\", \"suscrito\": " + suscrito + "}");
-                }
-            } else {
-                out.print("{\"success\": false, \"errorCode\": " + resultado.getNumero() + ", \"message\": \"" + resultado.isValor() + "\"}");
+        if (resultado.isValor()) {
+            // Invalidar sesión previa si existe
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                session.invalidate();
             }
-        } catch (MalformedURLException e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.print("{\"success\": false, \"error\": \"Error en el servicio\"}");
-        } finally {
-            out.flush();
+
+            // Obtener el tipo de usuario desde el publicador
+            String userType = publicador.getTipoUsuario(nickname);
+            System.out.println("Servlet: El tipo de usuario es: " + userType);
+
+            // Verificar si userType es null y buscar en la cookie
+            if (userType == null) {
+                // Obtener las cookies de la solicitud
+                Cookie[] cookies = request.getCookies();
+                String tipoUsuarioDesdeCookie = null;
+
+                // Buscar la cookie que almacena el tipo de usuario
+                if (cookies != null) {
+                    for (Cookie cookie : cookies) {
+                        if ("tipoUsuario".equals(cookie.getName())) {
+                            tipoUsuarioDesdeCookie = cookie.getValue();
+                            break;
+                        }
+                    }
+                }
+
+                // Si se encontró el tipo de usuario en la cookie, usarlo y convertirlo a formato adecuado
+                if (tipoUsuarioDesdeCookie != null) {
+                    if ("cliente".equals(tipoUsuarioDesdeCookie)) {
+                        userType = "Cliente";
+                    } else if ("artista".equals(tipoUsuarioDesdeCookie)) {
+                        userType = "Artista";
+                    } else {
+                        out.print("{\"success\": false, \"errorCode\": 400, \"message\": \"Tipo de usuario no válido\"}");
+                        return; // Salir del método si el tipo no es válido
+                    }
+                    System.out.println("Tipo de usuario obtenido de la cookie: " + userType);
+                } else {
+                    out.print("{\"success\": false, \"errorCode\": 404, \"message\": \"Usuario no encontrado\"}");
+                    return; // Salir del método si no se encuentra el usuario
+                }
+            }
+
+            Boolean suscrito = publicador.getSuscripcion(nickname);
+
+            // Crear nueva sesión
+            session = request.getSession();
+            session.setAttribute("nickname", nickname);
+            session.setAttribute("userType", userType);
+            session.setAttribute("suscrito", suscrito);
+
+            // Respuesta exitosa
+            out.print("{\"success\": true, \"userType\": \"" + userType + "\", \"suscrito\": " + suscrito + "}");
+        } else {
+            out.print("{\"success\": false, \"errorCode\": " + resultado.getNumero() + ", \"message\": \"" + resultado.isValor() + "\"}");
         }
+    } catch (MalformedURLException e) {
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        out.print("{\"success\": false, \"error\": \"Error en el servicio\"}");
+    } finally {
+        out.flush();
     }
+}
+
+
 
 }
