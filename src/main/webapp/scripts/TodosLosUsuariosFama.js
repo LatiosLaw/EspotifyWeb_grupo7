@@ -1,4 +1,4 @@
-fetch('TodosLosArtistasServlet?action=devolverArtias')
+fetch('TodosLosArtistasServlet?action=devolverFama')//TodosLosUusariosFama
         .then(response => response.json())
         .then(data => {
             const container = document.getElementById('famaBody');

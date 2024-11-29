@@ -63,41 +63,70 @@ function cargarPerfil() {
     }
 }
 
-function confirmarEliminacion() {
-  // Mostramos el cuadro de confirmación
-  var confirmar = confirm("Estas seguro de que quieres eliminar tu perfil?");
-  
-  // Si el usuario confirma, ejecutamos el código de eliminación
-  if (confirmar) {
-      fetch('CerrarSesionServlet', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                const message = data.success ? data.message : "Error al cerrar sesion.";
-                alert(message);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                const errorMessage = "Error al intentar cerrar sesion.";
-                alert(errorMessage);
-            });
 
+function eliminarUsuario() {
+    fetch('ConsultarUsuarioServlet?action=eliminarUsuario', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        const message = data.success ? "Perfil eliminado con éxito." : "Error al eliminar el perfil.";
+        alert(message);
+        
+        // Redirigir al usuario después de la eliminación
+        if (data.success) {
             setTimeout(() => location.href = 'index.jsp', 1000);
-    // ANDRES ACA METE EL CODIGO PARA ELIMINAR ARTISTA CON TUS COSAS MAGICAS
-    // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    alert("Perfil eliminado con exito");
-  } else {
-    alert("La eliminación ha sido cancelada");
-  }
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("Error al intentar eliminar el perfil.");
+    });
+}
+function confirmarEliminacion() {
+    // Mostramos el cuadro de confirmación
+    var confirmar = confirm("¿Estás seguro de que quieres eliminar tu perfil?");
+    
+    // Si el usuario confirma, ejecutamos el código de eliminación
+    if (confirmar) {
+        // Primero cerramos sesión
+        fetch('CerrarSesionServlet', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const message = data.success ? data.message : "Error al cerrar sesión.";
+            alert(message);
+            
+            // Si se cerró sesión correctamente, procedemos a eliminar el usuario
+            if (data.success) {
+                eliminarUsuario();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Error al intentar cerrar sesión.");
+        });
+
+    } else {
+        alert("La eliminación ha sido cancelada");
+    }
 }
 
 function verificarParaEliminar() {

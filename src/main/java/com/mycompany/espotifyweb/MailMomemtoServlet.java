@@ -47,7 +47,7 @@ public class MailMomemtoServlet extends HttpServlet {
        
        
         String idSus = null;
-        String pecio = "5 peso'";
+        String pecio = "5 pesos";
         LocalDate fechaFin = LocalDate.now();
        
         
@@ -86,15 +86,46 @@ public class MailMomemtoServlet extends HttpServlet {
         
         LocalDate today = LocalDate.now();
         
+        String text = "Larry estubo aqui";
+        
         if("Anual".equals(dtaSus.getTipoSus())){
              fechaFin.plusYears(1);
+             pecio = "150 pesos";
         }else if("Mensual".equals(dtaSus.getTipoSus())){
-            fechaFin.plusMonths(1);
+            fechaFin = today.plusMonths(1);
+            pecio = "15 pesos";
         }else{
-            fechaFin.plusWeeks(1);
+            fechaFin = today.plusWeeks(1);
         }
         
-       
+        if("Cancelada".equals(dtaSus.getEstado())){
+            text = "Estimado/a ," + nombre +" "+ apellido + ". Su suscpripcion en Espotify del Equipo 7 a sido Cancelada" + "."
+                    + "\n\n "
+                     + "\n\n Detalles de la suscrpcion"
+                     + "\n\n Tipo:"
+                     + "\n\n" + dtaSus.getTipoSus() + ": " + pecio 
+                     + "\n\n Fecha de la cancelacion:"
+                     + "\n\n" + dtaSus.getUltiFechaHabi()
+                     +"\n\n"
+                     +"\n\n Gracias por preferirnos,"
+                     +"\n\n Saludos."
+                     +"\n\n Espotify del grupo-7.";
+        }else{
+            text = "Estimado/a ," + nombre +" "+ apellido + ". Su suscpripcion en Espotify del Equipo 7 a sido aprobada y se encuentra en " + dtaSus.getEstado() + "."
+                    + "\n\n "
+                     + "\n\n Detalles de la suscrpcion"
+                     + "\n\n Tipo:"
+                     + "\n\n" + dtaSus.getTipoSus() + ": " + pecio 
+                     + "\n\n Fecha inicio:"
+                     + "\n\n" + dtaSus.getUltiFechaHabi()
+                     + "\n\n Fecha fin:"
+                     +"\n\n" + String.valueOf(fechaFin)
+                     +"\n\n"
+                     +"\n\n Gracias por preferirnos,"
+                     +"\n\n Saludos."
+                     +"\n\n Espotify del grupo-7.";
+        }
+        
             ///////
           final String username = "andresferreira05@gmail.com";
         final String password = "fvly hipq jwom ppqw";
@@ -121,38 +152,23 @@ public class MailMomemtoServlet extends HttpServlet {
                     InternetAddress.parse("perepupengue@gmail.com")
             );
             message.setSubject("[Esporify Grupo-7] [" +String.valueOf(today) + "]");
-            message.setText("Estimado/a ," + nombre +" "+ apellido + ". Su suscpripcion en Espotify del Equipo 7 a sido aprobada y se encuentra en " + dtaSus.getEstado() + "."
-                    + "\n\n "
-                     + "\n\n Detalles de la suscrpcion"
-                     + "\n\n Tipo:"
-                     + "\n\n" + dtaSus.getTipoSus() + ": " + pecio 
-                     + "\n\n Fecha inicio:"
-                     + "\n\n" + dtaSus.getUltiFechaHabi()
-                     + "\n\n Fecha fin:"
-                     +"\n\n" + String.valueOf(fechaFin)
-                     +"\n\n"
-                     +"\n\n Gracias por preferirnos,"
-                     +"\n\n Saludos."
-                     +"\n\n Espotify del grupo-7."
-                    );
-                    
-                    
-                    
-                    
-                    
-                    
+            
+            message.setText(text);
+                       
 
             Transport.send(message);
 
-            System.out.println("Done");
+            System.out.println("Lito' el mail.");
+            out.println("{\"success\": true}");
             }catch (MessagingException e) {
                     e.printStackTrace();
-                }
+                    out.println("{\"success\": false, \"error\": \"Error al mandar mensaje mail: " + e.getMessage() + "\"}");
+            }
         
         
         ///////
         
-        
+        out.flush();
     }
 
 }
